@@ -1,0 +1,24 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+*.pdf
+*.part
+*.tmp
+
+# Downloaded and generated bulk data
+objects/
+**/scores/
+**/logs/
+**/metadata/.cache/
+
+# Generated category artifacts
+**/catalog.csv
+**/score_manifest.csv
+**/index.html
+**/乐谱库目录.md
+**/metadata/category_members.json
+**/metadata/catalog.json
+**/metadata/score_manifest.json
+
+# Existing validated library; imported by the migration phase
+/for3guitars/
