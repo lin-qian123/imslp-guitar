@@ -3,9 +3,10 @@
 ## 状态
 
 - 日期：2026-08-30
-- 状态：用户已批准总体方向；独立规格审查最终通过，等待用户复核落盘规格
+- 状态：用户已批准最终落盘规格；分块实施计划已完成审查与修订，尚未执行迁移或下载
 - 根目录：`/Volumes/PHILIPS/programs/muse-cache/imslp`
 - 总入口：`file:///Volumes/PHILIPS/programs/muse-cache/imslp/index.html`
+- 实施计划：`.agents/superpowers/specs/2026-08-30-imslp-guitar-library-implementation.md`
 
 ## 1. 目标
 

@@ -17,8 +17,8 @@ file:///Volumes/PHILIPS/programs/muse-cache/imslp/index.html
 
 ## 当前状态
 
-- 总体设计已由用户批准。
-- 独立书面规格审查已经最终通过，正在等待用户复核落盘规格；尚未启动全分类抓取或下载。
+- 总体设计和落盘规格已由用户批准。
+- 分块实施计划已经完成审查与修订，尚未启动软件实现、旧库迁移、全分类抓取或下载。
 - 现有 `for3guitars` 库仍保持原位，含 456 个作品页和 1,451 份通过文件完整性/哈希检查的 PDF。
 - 新的严格编制审计发现其中 6 份来自“3 把吉他 + 低音提琴/贝斯吉他”的混合小节；迁移时会保留隔离证据，但不会把它们带入纯吉他新清单。
 - 实施时会保持旧库不变，先在 staging 中完成严格清单、文件复用和验收；只有验收通过后才把旧树移入 `backups/`，并把 staging 原子切换为 `For 3 guitars (arr)`。
@@ -26,6 +26,10 @@ file:///Volumes/PHILIPS/programs/muse-cache/imslp/index.html
 完整设计见：
 
 [`docs/superpowers/specs/2026-08-30-imslp-guitar-library-design.md`](docs/superpowers/specs/2026-08-30-imslp-guitar-library-design.md)
+
+实施计划见：
+
+[`.agents/superpowers/specs/2026-08-30-imslp-guitar-library-implementation.md`](.agents/superpowers/specs/2026-08-30-imslp-guitar-library-implementation.md)
 
 ## 计划结构
 
