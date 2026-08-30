@@ -3,7 +3,7 @@
 ## 状态
 
 - 日期：2026-08-30
-- 状态：用户已批准总体方向；第二轮规格审查问题已修订，等待第三轮审查
+- 状态：用户已批准总体方向；第三轮规格审查问题已修订，等待第四轮审查
 - 根目录：`/Volumes/PHILIPS/programs/muse-cache/imslp`
 - 总入口：`file:///Volumes/PHILIPS/programs/muse-cache/imslp/index.html`
 
@@ -122,6 +122,7 @@ imslp/
 │   ├── categories.json
 │   ├── category_drift_report.json
 │   ├── runs/<run-id>.json
+│   ├── migrations/<run-id>.json
 │   ├── works.json
 │   ├── score_files.json
 │   ├── memberships.json
@@ -274,8 +275,10 @@ IMSLP 文件 ID 用于来源关联，内部 SHA-256 才是对象身份。相同�
 3. 在 `_migration/<run-id>/For 3 guitars (arr)/` 构建新 schema、严格清单、对象引用和全部静态页面；旧数据只读转换，不原地修改。
 4. 导入合格 PDF 到对象库并验证 SHA-256；6 份混合编制文件写入独立隔离清单（路径、排除理由、大小和 SHA-256），77 条工作级记录逐页复核。
 5. 物化分类路径，验证新清单/对象/路径、PDF、翻译和 `file://` 链接。
-6. 只有验收全部通过后，才把原 `for3guitars` 原子改名为带 run ID 的保留目录，并把 staging 原子切换为 `For 3 guitars (arr)`。任何一步失败都保留旧入口或可一条命令回滚。
+6. 只有验收全部通过后，才把原 `for3guitars` 原子移动为 `backups/for3guitars-retired-<run-id>/`，并把 staging 原子切换为 `For 3 guitars (arr)`。任何一步失败都保留旧入口或可一条命令回滚。
 7. 切换后再次全量验证；旧树和迁移日志在用户明确同意清理前保留，不重新下载已经验证且仍符合范围的 PDF。
+
+迁移 journal 固定写入 `metadata/migrations/<run-id>.json`，状态依次为 `planned`、`backup_verified`、`staging_verified`、`legacy_moved`、`category_activated` 和 `post_verified`；失败时另记 `rollback_required` 或 `rolled_back`。每次目录改名前先以临时文件、原子替换和 `fsync` 持久化预期动作，改名后再持久化已完成状态。CLI 每次启动先根据 journal 与三个精确路径（旧树、retired 树、目标分类树）的实际存在状态恢复：在 `legacy_moved` 后可继续激活 staging，若激活条件不再成立则把 retired 树原子移回旧名；不得靠模糊目录扫描猜测。两个最终改名之间发生崩溃是强制回归场景。
 
 旧入口会变为：
 
@@ -314,7 +317,8 @@ IMSLP 文件 ID 用于来源关联，内部 SHA-256 才是对象身份。相同�
 
 ### 10.2 文件
 
-- 活跃对象库、活跃分类清单和分类本地路径集合完全相等。
+- `objects/` 中 PDF 的 SHA-256 唯一集合必须等于全局对象清单所引用的 SHA-256 唯一集合；不存在未登记对象或缺失对象。
+- 活跃分类本地路径集合必须等于活跃 `Membership.local_path` 集合；每条路径都按其 `storage_method` 指向对应 SHA-256，而一个对象允许被多个分类 membership/path 引用。
 - 所有 PDF 通过文件头、大小、可用的 IMSLP SHA-1、内部 SHA-256 和 PDF 解析检查。
 - 不存在 `.part`、HTML 伪 PDF、损坏文件或清单外 PDF。
 - 活跃对象库中相同 SHA-256 只对应一个对象实体；所有分类硬链接或相对符号链接指向正确内容。
