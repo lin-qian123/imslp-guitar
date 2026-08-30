@@ -3,7 +3,7 @@
 ## 状态
 
 - 日期：2026-08-30
-- 状态：用户已批准总体方向；第四轮独立审查通过，建议项已补充，等待最终文本复核
+- 状态：用户已批准总体方向；独立规格审查最终通过，等待用户复核落盘规格
 - 根目录：`/Volumes/PHILIPS/programs/muse-cache/imslp`
 - 总入口：`file:///Volumes/PHILIPS/programs/muse-cache/imslp/index.html`
 
