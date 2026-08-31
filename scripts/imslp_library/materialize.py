@@ -3,13 +3,15 @@ from __future__ import annotations
 import hashlib
 import os
 import re
+import stat
 import tempfile
 from pathlib import Path, PurePosixPath
 
 from .enums import StorageMethod
 from .jsonio import atomic_write_json, read_json
 from .models import MaterializationResult, Membership, StoredObject
-from .storage import hash_file_sha256
+from .paths import _assert_safe_write_target
+from .storage import _validate_pdf, hash_file_sha256, object_path_for_hash
 
 
 class StorageCapabilityError(RuntimeError):
@@ -21,6 +23,12 @@ class MaterializationConflictError(RuntimeError):
 
 
 _PATH_ITEM_KEYS = {"original_path", "quarantine_path", "reason", "size", "sha256"}
+
+
+def _safe_run_id(run_id: str) -> str:
+    if not isinstance(run_id, str) or re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]*", run_id) is None or run_id in {".", ".."}:
+        raise ValueError("run_id must be a safe canonical path component")
+    return run_id
 
 
 def _inside(root: Path, path: Path) -> bool:
@@ -40,6 +48,7 @@ def _unlink_if_present(path: Path) -> None:
 
 def probe_storage_capability(root: Path) -> StorageMethod:
     root = Path(root)
+    _assert_safe_write_target(root, root / ".imslp-link-probe", "capability probe")
     root.mkdir(parents=True, exist_ok=True)
     probe = Path(tempfile.mkdtemp(prefix=".imslp-link-probe-", dir=root))
     source = probe / "source"
@@ -84,22 +93,26 @@ def _planned_target(root: Path, planned: str) -> Path:
     if pure.is_absolute() or any(part in {"", ".", ".."} for part in pure.parts):
         raise ValueError("planned_local_path must be a safe relative path")
     target = root.joinpath(*pure.parts)
-    try:
-        target.parent.resolve().relative_to(root.resolve())
-    except ValueError as exc:
-        raise ValueError("planned_local_path escapes the library root") from exc
+    _assert_safe_write_target(root, target, "planned_local_path")
     return target
 
 
 def _stored_path(root: Path, stored: StoredObject) -> Path:
-    pure = PurePosixPath(stored.object_path)
-    if pure.is_absolute() or ".." in pure.parts:
-        raise ValueError("stored object path must be root-relative")
-    path = root.joinpath(*pure.parts)
-    if not path.is_file() or not _inside(root, path):
-        raise ValueError("stored object is missing or outside library root")
+    if root.is_symlink():
+        raise ValueError("library root is a symlink")
+    expected = object_path_for_hash(root, stored.sha256)
+    expected_relative = expected.relative_to(root).as_posix()
+    if stored.object_path != expected_relative:
+        raise ValueError("stored object path is not canonical")
+    path = expected
+    _assert_safe_write_target(root, path, "stored object path")
+    if path.is_symlink() or not path.exists() or not stat.S_ISREG(path.lstat().st_mode):
+        raise ValueError("stored object must be a regular file, not a symlink")
+    if path.stat().st_size != stored.size:
+        raise ValueError("stored object size mismatch")
     if hash_file_sha256(path) != stored.sha256:
         raise ValueError("stored object hash mismatch")
+    _validate_pdf(path)
     return path
 
 
@@ -137,8 +150,8 @@ def _quarantine_identity(path: Path) -> tuple[int, str]:
     return path.stat().st_size, hash_file_sha256(path)
 
 
-def _path_items(root: Path) -> list[object]:
-    target = root / "quarantine/manifests/paths-materialize.json"
+def _path_items(root: Path, run_id: str) -> list[object]:
+    target = root / "quarantine/manifests" / f"paths-{run_id}.json"
     if not target.exists():
         return []
     payload = read_json(target)
@@ -164,11 +177,11 @@ def _path_items(root: Path) -> list[object]:
     return payload["items"]
 
 
-def _append_path_manifest(root: Path, item: dict[str, object]) -> None:
-    target = root / "quarantine/manifests/paths-materialize.json"
+def _append_path_manifest(root: Path, run_id: str, item: dict[str, object]) -> None:
+    target = root / "quarantine/manifests" / f"paths-{run_id}.json"
     if set(item) != _PATH_ITEM_KEYS:
         raise ValueError("invalid PathQuarantineManifest item")
-    items = _path_items(root)
+    items = _path_items(root, run_id)
     items.append(item)
     atomic_write_json(
         target,
@@ -176,10 +189,13 @@ def _append_path_manifest(root: Path, item: dict[str, object]) -> None:
     )
 
 
-def _quarantine_occupied(root: Path, target: Path) -> None:
-    _path_items(root)
+def _quarantine_occupied(root: Path, target: Path, run_id: str) -> None:
+    manifest = root / "quarantine/manifests" / f"paths-{run_id}.json"
+    directory = root / "quarantine/paths" / run_id
+    _assert_safe_write_target(root, manifest, "path quarantine manifest")
+    _assert_safe_write_target(root, directory / target.name, "path quarantine path")
+    _path_items(root, run_id)
     size, digest = _quarantine_identity(target)
-    directory = root / "quarantine/paths/materialize"
     directory.mkdir(parents=True, exist_ok=True)
     token = hashlib.sha256(target.relative_to(root).as_posix().encode("utf-8")).hexdigest()[:12]
     quarantine = directory / f"{token}-{target.name}"
@@ -192,6 +208,7 @@ def _quarantine_occupied(root: Path, target: Path) -> None:
     _fsync_directory(directory)
     _append_path_manifest(
         root,
+        run_id,
         {
             "original_path": target.relative_to(root).as_posix(),
             "quarantine_path": quarantine.relative_to(root).as_posix(),
@@ -206,34 +223,84 @@ def _relative_symlink(object_path: Path, target: Path, root: Path) -> None:
     relative_target = os.path.relpath(object_path, target.parent)
     if os.path.isabs(relative_target):
         raise StorageCapabilityError("symlink fallback must be relative")
-    os.symlink(relative_target, target)
-    if not _inside(root, target) or target.resolve() != object_path.resolve():
+    try:
+        os.symlink(relative_target, target)
+        if not _inside(root, target) or target.resolve() != object_path.resolve():
+            raise StorageCapabilityError("symlink fallback escaped library root")
+    except Exception:
         _unlink_if_present(target)
-        raise StorageCapabilityError("symlink fallback escaped library root")
+        raise
 
 
-def materialize_membership(root: Path, membership: Membership, stored: StoredObject) -> MaterializationResult:
+def _create_parent_directories(root: Path, parent: Path) -> list[Path]:
+    _assert_safe_write_target(root, parent / ".materialize", "category path")
+    missing: list[Path] = []
+    current = parent
+    while current != root and not current.exists():
+        missing.append(current)
+        current = current.parent
+    created: list[Path] = []
+    try:
+        for directory in reversed(missing):
+            directory.mkdir()
+            created.append(directory)
+    except Exception:
+        for directory in reversed(created):
+            directory.rmdir()
+        raise
+    return created
+
+
+def _cleanup_uncommitted(target: Path, created: list[Path]) -> None:
+    _unlink_if_present(target)
+    for directory in reversed(created):
+        try:
+            directory.rmdir()
+        except OSError:
+            break
+
+
+def materialize_membership(
+    root: Path,
+    membership: Membership,
+    stored: StoredObject,
+    *,
+    run_id: str | None = None,
+) -> MaterializationResult:
     root = Path(root)
+    if run_id is not None:
+        run_id = _safe_run_id(run_id)
     object_path = _stored_path(root, stored)
     target = _planned_target(root, membership.planned_local_path)
     existing = _existing_method(target, object_path)
     if existing is not None:
         return MaterializationResult(membership.membership_id, membership.planned_local_path, existing, stored.sha256)
     if target.exists() or target.is_symlink():
-        _quarantine_occupied(root, target)
+        if run_id is None:
+            raise MaterializationConflictError("run_id is required to quarantine an occupied category path")
+        _quarantine_occupied(root, target, run_id)
         raise MaterializationConflictError(f"occupied category path quarantined: {membership.planned_local_path}")
 
     capability = probe_storage_capability(root)
-    target.parent.mkdir(parents=True, exist_ok=True)
-    if capability is StorageMethod.HARDLINK:
-        try:
-            os.link(object_path, target)
-            method = StorageMethod.HARDLINK
-        except OSError:
+    created = _create_parent_directories(root, target.parent)
+    try:
+        if capability is StorageMethod.HARDLINK:
+            try:
+                os.link(object_path, target)
+                if target.stat().st_dev != object_path.stat().st_dev or target.stat().st_ino != object_path.stat().st_ino:
+                    raise StorageCapabilityError("unable to materialize a verified hardlink")
+                method = StorageMethod.HARDLINK
+            except OSError:
+                _unlink_if_present(target)
+                _relative_symlink(object_path, target, root)
+                method = StorageMethod.RELATIVE_SYMLINK
+        else:
             _relative_symlink(object_path, target, root)
             method = StorageMethod.RELATIVE_SYMLINK
-    else:
-        _relative_symlink(object_path, target, root)
-        method = StorageMethod.RELATIVE_SYMLINK
-    _fsync_directory(target.parent)
+        _fsync_directory(target.parent)
+    except Exception as exc:
+        _cleanup_uncommitted(target, created)
+        if isinstance(exc, StorageCapabilityError):
+            raise
+        raise StorageCapabilityError("unable to materialize category path") from exc
     return MaterializationResult(membership.membership_id, membership.planned_local_path, method, stored.sha256)

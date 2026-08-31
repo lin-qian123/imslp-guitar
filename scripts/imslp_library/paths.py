@@ -12,6 +12,26 @@ MAX_COMPONENT_BYTES = 180
 _KINDS = {"composer", "work", "file"}
 
 
+def _assert_safe_write_target(root: Path, target: Path, label: str) -> None:
+    if root.is_symlink():
+        raise ValueError("library root is a symlink")
+    try:
+        relative = target.relative_to(root)
+    except ValueError as exc:
+        raise ValueError(f"{label} escapes the library root") from exc
+    current = root
+    for part in relative.parts[:-1]:
+        current /= part
+        if current.is_symlink():
+            raise ValueError(f"{label} has a symlink ancestor")
+        if current.exists() and not current.is_dir():
+            raise ValueError(f"{label} ancestor is not a directory")
+    try:
+        target.parent.resolve().relative_to(root.resolve())
+    except ValueError as exc:
+        raise ValueError(f"{label} escapes the library root") from exc
+
+
 @dataclass(frozen=True, slots=True)
 class PathSource:
     kind: str
@@ -83,6 +103,19 @@ def _preliminary(source: PathSource, cleaned: str) -> str:
     return readable + extension
 
 
+def _mapped_with_suffix(source: PathSource, cleaned: str) -> str:
+    stem, extension = _extension(source, cleaned)
+    suffix = _suffix(source)
+    reserved = len((suffix + extension).encode("utf-8"))
+    if reserved >= MAX_COMPONENT_BYTES:
+        raise ValueError("stable suffix is too long for a path component")
+    readable = _truncate_utf8(stem, MAX_COMPONENT_BYTES - reserved).rstrip(" .") or "Untitled"
+    mapped = readable + suffix + extension
+    if len(mapped.encode("utf-8")) > MAX_COMPONENT_BYTES:
+        raise AssertionError("mapped path component exceeds byte limit")
+    return mapped
+
+
 def build_path_map(sources: list[PathSource] | tuple[PathSource, ...]) -> dict[PathSource, PathMapping]:
     values = tuple(sources)
     if len(set(values)) != len(values):
@@ -93,29 +126,32 @@ def build_path_map(sources: list[PathSource] | tuple[PathSource, ...]) -> dict[P
     for source in values:
         groups.setdefault((source.kind, preliminary[source].casefold()), []).append(source)
 
-    result: dict[PathSource, PathMapping] = {}
-    for source in values:
-        group = groups[(source.kind, preliminary[source].casefold())]
-        if len(group) == 1:
-            result[source] = PathMapping(preliminary[source], None)
-            continue
-        full_keys = {cleaned[item].casefold() for item in group}
-        reason = "clean_or_casefold_collision" if len(full_keys) == 1 else "truncation_collision"
-        stem, extension = _extension(source, cleaned[source])
-        suffix = _suffix(source)
-        reserved = len((suffix + extension).encode("utf-8"))
-        if reserved >= MAX_COMPONENT_BYTES:
-            raise ValueError("stable suffix is too long for a path component")
-        readable = _truncate_utf8(stem, MAX_COMPONENT_BYTES - reserved).rstrip(" .") or "Untitled"
-        mapped = readable + suffix + extension
-        if len(mapped.encode("utf-8")) > MAX_COMPONENT_BYTES:
-            raise AssertionError("mapped path component exceeds byte limit")
-        result[source] = PathMapping(mapped, reason)
+    reasons: dict[PathSource, str] = {}
+    for group in groups.values():
+        if len(group) > 1:
+            full_keys = {cleaned[item].casefold() for item in group}
+            reason = "clean_or_casefold_collision" if len(full_keys) == 1 else "truncation_collision"
+            reasons.update((item, reason) for item in group)
 
-    mapped_casefold = [(source.kind, result[source].mapped.casefold()) for source in values]
-    if len(mapped_casefold) != len(set(mapped_casefold)):
-        raise ValueError("stable suffixes did not resolve a path collision")
-    return result
+    while True:
+        mapped = {
+            source: _mapped_with_suffix(source, cleaned[source]) if source in reasons else preliminary[source]
+            for source in values
+        }
+        output_groups: dict[tuple[str, str], list[PathSource]] = {}
+        for source in values:
+            output_groups.setdefault((source.kind, mapped[source].casefold()), []).append(source)
+        collisions = [group for group in output_groups.values() if len(group) > 1]
+        if not collisions:
+            return {source: PathMapping(mapped[source], reasons.get(source)) for source in values}
+        changed = False
+        for group in collisions:
+            for source in group:
+                if source not in reasons:
+                    reasons[source] = "suffix_collision"
+                    changed = True
+        if not changed:
+            raise ValueError("duplicate stable suffix cannot resolve path collision")
 
 
 def quote_path_components(path: str | Path | PurePosixPath) -> str:
@@ -139,6 +175,7 @@ def write_path_map(root: Path, mappings: dict[PathSource, PathMapping]) -> Path:
     ]
     items.sort(key=lambda item: (item["kind"], item["stable_id"], item["original"]))
     target = root / "metadata/path_map.json"
+    _assert_safe_write_target(root, target, "path_map target")
     atomic_write_json(
         target,
         {"schema_version": 1, "model_type": "PathMapManifest", "items": items},

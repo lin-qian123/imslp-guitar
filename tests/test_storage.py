@@ -152,9 +152,9 @@ def test_objects_symlink_cannot_escape_library_root(tmp_path):
     outside = tmp_path.parent / f"{tmp_path.name}-outside"
     outside.mkdir()
     (tmp_path / "objects").symlink_to(outside, target_is_directory=True)
-    with pytest.raises(ValueError, match="inside library root"):
+    with pytest.raises(ValueError, match="symlink ancestor"):
         storage.store_verified_pdf(tmp_path, source, score_for_path(source, "301"), "r1")
-    assert not list(outside.rglob("*.pdf"))
+    assert list(outside.iterdir()) == []
 
 
 def test_object_address_symlink_cannot_alias_outside_file(tmp_path):
@@ -196,3 +196,76 @@ def test_invalid_attempt_manifest_is_rejected_before_object_write(tmp_path):
     with pytest.raises(ValueError, match="ObjectWriteAttemptManifest item"):
         storage.store_verified_pdf(tmp_path, source, score_for_path(source, "301"), "r1")
     assert not list((tmp_path / "objects").rglob("*.pdf"))
+
+
+def test_attempt_manifest_symlink_is_rejected_before_object_write(tmp_path):
+    source = write_minimal_pdf(tmp_path / "source.pdf")
+    outside = tmp_path.parent / f"{tmp_path.name}-outside-runs"
+    outside.mkdir()
+    (tmp_path / "metadata").symlink_to(outside, target_is_directory=True)
+    with pytest.raises(ValueError, match="symlink ancestor"):
+        storage.store_verified_pdf(tmp_path, source, score_for_path(source, "301"), "r1")
+    assert list(outside.iterdir()) == []
+    assert not list((tmp_path / "objects").rglob("*.pdf"))
+
+
+def test_symlink_library_root_is_rejected_before_external_write(tmp_path):
+    source = write_minimal_pdf(tmp_path / "source.pdf")
+    outside = tmp_path.parent / f"{tmp_path.name}-outside-storage-root"
+    outside.mkdir()
+    root = tmp_path / "library"
+    root.symlink_to(outside, target_is_directory=True)
+    with pytest.raises(ValueError, match="library root is a symlink"):
+        storage.store_verified_pdf(root, source, score_for_path(source, "301"), "r1")
+    assert list(outside.iterdir()) == []
+
+
+def test_quarantine_symlink_is_rejected_before_corrupt_object_move(tmp_path):
+    source = write_minimal_pdf(tmp_path / "source.pdf")
+    digest = storage.hash_file_sha256(source)
+    target = storage.object_path_for_hash(tmp_path, digest)
+    target.parent.mkdir(parents=True)
+    target.write_bytes(b"corrupt")
+    outside = tmp_path.parent / f"{tmp_path.name}-outside-quarantine"
+    outside.mkdir()
+    (tmp_path / "quarantine").symlink_to(outside, target_is_directory=True)
+    with pytest.raises(ValueError, match="symlink ancestor"):
+        storage.store_verified_pdf(tmp_path, source, score_for_path(source, "301"), "r1")
+    assert target.read_bytes() == b"corrupt"
+    assert list(outside.iterdir()) == []
+
+
+def test_existing_object_reconciles_one_complete_attempt_after_record_failure(tmp_path, monkeypatch):
+    source = write_minimal_pdf(tmp_path / "source.pdf")
+    score = score_for_path(source, "301")
+    original_copy = storage._copy_to_part
+
+    def interrupt(source_path, part_path):
+        part_path.write_bytes(source_path.read_bytes()[:32])
+        raise OSError("first interruption")
+
+    monkeypatch.setattr(storage, "_copy_to_part", interrupt)
+    with pytest.raises(OSError, match="first interruption"):
+        storage.store_verified_pdf(tmp_path, source, score, "r1")
+    monkeypatch.setattr(storage, "_copy_to_part", original_copy)
+    original_record = storage._record_attempt
+
+    def fail_complete(*args, **kwargs):
+        status = args[4]
+        if status == "object_write_complete":
+            raise OSError("complete record fsync failed")
+        return original_record(*args, **kwargs)
+
+    monkeypatch.setattr(storage, "_record_attempt", fail_complete)
+    with pytest.raises(OSError, match="complete record fsync failed"):
+        storage.store_verified_pdf(tmp_path, source, score, "r1")
+    monkeypatch.setattr(storage, "_record_attempt", original_record)
+    evidence = tmp_path / "metadata/runs/r1-object-writes.json"
+    assert [item["status"] for item in json.loads(evidence.read_text())["items"]] == ["object_write_interrupted"]
+    stored = storage.store_verified_pdf(tmp_path, source, score, "r1")
+    assert (tmp_path / stored.object_path).is_file()
+    storage.store_verified_pdf(tmp_path, source, score, "r1")
+    attempts = json.loads(evidence.read_text(encoding="utf-8"))["items"]
+    assert [item["status"] for item in attempts] == ["object_write_interrupted", "object_write_complete"]
+    assert attempts[-1]["bytes_written"] == source.stat().st_size
+    assert not list((tmp_path / "objects").rglob("*.part"))

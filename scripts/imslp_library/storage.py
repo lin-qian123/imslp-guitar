@@ -11,6 +11,7 @@ from pypdf import PdfReader
 
 from .jsonio import atomic_write_json, read_json
 from .models import ScoreFile, StoredObject
+from .paths import _assert_safe_write_target
 
 _SHA256_RE = re.compile(r"[0-9a-f]{64}")
 _ATTEMPT_KEYS = {
@@ -204,8 +205,10 @@ def _record_attempt(
         "error": error,
         "attempted_at": datetime.now(timezone.utc).isoformat(),
     }
+    attempt_path = _attempt_path(root, run_id)
+    _assert_safe_write_target(root, attempt_path, "object attempt manifest")
     _append_manifest(
-        _attempt_path(root, run_id),
+        attempt_path,
         "ObjectWriteAttemptManifest",
         item,
         _ATTEMPT_KEYS,
@@ -223,12 +226,15 @@ def _unique_quarantine_path(directory: Path, name: str) -> Path:
 
 
 def _quarantine_corrupt_object(root: Path, run_id: str, target: Path) -> None:
-    old_size = target.stat().st_size
-    old_hash = hash_file_sha256(target)
     manifest = root / "quarantine/manifests" / f"objects-{run_id}.json"
+    quarantine_root = root / "quarantine/objects" / run_id
+    _assert_safe_write_target(root, manifest, "object quarantine manifest")
+    _assert_safe_write_target(root, quarantine_root / target.name, "object quarantine path")
     item_keys = {"original_path", "quarantine_path", "reason", "size", "sha256"}
     _read_envelope(manifest, "ObjectQuarantineManifest", item_keys, _validate_quarantine_item)
-    directory = root / "quarantine/objects" / run_id
+    old_size = target.stat().st_size
+    old_hash = hash_file_sha256(target)
+    directory = quarantine_root
     directory.mkdir(parents=True, exist_ok=True)
     quarantine = _unique_quarantine_path(directory, target.name)
     os.replace(target, quarantine)
@@ -259,19 +265,27 @@ def store_verified_pdf(root: Path, source: Path, score: ScoreFile, run_id: str) 
     root = Path(root)
     source = Path(source)
     attempt_manifest = _attempt_path(root, run_id)
-    _read_envelope(attempt_manifest, "ObjectWriteAttemptManifest", _ATTEMPT_KEYS, _validate_attempt_item)
     size, source_hash = _validate_source(source, score)
     target = object_path_for_hash(root, source_hash)
+    _assert_safe_write_target(root, attempt_manifest, "object attempt manifest")
+    _assert_safe_write_target(root, target, "object path")
+    attempts = _read_envelope(attempt_manifest, "ObjectWriteAttemptManifest", _ATTEMPT_KEYS, _validate_attempt_item)
     target.parent.mkdir(parents=True, exist_ok=True)
-    try:
-        target.parent.resolve().relative_to(root.resolve())
-    except ValueError as exc:
-        raise ValueError("object path must remain inside library root") from exc
     if target.is_symlink() or (target.exists() and not target.is_file()):
         raise ValueError("object address must be a regular file")
     if target.exists():
         if hash_file_sha256(target) == source_hash:
             _validate_pdf(target)
+            part = _part_path(target, score, run_id)
+            complete = any(
+                item["source_id"] == score.source_id and item["status"] == "object_write_complete"
+                for item in attempts
+            )
+            if not complete:
+                if part.exists():
+                    part.unlink()
+                    _fsync_directory(part.parent)
+                _record_attempt(root, run_id, score, part, "object_write_complete", None, size)
             return StoredObject(source_hash, size, _relative(root, target), score.sha1_imslp, datetime.now(timezone.utc))
         _quarantine_corrupt_object(root, run_id, target)
 

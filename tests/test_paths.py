@@ -77,6 +77,29 @@ def test_collision_created_by_truncation_gets_stable_suffixes():
     assert all(len(item.mapped.encode("utf-8")) <= 180 for item in mapped.values())
 
 
+def test_suffix_collision_closes_iteratively_and_is_order_independent():
+    cleaned_one = PathSource(kind="work", original="A/B", stable_id="p7")
+    cleaned_two = PathSource(kind="work", original="A_B", stable_id="p8")
+    suffix_occupant = PathSource(kind="work", original="A_B__p7", stable_id="p9")
+    sources = [cleaned_one, cleaned_two, suffix_occupant]
+    forward = build_path_map(sources)
+    reverse = build_path_map(list(reversed(sources)))
+    assert forward == reverse
+    assert len({item.mapped.casefold() for item in forward.values()}) == 3
+    assert forward[cleaned_one].mapped.endswith("__p7")
+    assert forward[cleaned_two].mapped.endswith("__p8")
+    assert forward[suffix_occupant].mapped.endswith("__p9")
+    assert forward[suffix_occupant].collision_reason == "suffix_collision"
+    assert all(len(item.mapped.encode("utf-8")) <= 180 for item in forward.values())
+
+
+def test_unresolvable_duplicate_stable_suffix_is_rejected():
+    one = PathSource(kind="work", original="A/B", stable_id="p7")
+    two = PathSource(kind="work", original="A_B", stable_id="7")
+    with pytest.raises(ValueError, match="duplicate stable suffix"):
+        build_path_map([one, two])
+
+
 def test_file_suffix_precedes_pdf_extension_and_composer_suffix_is_hashed():
     one = PathSource(kind="file", original="A/B.pdf", stable_id="301")
     two = PathSource(kind="file", original="A_B.pdf", stable_id="302")
@@ -125,3 +148,24 @@ def test_path_map_persists_complete_deterministic_records(tmp_path):
         (source.original, mappings[source].mapped, source.kind, source.stable_id, mappings[source].collision_reason)
         for source in sources
     }
+
+
+def test_path_map_rejects_metadata_symlink_before_external_write(tmp_path):
+    outside = tmp_path.parent / f"{tmp_path.name}-outside-path-map"
+    outside.mkdir()
+    (tmp_path / "metadata").symlink_to(outside, target_is_directory=True)
+    source = PathSource(kind="work", original="Safe", stable_id="p7")
+    with pytest.raises(ValueError, match="symlink ancestor"):
+        write_path_map(tmp_path, build_path_map([source]))
+    assert list(outside.iterdir()) == []
+
+
+def test_path_map_rejects_symlink_library_root(tmp_path):
+    outside = tmp_path.parent / f"{tmp_path.name}-outside-root-path-map"
+    outside.mkdir()
+    root = tmp_path / "library"
+    root.symlink_to(outside, target_is_directory=True)
+    source = PathSource(kind="work", original="Safe", stable_id="p7")
+    with pytest.raises(ValueError, match="library root is a symlink"):
+        write_path_map(root, build_path_map([source]))
+    assert list(outside.iterdir()) == []
