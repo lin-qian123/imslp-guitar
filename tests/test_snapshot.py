@@ -610,3 +610,247 @@ def test_completion_intent_recovers_state_write_crash_without_snapshot_mutation(
     assert snapshot_path.read_bytes() == before
     assert snapshot_path.stat().st_mtime_ns == before_mtime
     assert not intent_path.exists()
+
+
+def test_load_complete_blocks_residual_completion_intent_until_freeze_recovers(tmp_path: Path, monkeypatch) -> None:
+    config = _config(tmp_path)
+    library = tmp_path / "library"
+    intent_path = library / f"metadata/runs/{RUN_ID}-completion.json"
+    real_unlink = snapshot_module._unlink_durable
+
+    def interrupt_intent_unlink(path):
+        if Path(path) == intent_path:
+            raise SimulatedPowerLoss("lost after final state before intent cleanup")
+        return real_unlink(path)
+
+    monkeypatch.setattr(snapshot_module, "_unlink_durable", interrupt_intent_unlink)
+    client = SnapshotClient(
+        _members(config, 101),
+        (_revision(101, 201, "Work 101 (Composer, Test)", ALPHA),),
+        (_file("301", "alpha.pdf"),),
+    )
+    with pytest.raises(SimulatedPowerLoss):
+        freeze_snapshot(library, RUN_ID, config, client, FakeClock.fixed())
+    assert intent_path.is_file()
+    with pytest.raises(SnapshotError, match="unsettled.*intent"):
+        load_complete_snapshot(library, RUN_ID)
+    snapshot_path = library / f"metadata/runs/{RUN_ID}.json"
+    before = snapshot_path.read_bytes()
+    before_mtime = snapshot_path.stat().st_mtime_ns
+
+    monkeypatch.setattr(snapshot_module, "_unlink_durable", real_unlink)
+    no_requests = SnapshotClient({}, (), ())
+    freeze_snapshot(library, RUN_ID, config, no_requests, FakeClock.fixed())
+    assert no_requests.calls == []
+    assert snapshot_path.read_bytes() == before
+    assert snapshot_path.stat().st_mtime_ns == before_mtime
+    assert load_complete_snapshot(library, RUN_ID).status is RunStatus.SNAPSHOT_COMPLETE
+
+
+def test_forged_typed_imageinfo_fields_fail_checkpoint_authority_before_network(tmp_path: Path) -> None:
+    config = _config(tmp_path)
+    library = tmp_path / "library"
+    revisions = (
+        _revision(101, 201, "Work 101 (Composer, Test)", ALPHA),
+        _revision(102, 202, "Work 102 (Composer, Test)", BETA),
+    )
+    files = (_file("301", "alpha.pdf"), _file("302", "beta.pdf"))
+    interrupted = SnapshotClient(
+        _members(config, 101, 102),
+        revisions,
+        files,
+        fail_exact_for={(202,): RuntimeError("leave first exact batch checkpointed")},
+    )
+    with pytest.raises(RuntimeError, match="first exact batch"):
+        freeze_snapshot(
+            library, RUN_ID, config, interrupted, FakeClock.fixed(), revision_batch_size=1
+        )
+    snapshot_path = library / f"metadata/runs/{RUN_ID}.json"
+    snapshot = _read_snapshot(library)
+    forged = replace(
+        snapshot.score_files[0],
+        source_id="source:f777@r201",
+        file_id="777",
+        source_url="https://imslp.org/files/forged-alpha.pdf",
+        expected_size=999,
+        sha1_imslp="b" * 40,
+        source_hash_missing=False,
+        mime="application/pdf",
+        copyright_label="Public Domain",
+    )
+    atomic_write_json(snapshot_path, replace(snapshot, score_files=(forged,)).to_dict())
+    no_requests = SnapshotClient({}, (), ())
+
+    with pytest.raises(SnapshotError, match="checkpoint authority"):
+        freeze_snapshot(library, RUN_ID, config, no_requests, FakeClock.fixed())
+    assert no_requests.calls == []
+
+
+@pytest.mark.parametrize("phase", ["snapshot", "state", "authority", "transition_cleanup"])
+def test_checkpoint_transition_recovers_every_write_window_and_skips_category(
+    tmp_path: Path,
+    monkeypatch,
+    phase: str,
+) -> None:
+    config = _config(tmp_path)
+    library = tmp_path / phase
+    snapshot_path = library / f"metadata/runs/{RUN_ID}.json"
+    state_path = library / f"metadata/runs/{RUN_ID}-state.json"
+    authority_path = library / f"metadata/runs/{RUN_ID}-checkpoint.json"
+    transition_path = library / f"metadata/runs/{RUN_ID}-checkpoint-transition.json"
+    real_write = snapshot_module.atomic_write_json
+    real_unlink = snapshot_module._unlink_durable
+
+    def interrupt_write(path, mapping):
+        target = Path(path)
+        should_interrupt = (
+            (
+                phase == "snapshot"
+                and target == snapshot_path
+                and mapping.get("model_type") == "RunSnapshot"
+                and bool(mapping.get("categories"))
+            )
+            or (phase == "state" and target == state_path and transition_path.exists())
+            or (phase == "authority" and target == authority_path and mapping.get("generation") == 1)
+        )
+        if should_interrupt:
+            raise SimulatedPowerLoss(f"checkpoint {phase} write lost")
+        return real_write(path, mapping)
+
+    def interrupt_unlink(path):
+        if phase == "transition_cleanup" and Path(path) == transition_path:
+            raise SimulatedPowerLoss("checkpoint transition cleanup lost")
+        return real_unlink(path)
+
+    monkeypatch.setattr(snapshot_module, "atomic_write_json", interrupt_write)
+    monkeypatch.setattr(snapshot_module, "_unlink_durable", interrupt_unlink)
+    first = SnapshotClient(
+        _members(config, 101),
+        (_revision(101, 201, "Work 101 (Composer, Test)", ALPHA),),
+        (_file("301", "alpha.pdf"),),
+    )
+    with pytest.raises(SimulatedPowerLoss):
+        freeze_snapshot(library, RUN_ID, config, first, FakeClock.fixed())
+    assert transition_path.is_file()
+
+    monkeypatch.setattr(snapshot_module, "atomic_write_json", real_write)
+    monkeypatch.setattr(snapshot_module, "_unlink_durable", real_unlink)
+    resumed = SnapshotClient(
+        _members(config, 101),
+        (_revision(101, 201, "Work 101 (Composer, Test)", ALPHA),),
+        (_file("301", "alpha.pdf"),),
+    )
+    completed = freeze_snapshot(library, RUN_ID, config, resumed, FakeClock.fixed())
+    assert completed.status is RunStatus.SNAPSHOT_COMPLETE
+    assert not any(call[0] in {"category_members", "current_revisions"} for call in resumed.calls)
+    assert ("exact_revisions", (201,)) in resumed.calls
+    assert not transition_path.exists() and not authority_path.exists()
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    ["extra_key", "run_id", "config_hash", "snapshot_hash", "missing", "symlink"],
+)
+def test_checkpoint_authority_is_strict_and_path_bound(
+    tmp_path: Path,
+    mutation: str,
+) -> None:
+    config = _config(tmp_path)
+    library = tmp_path / mutation
+    _leave_category_checkpoint(library, config)
+    authority_path = library / f"metadata/runs/{RUN_ID}-checkpoint.json"
+    payload = json.loads(authority_path.read_text(encoding="utf-8"))
+    if mutation == "extra_key":
+        payload["extra"] = True
+        atomic_write_json(authority_path, payload)
+    elif mutation == "run_id":
+        payload["run_id"] = "other-run"
+        atomic_write_json(authority_path, payload)
+    elif mutation == "config_hash":
+        payload["config_sha256"] = "f" * 64
+        atomic_write_json(authority_path, payload)
+    elif mutation == "snapshot_hash":
+        payload["snapshot_sha256"] = "f" * 64
+        atomic_write_json(authority_path, payload)
+    elif mutation == "missing":
+        authority_path.unlink()
+    else:
+        outside = tmp_path / "outside-authority.json"
+        authority_path.replace(outside)
+        authority_path.symlink_to(outside)
+    no_requests = SnapshotClient({}, (), ())
+
+    with pytest.raises(SnapshotError, match="checkpoint authority"):
+        freeze_snapshot(library, RUN_ID, config, no_requests, FakeClock.fixed())
+    assert no_requests.calls == []
+
+
+def test_initial_checkpoint_authority_write_crash_recovers_before_network(tmp_path: Path, monkeypatch) -> None:
+    config = _config(tmp_path)
+    library = tmp_path / "library"
+    authority_path = library / f"metadata/runs/{RUN_ID}-checkpoint.json"
+    initialization_path = library / f"metadata/runs/{RUN_ID}-initialization.json"
+    real_write = snapshot_module.atomic_write_json
+    raised = False
+
+    def interrupt_initial_authority(path, mapping):
+        nonlocal raised
+        if Path(path) == authority_path and mapping.get("generation") == 0 and not raised:
+            raised = True
+            raise SimulatedPowerLoss("lost before initial checkpoint authority")
+        return real_write(path, mapping)
+
+    monkeypatch.setattr(snapshot_module, "atomic_write_json", interrupt_initial_authority)
+    first = SnapshotClient(_members(config, 101), (), ())
+    with pytest.raises(SimulatedPowerLoss):
+        freeze_snapshot(library, RUN_ID, config, first, FakeClock.fixed())
+    assert first.calls == []
+    assert initialization_path.is_file()
+
+    monkeypatch.setattr(snapshot_module, "atomic_write_json", real_write)
+    resumed = SnapshotClient(
+        _members(config, 101),
+        (_revision(101, 201, "Work 101 (Composer, Test)", ALPHA),),
+        (_file("301", "alpha.pdf"),),
+    )
+    completed = freeze_snapshot(library, RUN_ID, config, resumed, FakeClock.fixed())
+    assert completed.status is RunStatus.SNAPSHOT_COMPLETE
+    assert not initialization_path.exists() and not authority_path.exists()
+
+
+def test_exact_batch_transition_recovers_without_refetching_committed_batch(tmp_path: Path, monkeypatch) -> None:
+    config = _config(tmp_path)
+    library = tmp_path / "library"
+    authority_path = library / f"metadata/runs/{RUN_ID}-checkpoint.json"
+    transition_path = library / f"metadata/runs/{RUN_ID}-checkpoint-transition.json"
+    real_write = snapshot_module.atomic_write_json
+    raised = False
+
+    def interrupt_first_exact_authority(path, mapping):
+        nonlocal raised
+        if Path(path) == authority_path and mapping.get("generation") == 2 and not raised:
+            raised = True
+            raise SimulatedPowerLoss("lost committing first exact batch authority")
+        return real_write(path, mapping)
+
+    revisions = (
+        _revision(101, 201, "Work 101 (Composer, Test)", ALPHA),
+        _revision(102, 202, "Work 102 (Composer, Test)", BETA),
+    )
+    files = (_file("301", "alpha.pdf"), _file("302", "beta.pdf"))
+    monkeypatch.setattr(snapshot_module, "atomic_write_json", interrupt_first_exact_authority)
+    first = SnapshotClient(_members(config, 101, 102), revisions, files)
+    with pytest.raises(SimulatedPowerLoss):
+        freeze_snapshot(library, RUN_ID, config, first, FakeClock.fixed(), revision_batch_size=1)
+    assert transition_path.is_file()
+    assert ("exact_revisions", (201,)) in first.calls
+
+    monkeypatch.setattr(snapshot_module, "atomic_write_json", real_write)
+    resumed = SnapshotClient(_members(config, 101, 102), revisions, files)
+    completed = freeze_snapshot(
+        library, RUN_ID, config, resumed, FakeClock.fixed(), revision_batch_size=1
+    )
+    assert completed.status is RunStatus.SNAPSHOT_COMPLETE
+    assert ("exact_revisions", (201,)) not in resumed.calls
+    assert ("exact_revisions", (202,)) in resumed.calls
+    assert not transition_path.exists() and not authority_path.exists()

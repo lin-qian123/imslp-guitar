@@ -51,6 +51,14 @@ def _completion_intent_path(root: Path, run_id: str) -> Path:
     return root / "metadata/runs" / f"{run_id}-completion.json"
 
 
+def _checkpoint_authority_path(root: Path, run_id: str) -> Path:
+    return root / "metadata/runs" / f"{run_id}-checkpoint.json"
+
+
+def _checkpoint_transition_path(root: Path, run_id: str) -> Path:
+    return root / "metadata/runs" / f"{run_id}-checkpoint-transition.json"
+
+
 def _relative(root: Path, path: Path) -> str:
     return path.relative_to(root).as_posix()
 
@@ -116,7 +124,108 @@ def _new_state(root: Path, run_id: str, snapshot_path: Path, now: datetime) -> R
     )
 
 
-def _initialization_payload(snapshot: RunSnapshot, state: RunState) -> dict[str, object]:
+def _checkpoint_authority_payload(
+    snapshot: RunSnapshot,
+    state: RunState,
+    generation: int,
+) -> dict[str, object]:
+    if snapshot.status is not RunStatus.SNAPSHOT_INCOMPLETE or state.snapshot_sha256 is not None:
+        raise SnapshotError("checkpoint authority requires incomplete snapshot models")
+    snapshot_mapping = snapshot.to_dict()
+    state_mapping = state.to_dict()
+    return {
+        "schema_version": 1,
+        "model_type": "SnapshotCheckpointAuthority",
+        "run_id": snapshot.run_id,
+        "generation": generation,
+        "config_version": snapshot.config_version,
+        "config_sha256": snapshot.config_sha256,
+        "snapshot": snapshot_mapping,
+        "snapshot_sha256": _sha256_bytes(_canonical_bytes(snapshot_mapping)),
+        "state": state_mapping,
+        "state_sha256": _sha256_bytes(_canonical_bytes(state_mapping)),
+    }
+
+
+def _validate_checkpoint_authority_payload(
+    payload: dict[str, object],
+    run_id: str,
+    config: LibraryConfig,
+) -> tuple[RunSnapshot, RunState, int]:
+    expected_keys = {
+        "schema_version",
+        "model_type",
+        "run_id",
+        "generation",
+        "config_version",
+        "config_sha256",
+        "snapshot",
+        "snapshot_sha256",
+        "state",
+        "state_sha256",
+    }
+    if (
+        set(payload) != expected_keys
+        or payload.get("schema_version") != 1
+        or payload.get("model_type") != "SnapshotCheckpointAuthority"
+    ):
+        raise SnapshotError("invalid checkpoint authority envelope")
+    try:
+        snapshot = RunSnapshot.from_dict(payload["snapshot"])
+        state = RunState.from_dict(payload["state"])
+    except (KeyError, TypeError, ValueError) as exc:
+        raise SnapshotError("invalid checkpoint authority models") from exc
+    generation = payload["generation"]
+    if (
+        type(generation) is not int
+        or generation < 0
+        or payload["run_id"] != run_id
+        or snapshot.run_id != run_id
+        or state.run_id != run_id
+        or payload["config_version"] != config.version
+        or payload["config_sha256"] != config.config_hash
+        or snapshot.config_version != config.version
+        or snapshot.config_sha256 != config.config_hash
+        or snapshot.status is not RunStatus.SNAPSHOT_INCOMPLETE
+        or state.snapshot_sha256 is not None
+        or state.snapshot_path != f"metadata/runs/{run_id}.json"
+    ):
+        raise SnapshotError("checkpoint authority identity mismatch")
+    snapshot_digest = _sha256_bytes(_canonical_bytes(snapshot.to_dict()))
+    state_digest = _sha256_bytes(_canonical_bytes(state.to_dict()))
+    if payload["snapshot_sha256"] != snapshot_digest or payload["state_sha256"] != state_digest:
+        raise SnapshotError("checkpoint authority digest mismatch")
+    return snapshot, state, generation
+
+
+def _authority_digest(payload: dict[str, object]) -> str:
+    return _sha256_bytes(_canonical_bytes(payload))
+
+
+def _read_checkpoint_authority(
+    root: Path,
+    run_id: str,
+    config: LibraryConfig,
+) -> tuple[dict[str, object], RunSnapshot, RunState, int]:
+    path = _checkpoint_authority_path(root, run_id)
+    _assert_safe_write_target(root, path, "checkpoint authority")
+    if path.is_symlink() or not path.is_file():
+        raise SnapshotError("checkpoint authority is missing or a symlink")
+    try:
+        payload = read_json(path)
+    except (OSError, UnicodeError, json.JSONDecodeError, TypeError, ValueError) as exc:
+        raise SnapshotError("invalid checkpoint authority") from exc
+    snapshot, state, generation = _validate_checkpoint_authority_payload(payload, run_id, config)
+    if _sha256_file(path) != _authority_digest(payload):
+        raise SnapshotError("checkpoint authority bytes are not canonical")
+    return payload, snapshot, state, generation
+
+
+def _initialization_payload(
+    snapshot: RunSnapshot,
+    state: RunState,
+    checkpoint_authority: dict[str, object],
+) -> dict[str, object]:
     snapshot_mapping = snapshot.to_dict()
     state_mapping = state.to_dict()
     return {
@@ -127,6 +236,8 @@ def _initialization_payload(snapshot: RunSnapshot, state: RunState) -> dict[str,
         "snapshot_sha256": _sha256_bytes(_canonical_bytes(snapshot_mapping)),
         "state": state_mapping,
         "state_sha256": _sha256_bytes(_canonical_bytes(state_mapping)),
+        "checkpoint_authority": checkpoint_authority,
+        "checkpoint_authority_sha256": _authority_digest(checkpoint_authority),
     }
 
 
@@ -134,12 +245,21 @@ def _validate_initialization_payload(
     payload: dict[str, object],
     run_id: str,
     config: LibraryConfig,
-) -> tuple[RunSnapshot, RunState]:
+) -> tuple[RunSnapshot, RunState, dict[str, object]]:
     try:
         snapshot = RunSnapshot.from_dict(payload["snapshot"])
         state = RunState.from_dict(payload["state"])
     except (KeyError, TypeError, ValueError) as exc:
         raise SnapshotError("invalid SnapshotInitializationIntent models") from exc
+    try:
+        authority = payload["checkpoint_authority"]
+        if not isinstance(authority, dict):
+            raise TypeError("checkpoint authority must be an object")
+        authority_snapshot, authority_state, generation = _validate_checkpoint_authority_payload(
+            authority, run_id, config
+        )
+    except (KeyError, TypeError, ValueError) as exc:
+        raise SnapshotError("invalid SnapshotInitializationIntent checkpoint authority") from exc
     if (
         payload["run_id"] != run_id
         or snapshot.run_id != run_id
@@ -152,13 +272,20 @@ def _validate_initialization_payload(
         or state.snapshot_path != f"metadata/runs/{run_id}.json"
         or snapshot.config_version != config.version
         or snapshot.config_sha256 != config.config_hash
+        or generation != 0
+        or authority_snapshot != snapshot
+        or authority_state != state
     ):
         raise SnapshotError("SnapshotInitializationIntent identity mismatch")
     expected_snapshot_hash = _sha256_bytes(_canonical_bytes(snapshot.to_dict()))
     expected_state_hash = _sha256_bytes(_canonical_bytes(state.to_dict()))
-    if payload["snapshot_sha256"] != expected_snapshot_hash or payload["state_sha256"] != expected_state_hash:
+    if (
+        payload["snapshot_sha256"] != expected_snapshot_hash
+        or payload["state_sha256"] != expected_state_hash
+        or payload["checkpoint_authority_sha256"] != _authority_digest(authority)
+    ):
         raise SnapshotError("SnapshotInitializationIntent digest mismatch")
-    return snapshot, state
+    return snapshot, state, authority
 
 
 def _reconcile_initialization(
@@ -169,10 +296,12 @@ def _reconcile_initialization(
     state_path: Path,
 ) -> None:
     intent_path = _initialization_intent_path(root, run_id)
+    authority_path = _checkpoint_authority_path(root, run_id)
     for path, label in (
         (intent_path, "snapshot initialization intent"),
         (snapshot_path, "run snapshot"),
         (state_path, "run state"),
+        (authority_path, "checkpoint authority"),
     ):
         _assert_safe_write_target(root, path, label)
     if not intent_path.exists():
@@ -180,12 +309,16 @@ def _reconcile_initialization(
     payload = _strict_intent(
         intent_path,
         "SnapshotInitializationIntent",
-        {"schema_version", "model_type", "run_id", "snapshot", "snapshot_sha256", "state", "state_sha256"},
+        {
+            "schema_version", "model_type", "run_id", "snapshot", "snapshot_sha256",
+            "state", "state_sha256", "checkpoint_authority", "checkpoint_authority_sha256",
+        },
     )
-    snapshot, state = _validate_initialization_payload(payload, run_id, config)
+    snapshot, state, authority = _validate_initialization_payload(payload, run_id, config)
     for path, mapping, digest, label in (
         (snapshot_path, snapshot.to_dict(), payload["snapshot_sha256"], "run snapshot"),
         (state_path, state.to_dict(), payload["state_sha256"], "run state"),
+        (authority_path, authority, payload["checkpoint_authority_sha256"], "checkpoint authority"),
     ):
         _assert_safe_write_target(root, path, label)
         if path.exists():
@@ -208,24 +341,196 @@ def _write_initial_pair(
     state: RunState,
 ) -> None:
     intent_path = _initialization_intent_path(root, run_id)
+    authority_path = _checkpoint_authority_path(root, run_id)
     for path, label in (
         (intent_path, "snapshot initialization intent"),
         (snapshot_path, "run snapshot"),
         (state_path, "run state"),
+        (authority_path, "checkpoint authority"),
     ):
         _assert_safe_write_target(root, path, label)
-    if any(path.exists() or path.is_symlink() for path in (intent_path, snapshot_path, state_path)):
+    if any(
+        path.exists() or path.is_symlink()
+        for path in (intent_path, snapshot_path, state_path, authority_path)
+    ):
         raise SnapshotError("snapshot initialization targets must be absent")
-    payload = _initialization_payload(snapshot, state)
+    authority = _checkpoint_authority_payload(snapshot, state, 0)
+    payload = _initialization_payload(snapshot, state, authority)
     _validate_initialization_payload(payload, run_id, config)
     atomic_write_json(intent_path, payload)
     atomic_write_json(snapshot_path, snapshot.to_dict())
     atomic_write_json(state_path, state.to_dict())
+    atomic_write_json(authority_path, authority)
     _reconcile_initialization(root, run_id, config, snapshot_path, state_path)
+
+
+def _checkpoint_pair_kind(
+    snapshot: RunSnapshot,
+    state: RunState,
+    predecessor_snapshot: RunSnapshot,
+    predecessor_state: RunState,
+    target_snapshot: RunSnapshot,
+    target_state: RunState,
+) -> tuple[str, str]:
+    snapshot_kind = "predecessor" if snapshot == predecessor_snapshot else "target" if snapshot == target_snapshot else "invalid"
+    state_kind = "predecessor" if state == predecessor_state else "target" if state == target_state else "invalid"
+    return snapshot_kind, state_kind
+
+
+def _checkpoint_transition_payload(
+    run_id: str,
+    predecessor_authority: dict[str, object],
+    target_authority: dict[str, object],
+) -> dict[str, object]:
+    return {
+        "schema_version": 1,
+        "model_type": "SnapshotCheckpointTransition",
+        "run_id": run_id,
+        "predecessor_authority": predecessor_authority,
+        "predecessor_authority_sha256": _authority_digest(predecessor_authority),
+        "target_authority": target_authority,
+        "target_authority_sha256": _authority_digest(target_authority),
+    }
+
+
+def _validate_checkpoint_transition_payload(
+    payload: dict[str, object],
+    run_id: str,
+    config: LibraryConfig,
+) -> tuple[
+    dict[str, object], RunSnapshot, RunState, int,
+    dict[str, object], RunSnapshot, RunState, int,
+]:
+    expected_keys = {
+        "schema_version", "model_type", "run_id",
+        "predecessor_authority", "predecessor_authority_sha256",
+        "target_authority", "target_authority_sha256",
+    }
+    if (
+        set(payload) != expected_keys
+        or payload.get("schema_version") != 1
+        or payload.get("model_type") != "SnapshotCheckpointTransition"
+        or payload.get("run_id") != run_id
+    ):
+        raise SnapshotError("invalid checkpoint transition envelope")
+    predecessor = payload["predecessor_authority"]
+    target = payload["target_authority"]
+    if not isinstance(predecessor, dict) or not isinstance(target, dict):
+        raise SnapshotError("invalid checkpoint transition authorities")
+    predecessor_snapshot, predecessor_state, predecessor_generation = _validate_checkpoint_authority_payload(
+        predecessor, run_id, config
+    )
+    target_snapshot, target_state, target_generation = _validate_checkpoint_authority_payload(
+        target, run_id, config
+    )
+    if (
+        payload["predecessor_authority_sha256"] != _authority_digest(predecessor)
+        or payload["target_authority_sha256"] != _authority_digest(target)
+        or target_generation != predecessor_generation + 1
+    ):
+        raise SnapshotError("checkpoint transition digest or generation mismatch")
+    return (
+        predecessor, predecessor_snapshot, predecessor_state, predecessor_generation,
+        target, target_snapshot, target_state, target_generation,
+    )
+
+
+def _reconcile_checkpoint_transition(
+    root: Path,
+    run_id: str,
+    config: LibraryConfig,
+    snapshot_path: Path,
+    state_path: Path,
+) -> tuple[RunSnapshot, RunState, dict[str, object], int]:
+    authority_path = _checkpoint_authority_path(root, run_id)
+    transition_path = _checkpoint_transition_path(root, run_id)
+    for path, label in (
+        (snapshot_path, "run snapshot"),
+        (state_path, "run state"),
+        (authority_path, "checkpoint authority"),
+        (transition_path, "checkpoint transition"),
+    ):
+        _assert_safe_write_target(root, path, label)
+    authority, authority_snapshot, authority_state, authority_generation = _read_checkpoint_authority(
+        root, run_id, config
+    )
+    try:
+        snapshot = _snapshot_from_path(snapshot_path)
+        state = _state_from_path(state_path)
+    except SnapshotError as exc:
+        raise SnapshotError("checkpoint authority cannot validate current models") from exc
+    if not transition_path.exists():
+        if transition_path.is_symlink():
+            raise SnapshotError("checkpoint transition cannot be a symlink")
+        if snapshot != authority_snapshot or state != authority_state:
+            raise SnapshotError("checkpoint authority does not match incomplete snapshot/state")
+        if (
+            _sha256_file(snapshot_path) != authority["snapshot_sha256"]
+            or _sha256_file(state_path) != authority["state_sha256"]
+        ):
+            raise SnapshotError("checkpoint authority byte digest mismatch")
+        return snapshot, state, authority, authority_generation
+    transition = _strict_intent(
+        transition_path,
+        "SnapshotCheckpointTransition",
+        {
+            "schema_version", "model_type", "run_id",
+            "predecessor_authority", "predecessor_authority_sha256",
+            "target_authority", "target_authority_sha256",
+        },
+    )
+    (
+        predecessor, predecessor_snapshot, predecessor_state, predecessor_generation,
+        target, target_snapshot, target_state, target_generation,
+    ) = _validate_checkpoint_transition_payload(transition, run_id, config)
+    authority_digest = _authority_digest(authority)
+    if authority_digest == _authority_digest(predecessor):
+        if authority != predecessor or authority_generation != predecessor_generation:
+            raise SnapshotError("checkpoint authority predecessor mismatch")
+        authority_kind = "predecessor"
+    elif authority_digest == _authority_digest(target):
+        if authority != target or authority_generation != target_generation:
+            raise SnapshotError("checkpoint authority target mismatch")
+        authority_kind = "target"
+    else:
+        raise SnapshotError("checkpoint authority is outside pending transition")
+    snapshot_is_predecessor = snapshot == predecessor_snapshot
+    snapshot_is_target = snapshot == target_snapshot
+    state_is_predecessor = state == predecessor_state
+    state_is_target = state == target_state
+    if (
+        not (snapshot_is_predecessor or snapshot_is_target)
+        or not (state_is_predecessor or state_is_target)
+        or (
+            snapshot_is_predecessor
+            and not snapshot_is_target
+            and state_is_target
+            and not state_is_predecessor
+        )
+    ):
+        raise SnapshotError("checkpoint authority found an invalid transition write order")
+    if authority_kind == "target" and not (snapshot_is_target and state_is_target):
+        raise SnapshotError("checkpoint authority advanced before snapshot/state")
+    if not snapshot_is_target:
+        atomic_write_json(snapshot_path, target_snapshot.to_dict())
+    if not state_is_target:
+        atomic_write_json(state_path, target_state.to_dict())
+    if authority_kind == "predecessor":
+        atomic_write_json(authority_path, target)
+    if (
+        _sha256_file(snapshot_path) != target["snapshot_sha256"]
+        or _sha256_file(state_path) != target["state_sha256"]
+        or _sha256_file(authority_path) != _authority_digest(target)
+    ):
+        raise SnapshotError("checkpoint authority reconciliation digest mismatch")
+    _unlink_durable(transition_path)
+    return target_snapshot, target_state, target, target_generation
 
 
 def _checkpoint(
     root: Path,
+    run_id: str,
+    config: LibraryConfig,
     snapshot_path: Path,
     state_path: Path,
     snapshot: RunSnapshot,
@@ -234,15 +539,49 @@ def _checkpoint(
 ) -> RunState:
     if snapshot.status is not RunStatus.SNAPSHOT_INCOMPLETE:
         raise SnapshotError("only an incomplete snapshot may be checkpointed")
-    _assert_safe_write_target(root, snapshot_path, "run snapshot")
-    _assert_safe_write_target(root, state_path, "run state")
-    atomic_write_json(snapshot_path, snapshot.to_dict())
+    current_snapshot, current_state, predecessor, generation = _reconcile_checkpoint_transition(
+        root, run_id, config, snapshot_path, state_path
+    )
+    if state != current_state:
+        raise SnapshotError("checkpoint caller state does not match checkpoint authority")
+    if (
+        snapshot.run_id != run_id
+        or snapshot.config_version != config.version
+        or snapshot.config_sha256 != config.config_hash
+        or snapshot.snapshot_started_at != current_snapshot.snapshot_started_at
+    ):
+        raise SnapshotError("checkpoint target identity mismatch")
     updated = replace(state, snapshot_sha256=None, updated_at=now)
+    target = _checkpoint_authority_payload(snapshot, updated, generation + 1)
+    transition = _checkpoint_transition_payload(run_id, predecessor, target)
+    transition_path = _checkpoint_transition_path(root, run_id)
+    authority_path = _checkpoint_authority_path(root, run_id)
+    for path, label in (
+        (transition_path, "checkpoint transition"),
+        (snapshot_path, "run snapshot"),
+        (state_path, "run state"),
+        (authority_path, "checkpoint authority"),
+    ):
+        _assert_safe_write_target(root, path, label)
+    if transition_path.exists() or transition_path.is_symlink():
+        raise SnapshotError("checkpoint transition already exists")
+    atomic_write_json(transition_path, transition)
+    atomic_write_json(snapshot_path, snapshot.to_dict())
     atomic_write_json(state_path, updated.to_dict())
-    return updated
+    atomic_write_json(authority_path, target)
+    reconciled_snapshot, reconciled_state, _, _ = _reconcile_checkpoint_transition(
+        root, run_id, config, snapshot_path, state_path
+    )
+    if reconciled_snapshot != snapshot or reconciled_state != updated:
+        raise SnapshotError("checkpoint reconciliation changed intended models")
+    return reconciled_state
 
 
-def _completion_payload(snapshot: RunSnapshot, state: RunState) -> dict[str, object]:
+def _completion_payload(
+    snapshot: RunSnapshot,
+    state: RunState,
+    checkpoint_authority: dict[str, object],
+) -> dict[str, object]:
     if snapshot.status is not RunStatus.SNAPSHOT_COMPLETE or state.snapshot_sha256 is None:
         raise SnapshotError("completion intent requires complete snapshot and state")
     snapshot_mapping = snapshot.to_dict()
@@ -256,6 +595,8 @@ def _completion_payload(snapshot: RunSnapshot, state: RunState) -> dict[str, obj
         "snapshot": snapshot_mapping,
         "snapshot_sha256": expected,
         "state": state.to_dict(),
+        "checkpoint_authority": checkpoint_authority,
+        "checkpoint_authority_sha256": _authority_digest(checkpoint_authority),
     }
 
 
@@ -263,13 +604,24 @@ def _validate_completion_payload(
     payload: dict[str, object],
     run_id: str,
     config: LibraryConfig,
-) -> tuple[RunSnapshot, RunState]:
+) -> tuple[RunSnapshot, RunState, dict[str, object], RunSnapshot, RunState]:
     try:
         expected_snapshot = RunSnapshot.from_dict(payload["snapshot"])
         expected_state = RunState.from_dict(payload["state"])
     except (KeyError, TypeError, ValueError) as exc:
         raise SnapshotError("invalid SnapshotCompletionIntent models") from exc
+    checkpoint_authority = payload.get("checkpoint_authority")
+    if not isinstance(checkpoint_authority, dict):
+        raise SnapshotError("invalid SnapshotCompletionIntent checkpoint authority")
+    predecessor_snapshot, predecessor_state, _ = _validate_checkpoint_authority_payload(
+        checkpoint_authority, run_id, config
+    )
     digest = _sha256_bytes(_canonical_bytes(expected_snapshot.to_dict()))
+    expected_predecessor = replace(
+        expected_snapshot,
+        status=RunStatus.SNAPSHOT_INCOMPLETE,
+        snapshot_completed_at=None,
+    )
     if (
         payload["run_id"] != run_id
         or expected_snapshot.run_id != run_id
@@ -280,9 +632,24 @@ def _validate_completion_payload(
         or payload["snapshot_sha256"] != digest
         or expected_snapshot.config_version != config.version
         or expected_snapshot.config_sha256 != config.config_hash
+        or predecessor_snapshot != expected_predecessor
+        or payload.get("checkpoint_authority_sha256") != _authority_digest(checkpoint_authority)
     ):
         raise SnapshotError("SnapshotCompletionIntent identity or digest mismatch")
-    return expected_snapshot, expected_state
+    comparable_final_state = replace(
+        expected_state,
+        snapshot_sha256=None,
+        updated_at=predecessor_state.updated_at,
+    )
+    if comparable_final_state != predecessor_state:
+        raise SnapshotError("SnapshotCompletionIntent state does not extend checkpoint authority")
+    return (
+        expected_snapshot,
+        expected_state,
+        checkpoint_authority,
+        predecessor_snapshot,
+        predecessor_state,
+    )
 
 
 def _reconcile_completion(
@@ -295,37 +662,82 @@ def _reconcile_completion(
     state: RunState,
 ) -> tuple[RunSnapshot, RunState]:
     intent_path = _completion_intent_path(root, run_id)
-    _assert_safe_write_target(root, intent_path, "snapshot completion intent")
+    authority_path = _checkpoint_authority_path(root, run_id)
+    transition_path = _checkpoint_transition_path(root, run_id)
+    for path, label in (
+        (intent_path, "snapshot completion intent"),
+        (authority_path, "checkpoint authority"),
+        (transition_path, "checkpoint transition"),
+        (snapshot_path, "run snapshot"),
+        (state_path, "run state"),
+    ):
+        _assert_safe_write_target(root, path, label)
     if not intent_path.exists():
+        if intent_path.is_symlink():
+            raise SnapshotError("snapshot completion intent cannot be a symlink")
         if snapshot.status is RunStatus.SNAPSHOT_COMPLETE and state.snapshot_sha256 is None:
             raise SnapshotError("complete snapshot with missing digest has no completion intent")
         return snapshot, state
+    if transition_path.exists() or transition_path.is_symlink():
+        raise SnapshotError("completion intent cannot coexist with checkpoint transition")
     payload = _strict_intent(
         intent_path,
         "SnapshotCompletionIntent",
-        {"schema_version", "model_type", "run_id", "snapshot", "snapshot_sha256", "state"},
+        {
+            "schema_version", "model_type", "run_id", "snapshot", "snapshot_sha256", "state",
+            "checkpoint_authority", "checkpoint_authority_sha256",
+        },
     )
-    expected_snapshot, expected_state = _validate_completion_payload(payload, run_id, config)
+    (
+        expected_snapshot,
+        expected_state,
+        predecessor_authority,
+        predecessor_snapshot,
+        predecessor_state,
+    ) = _validate_completion_payload(payload, run_id, config)
     expected_digest = expected_state.snapshot_sha256
-    if snapshot.status is RunStatus.SNAPSHOT_INCOMPLETE:
-        expected_incomplete = replace(
-            expected_snapshot,
-            status=RunStatus.SNAPSHOT_INCOMPLETE,
-            snapshot_completed_at=None,
-        )
-        if snapshot != expected_incomplete or state.snapshot_sha256 is not None:
-            raise SnapshotError("incomplete snapshot does not match completion intent predecessor")
+    snapshot_kind, state_kind = _checkpoint_pair_kind(
+        snapshot,
+        state,
+        predecessor_snapshot,
+        predecessor_state,
+        expected_snapshot,
+        expected_state,
+    )
+    if (snapshot_kind, state_kind) not in {
+        ("predecessor", "predecessor"),
+        ("target", "predecessor"),
+        ("target", "target"),
+    }:
+        raise SnapshotError("snapshot/state do not match completion intent transition")
+    authority_present = authority_path.exists() or authority_path.is_symlink()
+    if authority_present:
+        if authority_path.is_symlink() or not authority_path.is_file():
+            raise SnapshotError("checkpoint authority cannot be a symlink during completion")
+        try:
+            current_authority = read_json(authority_path)
+        except (OSError, UnicodeError, json.JSONDecodeError, TypeError, ValueError) as exc:
+            raise SnapshotError("invalid checkpoint authority during completion") from exc
+        _validate_checkpoint_authority_payload(current_authority, run_id, config)
+        if (
+            current_authority != predecessor_authority
+            or _sha256_file(authority_path) != payload["checkpoint_authority_sha256"]
+        ):
+            raise SnapshotError("checkpoint authority does not match completion intent predecessor")
+    elif (snapshot_kind, state_kind) != ("target", "target"):
+        raise SnapshotError("completion intent lost checkpoint authority before final models")
+    if snapshot_kind == "predecessor":
         atomic_write_json(snapshot_path, expected_snapshot.to_dict())
         snapshot = expected_snapshot
-    elif snapshot != expected_snapshot:
-        raise SnapshotError("complete snapshot does not match completion intent")
     if _sha256_file(snapshot_path) != expected_digest:
         raise SnapshotError("complete snapshot bytes do not match completion intent")
-    if state.snapshot_sha256 is None:
+    if state_kind == "predecessor":
         atomic_write_json(state_path, expected_state.to_dict())
         state = expected_state
-    elif state != expected_state:
-        raise SnapshotError("RunState does not match completion intent")
+    if _sha256_file(state_path) != _sha256_bytes(_canonical_bytes(expected_state.to_dict())):
+        raise SnapshotError("RunState bytes do not match completion intent")
+    if authority_present:
+        _unlink_durable(authority_path)
     _unlink_durable(intent_path)
     try:
         snapshot_path.chmod(0o444)
@@ -344,15 +756,31 @@ def _commit_completion(
     final_state: RunState,
 ) -> None:
     intent_path = _completion_intent_path(root, run_id)
+    authority_path = _checkpoint_authority_path(root, run_id)
+    transition_path = _checkpoint_transition_path(root, run_id)
     for path, label in (
         (intent_path, "snapshot completion intent"),
+        (authority_path, "checkpoint authority"),
+        (transition_path, "checkpoint transition"),
         (snapshot_path, "run snapshot"),
         (state_path, "run state"),
     ):
         _assert_safe_write_target(root, path, label)
     if intent_path.exists() or intent_path.is_symlink():
         raise SnapshotError("snapshot completion intent already exists")
-    payload = _completion_payload(completed, final_state)
+    current_snapshot, current_state, authority, _ = _reconcile_checkpoint_transition(
+        root, run_id, config, snapshot_path, state_path
+    )
+    predecessor_snapshot = replace(
+        completed,
+        status=RunStatus.SNAPSHOT_INCOMPLETE,
+        snapshot_completed_at=None,
+    )
+    if current_snapshot != predecessor_snapshot:
+        raise SnapshotError("completion target does not extend checkpoint authority snapshot")
+    if replace(final_state, snapshot_sha256=None, updated_at=current_state.updated_at) != current_state:
+        raise SnapshotError("completion target state does not extend checkpoint authority state")
+    payload = _completion_payload(completed, final_state, authority)
     _validate_completion_payload(payload, run_id, config)
     atomic_write_json(intent_path, payload)
     atomic_write_json(snapshot_path, completed.to_dict())
@@ -844,6 +1272,13 @@ def load_complete_snapshot(root: Path, run_id: str) -> RunSnapshot:
     if not isinstance(run_id, str) or _RUN_ID_RE.fullmatch(run_id) is None:
         raise ValueError("run_id is not path-safe")
     snapshot_path, state_path = _paths(root, run_id)
+    for pending in (
+        _initialization_intent_path(root, run_id),
+        _completion_intent_path(root, run_id),
+        _checkpoint_transition_path(root, run_id),
+    ):
+        if pending.exists() or pending.is_symlink():
+            raise SnapshotError("unsettled snapshot lifecycle intent; call freeze_snapshot to recover")
     if not snapshot_path.exists() or not state_path.exists():
         raise SnapshotError("run snapshot or state is missing")
     if snapshot_path.is_symlink() or state_path.is_symlink():
@@ -858,6 +1293,9 @@ def load_complete_snapshot(root: Path, run_id: str) -> RunSnapshot:
         raise SnapshotError("run identity or snapshot path mismatch")
     if snapshot.status is not RunStatus.SNAPSHOT_COMPLETE or state.snapshot_sha256 is None:
         raise SnapshotError("snapshot is incomplete and cannot be used downstream")
+    authority_path = _checkpoint_authority_path(root, run_id)
+    if authority_path.exists() or authority_path.is_symlink():
+        raise SnapshotError("unsettled checkpoint authority on complete snapshot; call freeze_snapshot to recover")
     actual = _sha256_file(snapshot_path)
     if state.snapshot_sha256 != actual:
         raise SnapshotError("completed snapshot SHA-256 does not match RunState")
@@ -895,6 +1333,8 @@ def freeze_snapshot(
     for path, label in (
         (_initialization_intent_path(root, run_id), "snapshot initialization intent"),
         (_completion_intent_path(root, run_id), "snapshot completion intent"),
+        (_checkpoint_authority_path(root, run_id), "checkpoint authority"),
+        (_checkpoint_transition_path(root, run_id), "checkpoint transition"),
         (snapshot_path, "run snapshot"),
         (state_path, "run state"),
     ):
@@ -916,24 +1356,33 @@ def freeze_snapshot(
             score_files=(),
         )
         state = _new_state(root, run_id, snapshot_path, started)
-        # A durable intent makes the two-file initialization crash-recoverable,
-        # and both model files still precede the first possible client request.
+        # The intent binds the initial models and checkpoint authority before
+        # any of them can precede the first possible client request alone.
         _write_initial_pair(root, run_id, config, snapshot_path, state_path, snapshot, state)
     else:
         snapshot, state = existing
-        snapshot, state = _reconcile_completion(
-            root, run_id, config, snapshot_path, state_path, snapshot, state
-        )
+    snapshot, state = _reconcile_completion(
+        root, run_id, config, snapshot_path, state_path, snapshot, state
+    )
+    _validate_score_bindings(root, snapshot)
+    if snapshot.status is RunStatus.SNAPSHOT_COMPLETE:
+        for pending in (
+            _checkpoint_authority_path(root, run_id),
+            _checkpoint_transition_path(root, run_id),
+        ):
+            if pending.exists() or pending.is_symlink():
+                raise SnapshotError("complete snapshot has unsettled checkpoint authority")
         _reconcile_cache_quarantine(root, run_id, snapshot)
-        _validate_score_bindings(root, snapshot)
-        if snapshot.status is RunStatus.SNAPSHOT_COMPLETE:
-            actual = _sha256_file(snapshot_path)
-            if state.snapshot_sha256 != actual:
-                raise SnapshotError("completed snapshot SHA-256 does not match RunState")
-            _validate_complete_score_set(root, snapshot)
-            return snapshot
-        if snapshot.status is not RunStatus.SNAPSHOT_INCOMPLETE or state.snapshot_sha256 is not None:
-            raise SnapshotError("run cannot resume from its current state")
+        actual = _sha256_file(snapshot_path)
+        if state.snapshot_sha256 != actual:
+            raise SnapshotError("completed snapshot SHA-256 does not match RunState")
+        _validate_complete_score_set(root, snapshot)
+        return snapshot
+    if snapshot.status is not RunStatus.SNAPSHOT_INCOMPLETE or state.snapshot_sha256 is not None:
+        raise SnapshotError("run cannot resume from its current state")
+    snapshot, state, _, _ = _reconcile_checkpoint_transition(
+        root, run_id, config, snapshot_path, state_path
+    )
 
     _reconcile_cache_quarantine(root, run_id, snapshot)
     _validate_score_bindings(root, snapshot)
@@ -990,7 +1439,9 @@ def freeze_snapshot(
             categories=tuple(category_by_name.values()),
             pages=tuple(pages_by_id.values()),
         )
-        state = _checkpoint(root, snapshot_path, state_path, snapshot, state, clock.now())
+        state = _checkpoint(
+            root, run_id, config, snapshot_path, state_path, snapshot, state, clock.now()
+        )
 
     ordered_pages = tuple(sorted(pages_by_id.values(), key=lambda page: (page.page_id, page.revision_id)))
     scores = list(snapshot.score_files)
@@ -1031,7 +1482,9 @@ def freeze_snapshot(
         for page in batch:
             scores.extend(_scores_for_page(root, page, metadata_by_filename))
         snapshot = replace(snapshot, score_files=tuple(scores))
-        state = _checkpoint(root, snapshot_path, state_path, snapshot, state, clock.now())
+        state = _checkpoint(
+            root, run_id, config, snapshot_path, state_path, snapshot, state, clock.now()
+        )
 
     if set(category_by_name) != approved_names:
         raise SnapshotError("not all configured categories were checkpointed")
