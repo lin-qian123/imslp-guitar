@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "imslp-guitar-library"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = ["pypdf>=6.8,<7"]
+
+[project.optional-dependencies]
+test = ["pytest>=9,<10"]
+
+[tool.setuptools.packages.find]
+where = ["scripts"]
+
+[tool.pytest.ini_options]
+pythonpath = ["scripts", "."]
