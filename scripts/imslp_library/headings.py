@@ -215,6 +215,7 @@ def parse_heading_tree(wikitext: str) -> HeadingTree:
         lambda match: "".join(character if character in "\r\n" else " " for character in match.group(0)),
         region,
     )
+    template_spans = _balanced_templates(searchable_region)
 
     def outside_comment(match: re.Match[str]) -> bool:
         return not any(start <= match.start() < end for start, end in comment_spans)
@@ -224,10 +225,11 @@ def parse_heading_tree(wikitext: str) -> HeadingTree:
         (match.start(), 0, match)
         for match in _HEADING_RE.finditer(region)
         if outside_comment(match)
+        and not any(start <= match.start() < end for start, end in template_spans)
     )
     events.extend(
         (start, 1, (start, end))
-        for start, end in _balanced_templates(searchable_region)
+        for start, end in template_spans
         if _FTE_START_RE.match(searchable_region[start:end]) is not None
     )
     events.sort(key=lambda item: (item[0], item[1]))

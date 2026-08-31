@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import re
+from dataclasses import replace
 
 from imslp_library.config import load_allowlist
 from imslp_library.extractor import extract_memberships
@@ -40,9 +41,9 @@ from imslp_library.extractor import (
     extraction_decision_sha256,
     review_filename,
 )
-from imslp_library.models import ExtractionReview
+from imslp_library.models import ExtractionResult, ExtractionReview
 from tests.basic_helpers import make_file_template, make_wikitext
-from tests.test_headings import REAL_IMSLP_EXCERPT
+from tests.test_headings import REAL_IMSLP_SHAPE_FIXTURE
 
 
 ACCEPTED_EXAMPLES = {
@@ -413,7 +414,7 @@ def test_extract_fails_closed_when_files_marker_pair_is_missing_or_reversed():
 
 def test_real_imslp_no_id_attachment_requires_unique_typed_score_metadata():
     filename = "PMLP60533-Gabrieli-G_Madrigale_Alma_Op85.PDF"
-    missing = _extract_text(REAL_IMSLP_EXCERPT, "For 3 guitars (arr)")
+    missing = _extract_text(REAL_IMSLP_SHAPE_FIXTURE, "For 3 guitars (arr)")
     assert missing.selected == []
     assert missing.manual_review[0].reason_code == "file_metadata_missing"
     assert missing.manual_review[0].source_id is None
@@ -421,11 +422,15 @@ def test_real_imslp_no_id_attachment_requires_unique_typed_score_metadata():
     page = make_frozen_page(
         category_names=("For 3 guitars (arr)",),
         wikitext_path="real-excerpt.wiki",
-        wikitext_sha256=hashlib.sha256(REAL_IMSLP_EXCERPT.encode("utf-8")).hexdigest(),
+        wikitext_sha256=hashlib.sha256(
+            REAL_IMSLP_SHAPE_FIXTURE.encode("utf-8")
+        ).hexdigest(),
     )
     rule = next(rule for rule in CONFIG.categories if rule.name == "For 3 guitars (arr)")
     score = make_score("777", filename=filename)
-    selected = extract_memberships(page, REAL_IMSLP_EXCERPT, rule, score_files=(score,))
+    selected = extract_memberships(
+        page, REAL_IMSLP_SHAPE_FIXTURE, rule, score_files=(score,)
+    )
     assert [item.source_id for item in selected.selected] == ["source:f777@r202"]
 
 
@@ -449,7 +454,11 @@ def test_no_id_attachment_rejects_ambiguous_metadata_and_enumerates_multiple_nam
         page,
         text,
         rule,
-        score_files=(make_score("780", filename=filename), make_score("781", filename=filename)),
+        score_files=(
+            make_score("780", filename=filename),
+            make_score("781", filename=filename),
+            make_score("784", filename="second.pdf"),
+        ),
     )
     first = next(item for item in ambiguous.manual_review if item.filename == filename)
     assert first.reason_code == "file_metadata_ambiguous"
@@ -611,3 +620,99 @@ def test_review_loader_rejects_unexpected_directory_entry(tmp_path):
     (directory / "unexpected.json").mkdir()
     with pytest.raises(ValueError, match="unexpected|regular"):
         apply_extraction_reviews(result, run_id="run-1", review_directory=directory)
+
+
+def test_multiple_source_less_missing_attachments_fail_closed():
+    text = make_wikitext(
+        "===Arrangements and Transcriptions===\n====For 3 Guitars====\n"
+        "{{#fte:imslpfile\n"
+        "|File Name 1=first.pdf\n"
+        "|File Name 2=second.pdf\n"
+        "}}",
+        "orchestra",
+    )
+    with pytest.raises(ValueError, match="source_less_review_identity_conflict"):
+        _extract_text(text, "For 3 guitars (arr)")
+
+
+def test_multiple_source_less_ambiguous_attachments_fail_closed():
+    text = make_wikitext(
+        "===Arrangements and Transcriptions===\n====For 3 Guitars====\n"
+        "{{#fte:imslpfile\n"
+        "|File Name 1=same.pdf\n"
+        "|File Name 2=same.pdf\n"
+        "}}",
+        "orchestra",
+    )
+    page = make_frozen_page(
+        category_names=("For 3 guitars (arr)",),
+        wikitext_sha256=hashlib.sha256(text.encode("utf-8")).hexdigest(),
+    )
+    rule = next(rule for rule in CONFIG.categories if rule.name == "For 3 guitars (arr)")
+    scores = (make_score("820", filename="same.pdf"), make_score("821", filename="same.pdf"))
+
+    with pytest.raises(ValueError, match="source_less_review_identity_conflict"):
+        extract_memberships(page, text, rule, score_files=scores)
+
+
+def test_review_replay_rejects_duplicate_source_less_page_keys(tmp_path):
+    result = _extract_text(REAL_IMSLP_SHAPE_FIXTURE, "For 3 guitars (arr)")
+    decision = result.manual_review[0]
+    duplicate = ExtractionResult(
+        page_id=result.page_id,
+        revision_id=result.revision_id,
+        category_name=result.category_name,
+        decisions=(decision, replace(decision, filename="other.pdf")),
+    )
+    missing_directory = (
+        tmp_path / "missing" / "metadata" / "overrides" / "extraction_reviews" / "run-1"
+    )
+    with pytest.raises(ValueError, match="source_less_review_identity_conflict"):
+        apply_extraction_reviews(
+            duplicate, run_id="run-1", review_directory=missing_directory
+        )
+
+    directory = _review_directory(tmp_path, "run-1")
+    with pytest.raises(ValueError, match="source_less_review_identity_conflict"):
+        apply_extraction_reviews(duplicate, run_id="run-1", review_directory=directory)
+
+
+def test_gate_order_branch_precedes_format_and_bad_metadata():
+    text = make_wikitext(
+        "===Source Files===\n" + make_file_template("source.mscz", "../830"),
+        "3 guitars",
+    )
+    result = _extract_text(text, "For 3 guitars (arr)")
+
+    assert result.manual_review == []
+    assert [item.reason_code for item in result.excluded] == ["branch_not_allowed"]
+
+
+def test_gate_order_not_pdf_precedes_unsafe_ancestry_and_missing_metadata():
+    text = make_wikitext(
+        "===Arrangements and Transcriptions===\n====For 3 Guitars====\n"
+        "=====With Violoncello=====\n"
+        "{{#fte:imslpfile\n|File Name 1=source.mscz\n}}",
+        "orchestra",
+    )
+    result = _extract_text(text, "For 3 guitars (arr)")
+
+    assert result.manual_review == []
+    assert [item.reason_code for item in result.excluded] == ["not_pdf"]
+
+
+@pytest.mark.parametrize("file_id_line", ["", "|File ID=../831\n"])
+def test_gate_order_unsafe_ancestry_precedes_missing_or_conflicting_metadata(file_id_line):
+    text = make_wikitext(
+        "===Arrangements and Transcriptions===\n====For 3 Guitars====\n"
+        "=====With Violoncello=====\n"
+        "{{#fte:imslpfile\n"
+        "|File Name 1=mixed.pdf\n"
+        + file_id_line
+        + "}}",
+        "orchestra",
+    )
+    result = _extract_text(text, "For 3 guitars (arr)")
+
+    assert result.manual_review == []
+    assert [item.reason_code for item in result.excluded] == ["mixed_instrument_heading"]

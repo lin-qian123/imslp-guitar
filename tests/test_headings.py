@@ -6,7 +6,9 @@ from imslp_library.headings import normalize_heading, parse_heading_tree
 from tests.basic_helpers import load_text_fixture, make_file_template, make_wikitext
 
 
-REAL_IMSLP_EXCERPT = """| *****FILES***** =
+# Synthetic minimal fixture preserving the observed online IMSLP syntax shape;
+# it is not claimed to be a contiguous excerpt from one frozen revision.
+REAL_IMSLP_SHAPE_FIXTURE = """| *****FILES***** =
 ===Arrangements and Transcriptions===
 ====For 3 Guitars====
 {{#fte:imslpfile
@@ -162,7 +164,7 @@ def test_checked_in_wikitext_fixtures_are_exact_builder_bytes(filename, expected
 
 
 def test_real_imslp_marker_double_pipe_nested_templates_and_missing_file_id_are_parsed():
-    tree = parse_heading_tree(REAL_IMSLP_EXCERPT)
+    tree = parse_heading_tree(REAL_IMSLP_SHAPE_FIXTURE)
     assert [node.raw for node in tree.roots] == ["Arrangements and Transcriptions"]
     chunk = tree.roots[0].children[0].file_templates[0]
     assert chunk.filename == "PMLP60533-Gabrieli-G_Madrigale_Alma_Op85.PDF"
@@ -198,3 +200,26 @@ def test_unbalanced_fte_template_fails_closed_instead_of_returning_a_truncated_a
     )
     with pytest.raises(ValueError, match="unbalanced_template"):
         parse_heading_tree(text)
+
+
+def test_heading_like_misc_notes_inside_fte_do_not_change_the_next_fte_heading():
+    text = make_wikitext(
+        "===Arrangements and Transcriptions===\n====For 3 Guitars====\n"
+        "{{#fte:imslpfile\n"
+        "|File Name 1=first.pdf\n"
+        "|File ID=901\n"
+        "|Misc. Notes=synthetic note line\n"
+        "=====For Piano=====\n"
+        "continued synthetic note\n"
+        "}}\n"
+        + make_file_template("second.pdf", "902"),
+        "orchestra",
+    )
+    tree = parse_heading_tree(text)
+    target = tree.roots[0].children[0]
+
+    assert target.children == []
+    assert [(chunk.file_id, chunk.filename) for chunk in target.file_templates] == [
+        ("901", "first.pdf"),
+        ("902", "second.pdf"),
+    ]

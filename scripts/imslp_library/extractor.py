@@ -425,13 +425,6 @@ def extract_memberships(
                 detail="frozen page membership does not contain the target category",
             ))
             continue
-        if metadata_reason == "file_metadata_conflict":
-            decisions.append(_decision(
-                page, chunk, node, instrumentation_raw, instrumentation_normalized,
-                disposition="manual_review", reason_code=metadata_reason,
-                detail="file ID, filename or typed score metadata conflict",
-            ))
-            continue
         if node is None:
             decisions.append(_decision(
                 page, chunk, node, instrumentation_raw, instrumentation_normalized,
@@ -455,13 +448,6 @@ def extract_memberships(
                 detail="file attachment does not have a PDF filename",
             ))
             continue
-        if metadata_reason is not None:
-            decisions.append(_decision(
-                page, chunk, node, instrumentation_raw, instrumentation_normalized,
-                disposition="manual_review", reason_code=metadata_reason,
-                detail="file attachment could not be associated one-to-one with typed score metadata",
-            ))
-            continue
 
         unsafe_ancestry = _unsafe_ancestry(category, node)
         if unsafe_ancestry is not None:
@@ -478,6 +464,18 @@ def extract_memberships(
             ))
             continue
 
+        if metadata_reason is not None:
+            decisions.append(_decision(
+                page, chunk, node, instrumentation_raw, instrumentation_normalized,
+                disposition="manual_review", reason_code=metadata_reason,
+                detail=(
+                    "file ID, filename or typed score metadata conflict"
+                    if metadata_reason == "file_metadata_conflict"
+                    else "file attachment could not be associated one-to-one with typed score metadata"
+                ),
+            ))
+            continue
+
         if category.kind is CategoryKind.ORIGINAL:
             decisions.append(_extract_original(
                 page, chunk, node, category, instrumentation_raw, instrumentation_normalized,
@@ -490,6 +488,11 @@ def extract_memberships(
             decisions.append(_extract_work_level(
                 page, chunk, node, category, tree, instrumentation_raw, instrumentation_normalized,
             ))
+    if sum(
+        decision.disposition == "manual_review" and decision.source_id is None
+        for decision in decisions
+    ) > 1:
+        raise ValueError("source_less_review_identity_conflict")
     return ExtractionResult(
         page_id=page.page_id,
         revision_id=page.revision_id,
@@ -576,15 +579,19 @@ def apply_extraction_reviews(
         raise ValueError("run_id must be nonblank")
     review_directory = Path(review_directory)
     _validate_review_directory(review_directory, run_id)
+    manual_by_name: dict[str, ExtractionDecision] = {}
+    for decision in result.manual_review:
+        filename = review_filename(result.category_name, result.page_id, decision.source_id)
+        if filename in manual_by_name:
+            if decision.source_id is None or manual_by_name[filename].source_id is None:
+                raise ValueError("source_less_review_identity_conflict")
+            raise ValueError("duplicate_extraction_review_identity")
+        manual_by_name[filename] = decision
     if not review_directory.exists():
         return result
     if not review_directory.is_dir():
         raise ValueError("review directory is not a directory")
 
-    manual_by_name = {
-        review_filename(result.category_name, result.page_id, decision.source_id): decision
-        for decision in result.manual_review
-    }
     actual_files: dict[str, Path] = {}
     for path in review_directory.iterdir():
         if path.is_symlink():
