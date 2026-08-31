@@ -244,7 +244,12 @@ def _write_success_evidence(
     return _relative(root, path), hash_file_sha256(path)
 
 
-def _read_success_evidence(root: Path, run_id: str, attempt: DownloadAttempt) -> dict[str, object]:
+def _read_success_evidence(
+    root: Path,
+    run_id: str,
+    attempt: DownloadAttempt,
+    frozen_score: ScoreFile | None,
+) -> dict[str, object]:
     expected_path = _success_evidence_path(root, run_id, attempt.source_id, attempt.attempt_number)
     expected_relative = _relative(root, expected_path)
     if attempt.evidence_path != expected_relative or attempt.evidence_sha256 is None:
@@ -280,14 +285,21 @@ def _read_success_evidence(root: Path, run_id: str, attempt: DownloadAttempt) ->
         and payload["run_id"] == run_id
         and payload["source_id"] == attempt.source_id
         and payload["page_revision_id"] == _source_revision(attempt.source_id)
+        and frozen_score is not None
+        and payload["source_id"] == frozen_score.source_id
+        and payload["page_revision_id"] == frozen_score.page_revision_id
         and type(payload["size"]) is int
         and payload["size"] >= 0
+        and (frozen_score.expected_size is None or payload["size"] == frozen_score.expected_size)
+        and payload["size"] == attempt.bytes_written
         and (payload["sha1"] is None or isinstance(payload["sha1"], str) and _SHA1_RE.fullmatch(payload["sha1"]) is not None)
+        and payload["sha1"] == frozen_score.sha1_imslp
         and isinstance(payload["sha256"], str)
         and _SHA256_RE.fullmatch(payload["sha256"]) is not None
         and isinstance(payload["object_path"], str)
         and type(payload["source_hash_missing"]) is bool
         and payload["source_hash_missing"] == (payload["sha1"] is None)
+        and payload["source_hash_missing"] == frozen_score.source_hash_missing
         and verified_at is not None
         and verified_at.tzinfo is not None
         and verified_at.utcoffset() is not None
@@ -358,6 +370,7 @@ def _read_attempts(root: Path, run_id: str) -> tuple[DownloadAttempt, ...]:
     attempts = tuple(values)
     if any(not isinstance(item, DownloadAttempt) or item.run_id != run_id for item in attempts):
         raise DownloadError("download attempt manifest run identity mismatch")
+    frozen_scores = _frozen_score_map(root, run_id)
     seen: set[tuple[str, int]] = set()
     previous: dict[str, int] = {}
     previous_attempt: dict[str, DownloadAttempt] = {}
@@ -389,6 +402,7 @@ def _read_attempts(root: Path, run_id: str) -> tuple[DownloadAttempt, ...]:
         if item.phase in {AttemptPhase.STARTED, AttemptPhase.STREAMING} and item.part_path != canonical_part:
             raise DownloadError("unfinished download attempt lacks its canonical part path")
         expected_evidence: str | None = None
+        evidence_kind: str | None = None
         if item.phase in {AttemptPhase.STARTED, AttemptPhase.STREAMING}:
             if item.review_status is not ReviewStatus.NOT_REQUIRED or item.retry_after is not None or item.detail_code not in {"request_started", "streaming"}:
                 raise DownloadError("unfinished attempt has invalid status semantics")
@@ -412,26 +426,30 @@ def _read_attempts(root: Path, run_id: str) -> tuple[DownloadAttempt, ...]:
                     raise DownloadError("source override success must be resolved")
             elif item.review_status is not ReviewStatus.NOT_REQUIRED:
                 raise DownloadError("non-review attempt cannot carry review status")
-        if item.detail_code in _HTML_EVIDENCE_DETAILS:
-            expected_evidence = _relative(
-                root,
-                _evidence_path(root, run_id, item.source_id, item.attempt_number, "html"),
-            )
-        elif item.detail_code == "http_unexpected":
-            expected_evidence = _relative(
-                root,
-                _evidence_path(root, run_id, item.source_id, item.attempt_number, "bin"),
-            )
+        if item.status is DownloadStatus.MANUAL_REVIEW and item.review_status is ReviewStatus.RESOLVED:
+            expected_evidence = f"metadata/overrides/download_sources/{item.source_id}.json"
+            evidence_kind = "override"
         elif item.status is DownloadStatus.DOWNLOADED_VERIFIED:
             expected_evidence = _relative(
                 root,
                 _success_evidence_path(root, run_id, item.source_id, item.attempt_number),
             )
-        elif item.status is DownloadStatus.SOURCE_OVERRIDE_VERIFIED or (
-            item.status is DownloadStatus.MANUAL_REVIEW
-            and item.review_status is ReviewStatus.RESOLVED
-        ):
+            evidence_kind = "success"
+        elif item.status is DownloadStatus.SOURCE_OVERRIDE_VERIFIED:
             expected_evidence = f"metadata/overrides/download_sources/{item.source_id}.json"
+            evidence_kind = "override"
+        elif item.detail_code in _HTML_EVIDENCE_DETAILS:
+            expected_evidence = _relative(
+                root,
+                _evidence_path(root, run_id, item.source_id, item.attempt_number, "html"),
+            )
+            evidence_kind = "html"
+        elif item.detail_code == "http_unexpected":
+            expected_evidence = _relative(
+                root,
+                _evidence_path(root, run_id, item.source_id, item.attempt_number, "bin"),
+            )
+            evidence_kind = "bin"
         elif item.status is DownloadStatus.MANUAL_REVIEW and item.detail_code in {
             "size_mismatch",
             "sha1_mismatch",
@@ -442,6 +460,7 @@ def _read_attempts(root: Path, run_id: str) -> tuple[DownloadAttempt, ...]:
                 root,
                 _invalid_path(root, run_id, item.source_id, item.attempt_number),
             )
+            evidence_kind = "invalid"
         if (item.evidence_path is None) != (expected_evidence is None):
             raise DownloadError("download attempt evidence is required or forbidden by its status")
         if expected_evidence is not None and item.evidence_path != expected_evidence:
@@ -457,7 +476,7 @@ def _read_attempts(root: Path, run_id: str) -> tuple[DownloadAttempt, ...]:
                 raise DownloadError("download attempt evidence path is unsafe") from exc
             if evidence_path.is_symlink() or not evidence_path.is_file() or hash_file_sha256(evidence_path) != item.evidence_sha256:
                 raise DownloadError("download attempt evidence bytes do not match their checkpoint")
-            if item.detail_code in _HTML_EVIDENCE_DETAILS:
+            if evidence_kind == "html":
                 body = evidence_path.read_bytes()
                 classified_status, classified_detail, wait_seconds = _classify_html(body)
                 if classified_status is not item.status or classified_detail != item.detail_code:
@@ -469,7 +488,7 @@ def _read_attempts(root: Path, run_id: str) -> tuple[DownloadAttempt, ...]:
                         or item.retry_after != item.completed_at + timedelta(seconds=wait_seconds)
                     ):
                         raise DownloadError("membership wait evidence does not match retry_after")
-        if item.detail_code == "http_unexpected" and (
+        if evidence_kind == "bin" and (
             item.http_status is None or 200 <= item.http_status < 300
         ):
             raise DownloadError("unexpected HTTP evidence requires a non-success status")
@@ -483,7 +502,7 @@ def _read_attempts(root: Path, run_id: str) -> tuple[DownloadAttempt, ...]:
         if item.detail_code == "transport_retryable" and item.http_status is not None:
             raise DownloadError("transport retry attempt cannot carry an HTTP status")
         if item.status is DownloadStatus.DOWNLOADED_VERIFIED:
-            authority = _read_success_evidence(root, run_id, item)
+            authority = _read_success_evidence(root, run_id, item, frozen_scores.get(item.source_id))
             if item.review_status is ReviewStatus.NOT_REQUIRED and authority["source_hash_missing"]:
                 raise DownloadError("missing source hash success cannot skip review")
             if item.review_status in {ReviewStatus.PENDING, ReviewStatus.RESOLVED} and not authority["source_hash_missing"]:
@@ -621,12 +640,21 @@ def _score_matches(left: ScoreFile, right: ScoreFile) -> bool:
     return left.to_dict() == right.to_dict()
 
 
+def _frozen_score_map(root: Path, run_id: str) -> dict[str, ScoreFile]:
+    try:
+        snapshot = load_complete_snapshot(root, run_id)
+    except (SnapshotError, ValueError) as exc:
+        raise DownloadError("download history requires a valid complete frozen snapshot") from exc
+    scores: dict[str, ScoreFile] = {}
+    for score in snapshot.score_files:
+        if score.source_id in scores:
+            raise DownloadError("frozen snapshot contains duplicate source IDs")
+        scores[score.source_id] = score
+    return scores
+
+
 def _snapshot_score(root: Path, run_id: str, source_id: str) -> ScoreFile | None:
-    snapshot = load_complete_snapshot(root, run_id)
-    matches = [item for item in snapshot.score_files if item.source_id == source_id]
-    if len(matches) > 1:
-        raise DownloadError("frozen snapshot contains duplicate source IDs")
-    return matches[0] if matches else None
+    return _frozen_score_map(root, run_id).get(source_id)
 
 
 def _append_started(
@@ -976,7 +1004,11 @@ def _reconcile_invalid_intent(
             _assert_safe_write_target(root, path, label)
         except ValueError as exc:
             raise DownloadError(f"{label} path is unsafe") from exc
-    if quarantine.exists() or quarantine.is_symlink():
+    source_present = source.exists() or source.is_symlink()
+    quarantine_present = quarantine.exists() or quarantine.is_symlink()
+    if source_present == quarantine_present:
+        raise DownloadError("invalid download quarantine transaction requires exactly one retained copy")
+    if quarantine_present:
         if (
             quarantine.is_symlink()
             or not quarantine.is_file()
@@ -1293,7 +1325,12 @@ def _io_detail(exc: BaseException) -> str:
 
 def _result_from_attempt(root: Path, attempt: DownloadAttempt) -> DownloadResult:
     if attempt.status is DownloadStatus.DOWNLOADED_VERIFIED:
-        evidence = _read_success_evidence(root, attempt.run_id, attempt)
+        evidence = _read_success_evidence(
+            root,
+            attempt.run_id,
+            attempt,
+            _snapshot_score(root, attempt.run_id, attempt.source_id),
+        )
         review_path = (
             _validate_resolved_source_review(root, attempt, evidence)
             if attempt.review_status is ReviewStatus.RESOLVED
@@ -1757,9 +1794,9 @@ def resolve_source_hash_review(root: Path, run_id: str, target: DownloadTarget, 
     latest = max((item for item in attempts if item.source_id == target.score.source_id), key=lambda item: item.attempt_number, default=None)
     if latest is None or latest.status is not DownloadStatus.DOWNLOADED_VERIFIED or latest.review_status is not ReviewStatus.PENDING:
         raise DownloadError("attempt manifest has no matching pending source-hash review")
-    authority = _read_success_evidence(root, run_id, latest)
-    expected_result = _result_from_attempt(root, latest)
     frozen = _snapshot_score(root, run_id, target.score.source_id)
+    authority = _read_success_evidence(root, run_id, latest, frozen)
+    expected_result = _result_from_attempt(root, latest)
     if (
         result != expected_result
         or result.source_id != target.score.source_id

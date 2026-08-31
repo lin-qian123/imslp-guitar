@@ -8,6 +8,7 @@ from datetime import timedelta
 from pathlib import Path
 
 import pytest
+from pypdf import PdfWriter
 
 from imslp_library.downloader import (
     DownloadError,
@@ -613,6 +614,10 @@ def test_exact_override_resolves_prior_manual_review_before_retry(tmp_path):
     assert attempts[0].status is DownloadStatus.MANUAL_REVIEW
     assert attempts[0].review_status is ReviewStatus.RESOLVED
     assert attempts[1].status is DownloadStatus.SOURCE_OVERRIDE_VERIFIED
+    transport = FakeTransport([])
+    assert download_batch(tmp_path, "r1", (target,), transport, FakeClock.fixed()) == ()
+    assert transport.calls == []
+    assert download_completion_blockers(tmp_path, "r1", FakeClock.fixed()) == ()
 
 
 def test_non_success_pdf_response_is_never_accepted(tmp_path):
@@ -737,6 +742,56 @@ def test_every_success_kind_fails_closed_if_object_authority_is_lost(tmp_path, k
     with pytest.raises(DownloadError, match="object|success"):
         download_batch(tmp_path, "r1", (target,), FakeTransport([]), FakeClock.fixed())
     with pytest.raises(DownloadError, match="object|success"):
+        download_completion_blockers(tmp_path, "r1", FakeClock.fixed())
+
+
+@pytest.mark.parametrize("include_sha1", [True, False], ids=["known-hash", "missing-hash"])
+def test_success_evidence_cannot_rebind_to_a_different_valid_pdf(tmp_path, include_sha1):
+    path = valid_pdf(tmp_path)
+    target = target_for_path(path, include_sha1=include_sha1)
+    _initialize_run(tmp_path, "r1", (target,))
+    download_batch(tmp_path, "r1", (target,), FakeTransport([pdf_response(path)]), FakeClock.fixed())
+    attempt = _attempts(tmp_path, "r1")[0]
+
+    rebound = tmp_path / "rebound.pdf"
+    writer = PdfWriter()
+    writer.add_blank_page(width=144, height=144)
+    writer.add_blank_page(width=72, height=72)
+    with rebound.open("wb") as output:
+        writer.write(output)
+    rebound_body = rebound.read_bytes()
+    rebound_sha256 = hashlib.sha256(rebound_body).hexdigest()
+    rebound_sha1 = hashlib.sha1(rebound_body).hexdigest() if include_sha1 else None
+    rebound_object = tmp_path / f"objects/{rebound_sha256[:2]}/{rebound_sha256}.pdf"
+    rebound_object.parent.mkdir(parents=True, exist_ok=True)
+    rebound_object.write_bytes(rebound_body)
+
+    evidence_path = tmp_path / attempt.evidence_path
+    evidence = read_json(evidence_path)
+    evidence |= {
+        "size": len(rebound_body),
+        "sha1": rebound_sha1,
+        "sha256": rebound_sha256,
+        "object_path": rebound_object.relative_to(tmp_path).as_posix(),
+    }
+    atomic_write_json(evidence_path, evidence)
+    rebound_attempt = replace(
+        attempt,
+        bytes_written=len(rebound_body),
+        evidence_sha256=hash_file_sha256(evidence_path),
+    )
+    atomic_write_json(
+        tmp_path / "metadata/runs/r1-download-attempts.json",
+        {
+            "schema_version": 1,
+            "model_type": "DownloadAttemptManifest",
+            "items": [rebound_attempt.to_dict()],
+        },
+    )
+
+    with pytest.raises(DownloadError, match="success|frozen|identity|digest"):
+        download_batch(tmp_path, "r1", (target,), FakeTransport([]), FakeClock.fixed())
+    with pytest.raises(DownloadError, match="success|frozen|identity|digest"):
         download_completion_blockers(tmp_path, "r1", FakeClock.fixed())
 
 
@@ -912,6 +967,38 @@ def test_invalid_quarantine_wal_rejects_unknown_or_symlinked_source(tmp_path, mu
         part.symlink_to(retained)
     with pytest.raises(DownloadError, match="quarantine|source|unsafe|mismatch"):
         download_batch(tmp_path, "r1", (target,), FakeTransport([]), FakeClock.fixed())
+
+
+@pytest.mark.parametrize("mutation", ["both_present", "neither_present"])
+def test_invalid_quarantine_wal_requires_exactly_one_copy(tmp_path, mutation):
+    path = valid_pdf(tmp_path)
+    target = target_for_path(path, include_sha1=False)
+    _initialize_run(tmp_path, "r1", (target,))
+    broken_body = b"%PDF-broken" + b"x" * (path.stat().st_size - len(b"%PDF-broken"))
+    broken = bytes_response(broken_body, "application/pdf", final_url="https://s9.imslp.org/files/score.pdf")
+
+    def crash(phase):
+        if phase == "invalid_intent_written":
+            raise RuntimeError("crash")
+
+    with pytest.raises(RuntimeError):
+        download_batch(tmp_path, "r1", (target,), FakeTransport([broken]), FakeClock.fixed(), transition_hook=crash)
+    intent = next((tmp_path / "quarantine/transactions").glob("download-invalid-*.json"))
+    payload = read_json(intent)
+    source = tmp_path / payload["source_path"]
+    destination = tmp_path / payload["quarantine_path"]
+    if mutation == "both_present":
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_bytes(source.read_bytes())
+    else:
+        source.unlink()
+
+    with pytest.raises(DownloadError, match="exactly one|quarantine"):
+        download_batch(tmp_path, "r1", (target,), FakeTransport([]), FakeClock.fixed())
+    assert intent.is_file()
+    if mutation == "both_present":
+        assert source.is_file()
+        assert destination.is_file()
 
 
 def test_pending_source_hash_review_is_visible_to_status_selector(tmp_path):
