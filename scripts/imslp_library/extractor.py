@@ -14,19 +14,25 @@ from .models import ExtractionDecision, ExtractionResult, ExtractionReview, Froz
 
 
 _INSTRUMENTATION_RE = re.compile(r"(?m)^\|Instrumentation=(?P<value>[^\r\n]*)$")
+_COMMENT_RE = re.compile(r"<!--.*?-->", re.DOTALL)
 _RELATIONSHIP_SUFFIX_RE = re.compile(r"^(?:and|or|with|plus)\b|^[,&/+]")
 _TOKEN_RE = re.compile(r"\w+", re.UNICODE)
 _ARRANGEMENT_BRANCH = "arrangements and transcriptions"
 _ORIGINAL_BRANCH = "scores and parts"
 
 
-def _instrumentation(wikitext: str) -> tuple[str | None, str | None]:
-    marker = wikitext.find("| *****WORK INFO*****")
-    region = wikitext[marker:] if marker >= 0 else wikitext
-    match = _INSTRUMENTATION_RE.search(region)
-    if match is None or not match.group("value").strip():
+def _instrumentation(wikitext: str, work_info_offset: int) -> tuple[str | None, str | None]:
+    region = wikitext[work_info_offset:]
+    searchable = _COMMENT_RE.sub(
+        lambda match: "".join(character if character in "\r\n" else " " for character in match.group(0)),
+        region,
+    )
+    match = _INSTRUMENTATION_RE.search(searchable)
+    if match is None:
         return None, None
-    raw = match.group("value").strip()
+    raw = region[match.start("value"):match.end("value")].strip()
+    if not raw:
+        return None, None
     return raw, normalize_heading(raw)
 
 
@@ -60,6 +66,7 @@ def _evidence(
         heading_raw=node.raw if node is not None else None,
         heading_normalized=node.normalized if node is not None else None,
         heading_ancestry=node.ancestry if node is not None else (),
+        heading_ancestry_normalized=node.normalized_ancestry if node is not None else (),
         instrumentation_raw=instrumentation_raw,
         instrumentation_normalized=instrumentation_normalized,
         branch=branch,
@@ -120,6 +127,23 @@ def _is_mixed_descendant(category: CategoryConfig, node: HeadingNode) -> bool:
     tokens = {token.casefold() for token in _TOKEN_RE.findall(node.normalized)}
     other_instruments = category.annotation_reject_tokens - {"guitar"}
     return bool(tokens & other_instruments)
+
+
+def _mixed_ancestry_node(category: CategoryConfig, node: HeadingNode) -> HeadingNode | None:
+    ancestry: list[HeadingNode] = []
+    cursor: HeadingNode | None = node
+    while cursor is not None:
+        ancestry.append(cursor)
+        cursor = cursor.parent
+    ancestry.reverse()
+    for candidate in ancestry[1:]:
+        if _annotation_status(category, candidate.normalized) in {"exact", "annotation"}:
+            continue
+        if _is_mixed_target_heading(category, candidate.normalized):
+            continue
+        if _is_mixed_descendant(category, candidate):
+            return candidate
+    return None
 
 
 def _target_context(category: CategoryConfig, node: HeadingNode) -> tuple[str, HeadingNode | None]:
@@ -285,7 +309,9 @@ def extract_memberships(
         raise ValueError("wikitext_sha256_mismatch")
 
     tree = parse_heading_tree(wikitext)
-    instrumentation_raw, instrumentation_normalized = _instrumentation(wikitext)
+    instrumentation_raw, instrumentation_normalized = _instrumentation(
+        wikitext, tree.files_region_span[1]
+    )
     decisions: list[ExtractionDecision] = []
     seen_file_ids: set[str] = set()
     for node, chunk in _node_chunks(tree):
@@ -320,6 +346,16 @@ def extract_memberships(
                 page, chunk, node, instrumentation_raw, instrumentation_normalized,
                 disposition="excluded", reason_code="not_pdf",
                 detail="file attachment does not have a PDF filename",
+            ))
+            continue
+
+        mixed_ancestry_node = _mixed_ancestry_node(category, node)
+        if mixed_ancestry_node is not None:
+            decisions.append(_decision(
+                page, chunk, mixed_ancestry_node,
+                instrumentation_raw, instrumentation_normalized,
+                disposition="excluded", reason_code="mixed_instrument_heading",
+                detail="heading ancestry contains mixed instrumentation",
             ))
             continue
 

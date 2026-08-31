@@ -338,6 +338,7 @@ class SelectionEvidence(Model):
     heading_raw: str | None
     heading_normalized: str | None
     heading_ancestry: tuple[str, ...]
+    heading_ancestry_normalized: tuple[str, ...]
     instrumentation_raw: str | None
     instrumentation_normalized: str | None
     branch: str
@@ -349,6 +350,9 @@ class SelectionEvidence(Model):
             if value is not None:
                 _nonempty(value, name)
         _strings(self.heading_ancestry, "heading_ancestry")
+        _strings(self.heading_ancestry_normalized, "heading_ancestry_normalized")
+        if len(self.heading_ancestry) != len(self.heading_ancestry_normalized):
+            raise ValueError("raw and normalized heading ancestry lengths must match")
         _nonempty(self.branch, "branch")
         _nonempty(self.reason_detail, "reason_detail")
 

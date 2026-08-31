@@ -6,8 +6,8 @@ import unicodedata
 from dataclasses import dataclass, field
 
 
-_FILES_MARKER = "| *****FILES*****"
-_WORK_INFO_MARKER = "| *****WORK INFO*****"
+_FILES_MARKER_RE = re.compile(r"(?m)^[ \t]*\|[ \t]*\*{5}FILES\*{5}[ \t]*\r?$")
+_WORK_INFO_MARKER_RE = re.compile(r"(?m)^[ \t]*\|[ \t]*\*{5}WORK INFO\*{5}[ \t]*\r?$")
 _HEADING_RE = re.compile(r"(?m)^(?P<marks>={2,6})[ \t]*(?P<text>.*?)[ \t]*(?P=marks)[ \t]*$")
 _FILE_TEMPLATE_RE = re.compile(r"\{\{#fte:imslpfile\b.*?\}\}", re.IGNORECASE | re.DOTALL)
 _FILE_NAME_RE = re.compile(r"(?mi)^\|File Name 1[ \t]*=[ \t]*(?P<value>[^\r\n]*)$")
@@ -113,13 +113,18 @@ class HeadingTree:
 
 
 def _files_region(wikitext: str) -> tuple[str, int, int]:
-    start_marker = wikitext.find(_FILES_MARKER)
-    if start_marker < 0:
+    marker_text = _COMMENT_RE.sub(
+        lambda match: "".join(character if character in "\r\n" else " " for character in match.group(0)),
+        wikitext,
+    )
+    files_match = _FILES_MARKER_RE.search(marker_text)
+    if files_match is None:
         return "", 0, 0
-    start = start_marker + len(_FILES_MARKER)
-    end = wikitext.find(_WORK_INFO_MARKER, start)
-    if end < 0:
-        end = len(wikitext)
+    work_info_match = _WORK_INFO_MARKER_RE.search(marker_text, files_match.end())
+    if work_info_match is None:
+        return "", 0, 0
+    start = files_match.end()
+    end = work_info_match.start()
     return wikitext[start:end], start, end
 
 
@@ -148,9 +153,22 @@ def parse_heading_tree(wikitext: str) -> HeadingTree:
         raise TypeError("wikitext must be a string")
     region, region_start, region_end = _files_region(wikitext)
     tree = HeadingTree(roots=[], files_region_span=(region_start, region_end))
+    comment_spans = tuple(match.span() for match in _COMMENT_RE.finditer(region))
+
+    def outside_comment(match: re.Match[str]) -> bool:
+        return not any(start <= match.start() < end for start, end in comment_spans)
+
     events: list[tuple[int, int, re.Match[str]]] = []
-    events.extend((match.start(), 0, match) for match in _HEADING_RE.finditer(region))
-    events.extend((match.start(), 1, match) for match in _FILE_TEMPLATE_RE.finditer(region))
+    events.extend(
+        (match.start(), 0, match)
+        for match in _HEADING_RE.finditer(region)
+        if outside_comment(match)
+    )
+    events.extend(
+        (match.start(), 1, match)
+        for match in _FILE_TEMPLATE_RE.finditer(region)
+        if outside_comment(match)
+    )
     events.sort(key=lambda item: (item[0], item[1]))
 
     stack: list[HeadingNode] = []

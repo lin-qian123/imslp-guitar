@@ -220,6 +220,27 @@ def test_mixed_descendant_is_rejected_before_its_file_is_parsed_for_selection():
     assert result.excluded[0].evidence.heading_ancestry[-1] == "With Bass Guitar"
 
 
+@pytest.mark.parametrize(
+    "category_name,instrumentation",
+    [
+        ("For 3 guitars (arr)", "3 guitars"),
+        ("For 3 guitars", "3 guitars"),
+        ("For guitar", "guitar"),
+    ],
+)
+def test_mixed_descendant_gate_applies_to_work_level_and_original_score_paths(
+    category_name, instrumentation
+):
+    text = make_wikitext(
+        "===Scores and Parts===\n====With Bass Guitar====\n"
+        + make_file_template("mixed-descendant.pdf", "699"),
+        instrumentation,
+    )
+    result = _extract_text(text, category_name)
+    assert result.selected == []
+    assert [item.reason_code for item in result.excluded] == ["mixed_instrument_heading"]
+
+
 def test_fullmatch_rejects_unconfigured_or_and_preserves_structured_evidence():
     flexible = extract_fixture("flexible_2_and_3.wiki", "For 2 and 3 guitars (arr)")
     selected = flexible.selected[0]
@@ -228,6 +249,10 @@ def test_fullmatch_rejects_unconfigured_or_and_preserves_structured_evidence():
     assert selected.evidence.heading_ancestry == (
         "Arrangements and Transcriptions",
         "For 2 and 3 Guitars (Doe, Jane)",
+    )
+    assert selected.evidence.heading_ancestry_normalized == (
+        "arrangements and transcriptions",
+        "for 2 and 3 guitars (doe, jane)",
     )
     assert selected.evidence.instrumentation_raw == "orchestra"
     assert selected.evidence.instrumentation_normalized == "orchestra"
@@ -286,6 +311,10 @@ def test_valid_exclusion_review_replay_cannot_select_and_keeps_evidence_referenc
     excluded = replayed.excluded[0]
     assert excluded.source_id == decision.source_id
     assert excluded.evidence.heading_ancestry == decision.evidence.heading_ancestry
+    assert (
+        excluded.evidence.heading_ancestry_normalized
+        == decision.evidence.heading_ancestry_normalized
+    )
     assert review_path.name in excluded.evidence.reason_detail
     assert excluded.reason_code == "extraction_review_exclude"
 

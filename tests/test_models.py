@@ -16,7 +16,7 @@ from imslp_library.enums import (
     SelectionReason,
     StorageMethod,
 )
-from imslp_library.models import ExtractionResult, Model, RunSnapshot, VerificationReport, model_class_for_name
+from imslp_library.models import ExtractionResult, Model, RunSnapshot, SelectionEvidence, VerificationReport, model_class_for_name
 from tests import model_helpers as h
 
 
@@ -68,6 +68,35 @@ def test_extraction_result_properties_preserve_decision_order() -> None:
 def test_frozen_page_allows_empty_category_membership_for_extraction_gates() -> None:
     page = h.make_frozen_page(category_names=())
     assert page.category_names == ()
+
+
+def test_selection_evidence_has_persisted_raw_and_normalized_ancestry_schema() -> None:
+    assert tuple(field.name for field in fields(SelectionEvidence)) == (
+        "heading_raw",
+        "heading_normalized",
+        "heading_ancestry",
+        "heading_ancestry_normalized",
+        "instrumentation_raw",
+        "instrumentation_normalized",
+        "branch",
+        "reason_detail",
+    )
+    evidence = h.make_evidence()
+    assert evidence.to_dict()["heading_ancestry_normalized"] == [
+        "arrangements and transcriptions",
+        "for 3 guitars",
+    ]
+    missing_normalized_ancestry = evidence.to_dict()
+    missing_normalized_ancestry.pop("heading_ancestry_normalized")
+    with pytest.raises(ValueError, match="missing"):
+        SelectionEvidence.from_dict(missing_normalized_ancestry)
+
+
+def test_selection_evidence_ancestries_are_tuples_with_equal_lengths() -> None:
+    with pytest.raises((TypeError, ValueError)):
+        h.make_evidence(heading_ancestry_normalized=["for 3 guitars"])
+    with pytest.raises(ValueError, match="ancestry"):
+        h.make_evidence(heading_ancestry_normalized=("for 3 guitars",))
 
 
 @pytest.mark.parametrize(("factory", "changes"), [

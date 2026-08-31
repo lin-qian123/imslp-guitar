@@ -60,7 +60,7 @@ def make_score(file_id: str = "301", **overrides):
 
 
 def make_evidence(**overrides):
-    return _build(SelectionEvidence, {"heading_raw": "For 3 Guitars", "heading_normalized": "for 3 guitars", "heading_ancestry": ("Arrangements and Transcriptions", "For 3 Guitars"), "instrumentation_raw": "orchestra", "instrumentation_normalized": "orchestra", "branch": "Arrangements and Transcriptions", "reason_detail": "exact heading"}, overrides)
+    return _build(SelectionEvidence, {"heading_raw": "For 3 Guitars", "heading_normalized": "for 3 guitars", "heading_ancestry": ("Arrangements and Transcriptions", "For 3 Guitars"), "heading_ancestry_normalized": ("arrangements and transcriptions", "for 3 guitars"), "instrumentation_raw": "orchestra", "instrumentation_normalized": "orchestra", "branch": "Arrangements and Transcriptions", "reason_detail": "exact heading"}, overrides)
 
 
 def make_membership(category: str = CATEGORY, filename: str = "score.pdf", **overrides):
