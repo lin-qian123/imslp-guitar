@@ -509,6 +509,27 @@ def _reconcile_checkpoint_transition(
         )
     ):
         raise SnapshotError("checkpoint authority found an invalid transition write order")
+    valid_snapshot_digests = {
+        digest
+        for matches, digest in (
+            (snapshot_is_predecessor, predecessor["snapshot_sha256"]),
+            (snapshot_is_target, target["snapshot_sha256"]),
+        )
+        if matches
+    }
+    valid_state_digests = {
+        digest
+        for matches, digest in (
+            (state_is_predecessor, predecessor["state_sha256"]),
+            (state_is_target, target["state_sha256"]),
+        )
+        if matches
+    }
+    if (
+        _sha256_file(snapshot_path) not in valid_snapshot_digests
+        or _sha256_file(state_path) not in valid_state_digests
+    ):
+        raise SnapshotError("checkpoint transition current model byte digest mismatch")
     if authority_kind == "target" and not (snapshot_is_target and state_is_target):
         raise SnapshotError("checkpoint authority advanced before snapshot/state")
     if not snapshot_is_target:
@@ -710,6 +731,21 @@ def _reconcile_completion(
         ("target", "target"),
     }:
         raise SnapshotError("snapshot/state do not match completion intent transition")
+    current_snapshot_digest = (
+        predecessor_authority["snapshot_sha256"]
+        if snapshot_kind == "predecessor"
+        else payload["snapshot_sha256"]
+    )
+    current_state_digest = (
+        predecessor_authority["state_sha256"]
+        if state_kind == "predecessor"
+        else _sha256_bytes(_canonical_bytes(expected_state.to_dict()))
+    )
+    if (
+        _sha256_file(snapshot_path) != current_snapshot_digest
+        or _sha256_file(state_path) != current_state_digest
+    ):
+        raise SnapshotError("completion transition current model byte digest mismatch")
     authority_present = authority_path.exists() or authority_path.is_symlink()
     if authority_present:
         if authority_path.is_symlink() or not authority_path.is_file():

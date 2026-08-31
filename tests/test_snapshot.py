@@ -126,6 +126,13 @@ def _read_state(root: Path) -> RunState:
     return RunState.from_dict(json.loads((root / f"metadata/runs/{RUN_ID}-state.json").read_text(encoding="utf-8")))
 
 
+def _rewrite_noncanonical(path: Path) -> bytes:
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    content = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+    path.write_bytes(content)
+    return content
+
+
 def test_initial_files_exist_before_network_and_category_resume_is_config_bound(tmp_path: Path) -> None:
     config = _config(tmp_path, 2)
     snapshot_path = tmp_path / f"metadata/runs/{RUN_ID}.json"
@@ -854,3 +861,95 @@ def test_exact_batch_transition_recovers_without_refetching_committed_batch(tmp_
     assert ("exact_revisions", (201,)) not in resumed.calls
     assert ("exact_revisions", (202,)) in resumed.calls
     assert not transition_path.exists() and not authority_path.exists()
+
+
+@pytest.mark.parametrize("artifact", ["snapshot", "state"])
+def test_checkpoint_transition_rejects_noncanonical_predecessor_bytes_before_overwrite(
+    tmp_path: Path,
+    monkeypatch,
+    artifact: str,
+) -> None:
+    config = _config(tmp_path)
+    library = tmp_path / artifact
+    snapshot_path = library / f"metadata/runs/{RUN_ID}.json"
+    state_path = library / f"metadata/runs/{RUN_ID}-state.json"
+    transition_path = library / f"metadata/runs/{RUN_ID}-checkpoint-transition.json"
+    real_write = snapshot_module.atomic_write_json
+
+    def interrupt_category_snapshot(path, mapping):
+        if (
+            Path(path) == snapshot_path
+            and mapping.get("model_type") == "RunSnapshot"
+            and bool(mapping.get("categories"))
+        ):
+            raise SimulatedPowerLoss("lost before category snapshot replacement")
+        return real_write(path, mapping)
+
+    monkeypatch.setattr(snapshot_module, "atomic_write_json", interrupt_category_snapshot)
+    first = SnapshotClient(
+        _members(config, 101),
+        (_revision(101, 201, "Work 101 (Composer, Test)", ALPHA),),
+        (_file("301", "alpha.pdf"),),
+    )
+    with pytest.raises(SimulatedPowerLoss):
+        freeze_snapshot(library, RUN_ID, config, first, FakeClock.fixed())
+    assert transition_path.is_file()
+
+    monkeypatch.setattr(snapshot_module, "atomic_write_json", real_write)
+    mutated_path = snapshot_path if artifact == "snapshot" else state_path
+    _rewrite_noncanonical(mutated_path)
+    before_snapshot = snapshot_path.read_bytes()
+    before_state = state_path.read_bytes()
+    no_requests = SnapshotClient({}, (), ())
+
+    with pytest.raises(SnapshotError, match="checkpoint transition.*byte digest"):
+        freeze_snapshot(library, RUN_ID, config, no_requests, FakeClock.fixed())
+    assert no_requests.calls == []
+    assert snapshot_path.read_bytes() == before_snapshot
+    assert state_path.read_bytes() == before_state
+
+
+@pytest.mark.parametrize("artifact", ["snapshot", "state"])
+def test_completion_transition_rejects_noncanonical_predecessor_bytes_before_overwrite(
+    tmp_path: Path,
+    monkeypatch,
+    artifact: str,
+) -> None:
+    config = _config(tmp_path)
+    library = tmp_path / artifact
+    snapshot_path = library / f"metadata/runs/{RUN_ID}.json"
+    state_path = library / f"metadata/runs/{RUN_ID}-state.json"
+    completion_path = library / f"metadata/runs/{RUN_ID}-completion.json"
+    real_write = snapshot_module.atomic_write_json
+
+    def interrupt_complete_snapshot(path, mapping):
+        if (
+            Path(path) == snapshot_path
+            and mapping.get("status") == RunStatus.SNAPSHOT_COMPLETE.value
+            and completion_path.exists()
+        ):
+            raise SimulatedPowerLoss("lost before complete snapshot replacement")
+        return real_write(path, mapping)
+
+    monkeypatch.setattr(snapshot_module, "atomic_write_json", interrupt_complete_snapshot)
+    first = SnapshotClient(
+        _members(config, 101),
+        (_revision(101, 201, "Work 101 (Composer, Test)", ALPHA),),
+        (_file("301", "alpha.pdf"),),
+    )
+    with pytest.raises(SimulatedPowerLoss):
+        freeze_snapshot(library, RUN_ID, config, first, FakeClock.fixed())
+    assert completion_path.is_file()
+
+    monkeypatch.setattr(snapshot_module, "atomic_write_json", real_write)
+    mutated_path = snapshot_path if artifact == "snapshot" else state_path
+    _rewrite_noncanonical(mutated_path)
+    before_snapshot = snapshot_path.read_bytes()
+    before_state = state_path.read_bytes()
+    no_requests = SnapshotClient({}, (), ())
+
+    with pytest.raises(SnapshotError, match="completion transition.*byte digest"):
+        freeze_snapshot(library, RUN_ID, config, no_requests, FakeClock.fixed())
+    assert no_requests.calls == []
+    assert snapshot_path.read_bytes() == before_snapshot
+    assert state_path.read_bytes() == before_state
