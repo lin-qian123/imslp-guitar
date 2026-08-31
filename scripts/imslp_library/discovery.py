@@ -62,15 +62,6 @@ _RENAME_KEYS = {
     "source_member_count",
     "candidate_member_count",
 }
-_FILTER_REASONS = {
-    "malformed_name",
-    "not_guitar",
-    "electric_guitar",
-    "bass_guitar",
-    "mixed_instrumentation",
-    "unsupported_guitar_structure",
-    "zero_members",
-}
 _TRANSITION_KEYS = {
     "schema_version",
     "model_type",
@@ -349,7 +340,7 @@ def _validate_drift_report(
     change_items = items("member_count_changes", _COUNT_CHANGE_KEYS)
     rename_items = items("possible_renames", _RENAME_KEYS)
 
-    def validate_candidate(item: dict[str, object], group: str) -> str:
+    def validate_candidate(item: dict[str, object], group: str) -> AllCategory:
         candidate_name = name(item["name"], group)
         size = count(item["size"], group)
         pages = count(item["page_count"], group)
@@ -357,16 +348,22 @@ def _validate_drift_report(
         subcategories = count(item["subcategory_count"], group)
         if size != pages + files + subcategories:
             raise SnapshotError(f"drift report {group} counts are inconsistent")
-        return candidate_name
+        return AllCategory(candidate_name, size, pages, files, subcategories)
 
-    new_names = [validate_candidate(item, "new_candidates") for item in new_items]
-    filtered_names = [
+    new_categories = [
+        validate_candidate(item, "new_candidates") for item in new_items
+    ]
+    filtered_categories = [
         validate_candidate(item, "filtered_candidates") for item in filtered_items
     ]
+    new_names = [category.name for category in new_categories]
+    filtered_names = [category.name for category in filtered_categories]
+    if any(_filter_reason(category) is not None for category in new_categories):
+        raise SnapshotError("drift report new_candidates must be pure nonempty guitar categories")
     if any(
         not isinstance(item["reason"], str)
-        or item["reason"] not in _FILTER_REASONS
-        for item in filtered_items
+        or item["reason"] != _filter_reason(category)
+        for item, category in zip(filtered_items, filtered_categories, strict=True)
     ):
         raise SnapshotError("drift report filtered_candidates reason is invalid")
 
@@ -418,8 +415,27 @@ def _validate_drift_report(
         raise SnapshotError("drift report candidate groups overlap")
     if set(empty_names) & set(deleted_names):
         raise SnapshotError("drift report empty and deleted groups overlap")
+    evidence_names = set(empty_names) | set(deleted_names) | set(change_names)
+    if (set(new_names) | set(filtered_names)) & evidence_names:
+        raise SnapshotError("drift report candidate and allowlisted evidence groups overlap")
     if actual_phase == "standalone" and (change_items or rename_items):
         raise SnapshotError("standalone drift report cannot compare counts or renames")
+    if actual_phase != "standalone":
+        changes = {
+            item["name"]: (item["previous_member_count"], item["current_member_count"])
+            for item in change_items
+        }
+        for source_name, previous in (empty_counts | deleted_counts).items():
+            expected = (previous, 0) if previous and previous > 0 else None
+            if changes.get(source_name) != expected:
+                raise SnapshotError(
+                    "drift report empty or deleted category change evidence is incomplete"
+                )
+        if any(
+            current == 0 and changed_name not in empty_counts | deleted_counts
+            for changed_name, (_, current) in changes.items()
+        ):
+            raise SnapshotError("drift report zero count change lacks category evidence")
     if config is not None:
         approved = {category.name for category in config.categories}
         if not (set(empty_names) | set(deleted_names) | set(change_names)) <= approved:
@@ -442,6 +458,11 @@ def _validate_drift_report(
         candidate_count = count(item["candidate_member_count"], "possible_renames")
         if distance > 6:
             raise SnapshotError("drift report rename distance exceeds threshold")
+        expected_distance = _levenshtein(
+            _normalized_name(source_name), _normalized_name(candidate_name)
+        )
+        if distance != expected_distance:
+            raise SnapshotError("drift report rename distance is inconsistent")
         if type(overlap) is not float or not math.isfinite(overlap) or not 0.80 <= overlap <= 1.0:
             raise SnapshotError("drift report rename overlap is invalid")
         if source_name not in source_counts or candidate_name not in new_counts:

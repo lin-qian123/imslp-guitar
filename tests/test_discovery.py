@@ -1071,6 +1071,63 @@ def test_existing_pointer_rejects_invalid_group_schema_before_network(
     assert transport.calls == []
 
 
+@pytest.mark.parametrize(
+    "forgery",
+    [
+        "new_candidate_is_filtered",
+        "filtered_reason_is_not_recomputed",
+        "filtered_candidate_overlaps_allowlisted_evidence",
+        "positive_empty_category_has_no_zero_change",
+        "rename_distance_is_not_recomputed",
+    ],
+)
+def test_reviewer_forged_report_semantics_are_rejected(
+    tmp_path: Path,
+    forgery: str,
+) -> None:
+    config_path = tmp_path / "config/categories.json"
+    _write_allowlist(config_path)
+    config = load_allowlist(config_path)
+    report = _strict_run_report(config.config_hash)
+    if forgery == "new_candidate_is_filtered":
+        report["new_candidates"][0]["name"] = "For guitar and violin"
+        report["possible_renames"] = []
+    elif forgery == "filtered_reason_is_not_recomputed":
+        report["filtered_candidates"] = [
+            {
+                "name": "For electric guitar",
+                "size": 1,
+                "page_count": 1,
+                "file_count": 0,
+                "subcategory_count": 0,
+                "reason": "bass_guitar",
+            }
+        ]
+    elif forgery == "filtered_candidate_overlaps_allowlisted_evidence":
+        report["filtered_candidates"] = [
+            {
+                "name": "For 3 guitars (arr)",
+                "size": 0,
+                "page_count": 0,
+                "file_count": 0,
+                "subcategory_count": 0,
+                "reason": "zero_members",
+            }
+        ]
+    elif forgery == "positive_empty_category_has_no_zero_change":
+        report["member_count_changes"] = []
+    elif forgery == "rename_distance_is_not_recomputed":
+        report["possible_renames"][0]["name_distance"] = 1
+
+    with pytest.raises(SnapshotError, match="drift report"):
+        discovery_module._validate_drift_report(
+            report,
+            run_id=RUN_ID,
+            phase="run_start",
+            config=config,
+        )
+
+
 @pytest.mark.parametrize("leaf", ["snapshot", "state"])
 def test_leaf_swap_during_network_is_rejected_without_following_symlink(
     tmp_path: Path,
