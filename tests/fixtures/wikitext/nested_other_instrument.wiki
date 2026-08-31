@@ -1,0 +1,10 @@
+| *****FILES*****
+===Arrangements and Transcriptions===
+====For 3 Guitars====
+=====With Bass Guitar=====
+{{#fte:imslpfile
+|File Name 1=child-bass.pdf
+|File ID=301
+}}
+| *****WORK INFO*****
+|Instrumentation=orchestra

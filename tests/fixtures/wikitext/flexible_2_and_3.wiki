@@ -1,0 +1,9 @@
+| *****FILES*****
+===Arrangements and Transcriptions===
+====For 2 and 3 Guitars (Doe, Jane)====
+{{#fte:imslpfile
+|File Name 1=flexible.pdf
+|File ID=601
+}}
+| *****WORK INFO*****
+|Instrumentation=orchestra

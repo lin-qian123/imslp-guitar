@@ -1,0 +1,9 @@
+| *****FILES*****
+===Arrangements and Transcriptions===
+====For 3 Guitars and Double Bass or Bass Guitar (Rest)====
+{{#fte:imslpfile
+|File Name 1=mixed-score.pdf
+|File ID=201
+}}
+| *****WORK INFO*****
+|Instrumentation=orchestra

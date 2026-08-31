@@ -1,0 +1,8 @@
+| *****FILES*****
+===Scores and Parts===
+{{#fte:imslpfile
+|File Name 1=mixed-work-level.pdf
+|File ID=502
+}}
+| *****WORK INFO*****
+|Instrumentation=3 guitars and double bass

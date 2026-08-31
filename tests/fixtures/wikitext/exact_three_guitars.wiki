@@ -1,0 +1,13 @@
+| *****FILES*****
+===Arrangements and Transcriptions===
+====For 3 Guitars (Smith, John)====
+{{#fte:imslpfile
+|File Name 1=three-guitars.pdf
+|File ID=101
+}}
+{{#fte:imslpfile
+|File Name 1=source.mscz
+|File ID=102
+}}
+| *****WORK INFO*****
+|Instrumentation=orchestra

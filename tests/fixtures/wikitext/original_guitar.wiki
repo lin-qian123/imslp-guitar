@@ -1,0 +1,14 @@
+| *****FILES*****
+===Scores and Parts===
+{{#fte:imslpfile
+|File Name 1=original.pdf
+|File ID=401
+}}
+===Arrangements and Transcriptions===
+====For Piano====
+{{#fte:imslpfile
+|File Name 1=piano.pdf
+|File ID=402
+}}
+| *****WORK INFO*****
+|Instrumentation=guitar
