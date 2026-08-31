@@ -9,6 +9,7 @@ from urllib.parse import parse_qs, urlsplit
 
 import pytest
 
+import imslp_library.discovery as discovery_module
 from imslp_library.client import CategoryInfo, ImslpClient, ImslpClientError
 from imslp_library.config import load_allowlist
 from imslp_library.discovery import DiscoveryResult, discover_category_drift
@@ -201,6 +202,62 @@ def _base_responses() -> list[object]:
         json_response(_categoryinfo("For 3 guitars (arr)", 0)),
         json_response(_categoryinfo("For guitar", 3)),
     ]
+
+
+def _run_responses() -> list[object]:
+    first, second = _fixture_pages()
+    return [
+        json_response(first),
+        json_response(second),
+        json_response(_categoryinfo("For 3 guitars (arr)", 0)),
+        json_response(_categoryinfo("For guitar", 3)),
+        json_response(_members("For 3 guitars", (1, 2, 8, 9))),
+        json_response(_members("For 3-guitars (arr)", (1, 2, 3, 4))),
+        json_response(_members("For 4 guitars", (30, 31, 32, 33, 34, 35))),
+    ]
+
+
+def _strict_run_report(config_hash: str) -> dict[str, object]:
+    return _drift_report(
+        "run_start",
+        allowlist_sha256=config_hash,
+        new_candidates=[
+            {
+                "name": "For 3-guitars (arr)",
+                "size": 4,
+                "page_count": 4,
+                "file_count": 0,
+                "subcategory_count": 0,
+            }
+        ],
+        empty_categories=[
+            {"name": "For 3 guitars (arr)", "previous_member_count": 5}
+        ],
+        member_count_changes=[
+            {
+                "name": "For 3 guitars (arr)",
+                "previous_member_count": 5,
+                "current_member_count": 0,
+            }
+        ],
+        possible_renames=[
+            {
+                "source_name": "For 3 guitars (arr)",
+                "candidate_name": "For 3-guitars (arr)",
+                "name_distance": 0,
+                "jaccard_overlap": 0.8,
+                "source_member_count": 5,
+                "candidate_member_count": 4,
+            }
+        ],
+    )
+
+
+def _canonical_test_bytes(mapping: dict[str, object]) -> bytes:
+    return (
+        json.dumps(mapping, ensure_ascii=False, sort_keys=True, indent=2, allow_nan=False)
+        + "\n"
+    ).encode("utf-8")
 
 
 def test_collects_paginated_candidates_and_preserves_filter_evidence(tmp_path: Path) -> None:
@@ -732,3 +789,440 @@ def test_existing_pointer_is_revalidated_under_lock_after_network(
     assert not (tmp_path / f"metadata/runs/{RUN_ID}-category-drift-end.json").exists()
     state = RunState.from_dict(read_json(state_path))
     assert state.end_drift_report_path is None
+
+
+@pytest.mark.parametrize(
+    "crash_stage",
+    ["after_wal", "after_immutable", "after_alias", "after_state", "before_cleanup"],
+)
+def test_run_transition_recovers_every_crash_window_without_network(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    crash_stage: str,
+) -> None:
+    config_path = tmp_path / "config/categories.json"
+    _write_allowlist(config_path)
+    config = load_allowlist(config_path)
+    _write_complete_run(tmp_path, config.config_hash)
+
+    def fail_at(stage: str) -> None:
+        if stage == crash_stage:
+            raise RuntimeError(f"injected crash at {stage}")
+
+    monkeypatch.setattr(discovery_module, "_transition_stage", fail_at)
+    with pytest.raises(RuntimeError, match="injected crash"):
+        discover_category_drift(
+            tmp_path,
+            config,
+            ImslpClient(transport=FakeTransport(_run_responses()), clock=FakeClock(NOW)),
+            FakeClock(NOW),
+            phase="run_start",
+            compare_run_id=RUN_ID,
+        )
+    transition_path = (
+        tmp_path / f"metadata/runs/{RUN_ID}-category-drift-start-transition.json"
+    )
+    assert transition_path.is_file()
+    intent = read_json(transition_path)
+    expected_report = intent["report"]
+    expected_hash = intent["report_sha256"]
+
+    monkeypatch.setattr(discovery_module, "_transition_stage", lambda stage: None)
+    transport = FakeTransport([])
+    result = discover_category_drift(
+        tmp_path,
+        config,
+        ImslpClient(transport=transport, clock=FakeClock(NOW)),
+        FakeClock(NOW),
+        phase="run_start",
+        compare_run_id=RUN_ID,
+    )
+
+    assert transport.calls == []
+    assert result.report == expected_report
+    assert result.report_sha256 == expected_hash
+    assert result.report_path == f"metadata/runs/{RUN_ID}-category-drift-start.json"
+    assert not transition_path.exists()
+    state = RunState.from_dict(
+        read_json(tmp_path / f"metadata/runs/{RUN_ID}-state.json")
+    )
+    assert state.start_drift_report_sha256 == expected_hash
+
+
+def test_run_end_transition_recovers_with_existing_start_alias_without_network(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    config_path = tmp_path / "config/categories.json"
+    _write_allowlist(config_path)
+    config = load_allowlist(config_path)
+    _write_complete_run(tmp_path, config.config_hash)
+    start = discover_category_drift(
+        tmp_path,
+        config,
+        ImslpClient(transport=FakeTransport(_run_responses()), clock=FakeClock(NOW)),
+        FakeClock(NOW),
+        phase="run_start",
+        compare_run_id=RUN_ID,
+    )
+
+    def crash_after_alias(stage: str) -> None:
+        if stage == "after_alias":
+            raise RuntimeError("injected crash after end alias")
+
+    monkeypatch.setattr(discovery_module, "_transition_stage", crash_after_alias)
+    with pytest.raises(RuntimeError, match="injected crash after end alias"):
+        discover_category_drift(
+            tmp_path,
+            config,
+            ImslpClient(transport=FakeTransport(_run_responses()), clock=FakeClock(NOW)),
+            FakeClock(NOW),
+            phase="run_end",
+            compare_run_id=RUN_ID,
+        )
+
+    transition_path = (
+        tmp_path / f"metadata/runs/{RUN_ID}-category-drift-end-transition.json"
+    )
+    intent = read_json(transition_path)
+    monkeypatch.setattr(discovery_module, "_transition_stage", lambda stage: None)
+    transport = FakeTransport([])
+    end = discover_category_drift(
+        tmp_path,
+        config,
+        ImslpClient(transport=transport, clock=FakeClock(NOW)),
+        FakeClock(NOW),
+        phase="run_end",
+        compare_run_id=RUN_ID,
+    )
+
+    assert transport.calls == []
+    assert end.report == intent["report"]
+    assert end.report_sha256 == intent["report_sha256"]
+    assert not transition_path.exists()
+    state = RunState.from_dict(
+        read_json(tmp_path / f"metadata/runs/{RUN_ID}-state.json")
+    )
+    assert state.start_drift_report_path == start.report_path
+    assert state.start_drift_report_sha256 == start.report_sha256
+    assert state.end_drift_report_path == end.report_path
+    assert state.end_drift_report_sha256 == end.report_sha256
+    assert read_json(tmp_path / "metadata/category_drift_report.json") == end.report
+
+
+def test_transition_recovery_rejects_unknown_alias_without_network(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    config_path = tmp_path / "config/categories.json"
+    _write_allowlist(config_path)
+    config = load_allowlist(config_path)
+    _write_complete_run(tmp_path, config.config_hash)
+
+    def crash_after_immutable(stage: str) -> None:
+        if stage == "after_immutable":
+            raise RuntimeError("injected crash")
+
+    monkeypatch.setattr(discovery_module, "_transition_stage", crash_after_immutable)
+    with pytest.raises(RuntimeError, match="injected crash"):
+        discover_category_drift(
+            tmp_path,
+            config,
+            ImslpClient(transport=FakeTransport(_run_responses()), clock=FakeClock(NOW)),
+            FakeClock(NOW),
+            phase="run_start",
+            compare_run_id=RUN_ID,
+        )
+    alias = tmp_path / "metadata/category_drift_report.json"
+    atomic_write_json(alias, _drift_report("standalone", compare_run_id=None))
+    monkeypatch.setattr(discovery_module, "_transition_stage", lambda stage: None)
+    transport = FakeTransport([])
+
+    with pytest.raises(SnapshotError, match="alias.*predecessor|transition"):
+        discover_category_drift(
+            tmp_path,
+            config,
+            ImslpClient(transport=transport, clock=FakeClock(NOW)),
+            FakeClock(NOW),
+            phase="run_start",
+            compare_run_id=RUN_ID,
+        )
+    assert transport.calls == []
+
+
+def test_pending_run_transition_blocks_standalone_alias_update_before_network(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    config_path = tmp_path / "config/categories.json"
+    _write_allowlist(config_path)
+    config = load_allowlist(config_path)
+    _write_complete_run(tmp_path, config.config_hash)
+
+    def crash_after_wal(stage: str) -> None:
+        if stage == "after_wal":
+            raise RuntimeError("injected crash")
+
+    monkeypatch.setattr(discovery_module, "_transition_stage", crash_after_wal)
+    with pytest.raises(RuntimeError, match="injected crash"):
+        discover_category_drift(
+            tmp_path,
+            config,
+            ImslpClient(transport=FakeTransport(_run_responses()), clock=FakeClock(NOW)),
+            FakeClock(NOW),
+            phase="run_start",
+            compare_run_id=RUN_ID,
+        )
+    transport = FakeTransport([])
+
+    with pytest.raises(SnapshotError, match="transition.*standalone"):
+        discover_category_drift(
+            tmp_path,
+            config,
+            ImslpClient(transport=transport, clock=FakeClock(NOW)),
+            FakeClock(NOW),
+        )
+    assert transport.calls == []
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    [
+        "new_negative",
+        "new_duplicate",
+        "new_extra_key",
+        "new_unsorted",
+        "filtered_bad_reason",
+        "empty_deleted_overlap",
+        "unchanged_count",
+        "rename_candidate_missing",
+        "rename_distance_high",
+        "rename_overlap_low",
+        "rename_count_mismatch",
+    ],
+)
+def test_existing_pointer_rejects_invalid_group_schema_before_network(
+    tmp_path: Path,
+    mutation: str,
+) -> None:
+    config_path = tmp_path / "config/categories.json"
+    _write_allowlist(config_path)
+    config = load_allowlist(config_path)
+    _, state_path = _write_complete_run(tmp_path, config.config_hash)
+    report = _strict_run_report(config.config_hash)
+    if mutation == "new_negative":
+        report["new_candidates"][0]["size"] = -1
+    elif mutation == "new_duplicate":
+        report["new_candidates"].append(dict(report["new_candidates"][0]))
+    elif mutation == "new_extra_key":
+        report["new_candidates"][0]["unexpected"] = True
+    elif mutation == "new_unsorted":
+        report["new_candidates"].append(
+            {
+                "name": "For 2 guitars",
+                "size": 1,
+                "page_count": 1,
+                "file_count": 0,
+                "subcategory_count": 0,
+            }
+        )
+    elif mutation == "filtered_bad_reason":
+        report["filtered_candidates"] = [
+            {
+                "name": "For electric guitar",
+                "size": 1,
+                "page_count": 1,
+                "file_count": 0,
+                "subcategory_count": 0,
+                "reason": "invented",
+            }
+        ]
+    elif mutation == "empty_deleted_overlap":
+        report["deleted_categories"] = [
+            {"name": "For 3 guitars (arr)", "previous_member_count": 5}
+        ]
+    elif mutation == "unchanged_count":
+        report["member_count_changes"][0]["current_member_count"] = 5
+    elif mutation == "rename_candidate_missing":
+        report["possible_renames"][0]["candidate_name"] = "For 5 guitars"
+    elif mutation == "rename_distance_high":
+        report["possible_renames"][0]["name_distance"] = 7
+    elif mutation == "rename_overlap_low":
+        report["possible_renames"][0]["jaccard_overlap"] = 0.79
+    elif mutation == "rename_count_mismatch":
+        report["possible_renames"][0]["candidate_member_count"] = 3
+    _bind_existing_drift(
+        tmp_path,
+        state_path,
+        config.config_hash,
+        report_overrides=report,
+    )
+    transport = FakeTransport([])
+
+    with pytest.raises(SnapshotError, match="drift report"):
+        discover_category_drift(
+            tmp_path,
+            config,
+            ImslpClient(transport=transport, clock=FakeClock(NOW)),
+            FakeClock(NOW),
+            phase="run_end",
+            compare_run_id=RUN_ID,
+        )
+    assert transport.calls == []
+
+
+@pytest.mark.parametrize("leaf", ["snapshot", "state"])
+def test_leaf_swap_during_network_is_rejected_without_following_symlink(
+    tmp_path: Path,
+    leaf: str,
+) -> None:
+    config_path = tmp_path / "config/categories.json"
+    _write_allowlist(config_path)
+    config = load_allowlist(config_path)
+    snapshot_path, state_path = _write_complete_run(tmp_path, config.config_hash)
+    target = snapshot_path if leaf == "snapshot" else state_path
+    outside = tmp_path.parent / f"outside-{leaf}-swap.json"
+    outside.write_bytes(target.read_bytes())
+
+    class LeafSwapClient:
+        def allcategories(self, *, prefix: str = ""):
+            assert prefix == "For"
+            target.unlink()
+            target.symlink_to(outside)
+            return ()
+
+        def category_info(self, name: str) -> CategoryInfo:
+            return CategoryInfo(name, 1, 0, 0)
+
+    with pytest.raises((SnapshotError, ValueError), match="symlink|unsafe|regular"):
+        discover_category_drift(
+            tmp_path,
+            config,
+            LeafSwapClient(),  # type: ignore[arg-type]
+            FakeClock(NOW),
+            phase="run_start",
+            compare_run_id=RUN_ID,
+        )
+    assert outside.read_bytes()
+
+
+def test_full_validator_rejects_nonfinite_overlap() -> None:
+    report = _strict_run_report("a" * 64)
+    report["possible_renames"][0]["jaccard_overlap"] = float("nan")
+
+    with pytest.raises(SnapshotError, match="rename overlap"):
+        discovery_module._validate_drift_report(report)
+
+
+def test_immutable_orphan_without_wal_fails_closed_before_network(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    config_path = tmp_path / "config/categories.json"
+    _write_allowlist(config_path)
+    config = load_allowlist(config_path)
+    _write_complete_run(tmp_path, config.config_hash)
+
+    def crash_after_immutable(stage: str) -> None:
+        if stage == "after_immutable":
+            raise RuntimeError("injected crash")
+
+    monkeypatch.setattr(discovery_module, "_transition_stage", crash_after_immutable)
+    with pytest.raises(RuntimeError, match="injected crash"):
+        discover_category_drift(
+            tmp_path,
+            config,
+            ImslpClient(transport=FakeTransport(_run_responses()), clock=FakeClock(NOW)),
+            FakeClock(NOW),
+            phase="run_start",
+            compare_run_id=RUN_ID,
+        )
+    transition = (
+        tmp_path / f"metadata/runs/{RUN_ID}-category-drift-start-transition.json"
+    )
+    transition.unlink()
+    monkeypatch.setattr(discovery_module, "_transition_stage", lambda stage: None)
+    transport = FakeTransport([])
+
+    with pytest.raises((SnapshotError, FileExistsError), match="report|transition|exists"):
+        discover_category_drift(
+            tmp_path,
+            config,
+            ImslpClient(transport=transport, clock=FakeClock(NOW)),
+            FakeClock(NOW),
+            phase="run_start",
+            compare_run_id=RUN_ID,
+        )
+    assert transport.calls == []
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    ["intent_identity", "intent_symlink", "unknown_report", "unknown_state"],
+)
+def test_transition_recovery_rejects_unknown_or_forged_state_before_network(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    mutation: str,
+) -> None:
+    config_path = tmp_path / "config/categories.json"
+    _write_allowlist(config_path)
+    config = load_allowlist(config_path)
+    _, state_path = _write_complete_run(tmp_path, config.config_hash)
+
+    def crash_after_wal(stage: str) -> None:
+        if stage == "after_wal":
+            raise RuntimeError("injected crash")
+
+    monkeypatch.setattr(discovery_module, "_transition_stage", crash_after_wal)
+    with pytest.raises(RuntimeError, match="injected crash"):
+        discover_category_drift(
+            tmp_path,
+            config,
+            ImslpClient(transport=FakeTransport(_run_responses()), clock=FakeClock(NOW)),
+            FakeClock(NOW),
+            phase="run_start",
+            compare_run_id=RUN_ID,
+        )
+    transition = (
+        tmp_path / f"metadata/runs/{RUN_ID}-category-drift-start-transition.json"
+    )
+    if mutation == "intent_identity":
+        intent = read_json(transition)
+        intent["report_sha256"] = "f" * 64
+        unsigned = dict(intent)
+        unsigned.pop("intent_sha256")
+        intent["intent_sha256"] = hashlib.sha256(
+            _canonical_test_bytes(unsigned)
+        ).hexdigest()
+        atomic_write_json(transition, intent)
+    elif mutation == "intent_symlink":
+        outside = tmp_path.parent / "outside-transition.json"
+        outside.write_bytes(transition.read_bytes())
+        transition.unlink()
+        transition.symlink_to(outside)
+    elif mutation == "unknown_report":
+        report_path = tmp_path / f"metadata/runs/{RUN_ID}-category-drift-start.json"
+        atomic_write_json(report_path, _drift_report("standalone", compare_run_id=None))
+    elif mutation == "unknown_state":
+        state = RunState.from_dict(read_json(state_path))
+        atomic_write_json(
+            state_path,
+            replace(
+                state,
+                updated_at=datetime(2026, 8, 31, 12, 2, tzinfo=timezone.utc),
+            ).to_dict(),
+        )
+    monkeypatch.setattr(discovery_module, "_transition_stage", lambda stage: None)
+    transport = FakeTransport([])
+
+    with pytest.raises((SnapshotError, ValueError), match="transition|symlink|report|RunState"):
+        discover_category_drift(
+            tmp_path,
+            config,
+            ImslpClient(transport=transport, clock=FakeClock(NOW)),
+            FakeClock(NOW),
+            phase="run_start",
+            compare_run_id=RUN_ID,
+        )
+    assert transport.calls == []
