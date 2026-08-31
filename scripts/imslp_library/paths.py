@@ -1,12 +1,13 @@
 from __future__ import annotations
 
 import hashlib
+import re
 import unicodedata
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from urllib.parse import quote
 
-from .jsonio import atomic_write_json
+from .jsonio import atomic_write_json, read_json
 
 MAX_COMPONENT_BYTES = 180
 _KINDS = {"composer", "work", "file"}
@@ -89,8 +90,8 @@ def _suffix(source: PathSource) -> str:
     identifier = source.stable_id
     if identifier.startswith(prefix):
         identifier = identifier[1:]
-    if not identifier.isascii() or not identifier.isdigit():
-        raise ValueError(f"{source.kind} stable_id must contain a numeric identifier")
+    if re.fullmatch(r"[1-9][0-9]*", identifier) is None:
+        raise ValueError(f"{source.kind} stable_id must contain a canonical positive numeric decimal identifier")
     return f"__{prefix}{identifier}"
 
 
@@ -120,15 +121,23 @@ def build_path_map(sources: list[PathSource] | tuple[PathSource, ...]) -> dict[P
     values = tuple(sources)
     if len(set(values)) != len(values):
         raise ValueError("duplicate PathSource")
+    for source in values:
+        if source.kind in {"work", "file"}:
+            _suffix(source)
     cleaned = {source: _clean_component(source.original) for source in values}
     preliminary = {source: _preliminary(source, cleaned[source]) for source in values}
     groups: dict[tuple[str, str], list[PathSource]] = {}
     for source in values:
         groups.setdefault((source.kind, preliminary[source].casefold()), []).append(source)
 
+    def logical_key(source: PathSource) -> tuple[str, str]:
+        if source.kind == "composer":
+            return source.kind, unicodedata.normalize("NFC", source.original)
+        return source.kind, f"{source.stable_id}\0{source.original}"
+
     reasons: dict[PathSource, str] = {}
     for group in groups.values():
-        if len(group) > 1:
+        if len({logical_key(item) for item in group}) > 1:
             full_keys = {cleaned[item].casefold() for item in group}
             reason = "clean_or_casefold_collision" if len(full_keys) == 1 else "truncation_collision"
             reasons.update((item, reason) for item in group)
@@ -141,7 +150,7 @@ def build_path_map(sources: list[PathSource] | tuple[PathSource, ...]) -> dict[P
         output_groups: dict[tuple[str, str], list[PathSource]] = {}
         for source in values:
             output_groups.setdefault((source.kind, mapped[source].casefold()), []).append(source)
-        collisions = [group for group in output_groups.values() if len(group) > 1]
+        collisions = [group for group in output_groups.values() if len({logical_key(item) for item in group}) > 1]
         if not collisions:
             return {source: PathMapping(mapped[source], reasons.get(source)) for source in values}
         changed = False
@@ -155,11 +164,38 @@ def build_path_map(sources: list[PathSource] | tuple[PathSource, ...]) -> dict[P
 
 
 def quote_path_components(path: str | Path | PurePosixPath) -> str:
-    raw = Path(path).as_posix() if isinstance(path, Path) else str(path)
-    pure = PurePosixPath(raw)
-    if pure.is_absolute():
-        raise ValueError("URL path must be relative")
-    return "/".join(quote(part, safe="") for part in pure.parts)
+    raw = path.as_posix() if isinstance(path, Path) else str(path)
+    components = raw.split("/")
+    if (
+        not raw
+        or raw.startswith("/")
+        or "\\" in raw
+        or any(component in {"", ".", ".."} for component in components)
+    ):
+        raise ValueError("URL path must be an unambiguous relative POSIX path")
+    return "/".join(quote(component, safe="") for component in components)
+
+
+def _validate_path_map_manifest(payload: dict[str, object]) -> None:
+    if set(payload) != {"schema_version", "model_type", "items"}:
+        raise ValueError("invalid PathMapManifest envelope")
+    if type(payload["schema_version"]) is not int or payload["schema_version"] != 1 or payload["model_type"] != "PathMapManifest":
+        raise ValueError("invalid PathMapManifest identity")
+    items = payload["items"]
+    if not isinstance(items, list):
+        raise TypeError("PathMapManifest items must be an array")
+    keys = {"kind", "stable_id", "original", "mapped", "collision_reason"}
+    for item in items:
+        valid = (
+            isinstance(item, dict)
+            and set(item) == keys
+            and item["kind"] in _KINDS
+            and all(isinstance(item[name], str) and item[name] for name in ("stable_id", "original", "mapped"))
+            and item["collision_reason"] in {None, "clean_or_casefold_collision", "truncation_collision", "suffix_collision"}
+            and len(item["mapped"].encode("utf-8")) <= MAX_COMPONENT_BYTES
+        )
+        if not valid:
+            raise ValueError("invalid PathMapManifest item")
 
 
 def write_path_map(root: Path, mappings: dict[PathSource, PathMapping]) -> Path:
@@ -176,8 +212,11 @@ def write_path_map(root: Path, mappings: dict[PathSource, PathMapping]) -> Path:
     items.sort(key=lambda item: (item["kind"], item["stable_id"], item["original"]))
     target = root / "metadata/path_map.json"
     _assert_safe_write_target(root, target, "path_map target")
-    atomic_write_json(
-        target,
-        {"schema_version": 1, "model_type": "PathMapManifest", "items": items},
-    )
+    if target.is_symlink():
+        raise ValueError("PathMapManifest target cannot be a symlink")
+    if target.exists():
+        _validate_path_map_manifest(read_json(target))
+    payload: dict[str, object] = {"schema_version": 1, "model_type": "PathMapManifest", "items": items}
+    _validate_path_map_manifest(payload)
+    atomic_write_json(target, payload)
     return target

@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import replace
 
 import pytest
@@ -289,6 +290,56 @@ def test_materialization_rejects_symlink_ancestor_of_canonical_object(tmp_path):
     prefix.symlink_to(backing, target_is_directory=True)
     with pytest.raises(ValueError, match="symlink ancestor"):
         materialize_membership(tmp_path, make_membership(), stored)
+
+
+def test_concurrent_same_membership_returns_one_consistent_materialization(tmp_path):
+    stored = make_stored_stub(tmp_path)
+    membership = make_membership("For guitar", "one.pdf")
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        results = list(pool.map(lambda _: materialize_membership(tmp_path, membership, stored, run_id="r1"), range(2)))
+    assert results[0] == results[1]
+    target = tmp_path / results[0].local_path
+    if results[0].storage_method is StorageMethod.HARDLINK:
+        assert target.stat().st_ino == (tmp_path / stored.object_path).stat().st_ino
+    else:
+        assert target.is_symlink()
+
+
+def test_materialization_lock_symlink_is_rejected_without_external_modification(tmp_path):
+    stored = make_stored_stub(tmp_path)
+    membership = make_membership("For guitar", "one.pdf")
+    identity = (tmp_path / membership.planned_local_path).relative_to(tmp_path).as_posix()
+    lock_hash = hashlib.sha256(identity.encode("utf-8")).hexdigest()
+    lock = tmp_path / f"metadata/operations/locks/materialize-{lock_hash}.lock"
+    lock.parent.mkdir(parents=True, exist_ok=True)
+    outside = tmp_path / "outside-materialize-lock"
+    outside.write_bytes(b"keep")
+    lock.symlink_to(outside)
+    with pytest.raises(ValueError, match="lock"):
+        materialize_membership(tmp_path, membership, stored, run_id="r1")
+    assert outside.read_bytes() == b"keep"
+    assert not (tmp_path / membership.planned_local_path).exists()
+
+
+def test_path_quarantine_manifest_failure_recovers_from_intent(tmp_path, monkeypatch):
+    stored = make_stored_stub(tmp_path)
+    membership = make_membership("For guitar", "one.pdf")
+    occupied = tmp_path / membership.planned_local_path
+    occupied.parent.mkdir(parents=True)
+    occupied.write_bytes(b"occupied")
+    original_append = materialize._append_path_manifest
+    monkeypatch.setattr(materialize, "_append_path_manifest", lambda *_args, **_kwargs: (_ for _ in ()).throw(OSError("manifest fsync failed")))
+    with pytest.raises(OSError, match="manifest fsync failed"):
+        materialize_membership(tmp_path, membership, stored, run_id="r1")
+    intents = list((tmp_path / "quarantine/transactions").glob("path-*.json"))
+    assert len(intents) == 1
+    assert not occupied.exists()
+    monkeypatch.setattr(materialize, "_append_path_manifest", original_append)
+    with pytest.raises(MaterializationConflictError, match="quarantined"):
+        materialize_membership(tmp_path, membership, stored, run_id="r1")
+    assert not list((tmp_path / "quarantine/transactions").glob("path-*.json"))
+    manifest = json.loads((tmp_path / "quarantine/manifests/paths-r1.json").read_text())
+    assert len(manifest["items"]) == 1
 
 
 def test_materialization_method_survives_manifest_round_trip(tmp_path):

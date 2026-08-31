@@ -126,10 +126,42 @@ def test_noncanonical_numeric_stable_ids_are_rejected(kind, stable_id):
         build_path_map([first, second])
 
 
+@pytest.mark.parametrize("kind,stable_id", [("work", "p007"), ("work", "0"), ("file", "f00"), ("file", "00")])
+def test_stable_numeric_ids_must_be_canonical_positive_decimals(kind, stable_id):
+    first = PathSource(kind=kind, original="A/B.pdf", stable_id=stable_id)
+    second = PathSource(kind=kind, original="A_B.pdf", stable_id="2")
+    with pytest.raises(ValueError, match="canonical positive"):
+        build_path_map([first, second])
+
+
+@pytest.mark.parametrize("kind,stable_id", [("work", "p007"), ("file", "f00")])
+def test_ordinary_unsuffixed_sources_still_require_canonical_ids(kind, stable_id):
+    with pytest.raises(ValueError, match="canonical positive"):
+        build_path_map([PathSource(kind=kind, original="Unique.pdf", stable_id=stable_id)])
+
+
 def test_per_component_url_quoting_preserves_separators():
     assert quote_path_components(Path("For guitar/曲 #%' one.pdf")) == (
         "For%20guitar/%E6%9B%B2%20%23%25%27%20one.pdf"
     )
+
+
+@pytest.mark.parametrize("unsafe", ["", "/absolute", "a//b", "a/./b", "a/../b", "a\\b", "a/"])
+def test_url_quoting_rejects_ambiguous_or_unsafe_raw_paths(unsafe):
+    with pytest.raises(ValueError, match="relative POSIX"):
+        quote_path_components(unsafe)
+
+
+def test_nfc_equivalent_composer_aliases_share_one_unsuffixed_component():
+    composed = PathSource(kind="composer", original="Caf\u00e9", stable_id="alias-1")
+    decomposed = PathSource(kind="composer", original="Cafe\u0301", stable_id="alias-2")
+    forward = build_path_map([composed, decomposed])
+    reverse = build_path_map([decomposed, composed])
+    assert forward == reverse
+    assert forward[composed].mapped == "Caf\u00e9"
+    assert forward[decomposed].mapped == "Caf\u00e9"
+    assert forward[composed].collision_reason is None
+    assert forward[decomposed].collision_reason is None
 
 
 def test_path_map_persists_complete_deterministic_records(tmp_path):
@@ -169,3 +201,23 @@ def test_path_map_rejects_symlink_library_root(tmp_path):
     with pytest.raises(ValueError, match="library root is a symlink"):
         write_path_map(root, build_path_map([source]))
     assert list(outside.iterdir()) == []
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    [
+        lambda payload: payload | {"model_type": "WrongManifest"},
+        lambda payload: payload | {"schema_version": 2},
+        lambda payload: payload | {"items": [{"kind": "work"}]},
+    ],
+)
+def test_path_map_rejects_incompatible_existing_envelope_without_changing_bytes(tmp_path, mutation):
+    source = PathSource(kind="work", original="Safe", stable_id="p7")
+    mappings = build_path_map([source])
+    path = write_path_map(tmp_path, mappings)
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    path.write_text(json.dumps(mutation(payload)), encoding="utf-8")
+    before = path.read_bytes()
+    with pytest.raises((TypeError, ValueError), match="PathMapManifest"):
+        write_path_map(tmp_path, mappings)
+    assert path.read_bytes() == before

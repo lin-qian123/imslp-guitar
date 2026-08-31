@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 import pytest
@@ -269,3 +270,154 @@ def test_existing_object_reconciles_one_complete_attempt_after_record_failure(tm
     assert [item["status"] for item in attempts] == ["object_write_interrupted", "object_write_complete"]
     assert attempts[-1]["bytes_written"] == source.stat().st_size
     assert not list((tmp_path / "objects").rglob("*.part"))
+
+
+def test_unowned_regular_part_is_rejected_without_modification(tmp_path):
+    source = write_minimal_pdf(tmp_path / "source.pdf")
+    score = score_for_path(source, "301")
+    digest = storage.hash_file_sha256(source)
+    target = storage.object_path_for_hash(tmp_path, digest)
+    part = storage._part_path(target, score, "r1")
+    part.parent.mkdir(parents=True)
+    part.write_bytes(b"unowned")
+    before = part.read_bytes()
+    with pytest.raises(ValueError, match="unowned part"):
+        storage.store_verified_pdf(tmp_path, source, score, "r1")
+    assert part.read_bytes() == before
+    assert not target.exists()
+
+
+def test_part_symlink_is_rejected_without_touching_external_file(tmp_path):
+    source = write_minimal_pdf(tmp_path / "source.pdf")
+    score = score_for_path(source, "301")
+    target = storage.object_path_for_hash(tmp_path, storage.hash_file_sha256(source))
+    part = storage._part_path(target, score, "r1")
+    part.parent.mkdir(parents=True)
+    outside = tmp_path / "outside-part"
+    outside.write_bytes(b"keep")
+    part.symlink_to(outside)
+    with pytest.raises(ValueError, match="part"):
+        storage.store_verified_pdf(tmp_path, source, score, "r1")
+    assert outside.read_bytes() == b"keep"
+    assert part.is_symlink()
+
+
+def test_interrupted_part_size_must_match_ownership_record(tmp_path, monkeypatch):
+    source = write_minimal_pdf(tmp_path / "source.pdf")
+    score = score_for_path(source, "301")
+    original_copy = storage._copy_to_part
+
+    def interrupt(source_path, part_path):
+        part_path.write_bytes(source_path.read_bytes()[:32])
+        raise OSError("interrupted")
+
+    monkeypatch.setattr(storage, "_copy_to_part", interrupt)
+    with pytest.raises(OSError, match="interrupted"):
+        storage.store_verified_pdf(tmp_path, source, score, "r1")
+    part = next((tmp_path / "objects").rglob("*.part"))
+    part.write_bytes(b"changed")
+    monkeypatch.setattr(storage, "_copy_to_part", original_copy)
+    with pytest.raises(ValueError, match="unowned part"):
+        storage.store_verified_pdf(tmp_path, source, score, "r1")
+    assert part.read_bytes() == b"changed"
+
+
+def test_copy_boundary_cannot_commit_multiply_linked_part(tmp_path, monkeypatch):
+    source = write_minimal_pdf(tmp_path / "source.pdf")
+    score = score_for_path(source, "301")
+
+    def hardlink_source(source_path, part_path):
+        os.link(source_path, part_path)
+
+    monkeypatch.setattr(storage, "_copy_to_part", hardlink_source)
+    with pytest.raises(ValueError, match="link count"):
+        storage.store_verified_pdf(tmp_path, source, score, "r1")
+    assert not list((tmp_path / "objects").rglob("*.pdf"))
+
+
+def test_concurrent_same_source_has_one_complete_and_no_interrupted(tmp_path):
+    source = write_minimal_pdf(tmp_path / "source.pdf")
+    score = score_for_path(source, "301")
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        results = list(pool.map(lambda _: storage.store_verified_pdf(tmp_path, source, score, "r1"), range(2)))
+    assert results[0].sha256 == results[1].sha256
+    attempts = json.loads((tmp_path / "metadata/runs/r1-object-writes.json").read_text())["items"]
+    matching = [item for item in attempts if item["source_id"] == score.source_id]
+    assert [item["status"] for item in matching] == ["object_write_complete"]
+
+
+def test_concurrent_distinct_sources_same_bytes_keep_both_completions(tmp_path):
+    source = write_minimal_pdf(tmp_path / "source.pdf")
+    scores = [score_for_path(source, "301"), score_for_path(source, "302")]
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        results = list(pool.map(lambda score: storage.store_verified_pdf(tmp_path, source, score, "r1"), scores))
+    assert results[0].sha256 == results[1].sha256
+    attempts = json.loads((tmp_path / "metadata/runs/r1-object-writes.json").read_text())["items"]
+    assert {(item["source_id"], item["status"]) for item in attempts} == {
+        (scores[0].source_id, "object_write_complete"),
+        (scores[1].source_id, "object_write_complete"),
+    }
+
+
+def test_old_same_source_completion_for_other_hash_does_not_suppress_new_completion(tmp_path):
+    first = write_minimal_pdf(tmp_path / "first.pdf", width=72)
+    second = write_minimal_pdf(tmp_path / "second.pdf", width=73)
+    assert first.stat().st_size == second.stat().st_size
+    score = score_for_path(first, "301")
+    one = storage.store_verified_pdf(tmp_path, first, score, "r1")
+    two = storage.store_verified_pdf(tmp_path, second, score, "r1")
+    assert one.sha256 != two.sha256
+    attempts = json.loads((tmp_path / "metadata/runs/r1-object-writes.json").read_text())["items"]
+    matching = [item for item in attempts if item["source_id"] == score.source_id and item["status"] == "object_write_complete"]
+    assert len(matching) == 2
+    assert len({item["part_path"] for item in matching}) == 2
+
+
+def test_prebuilt_object_in_other_run_gets_current_run_completion(tmp_path):
+    source = write_minimal_pdf(tmp_path / "source.pdf")
+    score = score_for_path(source, "301")
+    storage.store_verified_pdf(tmp_path, source, score, "r0")
+    storage.store_verified_pdf(tmp_path, source, score, "r1")
+    attempts = json.loads((tmp_path / "metadata/runs/r1-object-writes.json").read_text())["items"]
+    assert [item["status"] for item in attempts] == ["object_write_complete"]
+
+
+def test_object_lock_symlink_is_rejected_without_external_modification(tmp_path):
+    source = write_minimal_pdf(tmp_path / "source.pdf")
+    digest = storage.hash_file_sha256(source)
+    lock = tmp_path / f"objects/.locks/{digest}.lock"
+    lock.parent.mkdir(parents=True)
+    outside = tmp_path / "outside-lock"
+    outside.write_bytes(b"keep")
+    lock.symlink_to(outside)
+    with pytest.raises(ValueError, match="lock"):
+        storage.store_verified_pdf(tmp_path, source, score_for_path(source, "301"), "r1")
+    assert outside.read_bytes() == b"keep"
+    assert not storage.object_path_for_hash(tmp_path, digest).exists()
+
+
+def test_object_quarantine_manifest_failure_recovers_from_intent(tmp_path, monkeypatch):
+    source = write_minimal_pdf(tmp_path / "source.pdf")
+    score = score_for_path(source, "301")
+    target = storage.object_path_for_hash(tmp_path, storage.hash_file_sha256(source))
+    target.parent.mkdir(parents=True)
+    target.write_bytes(b"corrupt")
+    original_append = storage._append_manifest
+
+    def fail_final(path, model_type, item, item_keys, validator):
+        if model_type == "ObjectQuarantineManifest":
+            raise OSError("manifest fsync failed")
+        return original_append(path, model_type, item, item_keys, validator)
+
+    monkeypatch.setattr(storage, "_append_manifest", fail_final)
+    with pytest.raises(OSError, match="manifest fsync failed"):
+        storage.store_verified_pdf(tmp_path, source, score, "r1")
+    intents = list((tmp_path / "quarantine/transactions").glob("*.json"))
+    assert len(intents) == 1
+    assert not target.exists()
+    monkeypatch.setattr(storage, "_append_manifest", original_append)
+    stored = storage.store_verified_pdf(tmp_path, source, score, "r1")
+    assert (tmp_path / stored.object_path).is_file()
+    assert not list((tmp_path / "quarantine/transactions").glob("*.json"))
+    manifest = json.loads((tmp_path / "quarantine/manifests/objects-r1.json").read_text())
+    assert len(manifest["items"]) == 1
