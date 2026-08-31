@@ -1,0 +1,16 @@
+{
+  "batchcomplete": false,
+  "continue": {
+    "cmcontinue": "next",
+    "continue": "-||"
+  },
+  "query": {
+    "categorymembers": [
+      {
+        "ns": 0,
+        "pageid": 101,
+        "title": "Alpha (Composer, Test)"
+      }
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "batchcomplete": true,
+  "query": {
+    "pages": [
+      {
+        "ns": 0,
+        "pageid": 101,
+        "revisions": [
+          {
+            "revid": 201,
+            "slots": {
+              "main": {
+                "content": "| *****FILES***** =\n{{#fte:imslpfile\n|File Name 1=alpha.pdf\n|File ID=301\n}}\n| *****WORK INFO*****\n|Instrumentation=3 guitars"
+              }
+            }
+          }
+        ],
+        "title": "Alpha (Composer, Test)"
+      },
+      {
+        "ns": 0,
+        "pageid": 102,
+        "revisions": [
+          {
+            "revid": 202,
+            "slots": {
+              "main": {
+                "content": "| *****FILES***** =\n{{#fte:imslpfile\n|File Name 1=beta.pdf\n|File ID=302\n}}\n| *****WORK INFO*****\n|Instrumentation=3 guitars"
+              }
+            }
+          }
+        ],
+        "title": "Beta (Composer, Test)"
+      }
+    ]
+  }
+}

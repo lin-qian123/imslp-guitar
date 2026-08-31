@@ -1,0 +1,28 @@
+{
+  "batchcomplete": true,
+  "query": {
+    "pages": [
+      {
+        "imageinfo": [
+          {
+            "canonicaltitle": "File:alpha.pdf",
+            "descriptionurl": "https://imslp.org/wiki/File:alpha.pdf",
+            "extmetadata": {
+              "LicenseShortName": {
+                "source": "commons-desc-page",
+                "value": "Public Domain"
+              }
+            },
+            "mime": "application/pdf",
+            "sha1": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "size": 123,
+            "url": "https://imslp.org/files/alpha.pdf"
+          }
+        ],
+        "ns": 6,
+        "pageid": 301,
+        "title": "File:alpha.pdf"
+      }
+    ]
+  }
+}
