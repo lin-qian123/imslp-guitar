@@ -421,7 +421,7 @@ def test_replaced_config_categories_or_hash_cannot_reuse_original_binding(tmp_pa
         assert client.calls == []
 
 
-def test_orphan_score_file_in_incomplete_snapshot_is_rejected_globally(tmp_path: Path) -> None:
+def test_orphan_score_file_in_incomplete_snapshot_is_rejected_by_checkpoint_authority(tmp_path: Path) -> None:
     config = _config(tmp_path)
     library = tmp_path / "library"
     _leave_category_checkpoint(library, config)
@@ -449,7 +449,7 @@ def test_orphan_score_file_in_incomplete_snapshot_is_rejected_globally(tmp_path:
         (_file("301", "alpha.pdf"),),
     )
 
-    with pytest.raises(SnapshotError, match="score file.*frozen page"):
+    with pytest.raises(SnapshotError, match="checkpoint authority"):
         freeze_snapshot(library, RUN_ID, config, client, FakeClock.fixed())
     assert client.calls == []
 
@@ -787,7 +787,7 @@ def test_checkpoint_authority_is_strict_and_path_bound(
         authority_path.symlink_to(outside)
     no_requests = SnapshotClient({}, (), ())
 
-    with pytest.raises(SnapshotError, match="checkpoint authority"):
+    with pytest.raises((ValueError, SnapshotError), match="checkpoint authority"):
         freeze_snapshot(library, RUN_ID, config, no_requests, FakeClock.fixed())
     assert no_requests.calls == []
 
@@ -953,3 +953,149 @@ def test_completion_transition_rejects_noncanonical_predecessor_bytes_before_ove
     assert no_requests.calls == []
     assert snapshot_path.read_bytes() == before_snapshot
     assert state_path.read_bytes() == before_state
+
+
+def test_cache_quarantine_reconciles_before_checkpointed_score_validation(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    config = _config(tmp_path)
+    library = tmp_path / "library"
+    revisions = (
+        _revision(101, 201, "Work 101 (Composer, Test)", ALPHA),
+        _revision(102, 202, "Work 102 (Composer, Test)", BETA),
+    )
+    files = (_file("301", "alpha.pdf"), _file("302", "beta.pdf"))
+    first = SnapshotClient(
+        _members(config, 101, 102),
+        revisions,
+        files,
+        fail_exact_for={(202,): RuntimeError("leave first exact batch checkpointed")},
+    )
+    with pytest.raises(RuntimeError, match="first exact batch"):
+        freeze_snapshot(
+            library,
+            RUN_ID,
+            config,
+            first,
+            FakeClock.fixed(),
+            revision_batch_size=1,
+        )
+    cache = library / "metadata/.cache/pages/101/201.wiki"
+    cache.write_bytes(b"corrupt checkpointed exact cache")
+    manifest_path = library / f"quarantine/manifests/cache-{RUN_ID}.json"
+    intent_path = library / f"quarantine/transactions/cache-{RUN_ID}-101-201.json"
+    quarantine_path = library / f"quarantine/cache/{RUN_ID}/101/201.wiki"
+    real_write = snapshot_module.atomic_write_json
+
+    def interrupt_manifest(path, mapping):
+        if Path(path) == manifest_path:
+            raise SimulatedPowerLoss("lost after checkpointed cache move")
+        return real_write(path, mapping)
+
+    monkeypatch.setattr(snapshot_module, "atomic_write_json", interrupt_manifest)
+    interrupted = SnapshotClient(_members(config, 101, 102), revisions, files)
+    with pytest.raises(SimulatedPowerLoss, match="checkpointed cache move"):
+        freeze_snapshot(
+            library,
+            RUN_ID,
+            config,
+            interrupted,
+            FakeClock.fixed(),
+            revision_batch_size=1,
+        )
+    assert interrupted.calls == []
+    assert not cache.exists()
+    assert quarantine_path.is_file() and intent_path.is_file()
+    assert not manifest_path.exists()
+
+    monkeypatch.setattr(snapshot_module, "atomic_write_json", real_write)
+    resumed = SnapshotClient(_members(config, 101, 102), revisions, files)
+    completed = freeze_snapshot(
+        library,
+        RUN_ID,
+        config,
+        resumed,
+        FakeClock.fixed(),
+        revision_batch_size=1,
+    )
+    assert completed.status is RunStatus.SNAPSHOT_COMPLETE
+    assert not any(call[0] in {"category_members", "current_revisions"} for call in resumed.calls)
+    assert resumed.calls.count(("exact_revisions", (201,))) == 1
+    assert resumed.calls.count(("exact_revisions", (202,))) == 1
+    assert not intent_path.exists()
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    assert [(item["page_id"], item["revision_id"]) for item in manifest["items"]] == [(101, 201)]
+
+
+def test_load_complete_rejects_metadata_symlink_ancestor_without_mutation(tmp_path: Path) -> None:
+    config = _config(tmp_path)
+    library = tmp_path / "library"
+    client = SnapshotClient(
+        _members(config, 101),
+        (_revision(101, 201, "Work 101 (Composer, Test)", ALPHA),),
+        (_file("301", "alpha.pdf"),),
+    )
+    freeze_snapshot(library, RUN_ID, config, client, FakeClock.fixed())
+    metadata = library / "metadata"
+    outside = tmp_path / "outside-metadata"
+    metadata.rename(outside)
+    metadata.symlink_to(outside, target_is_directory=True)
+    snapshot_path = outside / f"runs/{RUN_ID}.json"
+    before = snapshot_path.read_bytes()
+
+    with pytest.raises((ValueError, SnapshotError), match="symlink"):
+        load_complete_snapshot(library, RUN_ID)
+    assert metadata.is_symlink()
+    assert snapshot_path.read_bytes() == before
+
+
+def test_load_complete_rejects_symlink_library_root_without_mutation(tmp_path: Path) -> None:
+    config = _config(tmp_path)
+    library = tmp_path / "library"
+    client = SnapshotClient(
+        _members(config, 101),
+        (_revision(101, 201, "Work 101 (Composer, Test)", ALPHA),),
+        (_file("301", "alpha.pdf"),),
+    )
+    freeze_snapshot(library, RUN_ID, config, client, FakeClock.fixed())
+    alias = tmp_path / "library-alias"
+    alias.symlink_to(library, target_is_directory=True)
+    snapshot_path = library / f"metadata/runs/{RUN_ID}.json"
+    before = snapshot_path.read_bytes()
+
+    with pytest.raises((ValueError, SnapshotError), match="root.*symlink"):
+        load_complete_snapshot(alias, RUN_ID)
+    assert alias.is_symlink()
+    assert snapshot_path.read_bytes() == before
+
+
+def test_complete_reentry_rejects_cache_symlink_ancestor_before_network(tmp_path: Path) -> None:
+    config = _config(tmp_path)
+    library = tmp_path / "library"
+    client = SnapshotClient(
+        _members(config, 101),
+        (_revision(101, 201, "Work 101 (Composer, Test)", ALPHA),),
+        (_file("301", "alpha.pdf"),),
+    )
+    freeze_snapshot(library, RUN_ID, config, client, FakeClock.fixed())
+    cache_root = library / "metadata/.cache"
+    outside = tmp_path / "outside-cache"
+    cache_root.rename(outside)
+    cache_root.symlink_to(outside, target_is_directory=True)
+    cached_page = outside / "pages/101/201.wiki"
+    before = cached_page.read_bytes()
+    no_requests = SnapshotClient({}, (), ())
+
+    with pytest.raises((ValueError, SnapshotError), match="symlink"):
+        freeze_snapshot(library, RUN_ID, config, no_requests, FakeClock.fixed())
+    assert no_requests.calls == []
+    assert cache_root.is_symlink()
+    assert cached_page.read_bytes() == before
+
+
+def test_load_missing_root_does_not_create_directories(tmp_path: Path) -> None:
+    missing = tmp_path / "missing-library"
+    with pytest.raises(SnapshotError, match="missing"):
+        load_complete_snapshot(missing, RUN_ID)
+    assert not missing.exists()

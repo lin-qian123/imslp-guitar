@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 
 import pytest
@@ -223,6 +222,45 @@ def test_exponential_backoff_has_an_explicit_delay_cap() -> None:
     with pytest.raises(ImslpClientError, match="after 5 attempts"):
         client.category_members("For guitar")
     assert clock.sleeps == [2.0, 3.0, 3.0, 3.0]
+
+
+@pytest.mark.parametrize(
+    ("parameter", "value"),
+    [
+        ("connect_timeout", float("nan")),
+        ("read_timeout", float("inf")),
+        ("backoff_seconds", float("nan")),
+        ("backoff_seconds", float("inf")),
+        ("max_backoff_seconds", float("nan")),
+        ("max_backoff_seconds", float("inf")),
+    ],
+)
+def test_nonfinite_timing_configuration_is_rejected(parameter: str, value: float) -> None:
+    with pytest.raises(ValueError, match=parameter):
+        ImslpClient(
+            transport=FakeTransport([]),
+            clock=FakeClock.fixed(),
+            **{parameter: value},
+        )
+
+
+@pytest.mark.parametrize("retry_after", ["NaN", "inf", "-inf", "-1"])
+def test_invalid_retry_after_uses_finite_exponential_backoff(retry_after: str) -> None:
+    clock = FakeClock.fixed()
+    transport = FakeTransport([
+        json_response({}, status=429, headers={"Retry-After": retry_after})
+        for _ in range(3)
+    ])
+    client = ImslpClient(
+        transport=transport,
+        clock=clock,
+        max_attempts=3,
+        backoff_seconds=1.0,
+    )
+
+    with pytest.raises(ImslpClientError, match="after 3 attempts"):
+        client.category_members("For guitar")
+    assert clock.sleeps == [1.0, 2.0]
 
 
 def test_unapproved_endpoint_redirect_and_image_url_are_rejected() -> None:

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import math
 import time
 import urllib.error
 import urllib.parse
@@ -246,12 +247,21 @@ class ImslpClient:
             raise ValueError("user-agent must be nonblank")
         if type(max_attempts) is not int or max_attempts <= 0:
             raise ValueError("max_attempts must be positive")
-        if any(type(value) not in (int, float) or value <= 0 for value in (connect_timeout, read_timeout)):
-            raise ValueError("timeouts must be positive")
-        if type(backoff_seconds) not in (int, float) or backoff_seconds < 0:
-            raise ValueError("backoff_seconds must be nonnegative")
-        if type(max_backoff_seconds) not in (int, float) or max_backoff_seconds <= 0:
-            raise ValueError("max_backoff_seconds must be positive")
+        for name, value in (("connect_timeout", connect_timeout), ("read_timeout", read_timeout)):
+            if type(value) not in (int, float) or not math.isfinite(value) or value <= 0:
+                raise ValueError(f"{name} must be positive and finite")
+        if (
+            type(backoff_seconds) not in (int, float)
+            or not math.isfinite(backoff_seconds)
+            or backoff_seconds < 0
+        ):
+            raise ValueError("backoff_seconds must be nonnegative and finite")
+        if (
+            type(max_backoff_seconds) not in (int, float)
+            or not math.isfinite(max_backoff_seconds)
+            or max_backoff_seconds <= 0
+        ):
+            raise ValueError("max_backoff_seconds must be positive and finite")
         if type(max_pagination_pages) is not int or max_pagination_pages <= 0:
             raise ValueError("max_pagination_pages must be positive")
         self._transport = transport or UrllibTransport()
@@ -308,10 +318,13 @@ class ImslpClient:
                 if attempt == self._max_attempts:
                     break
                 retry_after = response.headers.get("Retry-After")
+                delay = self._backoff(attempt)
                 try:
-                    delay = float(retry_after) if retry_after is not None else self._backoff(attempt)
-                except ValueError:
-                    delay = self._backoff(attempt)
+                    candidate = float(retry_after) if retry_after is not None else delay
+                except (TypeError, ValueError):
+                    candidate = delay
+                if math.isfinite(candidate) and candidate >= 0:
+                    delay = candidate
                 self._clock.sleep(min(max(delay, self._backoff_seconds), self._max_backoff_seconds))
                 continue
             try:

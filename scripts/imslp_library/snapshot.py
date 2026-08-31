@@ -16,7 +16,7 @@ from .enums import RunStatus
 from .headings import parse_heading_tree
 from .jsonio import _canonical_bytes, atomic_write_json, read_json
 from .models import CategorySnapshot, FrozenPage, RunSnapshot, RunState, ScoreFile
-from .paths import _assert_safe_write_target
+from .paths import _assert_safe_read_target, _assert_safe_write_target
 
 
 _RUN_ID_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}")
@@ -83,7 +83,13 @@ def _unlink_durable(path: Path) -> None:
     _fsync_directory(path.parent)
 
 
-def _strict_intent(path: Path, model_type: str, keys: set[str]) -> dict[str, object]:
+def _strict_intent(
+    root: Path,
+    path: Path,
+    model_type: str,
+    keys: set[str],
+) -> dict[str, object]:
+    _assert_safe_read_target(root, path, model_type)
     if path.is_symlink():
         raise SnapshotError(f"{model_type} cannot be a symlink")
     try:
@@ -95,14 +101,16 @@ def _strict_intent(path: Path, model_type: str, keys: set[str]) -> dict[str, obj
     return payload
 
 
-def _snapshot_from_path(path: Path) -> RunSnapshot:
+def _snapshot_from_path(root: Path, path: Path) -> RunSnapshot:
+    _assert_safe_read_target(root, path, "run snapshot")
     try:
         return RunSnapshot.from_dict(read_json(path))
     except (OSError, UnicodeError, json.JSONDecodeError, TypeError, ValueError) as exc:
         raise SnapshotError(f"invalid run snapshot: {path}") from exc
 
 
-def _state_from_path(path: Path) -> RunState:
+def _state_from_path(root: Path, path: Path) -> RunState:
+    _assert_safe_read_target(root, path, "run state")
     try:
         return RunState.from_dict(read_json(path))
     except (OSError, UnicodeError, json.JSONDecodeError, TypeError, ValueError) as exc:
@@ -208,6 +216,7 @@ def _read_checkpoint_authority(
     config: LibraryConfig,
 ) -> tuple[dict[str, object], RunSnapshot, RunState, int]:
     path = _checkpoint_authority_path(root, run_id)
+    _assert_safe_read_target(root, path, "checkpoint authority")
     _assert_safe_write_target(root, path, "checkpoint authority")
     if path.is_symlink() or not path.is_file():
         raise SnapshotError("checkpoint authority is missing or a symlink")
@@ -307,6 +316,7 @@ def _reconcile_initialization(
     if not intent_path.exists():
         return
     payload = _strict_intent(
+        root,
         intent_path,
         "SnapshotInitializationIntent",
         {
@@ -455,8 +465,8 @@ def _reconcile_checkpoint_transition(
         root, run_id, config
     )
     try:
-        snapshot = _snapshot_from_path(snapshot_path)
-        state = _state_from_path(state_path)
+        snapshot = _snapshot_from_path(root, snapshot_path)
+        state = _state_from_path(root, state_path)
     except SnapshotError as exc:
         raise SnapshotError("checkpoint authority cannot validate current models") from exc
     if not transition_path.exists():
@@ -471,6 +481,7 @@ def _reconcile_checkpoint_transition(
             raise SnapshotError("checkpoint authority byte digest mismatch")
         return snapshot, state, authority, authority_generation
     transition = _strict_intent(
+        root,
         transition_path,
         "SnapshotCheckpointTransition",
         {
@@ -702,6 +713,7 @@ def _reconcile_completion(
     if transition_path.exists() or transition_path.is_symlink():
         raise SnapshotError("completion intent cannot coexist with checkpoint transition")
     payload = _strict_intent(
+        root,
         intent_path,
         "SnapshotCompletionIntent",
         {
@@ -748,6 +760,7 @@ def _reconcile_completion(
         raise SnapshotError("completion transition current model byte digest mismatch")
     authority_present = authority_path.exists() or authority_path.is_symlink()
     if authority_present:
+        _assert_safe_read_target(root, authority_path, "checkpoint authority")
         if authority_path.is_symlink() or not authority_path.is_file():
             raise SnapshotError("checkpoint authority cannot be a symlink during completion")
         try:
@@ -832,6 +845,7 @@ def _cache_path(root: Path, page: FrozenPage) -> Path:
     expected = root / "metadata/.cache/pages" / str(page.page_id) / f"{page.revision_id}.wiki"
     if _relative(root, expected) != page.wikitext_path:
         raise SnapshotError("frozen page cache path is not canonical")
+    _assert_safe_read_target(root, expected, "revision cache")
     return expected
 
 
@@ -915,6 +929,7 @@ def _validate_manifest_item(
     ):
         raise SnapshotError("CacheQuarantineManifest does not match the frozen checkpoint")
     quarantine = root / str(item["quarantine_path"])
+    _assert_safe_read_target(root, quarantine, "cache quarantine")
     _assert_safe_write_target(root, quarantine, "cache quarantine")
     if require_quarantine_file:
         if quarantine.is_symlink() or not quarantine.is_file():
@@ -929,6 +944,7 @@ def _read_cache_manifest(
     run_id: str,
     expected_hashes: dict[tuple[int, int], str],
 ) -> list[dict[str, object]]:
+    _assert_safe_read_target(root, path, "cache quarantine manifest")
     if not path.exists():
         return []
     if path.is_symlink():
@@ -975,6 +991,7 @@ def _cache_intent_path(root: Path, run_id: str, page_id: int, revision_id: int) 
 
 def _validate_quarantine_file(root: Path, item: dict[str, object]) -> None:
     quarantine = root / str(item["quarantine_path"])
+    _assert_safe_read_target(root, quarantine, "cache quarantine")
     if quarantine.is_symlink() or not quarantine.is_file():
         raise SnapshotError("cache quarantine intent destination is invalid")
     if quarantine.stat().st_size != item["size"] or _sha256_file(quarantine) != item["actual_sha256"]:
@@ -983,6 +1000,7 @@ def _validate_quarantine_file(root: Path, item: dict[str, object]) -> None:
 
 def _validate_quarantine_source(root: Path, item: dict[str, object]) -> None:
     source = root / str(item["source_path"])
+    _assert_safe_read_target(root, source, "revision cache")
     if source.is_symlink() or not source.is_file():
         raise SnapshotError("cache quarantine intent source is invalid")
     details = os.stat(source, follow_symlinks=False)
@@ -994,6 +1012,7 @@ def _validate_quarantine_source(root: Path, item: dict[str, object]) -> None:
 
 def _validate_quarantine_tree(root: Path, run_id: str, items: list[dict[str, object]]) -> None:
     tree_root = root / "quarantine/cache" / run_id
+    _assert_safe_read_target(root, tree_root, "cache quarantine tree")
     _assert_safe_write_target(root, tree_root / ".probe", "cache quarantine tree")
     actual: set[str] = set()
     if tree_root.exists() or tree_root.is_symlink():
@@ -1017,14 +1036,17 @@ def _reconcile_cache_quarantine(root: Path, run_id: str, run_snapshot: RunSnapsh
         for item in run_snapshot.pages
     }
     manifest_path = root / "quarantine/manifests" / f"cache-{run_id}.json"
+    _assert_safe_read_target(root, manifest_path, "cache quarantine manifest")
     _assert_safe_write_target(root, manifest_path, "cache quarantine manifest")
     items = _read_cache_manifest(root, manifest_path, run_id, expected_hashes)
     by_identity = {(item["page_id"], item["revision_id"]): item for item in items}
     transactions = root / "quarantine/transactions"
+    _assert_safe_read_target(root, transactions, "cache quarantine transactions")
     _assert_safe_write_target(root, transactions / ".probe", "cache quarantine transactions")
     intent_paths = sorted(transactions.glob(f"cache-{run_id}-*.json")) if transactions.exists() else []
     for intent_path in intent_paths:
         payload = _strict_intent(
+            root,
             intent_path,
             "CacheQuarantineIntent",
             {"schema_version", "model_type", "run_id", "item"},
@@ -1041,6 +1063,7 @@ def _reconcile_cache_quarantine(root: Path, run_id: str, run_snapshot: RunSnapsh
         source = root / str(item["source_path"])
         quarantine = root / str(item["quarantine_path"])
         for path, label in ((source, "revision cache"), (quarantine, "cache quarantine")):
+            _assert_safe_read_target(root, path, label)
             _assert_safe_write_target(root, path, label)
         existing = by_identity.get(identity)
         if existing is not None:
@@ -1088,7 +1111,7 @@ def _quarantine_corrupt_cache(root: Path, run_id: str, page: FrozenPage, clock: 
         raise SnapshotError("corrupt revision cache must be singly linked")
     if quarantine.exists() or quarantine.is_symlink() or intent_path.exists() or intent_path.is_symlink():
         raise SnapshotError("cache quarantine target or intent already exists")
-    run_snapshot = _snapshot_from_path(root / "metadata/runs" / f"{run_id}.json")
+    run_snapshot = _snapshot_from_path(root, root / "metadata/runs" / f"{run_id}.json")
     expected_hashes = _expected_cache_hashes(run_snapshot)
     if expected_hashes.get((page.page_id, page.revision_id)) != page.wikitext_sha256:
         raise SnapshotError("corrupt cache page is not in the frozen checkpoint")
@@ -1287,14 +1310,16 @@ def _validate_existing(
     snapshot_path: Path,
     state_path: Path,
 ) -> tuple[RunSnapshot, RunState] | None:
+    _assert_safe_read_target(root, snapshot_path, "run snapshot")
+    _assert_safe_read_target(root, state_path, "run state")
     if snapshot_path.exists() != state_path.exists():
         raise SnapshotError("run snapshot and state must exist together")
     if not snapshot_path.exists():
         return None
     if snapshot_path.is_symlink() or state_path.is_symlink():
         raise SnapshotError("run snapshot and state cannot be symlinks")
-    snapshot = _snapshot_from_path(snapshot_path)
-    state = _state_from_path(state_path)
+    snapshot = _snapshot_from_path(root, snapshot_path)
+    state = _state_from_path(root, state_path)
     expected_path = _relative(root, snapshot_path)
     if snapshot.run_id != run_id or state.run_id != run_id or state.snapshot_path != expected_path:
         raise SnapshotError("run identity or snapshot path mismatch")
@@ -1308,19 +1333,28 @@ def load_complete_snapshot(root: Path, run_id: str) -> RunSnapshot:
     if not isinstance(run_id, str) or _RUN_ID_RE.fullmatch(run_id) is None:
         raise ValueError("run_id is not path-safe")
     snapshot_path, state_path = _paths(root, run_id)
-    for pending in (
-        _initialization_intent_path(root, run_id),
-        _completion_intent_path(root, run_id),
-        _checkpoint_transition_path(root, run_id),
-    ):
+    authority_path = _checkpoint_authority_path(root, run_id)
+    pending_paths = (
+        (_initialization_intent_path(root, run_id), "snapshot initialization intent"),
+        (_completion_intent_path(root, run_id), "snapshot completion intent"),
+        (_checkpoint_transition_path(root, run_id), "checkpoint transition"),
+    )
+    for pending, label in pending_paths:
+        _assert_safe_read_target(root, pending, label)
         if pending.exists() or pending.is_symlink():
             raise SnapshotError("unsettled snapshot lifecycle intent; call freeze_snapshot to recover")
+    for path, label in (
+        (snapshot_path, "run snapshot"),
+        (state_path, "run state"),
+        (authority_path, "checkpoint authority"),
+    ):
+        _assert_safe_read_target(root, path, label)
     if not snapshot_path.exists() or not state_path.exists():
         raise SnapshotError("run snapshot or state is missing")
     if snapshot_path.is_symlink() or state_path.is_symlink():
         raise SnapshotError("run snapshot and state cannot be symlinks")
-    snapshot = _snapshot_from_path(snapshot_path)
-    state = _state_from_path(state_path)
+    snapshot = _snapshot_from_path(root, snapshot_path)
+    state = _state_from_path(root, state_path)
     if (
         snapshot.run_id != run_id
         or state.run_id != run_id
@@ -1329,7 +1363,6 @@ def load_complete_snapshot(root: Path, run_id: str) -> RunSnapshot:
         raise SnapshotError("run identity or snapshot path mismatch")
     if snapshot.status is not RunStatus.SNAPSHOT_COMPLETE or state.snapshot_sha256 is None:
         raise SnapshotError("snapshot is incomplete and cannot be used downstream")
-    authority_path = _checkpoint_authority_path(root, run_id)
     if authority_path.exists() or authority_path.is_symlink():
         raise SnapshotError("unsettled checkpoint authority on complete snapshot; call freeze_snapshot to recover")
     actual = _sha256_file(snapshot_path)
@@ -1400,7 +1433,6 @@ def freeze_snapshot(
     snapshot, state = _reconcile_completion(
         root, run_id, config, snapshot_path, state_path, snapshot, state
     )
-    _validate_score_bindings(root, snapshot)
     if snapshot.status is RunStatus.SNAPSHOT_COMPLETE:
         for pending in (
             _checkpoint_authority_path(root, run_id),
@@ -1408,10 +1440,10 @@ def freeze_snapshot(
         ):
             if pending.exists() or pending.is_symlink():
                 raise SnapshotError("complete snapshot has unsettled checkpoint authority")
-        _reconcile_cache_quarantine(root, run_id, snapshot)
         actual = _sha256_file(snapshot_path)
         if state.snapshot_sha256 != actual:
             raise SnapshotError("completed snapshot SHA-256 does not match RunState")
+        _reconcile_cache_quarantine(root, run_id, snapshot)
         _validate_complete_score_set(root, snapshot)
         return snapshot
     if snapshot.status is not RunStatus.SNAPSHOT_INCOMPLETE or state.snapshot_sha256 is not None:

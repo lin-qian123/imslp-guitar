@@ -33,6 +33,30 @@ def _assert_safe_write_target(root: Path, target: Path, label: str) -> None:
         raise ValueError(f"{label} escapes the library root") from exc
 
 
+def _assert_safe_read_target(root: Path, target: Path, label: str) -> None:
+    """Reject symlink traversal for a read without creating filesystem state."""
+
+    if root.is_symlink():
+        raise ValueError("library root is a symlink")
+    if root.exists() and not root.is_dir():
+        raise ValueError("library root is not a directory")
+    try:
+        relative = target.relative_to(root)
+    except ValueError as exc:
+        raise ValueError(f"{label} escapes the library root") from exc
+    current = root
+    for index, part in enumerate(relative.parts):
+        current /= part
+        if current.is_symlink():
+            raise ValueError(f"{label} has a symlink ancestor")
+        if index < len(relative.parts) - 1 and current.exists() and not current.is_dir():
+            raise ValueError(f"{label} ancestor is not a directory")
+    try:
+        target.parent.resolve().relative_to(root.resolve())
+    except ValueError as exc:
+        raise ValueError(f"{label} escapes the library root") from exc
+
+
 @dataclass(frozen=True, slots=True)
 class PathSource:
     kind: str
