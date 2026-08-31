@@ -6,6 +6,19 @@ from imslp_library.headings import normalize_heading, parse_heading_tree
 from tests.basic_helpers import load_text_fixture, make_file_template, make_wikitext
 
 
+REAL_IMSLP_EXCERPT = """| *****FILES***** =
+===Arrangements and Transcriptions===
+====For 3 Guitars====
+{{#fte:imslpfile
+||File Name 1=PMLP60533-Gabrieli-G_Madrigale_Alma_Op85.PDF
+|Editor={{LinkEd|Luigi|Torchi}}
+|Scanner={{UME}}
+|Publisher Information={{ArteMusicaleItalia|2|1897|101382-409}}
+}}
+| *****WORK INFO*****
+|Instrumentation=orchestra"""
+
+
 def _fixture(name: str) -> str:
     return load_text_fixture(f"wikitext/{name}")
 
@@ -146,3 +159,42 @@ EXACT_FIXTURES = {
 @pytest.mark.parametrize("filename,expected", EXACT_FIXTURES.items())
 def test_checked_in_wikitext_fixtures_are_exact_builder_bytes(filename, expected):
     assert _fixture(filename) == expected
+
+
+def test_real_imslp_marker_double_pipe_nested_templates_and_missing_file_id_are_parsed():
+    tree = parse_heading_tree(REAL_IMSLP_EXCERPT)
+    assert [node.raw for node in tree.roots] == ["Arrangements and Transcriptions"]
+    chunk = tree.roots[0].children[0].file_templates[0]
+    assert chunk.filename == "PMLP60533-Gabrieli-G_Madrigale_Alma_Op85.PDF"
+    assert chunk.file_id is None
+    assert chunk.attachment_index == 1
+    assert "{{LinkEd|Luigi|Torchi}}" in chunk.raw
+    assert "{{ArteMusicaleItalia|2|1897|101382-409}}" in chunk.raw
+
+
+def test_balanced_fte_parser_enumerates_every_file_name_by_attachment_index():
+    text = make_wikitext(
+        "===Arrangements and Transcriptions===\n====For 3 Guitars====\n"
+        "{{#fte:imslpfile\n"
+        "|File Name 2=second.pdf\n"
+        "|Editor={{LinkEd|Luigi|Torchi}}\n"
+        "||File Name 1=first.pdf\n"
+        "|Scanner={{UME}}\n"
+        "}}",
+        "orchestra",
+    )
+    chunks = parse_heading_tree(text).roots[0].children[0].file_templates
+    assert [(chunk.attachment_index, chunk.filename) for chunk in chunks] == [
+        (1, "first.pdf"),
+        (2, "second.pdf"),
+    ]
+    assert chunks[0].source_span == chunks[1].source_span
+
+
+def test_unbalanced_fte_template_fails_closed_instead_of_returning_a_truncated_attachment():
+    text = make_wikitext(
+        "===Scores and Parts===\n{{#fte:imslpfile\n|File Name 1=truncated.pdf",
+        "guitar",
+    )
+    with pytest.raises(ValueError, match="unbalanced_template"):
+        parse_heading_tree(text)

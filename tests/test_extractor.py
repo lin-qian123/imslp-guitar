@@ -6,7 +6,7 @@ import re
 from imslp_library.config import load_allowlist
 from imslp_library.extractor import extract_memberships
 from tests.basic_helpers import ROOT, load_text_fixture
-from tests.model_helpers import make_frozen_page
+from tests.model_helpers import make_frozen_page, make_score
 
 CONFIG = load_allowlist(ROOT / "config/categories.json")
 KEEP_INSTRUMENTATION = object()
@@ -42,6 +42,7 @@ from imslp_library.extractor import (
 )
 from imslp_library.models import ExtractionReview
 from tests.basic_helpers import make_file_template, make_wikitext
+from tests.test_headings import REAL_IMSLP_EXCERPT
 
 
 ACCEPTED_EXAMPLES = {
@@ -397,3 +398,216 @@ def test_review_replay_never_changes_already_excluded_mixed_instrument_decision(
     result = extract_fixture("mixed_bass.wiki", "For 3 guitars (arr)")
     directory = _review_directory(tmp_path, "run-1")
     assert apply_extraction_reviews(result, run_id="run-1", review_directory=directory) == result
+
+
+def test_extract_fails_closed_when_files_marker_pair_is_missing_or_reversed():
+    for text in (
+        "| *****FILES*****\n===Scores and Parts===\n" + make_file_template("score.pdf", "9"),
+        "| *****WORK INFO*****\n|Instrumentation=3 guitars\n| *****FILES*****",
+    ):
+        page = make_frozen_page(wikitext_sha256=hashlib.sha256(text.encode("utf-8")).hexdigest())
+        rule = next(rule for rule in CONFIG.categories if rule.name == "For 3 guitars (arr)")
+        with pytest.raises(ValueError, match="files_region"):
+            extract_memberships(page, text, rule)
+
+
+def test_real_imslp_no_id_attachment_requires_unique_typed_score_metadata():
+    filename = "PMLP60533-Gabrieli-G_Madrigale_Alma_Op85.PDF"
+    missing = _extract_text(REAL_IMSLP_EXCERPT, "For 3 guitars (arr)")
+    assert missing.selected == []
+    assert missing.manual_review[0].reason_code == "file_metadata_missing"
+    assert missing.manual_review[0].source_id is None
+
+    page = make_frozen_page(
+        category_names=("For 3 guitars (arr)",),
+        wikitext_path="real-excerpt.wiki",
+        wikitext_sha256=hashlib.sha256(REAL_IMSLP_EXCERPT.encode("utf-8")).hexdigest(),
+    )
+    rule = next(rule for rule in CONFIG.categories if rule.name == "For 3 guitars (arr)")
+    score = make_score("777", filename=filename)
+    selected = extract_memberships(page, REAL_IMSLP_EXCERPT, rule, score_files=(score,))
+    assert [item.source_id for item in selected.selected] == ["source:f777@r202"]
+
+
+def test_no_id_attachment_rejects_ambiguous_metadata_and_enumerates_multiple_names():
+    filename = "same.pdf"
+    text = make_wikitext(
+        "===Arrangements and Transcriptions===\n====For 3 Guitars====\n"
+        "{{#fte:imslpfile\n"
+        "|File Name 2=second.pdf\n"
+        "|Editor={{LinkEd|Luigi|Torchi}}\n"
+        "|File Name 1=same.pdf\n"
+        "}}",
+        "orchestra",
+    )
+    page = make_frozen_page(
+        category_names=("For 3 guitars (arr)",),
+        wikitext_sha256=hashlib.sha256(text.encode("utf-8")).hexdigest(),
+    )
+    rule = next(rule for rule in CONFIG.categories if rule.name == "For 3 guitars (arr)")
+    ambiguous = extract_memberships(
+        page,
+        text,
+        rule,
+        score_files=(make_score("780", filename=filename), make_score("781", filename=filename)),
+    )
+    first = next(item for item in ambiguous.manual_review if item.filename == filename)
+    assert first.reason_code == "file_metadata_ambiguous"
+
+    resolved = extract_memberships(
+        page,
+        text,
+        rule,
+        score_files=(
+            make_score("782", filename=filename),
+            make_score("783", filename="second.pdf"),
+        ),
+    )
+    assert [(item.filename, item.source_id) for item in resolved.selected] == [
+        ("same.pdf", "source:f782@r202"),
+        ("second.pdf", "source:f783@r202"),
+    ]
+
+
+def test_explicit_file_id_and_typed_metadata_must_agree_exactly():
+    text = _arrangement_text("For 3 Guitars", filename="score.pdf", file_id="800")
+    page = make_frozen_page(
+        category_names=("For 3 guitars (arr)",),
+        wikitext_sha256=hashlib.sha256(text.encode("utf-8")).hexdigest(),
+    )
+    rule = next(rule for rule in CONFIG.categories if rule.name == "For 3 guitars (arr)")
+    exact = extract_memberships(page, text, rule, score_files=(make_score("800"),))
+    assert exact.selected
+    mismatch = extract_memberships(
+        page, text, rule, score_files=(make_score("801", filename="score.pdf"),)
+    )
+    assert mismatch.selected == []
+    assert mismatch.manual_review[0].reason_code == "file_metadata_conflict"
+
+
+@pytest.mark.parametrize("file_id", ["0", "0800", "../800", "8/00"])
+def test_invalid_explicit_wikitext_file_id_is_retained_as_manual_conflict(file_id):
+    text = _arrangement_text("For 3 Guitars", filename="score.pdf", file_id=file_id)
+    result = _extract_text(text, "For 3 guitars (arr)")
+    assert result.selected == []
+    assert result.manual_review[0].reason_code == "file_metadata_conflict"
+    assert result.manual_review[0].source_id is None
+
+
+def test_score_metadata_argument_requires_a_typed_tuple():
+    text = _arrangement_text("For 3 Guitars", filename="score.pdf", file_id="800")
+    page = make_frozen_page(
+        category_names=("For 3 guitars (arr)",),
+        wikitext_sha256=hashlib.sha256(text.encode("utf-8")).hexdigest(),
+    )
+    rule = next(rule for rule in CONFIG.categories if rule.name == "For 3 guitars (arr)")
+    with pytest.raises(TypeError, match="score_files"):
+        extract_memberships(page, text, rule, score_files=[make_score("800")])
+
+
+def test_duplicate_file_ids_dedupe_only_when_attachment_identity_is_identical():
+    branch = "===Arrangements and Transcriptions===\n====For 3 Guitars====\n"
+    identical = make_wikitext(
+        branch + make_file_template("same.pdf", "810") + "\n" + make_file_template("same.pdf", "810"),
+        "orchestra",
+    )
+    assert len(_extract_text(identical, "For 3 guitars (arr)").selected) == 1
+
+    conflicting = make_wikitext(
+        branch + make_file_template("first.pdf", "811") + "\n" + make_file_template("second.pdf", "811"),
+        "orchestra",
+    )
+    result = _extract_text(conflicting, "For 3 guitars (arr)")
+    assert result.selected == []
+    assert [item.reason_code for item in result.manual_review] == [
+        "file_metadata_conflict",
+        "file_metadata_conflict",
+    ]
+
+    different_template_metadata = make_wikitext(
+        branch
+        + make_file_template("same.pdf", "813").replace("\n}}", "\n|Editor=Editor A\n}}")
+        + "\n"
+        + make_file_template("same.pdf", "813").replace("\n}}", "\n|Editor=Editor B\n}}"),
+        "orchestra",
+    )
+    metadata_conflict = _extract_text(
+        different_template_metadata, "For 3 guitars (arr)"
+    )
+    assert metadata_conflict.selected == []
+    assert [item.reason_code for item in metadata_conflict.manual_review] == [
+        "file_metadata_conflict",
+        "file_metadata_conflict",
+    ]
+
+
+def test_unknown_relationship_descendant_is_mixed_without_vocabulary_match():
+    text = make_wikitext(
+        "===Arrangements and Transcriptions===\n====For 3 Guitars====\n"
+        "=====With Violoncello=====\n"
+        + make_file_template("unsafe.pdf", "812"),
+        "orchestra",
+    )
+    result = _extract_text(text, "For 3 guitars (arr)")
+    assert result.selected == []
+    assert result.excluded[0].reason_code == "mixed_instrument_heading"
+
+
+@pytest.mark.parametrize(
+    "bad_file_id,bad_source_id",
+    [
+        ("0", "source:f0@r202"),
+        ("01", "source:f01@r202"),
+        ("../1", "source:f../1@r202"),
+        ("1/2", "source:f1/2@r202"),
+        ("1", "source:f1@r0202"),
+    ],
+)
+def test_score_and_review_source_ids_are_canonical_path_safe_decimals(bad_file_id, bad_source_id):
+    with pytest.raises(ValueError):
+        make_score(bad_file_id, source_id=bad_source_id)
+    with pytest.raises(ValueError):
+        review_filename("For 3 guitars (arr)", 101, bad_source_id)
+
+
+def test_review_loader_rejects_symlinked_ancestors_run_and_entries(tmp_path):
+    result = extract_fixture("work_level_mixed.wiki", "For 3 guitars (arr)")
+    decision = result.manual_review[0]
+    outside = tmp_path / "outside"
+    outside.mkdir()
+
+    root = tmp_path / "ancestor-link"
+    (root / "metadata").mkdir(parents=True)
+    (root / "metadata" / "overrides").symlink_to(outside, target_is_directory=True)
+    linked_directory = root / "metadata" / "overrides" / "extraction_reviews" / "run-1"
+    with pytest.raises(ValueError, match="symlink"):
+        apply_extraction_reviews(result, run_id="run-1", review_directory=linked_directory)
+
+    normal_root = tmp_path / "normal"
+    reviews_parent = normal_root / "metadata" / "overrides" / "extraction_reviews"
+    reviews_parent.mkdir(parents=True)
+    external_run = outside / "run-1"
+    external_run.mkdir()
+    run_link = reviews_parent / "run-1"
+    run_link.symlink_to(external_run, target_is_directory=True)
+    with pytest.raises(ValueError, match="symlink"):
+        apply_extraction_reviews(result, run_id="run-1", review_directory=run_link)
+
+    run_link.unlink()
+    run_link.mkdir()
+    review = _review_for(decision)
+    external_review = outside / "review.json"
+    external_review.write_text(json.dumps(review.to_dict()), encoding="utf-8")
+    (run_link / review_filename(review.category_name, review.page_id, review.source_id)).symlink_to(
+        external_review
+    )
+    with pytest.raises(ValueError, match="symlink|regular"):
+        apply_extraction_reviews(result, run_id="run-1", review_directory=run_link)
+
+
+def test_review_loader_rejects_unexpected_directory_entry(tmp_path):
+    result = extract_fixture("work_level_mixed.wiki", "For 3 guitars (arr)")
+    directory = _review_directory(tmp_path, "run-1")
+    (directory / "unexpected.json").mkdir()
+    with pytest.raises(ValueError, match="unexpected|regular"):
+        apply_extraction_reviews(result, run_id="run-1", review_directory=directory)

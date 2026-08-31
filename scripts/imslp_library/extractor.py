@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
+import stat
 import unicodedata
 from dataclasses import replace
 from pathlib import Path
@@ -10,15 +12,17 @@ from pathlib import Path
 from .config import CategoryConfig
 from .enums import CategoryKind, SelectionReason
 from .headings import FileTemplateChunk, HeadingNode, HeadingTree, normalize_heading, parse_heading_tree
-from .models import ExtractionDecision, ExtractionResult, ExtractionReview, FrozenPage, SelectionEvidence
+from .models import ExtractionDecision, ExtractionResult, ExtractionReview, FrozenPage, ScoreFile, SelectionEvidence
 
 
 _INSTRUMENTATION_RE = re.compile(r"(?m)^\|Instrumentation=(?P<value>[^\r\n]*)$")
 _COMMENT_RE = re.compile(r"<!--.*?-->", re.DOTALL)
-_RELATIONSHIP_SUFFIX_RE = re.compile(r"^(?:and|or|with|plus)\b|^[,&/+]")
+_RELATIONSHIP_SUFFIX_RE = re.compile(r"^(?:and|or|with|plus)\b|^[,&/+;:–—-]")
 _TOKEN_RE = re.compile(r"\w+", re.UNICODE)
 _ARRANGEMENT_BRANCH = "arrangements and transcriptions"
 _ORIGINAL_BRANCH = "scores and parts"
+_CANONICAL_FILE_ID_RE = re.compile(r"[1-9][0-9]*")
+_CANONICAL_SOURCE_ID_RE = re.compile(r"source:f[1-9][0-9]*@r(?:0|[1-9][0-9]*)")
 
 
 def _instrumentation(wikitext: str, work_info_offset: int) -> tuple[str | None, str | None]:
@@ -86,8 +90,11 @@ def _decision(
     detail: str,
     selection_reason: SelectionReason | None = None,
 ) -> ExtractionDecision:
+    source_id = None
+    if chunk.file_id is not None and _CANONICAL_FILE_ID_RE.fullmatch(chunk.file_id):
+        source_id = f"source:f{chunk.file_id}@r{page.revision_id}"
     return ExtractionDecision(
-        source_id=f"source:f{chunk.file_id}@r{page.revision_id}",
+        source_id=source_id,
         filename=chunk.filename,
         disposition=disposition,
         reason_code=reason_code,
@@ -124,9 +131,86 @@ def _is_mixed_target_heading(category: CategoryConfig, normalized: str) -> bool:
 
 
 def _is_mixed_descendant(category: CategoryConfig, node: HeadingNode) -> bool:
+    if _RELATIONSHIP_SUFFIX_RE.match(node.normalized) is not None:
+        return True
     tokens = {token.casefold() for token in _TOKEN_RE.findall(node.normalized)}
     other_instruments = category.annotation_reject_tokens - {"guitar"}
     return bool(tokens & other_instruments)
+
+
+def _association_plan(
+    pairs: tuple[tuple[HeadingNode | None, FileTemplateChunk], ...],
+    page: FrozenPage,
+    score_files: tuple[ScoreFile, ...],
+) -> dict[int, tuple[FileTemplateChunk, str | None]]:
+    relevant_scores = tuple(
+        score
+        for score in score_files
+        if score.page_id == page.page_id and score.page_revision_id == page.revision_id
+    )
+    plan: dict[int, tuple[FileTemplateChunk, str | None]] = {}
+    explicit_groups: dict[str, list[FileTemplateChunk]] = {}
+    no_id_chunks: list[FileTemplateChunk] = []
+    for _, chunk in pairs:
+        if chunk.file_id is None:
+            no_id_chunks.append(chunk)
+        else:
+            explicit_groups.setdefault(chunk.file_id, []).append(chunk)
+
+    claimed_source_ids: set[str] = set()
+    for file_id, chunks in explicit_groups.items():
+        conflict = (
+            _CANONICAL_FILE_ID_RE.fullmatch(file_id) is None
+            or any(chunk.file_id_conflict for chunk in chunks)
+            or len({(chunk.filename, chunk.attachment_index, chunk.raw) for chunk in chunks}) != 1
+        )
+        matching_id = tuple(score for score in relevant_scores if score.file_id == file_id)
+        matching_filename = tuple(
+            score for score in relevant_scores if score.filename == chunks[0].filename
+        )
+        if score_files and (
+            len(matching_id) > 1
+            or (matching_id and matching_id[0].filename != chunks[0].filename)
+            or any(score.file_id != file_id for score in matching_filename)
+        ):
+            conflict = True
+        if conflict:
+            for chunk in chunks:
+                plan[id(chunk)] = (chunk, "file_metadata_conflict")
+            continue
+        if not score_files:
+            for chunk in chunks:
+                plan[id(chunk)] = (chunk, None)
+            continue
+        if not matching_id:
+            reason = "file_metadata_conflict" if matching_filename else "file_metadata_missing"
+            for chunk in chunks:
+                plan[id(chunk)] = (chunk, reason)
+            continue
+        score = matching_id[0]
+        claimed_source_ids.add(score.source_id)
+        for chunk in chunks:
+            plan[id(chunk)] = (replace(chunk, file_id=score.file_id), None)
+
+    filename_counts: dict[str, int] = {}
+    for chunk in no_id_chunks:
+        filename_counts[chunk.filename] = filename_counts.get(chunk.filename, 0) + 1
+    for chunk in no_id_chunks:
+        if chunk.file_id_conflict:
+            plan[id(chunk)] = (chunk, "file_metadata_conflict")
+            continue
+        matches = tuple(score for score in relevant_scores if score.filename == chunk.filename)
+        if filename_counts[chunk.filename] > 1 or len(matches) > 1:
+            plan[id(chunk)] = (chunk, "file_metadata_ambiguous")
+        elif not matches:
+            plan[id(chunk)] = (chunk, "file_metadata_missing")
+        elif matches[0].source_id in claimed_source_ids:
+            plan[id(chunk)] = (chunk, "file_metadata_ambiguous")
+        else:
+            score = matches[0]
+            claimed_source_ids.add(score.source_id)
+            plan[id(chunk)] = (replace(chunk, file_id=score.file_id), None)
+    return plan
 
 
 def _unsafe_ancestry(
@@ -300,6 +384,7 @@ def extract_memberships(
     page: FrozenPage,
     wikitext: str,
     category: CategoryConfig,
+    score_files: tuple[ScoreFile, ...] = (),
 ) -> ExtractionResult:
     """Classify all IMSLP file templates for one frozen page/category revision."""
 
@@ -309,25 +394,42 @@ def extract_memberships(
         raise TypeError("wikitext must be a string")
     if not isinstance(category, CategoryConfig):
         raise TypeError("category must be a CategoryConfig")
+    if not isinstance(score_files, tuple) or not all(
+        isinstance(score, ScoreFile) for score in score_files
+    ):
+        raise TypeError("score_files must be a tuple of ScoreFile")
     actual_digest = hashlib.sha256(wikitext.encode("utf-8")).hexdigest()
     if actual_digest != page.wikitext_sha256:
         raise ValueError("wikitext_sha256_mismatch")
 
     tree = parse_heading_tree(wikitext)
+    if tree.files_region_span == (0, 0):
+        raise ValueError("files_region_invalid")
     instrumentation_raw, instrumentation_normalized = _instrumentation(
         wikitext, tree.files_region_span[1]
     )
     decisions: list[ExtractionDecision] = []
+    pairs = _node_chunks(tree)
+    association_plan = _association_plan(pairs, page, score_files)
     seen_file_ids: set[str] = set()
-    for node, chunk in _node_chunks(tree):
-        if chunk.file_id in seen_file_ids:
+    for node, parsed_chunk in pairs:
+        chunk, metadata_reason = association_plan[id(parsed_chunk)]
+        if metadata_reason is None and chunk.file_id is not None and chunk.file_id in seen_file_ids:
             continue
-        seen_file_ids.add(chunk.file_id)
+        if metadata_reason is None and chunk.file_id is not None:
+            seen_file_ids.add(chunk.file_id)
         if category.name not in page.category_names:
             decisions.append(_decision(
                 page, chunk, node, instrumentation_raw, instrumentation_normalized,
                 disposition="excluded", reason_code="page_not_in_category",
                 detail="frozen page membership does not contain the target category",
+            ))
+            continue
+        if metadata_reason == "file_metadata_conflict":
+            decisions.append(_decision(
+                page, chunk, node, instrumentation_raw, instrumentation_normalized,
+                disposition="manual_review", reason_code=metadata_reason,
+                detail="file ID, filename or typed score metadata conflict",
             ))
             continue
         if node is None:
@@ -351,6 +453,13 @@ def extract_memberships(
                 page, chunk, node, instrumentation_raw, instrumentation_normalized,
                 disposition="excluded", reason_code="not_pdf",
                 detail="file attachment does not have a PDF filename",
+            ))
+            continue
+        if metadata_reason is not None:
+            decisions.append(_decision(
+                page, chunk, node, instrumentation_raw, instrumentation_normalized,
+                disposition="manual_review", reason_code=metadata_reason,
+                detail="file attachment could not be associated one-to-one with typed score metadata",
             ))
             continue
 
@@ -404,6 +513,11 @@ def review_filename(category_name: str, page_id: int, source_id: str | None) -> 
         raise ValueError("category_name must be nonblank")
     if type(page_id) is not int or page_id < 0:
         raise ValueError("page_id must be a nonnegative integer")
+    if source_id is not None and (
+        not isinstance(source_id, str)
+        or _CANONICAL_SOURCE_ID_RE.fullmatch(source_id) is None
+    ):
+        raise ValueError("source_id must be canonical and path-safe")
     category_nfc = unicodedata.normalize("NFC", category_name)
     category_sha10 = hashlib.sha256(category_nfc.encode("utf-8")).hexdigest()[:10]
     source_component = source_id if source_id is not None else "page"
@@ -418,6 +532,34 @@ def _validate_review_directory(review_directory: Path, run_id: str) -> None:
         or review_directory.parent.parent.parent.name != "metadata"
     ):
         raise ValueError("review directory must be metadata/overrides/extraction_reviews/<run-id>")
+    metadata_directory = review_directory.parent.parent.parent
+    library_root = metadata_directory.parent
+    critical_paths = (
+        library_root,
+        metadata_directory,
+        metadata_directory / "overrides",
+        review_directory.parent,
+        review_directory,
+    )
+    for path in critical_paths:
+        if path.is_symlink():
+            raise ValueError(f"extraction review path contains symlink: {path}")
+    existing_critical_paths = tuple(path for path in critical_paths if path.exists())
+    for path in existing_critical_paths:
+        mode = os.stat(path, follow_symlinks=False).st_mode
+        if not stat.S_ISDIR(mode):
+            raise ValueError(f"extraction review ancestor is not a directory: {path}")
+    if review_directory.exists():
+        resolved_root = library_root.resolve(strict=True)
+        resolved_base = (resolved_root / "metadata" / "overrides" / "extraction_reviews").resolve(
+            strict=True
+        )
+        resolved_review_directory = review_directory.resolve(strict=True)
+        if (
+            not resolved_review_directory.is_relative_to(resolved_root)
+            or resolved_review_directory.parent != resolved_base
+        ):
+            raise ValueError("extraction review directory escapes the library root")
 
 
 def apply_extraction_reviews(
@@ -443,7 +585,17 @@ def apply_extraction_reviews(
         review_filename(result.category_name, result.page_id, decision.source_id): decision
         for decision in result.manual_review
     }
-    actual_files = {path.name: path for path in review_directory.iterdir() if path.is_file()}
+    actual_files: dict[str, Path] = {}
+    for path in review_directory.iterdir():
+        if path.is_symlink():
+            raise ValueError(f"extraction review entry is a symlink: {path.name}")
+        mode = os.stat(path, follow_symlinks=False).st_mode
+        if not stat.S_ISREG(mode):
+            raise ValueError(f"extraction review entry is not a regular file: {path.name}")
+        resolved_path = path.resolve(strict=True)
+        if resolved_path.parent != review_directory.resolve(strict=True):
+            raise ValueError("extraction review entry escapes the review directory")
+        actual_files[path.name] = path
     unexpected = sorted(set(actual_files) - set(manual_by_name))
     if unexpected:
         raise ValueError(f"unexpected extraction review: {unexpected[0]}")

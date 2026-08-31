@@ -22,8 +22,10 @@ from .enums import (
 _SHA1_RE = re.compile(r"[0-9a-f]{40}")
 _SHA256_RE = re.compile(r"[0-9a-f]{64}")
 _WORK_ID_RE = re.compile(r"work:p([0-9]+)@r([0-9]+)")
-_SOURCE_ID_RE = re.compile(r"source:f(.+)@r([0-9]+)")
-_MEMBERSHIP_ID_RE = re.compile(r"membership:([0-9a-f]{10}):(source:f.+@r[0-9]+)")
+_SOURCE_ID_RE = re.compile(r"source:f([1-9][0-9]*)@r(0|[1-9][0-9]*)")
+_MEMBERSHIP_ID_RE = re.compile(
+    r"membership:([0-9a-f]{10}):(source:f[1-9][0-9]*@r(?:0|[1-9][0-9]*))"
+)
 _MODEL_REGISTRY: dict[str, type[Model]] = {}
 
 
@@ -42,6 +44,12 @@ def _nonnegative(value: object, name: str) -> int:
 def _positive(value: object, name: str) -> int:
     if type(value) is not int or value <= 0:
         raise ValueError(f"{name} must be a positive integer")
+    return value
+
+
+def _positive_decimal(value: object, name: str) -> str:
+    if not isinstance(value, str) or re.fullmatch(r"[1-9][0-9]*", value) is None:
+        raise ValueError(f"{name} must be a canonical positive ASCII decimal")
     return value
 
 
@@ -313,7 +321,7 @@ class ScoreFile(Model):
     object_path: str | None
 
     def __post_init__(self) -> None:
-        _nonempty(self.file_id, "file_id")
+        _positive_decimal(self.file_id, "file_id")
         _nonnegative(self.page_id, "page_id")
         _nonnegative(self.page_revision_id, "page_revision_id")
         _validate_source_id(self.source_id, self.file_id, self.page_revision_id)

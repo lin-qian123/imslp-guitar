@@ -6,12 +6,18 @@ import unicodedata
 from dataclasses import dataclass, field
 
 
-_FILES_MARKER_RE = re.compile(r"(?m)^[ \t]*\|[ \t]*\*{5}FILES\*{5}[ \t]*\r?$")
-_WORK_INFO_MARKER_RE = re.compile(r"(?m)^[ \t]*\|[ \t]*\*{5}WORK INFO\*{5}[ \t]*\r?$")
+_FILES_MARKER_RE = re.compile(r"(?m)^[ \t]*\|[ \t]*\*{5}FILES\*{5}[ \t]*(?:=[ \t]*)?\r?$")
+_WORK_INFO_MARKER_RE = re.compile(r"(?m)^[ \t]*\|[ \t]*\*{5}WORK INFO\*{5}[ \t]*(?:=[ \t]*)?\r?$")
 _HEADING_RE = re.compile(r"(?m)^(?P<marks>={2,6})[ \t]*(?P<text>.*?)[ \t]*(?P=marks)[ \t]*$")
-_FILE_TEMPLATE_RE = re.compile(r"\{\{#fte:imslpfile\b.*?\}\}", re.IGNORECASE | re.DOTALL)
-_FILE_NAME_RE = re.compile(r"(?mi)^\|File Name 1[ \t]*=[ \t]*(?P<value>[^\r\n]*)$")
-_FILE_ID_RE = re.compile(r"(?mi)^\|File ID[ \t]*=[ \t]*(?P<value>[^\r\n]*)$")
+_FTE_START_RE = re.compile(r"^\{\{[ \t]*#fte:imslpfile\b", re.IGNORECASE)
+_FILE_NAME_RE = re.compile(
+    r"(?mi)^[ \t]*\|{1,2}[ \t]*File Name[ \t]+(?P<index>[1-9][0-9]*)"
+    r"[ \t]*=[ \t]*(?P<value>[^\r\n]*)$"
+)
+_FILE_ID_RE = re.compile(
+    r"(?mi)^[ \t]*\|{1,2}[ \t]*File ID(?:[ \t]+(?P<index>[1-9][0-9]*))?"
+    r"[ \t]*=[ \t]*(?P<value>[^\r\n]*)$"
+)
 _COMMENT_RE = re.compile(r"<!--.*?-->", re.DOTALL)
 _TEMPLATE_RE = re.compile(r"\{\{([^{}]*)\}\}")
 _WIKILINK_RE = re.compile(r"\[\[(?:[^\]|]*\|)?([^\]]+)\]\]")
@@ -19,6 +25,10 @@ _EXTERNAL_LINK_RE = re.compile(r"\[(?:https?://\S+)(?:\s+([^\]]+))?\]")
 _HTML_TAG_RE = re.compile(r"<[^>]+>")
 _MEDIAWIKI_QUOTES_RE = re.compile(r"'{2,5}")
 _WHITESPACE_RE = re.compile(r"\s+")
+
+
+class HeadingParseError(ValueError):
+    """A stable fail-closed wikitext structure error."""
 
 
 def normalize_heading(text: str) -> str:
@@ -45,8 +55,10 @@ def normalize_heading(text: str) -> str:
 @dataclass(frozen=True, slots=True)
 class FileTemplateChunk:
     raw: str
-    file_id: str
+    file_id: str | None
     filename: str
+    attachment_index: int
+    file_id_conflict: bool
     source_span: tuple[int, int]
 
 
@@ -128,22 +140,67 @@ def _files_region(wikitext: str) -> tuple[str, int, int]:
     return wikitext[start:end], start, end
 
 
-def _file_chunk(match: re.Match[str], region_offset: int) -> FileTemplateChunk | None:
-    raw = match.group(0)
-    filename_match = _FILE_NAME_RE.search(raw)
-    file_id_match = _FILE_ID_RE.search(raw)
-    if filename_match is None or file_id_match is None:
-        return None
-    filename = html.unescape(filename_match.group("value")).strip()
-    file_id = file_id_match.group("value").strip()
-    if not filename or not file_id:
-        return None
-    return FileTemplateChunk(
-        raw=raw,
-        file_id=file_id,
-        filename=filename,
-        source_span=(region_offset + match.start(), region_offset + match.end()),
-    )
+def _balanced_templates(searchable_region: str) -> tuple[tuple[int, int], ...]:
+    spans: list[tuple[int, int]] = []
+    depth = 0
+    start = -1
+    index = 0
+    while index < len(searchable_region) - 1:
+        token = searchable_region[index:index + 2]
+        if token == "{{":
+            if depth == 0:
+                start = index
+            depth += 1
+            index += 2
+            continue
+        if token == "}}" and depth:
+            depth -= 1
+            index += 2
+            if depth == 0:
+                spans.append((start, index))
+                start = -1
+            continue
+        index += 1
+    if depth:
+        raise HeadingParseError("unbalanced_template")
+    return tuple(spans)
+
+
+def _file_chunks(raw: str, start: int, end: int) -> tuple[FileTemplateChunk, ...]:
+    filenames = tuple(_FILE_NAME_RE.finditer(raw))
+    if not filenames:
+        raise HeadingParseError("file_template_missing_filename")
+    indexed_ids: dict[int, list[str]] = {}
+    unindexed_ids: list[str] = []
+    for match in _FILE_ID_RE.finditer(raw):
+        value = match.group("value").strip()
+        if match.group("index") is None:
+            unindexed_ids.append(value)
+        else:
+            indexed_ids.setdefault(int(match.group("index")), []).append(value)
+
+    chunks: list[tuple[int, int, FileTemplateChunk]] = []
+    for filename_match in filenames:
+        attachment_index = int(filename_match.group("index"))
+        filename = html.unescape(filename_match.group("value")).strip()
+        if not filename:
+            raise HeadingParseError("file_template_empty_filename")
+        id_values = unindexed_ids + indexed_ids.get(attachment_index, [])
+        unique_ids = tuple(dict.fromkeys(id_values))
+        chunks.append((
+            attachment_index,
+            filename_match.start(),
+            FileTemplateChunk(
+                raw=raw,
+                file_id=unique_ids[0] if len(unique_ids) == 1 else None,
+                filename=filename,
+                attachment_index=attachment_index,
+                file_id_conflict=len(unique_ids) > 1,
+                source_span=(start, end),
+            ),
+        ))
+    chunks.sort(key=lambda item: (item[0], item[1]))
+    return tuple(item[2] for item in chunks)
 
 
 def parse_heading_tree(wikitext: str) -> HeadingTree:
@@ -154,27 +211,34 @@ def parse_heading_tree(wikitext: str) -> HeadingTree:
     region, region_start, region_end = _files_region(wikitext)
     tree = HeadingTree(roots=[], files_region_span=(region_start, region_end))
     comment_spans = tuple(match.span() for match in _COMMENT_RE.finditer(region))
+    searchable_region = _COMMENT_RE.sub(
+        lambda match: "".join(character if character in "\r\n" else " " for character in match.group(0)),
+        region,
+    )
 
     def outside_comment(match: re.Match[str]) -> bool:
         return not any(start <= match.start() < end for start, end in comment_spans)
 
-    events: list[tuple[int, int, re.Match[str]]] = []
+    events: list[tuple[int, int, object]] = []
     events.extend(
         (match.start(), 0, match)
         for match in _HEADING_RE.finditer(region)
         if outside_comment(match)
     )
     events.extend(
-        (match.start(), 1, match)
-        for match in _FILE_TEMPLATE_RE.finditer(region)
-        if outside_comment(match)
+        (start, 1, (start, end))
+        for start, end in _balanced_templates(searchable_region)
+        if _FTE_START_RE.match(searchable_region[start:end]) is not None
     )
     events.sort(key=lambda item: (item[0], item[1]))
 
     stack: list[HeadingNode] = []
     current: HeadingNode | None = None
-    for _, event_kind, match in events:
+    for _, event_kind, payload in events:
         if event_kind == 0:
+            if not isinstance(payload, re.Match):
+                raise AssertionError("heading event must contain a regex match")
+            match = payload
             level = len(match.group("marks"))
             raw = match.group("text").strip()
             while stack and stack[-1].level >= level:
@@ -195,11 +259,17 @@ def parse_heading_tree(wikitext: str) -> HeadingTree:
             current = node
             continue
 
-        chunk = _file_chunk(match, region_start)
-        if chunk is None:
-            continue
+        if not isinstance(payload, tuple) or len(payload) != 2:
+            raise AssertionError("file-template event must contain a source span")
+        template_start, template_end = payload
+        raw = region[template_start:template_end]
+        chunks = _file_chunks(
+            raw,
+            region_start + template_start,
+            region_start + template_end,
+        )
         if current is None:
-            tree.unheaded_file_templates.append(chunk)
+            tree.unheaded_file_templates.extend(chunks)
         else:
-            current.file_templates.append(chunk)
+            current.file_templates.extend(chunks)
     return tree
