@@ -129,7 +129,9 @@ def _is_mixed_descendant(category: CategoryConfig, node: HeadingNode) -> bool:
     return bool(tokens & other_instruments)
 
 
-def _mixed_ancestry_node(category: CategoryConfig, node: HeadingNode) -> HeadingNode | None:
+def _unsafe_ancestry(
+    category: CategoryConfig, node: HeadingNode
+) -> tuple[str, HeadingNode] | None:
     ancestry: list[HeadingNode] = []
     cursor: HeadingNode | None = node
     while cursor is not None:
@@ -137,12 +139,15 @@ def _mixed_ancestry_node(category: CategoryConfig, node: HeadingNode) -> Heading
         cursor = cursor.parent
     ancestry.reverse()
     for candidate in ancestry[1:]:
-        if _annotation_status(category, candidate.normalized) in {"exact", "annotation"}:
+        annotation_status = _annotation_status(category, candidate.normalized)
+        if annotation_status == "annotation":
+            return "annotation_contains_instrument", candidate
+        if annotation_status == "exact":
             continue
         if _is_mixed_target_heading(category, candidate.normalized):
-            continue
+            return "mixed_instrument_heading", candidate
         if _is_mixed_descendant(category, candidate):
-            return candidate
+            return "mixed_instrument_heading", candidate
     return None
 
 
@@ -349,13 +354,18 @@ def extract_memberships(
             ))
             continue
 
-        mixed_ancestry_node = _mixed_ancestry_node(category, node)
-        if mixed_ancestry_node is not None:
+        unsafe_ancestry = _unsafe_ancestry(category, node)
+        if unsafe_ancestry is not None:
+            reason_code, evidence_node = unsafe_ancestry
             decisions.append(_decision(
-                page, chunk, mixed_ancestry_node,
+                page, chunk, evidence_node,
                 instrumentation_raw, instrumentation_normalized,
-                disposition="excluded", reason_code="mixed_instrument_heading",
-                detail="heading ancestry contains mixed instrumentation",
+                disposition="excluded", reason_code=reason_code,
+                detail=(
+                    "target heading annotation contains a rejected instrument token"
+                    if reason_code == "annotation_contains_instrument"
+                    else "heading ancestry contains mixed instrumentation"
+                ),
             ))
             continue
 

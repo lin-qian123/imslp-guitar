@@ -241,6 +241,39 @@ def test_mixed_descendant_gate_applies_to_work_level_and_original_score_paths(
     assert [item.reason_code for item in result.excluded] == ["mixed_instrument_heading"]
 
 
+@pytest.mark.parametrize(
+    "category_name,heading,expected_reason",
+    [
+        (
+            "For 3 guitars (arr)",
+            "For 3 Guitars and Bass Guitar",
+            "mixed_instrument_heading",
+        ),
+        (
+            "For 3 guitars",
+            "For 3 Guitars and Bass Guitar",
+            "mixed_instrument_heading",
+        ),
+        (
+            "For 3 guitars (arr)",
+            "For 3 Guitars (piano)",
+            "annotation_contains_instrument",
+        ),
+    ],
+)
+def test_target_like_mixed_or_annotation_cannot_bypass_through_scores_branch(
+    category_name, heading, expected_reason
+):
+    text = make_wikitext(
+        f"===Scores and Parts===\n===={heading}====\n"
+        + make_file_template("unsafe-target-like.pdf", "698"),
+        "3 guitars",
+    )
+    result = _extract_text(text, category_name)
+    assert result.selected == []
+    assert [item.reason_code for item in result.excluded] == [expected_reason]
+
+
 def test_fullmatch_rejects_unconfigured_or_and_preserves_structured_evidence():
     flexible = extract_fixture("flexible_2_and_3.wiki", "For 2 and 3 guitars (arr)")
     selected = flexible.selected[0]
