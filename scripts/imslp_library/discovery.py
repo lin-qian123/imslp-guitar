@@ -431,9 +431,7 @@ def _validate_drift_report(
     filtered_by_name = {category.name: category for category in filtered_categories}
     if any(
         filtered_reasons[filtered_name] != "zero_members"
-        or filtered_by_name[filtered_name].size != 0
-        or changes[filtered_name][0] <= 0
-        or changes[filtered_name][1] != 0
+        or changes[filtered_name][1] != filtered_by_name[filtered_name].size
         for filtered_name in set(filtered_names) & set(change_names)
     ):
         raise SnapshotError("drift report filtered and count-change evidence is inconsistent")

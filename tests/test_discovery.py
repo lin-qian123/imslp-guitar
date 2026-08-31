@@ -32,12 +32,26 @@ def _fixture_pages() -> list[dict[str, object]]:
     return payload["pages"]
 
 
-def _categoryinfo(name: str, size: int, *, missing: bool = False) -> dict[str, object]:
+def _categoryinfo(
+    name: str,
+    size: int,
+    *,
+    file_count: int = 0,
+    subcategory_count: int = 0,
+    missing: bool = False,
+) -> dict[str, object]:
     page: dict[str, object] = {"ns": 14, "title": f"Category:{name}"}
     if missing:
         page["missing"] = True
     else:
-        page |= {"pageid": 900 + size, "categoryinfo": {"pages": size, "files": 0, "subcats": 0}}
+        page |= {
+            "pageid": 900 + size + file_count + subcategory_count,
+            "categoryinfo": {
+                "pages": size,
+                "files": file_count,
+                "subcats": subcategory_count,
+            },
+        }
     return {"query": {"pages": [page]}}
 
 
@@ -217,23 +231,27 @@ def _run_responses() -> list[object]:
     ]
 
 
-def _run_responses_with_present_zero_allowlisted() -> list[object]:
+def _run_responses_with_present_zero_allowlisted(
+    *, file_count: int = 0
+) -> list[object]:
     first, second = _fixture_pages()
     query = first["query"]
     assert isinstance(query, dict) and isinstance(query["allcategories"], list)
     query["allcategories"].append(
         {
             "category": "For 3 guitars (arr)",
-            "files": 0,
+            "files": file_count,
             "pages": 0,
-            "size": 0,
+            "size": file_count,
             "subcats": 0,
         }
     )
     return [
         json_response(first),
         json_response(second),
-        json_response(_categoryinfo("For 3 guitars (arr)", 0)),
+        json_response(
+            _categoryinfo("For 3 guitars (arr)", 0, file_count=file_count)
+        ),
         json_response(_categoryinfo("For guitar", 2)),
         json_response(_members("For 3 guitars", (1, 2, 8, 9))),
         json_response(_members("For 3-guitars (arr)", (1, 2, 3, 4))),
@@ -569,6 +587,57 @@ def test_present_zero_allowlisted_category_persists_filtered_count_change(
     report_path = tmp_path / result.report_path
     assert report_path.is_file()
     assert read_json(tmp_path / "metadata/category_drift_report.json") == result.report
+    state = RunState.from_dict(
+        read_json(tmp_path / f"metadata/runs/{RUN_ID}-state.json")
+    )
+    assert state.start_drift_report_path == result.report_path
+    assert state.start_drift_report_sha256 == result.report_sha256
+
+
+def test_present_zero_page_allowlisted_category_with_file_persists_count_change(
+    tmp_path: Path,
+) -> None:
+    config_path = tmp_path / "config/categories.json"
+    _write_allowlist(config_path)
+    config = load_allowlist(config_path)
+    _write_complete_run(tmp_path, config.config_hash)
+
+    result = discover_category_drift(
+        tmp_path,
+        config,
+        ImslpClient(
+            transport=FakeTransport(
+                _run_responses_with_present_zero_allowlisted(file_count=1)
+            ),
+            clock=FakeClock(NOW),
+        ),
+        FakeClock(NOW),
+        phase="run_start",
+        compare_run_id=RUN_ID,
+    )
+
+    filtered = {
+        item["name"]: item for item in result.report["filtered_candidates"]
+    }
+    assert filtered["For 3 guitars (arr)"] == {
+        "name": "For 3 guitars (arr)",
+        "size": 1,
+        "page_count": 0,
+        "file_count": 1,
+        "subcategory_count": 0,
+        "reason": "zero_members",
+    }
+    assert result.report["empty_categories"] == []
+    assert result.report["deleted_categories"] == []
+    assert result.report["member_count_changes"] == [
+        {
+            "name": "For 3 guitars (arr)",
+            "previous_member_count": 5,
+            "current_member_count": 1,
+        }
+    ]
+    report_path = tmp_path / result.report_path
+    assert report_path.is_file()
     state = RunState.from_dict(
         read_json(tmp_path / f"metadata/runs/{RUN_ID}-state.json")
     )
@@ -1210,6 +1279,34 @@ def test_nonzero_filtered_reason_cannot_overlap_zero_count_change() -> None:
             "name": "For electric guitar",
             "previous_member_count": 1,
             "current_member_count": 0,
+        }
+    )
+
+    with pytest.raises(SnapshotError, match="filtered and count-change"):
+        discovery_module._validate_drift_report(
+            report,
+            run_id=RUN_ID,
+            phase="run_start",
+        )
+
+
+def test_zero_page_filtered_change_must_match_allcategory_size() -> None:
+    report = _strict_run_report("0" * 64)
+    report["filtered_candidates"] = [
+        {
+            "name": "For guitar",
+            "size": 1,
+            "page_count": 0,
+            "file_count": 1,
+            "subcategory_count": 0,
+            "reason": "zero_members",
+        }
+    ]
+    report["member_count_changes"].append(
+        {
+            "name": "For guitar",
+            "previous_member_count": 2,
+            "current_member_count": 3,
         }
     )
 
