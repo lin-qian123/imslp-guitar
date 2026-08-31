@@ -4,6 +4,7 @@ import hashlib
 import json
 import os
 import re
+import stat
 import tempfile
 import unicodedata
 from dataclasses import dataclass, replace
@@ -21,6 +22,28 @@ from .storage import _file_lock, _run_lock_path
 
 
 _PHASES = {"standalone", "run_start", "run_end"}
+_REPORT_KEYS = {
+    "schema_version",
+    "generated_at",
+    "phase",
+    "compare_run_id",
+    "allowlist_version",
+    "allowlist_sha256",
+    "new_candidates",
+    "empty_categories",
+    "deleted_categories",
+    "member_count_changes",
+    "possible_renames",
+    "filtered_candidates",
+}
+_REPORT_GROUPS = (
+    "new_candidates",
+    "empty_categories",
+    "deleted_categories",
+    "member_count_changes",
+    "possible_renames",
+    "filtered_candidates",
+)
 _HYPHENS_RE = re.compile(r"[-‐‑‒–—―]+")
 _SPACE_RE = re.compile(r"\s+")
 _PURE_GUITAR_RE = re.compile(
@@ -182,6 +205,91 @@ def _run_paths(root: Path, run_id: str) -> tuple[Path, Path]:
     )
 
 
+def _drift_report_path(root: Path, run_id: str, stem: str) -> Path:
+    return root / "metadata/runs" / f"{run_id}-category-drift-{stem}.json"
+
+
+def _read_regular_bytes(root: Path, path: Path, label: str) -> bytes:
+    try:
+        _assert_safe_read_target(root, path, label)
+    except ValueError as exc:
+        raise SnapshotError(f"{label} path is unsafe or a symlink") from exc
+    flags = os.O_RDONLY | os.O_CLOEXEC | os.O_NOFOLLOW
+    try:
+        descriptor = os.open(path, flags)
+    except OSError as exc:
+        raise SnapshotError(f"{label} is missing, unsafe or a symlink") from exc
+    try:
+        details = os.fstat(descriptor)
+        if not stat.S_ISREG(details.st_mode):
+            raise SnapshotError(f"{label} must be a regular file")
+        with os.fdopen(descriptor, "rb", closefd=False) as source:
+            return source.read()
+    finally:
+        os.close(descriptor)
+
+
+def _validate_drift_report(
+    payload: object,
+    *,
+    run_id: str,
+    phase: str,
+    config: LibraryConfig,
+) -> None:
+    if not isinstance(payload, dict) or set(payload) != _REPORT_KEYS:
+        raise SnapshotError("drift report has invalid top-level fields")
+    generated_at = payload["generated_at"]
+    try:
+        parsed = datetime.fromisoformat(generated_at) if isinstance(generated_at, str) else None
+    except ValueError:
+        parsed = None
+    valid = (
+        type(payload["schema_version"]) is int
+        and payload["schema_version"] == 1
+        and parsed is not None
+        and parsed.tzinfo is not None
+        and parsed.utcoffset() is not None
+        and payload["phase"] == phase
+        and payload["compare_run_id"] == run_id
+        and payload["allowlist_version"] == config.version
+        and payload["allowlist_sha256"] == config.config_hash
+        and all(isinstance(payload[group], list) for group in _REPORT_GROUPS)
+    )
+    if not valid:
+        raise SnapshotError("drift report identity or schema is invalid")
+
+
+def _validate_drift_pointers(
+    root: Path,
+    run_id: str,
+    config: LibraryConfig,
+    state: RunState,
+) -> None:
+    for stem in ("start", "end"):
+        relative = getattr(state, f"{stem}_drift_report_path")
+        expected_digest = getattr(state, f"{stem}_drift_report_sha256")
+        if relative is None:
+            continue
+        expected_path = _drift_report_path(root, run_id, stem)
+        if relative != _relative(root, expected_path):
+            raise SnapshotError(f"{stem} drift report path is not canonical")
+        content = _read_regular_bytes(root, expected_path, f"{stem} drift report")
+        if hashlib.sha256(content).hexdigest() != expected_digest:
+            raise SnapshotError(f"{stem} drift report SHA-256 mismatch")
+        try:
+            payload = json.loads(content.decode("utf-8"))
+        except (UnicodeError, json.JSONDecodeError) as exc:
+            raise SnapshotError(f"{stem} drift report is not UTF-8 JSON") from exc
+        if not isinstance(payload, dict) or _canonical_bytes(payload) != content:
+            raise SnapshotError(f"{stem} drift report is not canonical JSON")
+        _validate_drift_report(
+            payload,
+            run_id=run_id,
+            phase=f"run_{stem}",
+            config=config,
+        )
+
+
 def _load_run_context(
     root: Path, config: LibraryConfig, run_id: str
 ) -> tuple[RunSnapshot, RunState, Path, bytes]:
@@ -199,6 +307,7 @@ def _load_run_context(
     snapshot_digest = hashlib.sha256(snapshot_bytes).hexdigest()
     if state.snapshot_sha256 != snapshot_digest:
         raise SnapshotError("run state snapshot digest does not match immutable snapshot")
+    _validate_drift_pointers(root, run_id, config, state)
     return snapshot, state, state_path, snapshot_bytes
 
 
@@ -215,7 +324,15 @@ def _report_path(root: Path, phase: str, compare_run_id: str | None) -> Path:
     if phase == "standalone":
         return root / "metadata/category_drift_report.json"
     suffix = "start" if phase == "run_start" else "end"
-    return root / "metadata/runs" / f"{compare_run_id}-category-drift-{suffix}.json"
+    return _drift_report_path(root, compare_run_id, suffix)
+
+
+def _assert_safe_alias(root: Path) -> Path:
+    alias_path = root / "metadata/category_drift_report.json"
+    _assert_safe_write_target(root, alias_path, "category drift alias")
+    if alias_path.is_symlink():
+        raise ValueError("category drift alias cannot be a symlink")
+    return alias_path
 
 
 def _persist_report(
@@ -225,10 +342,10 @@ def _persist_report(
     compare_run_id: str | None,
     state: RunState | None,
     state_path: Path | None,
+    config: LibraryConfig,
     generated_at: datetime,
 ) -> DiscoveryResult:
-    alias_path = root / "metadata/category_drift_report.json"
-    _assert_safe_write_target(root, alias_path, "category drift alias")
+    alias_path = _assert_safe_alias(root)
     canonical_path = _report_path(root, phase, compare_run_id)
     if phase == "standalone":
         atomic_write_json(alias_path, report)
@@ -241,10 +358,12 @@ def _persist_report(
             current_state = RunState.from_dict(read_json(state_path))
             if current_state != state:
                 raise SnapshotError("RunState changed while category discovery was running")
+            _validate_drift_pointers(root, compare_run_id, config, current_state)
             if getattr(current_state, f"{pointer}_path") is not None:
                 raise FileExistsError(f"{pointer} is already recorded")
             _write_immutable_json(root, canonical_path, report)
             # The mutable alias is deliberately later than the fsynced immutable report.
+            _assert_safe_alias(root)
             atomic_write_json(alias_path, report)
             digest = hashlib.sha256(canonical_path.read_bytes()).hexdigest()
             updated = replace(
@@ -282,6 +401,7 @@ def discover_category_drift(
         validate_library_config_binding(config)
     except (ConfigError, TypeError, ValueError) as exc:
         raise ValueError("allowlist canonical source binding mismatch") from exc
+    _assert_safe_alias(root)
 
     snapshot: RunSnapshot | None = None
     state: RunState | None = None
@@ -302,6 +422,7 @@ def discover_category_drift(
         raise ValueError("clock.now() must be timezone-aware")
 
     all_categories = client.allcategories(prefix="For")
+    all_by_name = {category.name: category for category in all_categories}
     approved_names = {category.name for category in config.categories}
     new_categories: list[AllCategory] = []
     filtered_candidates: list[dict[str, object]] = []
@@ -319,7 +440,20 @@ def discover_category_drift(
         info = client.category_info(category.name)
         count = info.page_count + info.file_count + info.subcategory_count
         live_counts[category.name] = count
-        if info.missing:
+        listed = all_by_name.get(category.name)
+        if listed is not None:
+            consistent = (
+                not info.missing
+                and listed.size == count
+                and listed.page_count == info.page_count
+                and listed.file_count == info.file_count
+                and listed.subcategory_count == info.subcategory_count
+            )
+            if not consistent:
+                raise ValueError(
+                    f"allcategories and categoryinfo disagree for {category.name}"
+                )
+        elif info.missing:
             deleted_names.add(category.name)
         elif count == 0:
             empty_names.add(category.name)
@@ -402,7 +536,7 @@ def discover_category_drift(
         if snapshot_path.read_bytes() != snapshot_bytes:
             raise SnapshotError("immutable run snapshot changed during category discovery")
     result = _persist_report(
-        root, report, phase, compare_run_id, state, state_path, generated_at
+        root, report, phase, compare_run_id, state, state_path, config, generated_at
     )
     if snapshot_bytes is not None:
         snapshot_path, _ = _run_paths(root, compare_run_id)

@@ -2,18 +2,20 @@ from __future__ import annotations
 
 import hashlib
 import json
+from dataclasses import replace
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 
 import pytest
 
-from imslp_library.client import ImslpClient, ImslpClientError
+from imslp_library.client import CategoryInfo, ImslpClient, ImslpClientError
 from imslp_library.config import load_allowlist
 from imslp_library.discovery import DiscoveryResult, discover_category_drift
 from imslp_library.enums import RunStatus
 from imslp_library.jsonio import atomic_write_json, read_json
 from imslp_library.models import CategorySnapshot, RunSnapshot, RunState
+from imslp_library.snapshot import SnapshotError
 from tests.basic_helpers import ROOT
 from tests.network_helpers import FakeClock, FakeTransport, json_response
 
@@ -127,6 +129,64 @@ def _write_complete_run(root: Path, config_hash: str) -> tuple[Path, Path]:
     )
     atomic_write_json(state_path, state.to_dict())
     return snapshot_path, state_path
+
+
+def _drift_report(phase: str, **overrides: object) -> dict[str, object]:
+    report: dict[str, object] = {
+        "schema_version": 1,
+        "generated_at": NOW.isoformat(),
+        "phase": phase,
+        "compare_run_id": RUN_ID,
+        "allowlist_version": "test-allowlist-1",
+        "allowlist_sha256": "0" * 64,
+        "new_candidates": [],
+        "empty_categories": [],
+        "deleted_categories": [],
+        "member_count_changes": [],
+        "possible_renames": [],
+        "filtered_candidates": [],
+    }
+    report.update(overrides)
+    return report
+
+
+def _bind_existing_drift(
+    root: Path,
+    state_path: Path,
+    config_hash: str,
+    *,
+    stem: str = "start",
+    path_override: str | None = None,
+    report_overrides: dict[str, object] | None = None,
+    digest_override: str | None = None,
+    symlink_leaf: bool = False,
+    directory_leaf: bool = False,
+) -> Path:
+    relative = path_override or f"metadata/runs/{RUN_ID}-category-drift-{stem}.json"
+    report_path = root / relative
+    report = _drift_report(f"run_{stem}", allowlist_sha256=config_hash)
+    report.update(report_overrides or {})
+    if directory_leaf:
+        report_path.mkdir()
+        digest = "0" * 64
+    elif symlink_leaf:
+        outside = root.parent / f"outside-{stem}-drift.json"
+        atomic_write_json(outside, report)
+        report_path.symlink_to(outside)
+        digest = hashlib.sha256(outside.read_bytes()).hexdigest()
+    else:
+        atomic_write_json(report_path, report)
+        digest = hashlib.sha256(report_path.read_bytes()).hexdigest()
+    state = RunState.from_dict(read_json(state_path))
+    state = replace(
+        state,
+        **{
+            f"{stem}_drift_report_path": relative,
+            f"{stem}_drift_report_sha256": digest_override or digest,
+        },
+    )
+    atomic_write_json(state_path, state.to_dict())
+    return report_path
 
 
 def _query(url: str) -> dict[str, list[str]]:
@@ -463,3 +523,212 @@ def test_malformed_api_item_fails_closed_without_writing_a_report(tmp_path: Path
             FakeClock(NOW),
         )
     assert not (tmp_path / "metadata/category_drift_report.json").exists()
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    [
+        "wrong_path",
+        "wrong_hash",
+        "wrong_phase",
+        "wrong_run",
+        "extra_key",
+        "symlink_leaf",
+        "directory_leaf",
+    ],
+)
+def test_run_end_rejects_forged_existing_start_pointer_before_network(
+    tmp_path: Path,
+    mutation: str,
+) -> None:
+    config_path = tmp_path / "config/categories.json"
+    _write_allowlist(config_path)
+    config = load_allowlist(config_path)
+    _, state_path = _write_complete_run(tmp_path, config.config_hash)
+    arguments: dict[str, object] = {}
+    if mutation == "wrong_path":
+        arguments["path_override"] = "metadata/runs/forged-start.json"
+    elif mutation == "wrong_hash":
+        arguments["digest_override"] = "f" * 64
+    elif mutation == "wrong_phase":
+        arguments["report_overrides"] = {"phase": "run_end"}
+    elif mutation == "wrong_run":
+        arguments["report_overrides"] = {"compare_run_id": "run-forged"}
+    elif mutation == "extra_key":
+        arguments["report_overrides"] = {"unexpected": True}
+    elif mutation == "symlink_leaf":
+        arguments["symlink_leaf"] = True
+    elif mutation == "directory_leaf":
+        arguments["directory_leaf"] = True
+    _bind_existing_drift(tmp_path, state_path, config.config_hash, **arguments)
+    transport = FakeTransport([])
+
+    with pytest.raises(SnapshotError, match="drift|report|symlink"):
+        discover_category_drift(
+            tmp_path,
+            config,
+            ImslpClient(transport=transport, clock=FakeClock(NOW)),
+            FakeClock(NOW),
+            phase="run_end",
+            compare_run_id=RUN_ID,
+        )
+    assert transport.calls == []
+
+
+@pytest.mark.parametrize("direct_size", [None, 0, 4])
+def test_present_allowlisted_category_rejects_direct_info_conflict(
+    tmp_path: Path,
+    direct_size: int | None,
+) -> None:
+    config_path = tmp_path / "config/categories.json"
+    _write_allowlist(config_path)
+    first, second = _fixture_pages()
+    assert isinstance(first["query"], dict)
+    first["query"]["allcategories"].append(
+        {"category": "For guitar", "size": 3, "pages": 3, "files": 0, "subcats": 0}
+    )
+    guitar_info = (
+        _categoryinfo("For guitar", 0, missing=True)
+        if direct_size is None
+        else _categoryinfo("For guitar", direct_size)
+    )
+    transport = FakeTransport([
+        json_response(first),
+        json_response(second),
+        json_response(_categoryinfo("For 3 guitars (arr)", 0)),
+        json_response(guitar_info),
+    ])
+
+    with pytest.raises(ValueError, match="allcategories.*categoryinfo"):
+        discover_category_drift(
+            tmp_path,
+            load_allowlist(config_path),
+            ImslpClient(transport=transport, clock=FakeClock(NOW)),
+            FakeClock(NOW),
+        )
+    assert not (tmp_path / "metadata/category_drift_report.json").exists()
+
+
+def test_present_allowlisted_category_with_matching_counts_is_not_empty(
+    tmp_path: Path,
+) -> None:
+    config_path = tmp_path / "config/categories.json"
+    _write_allowlist(config_path)
+    first, second = _fixture_pages()
+    assert isinstance(first["query"], dict)
+    first["query"]["allcategories"].append(
+        {"category": "For guitar", "size": 3, "pages": 3, "files": 0, "subcats": 0}
+    )
+    transport = FakeTransport([
+        json_response(first),
+        json_response(second),
+        json_response(_categoryinfo("For 3 guitars (arr)", 0)),
+        json_response(_categoryinfo("For guitar", 3)),
+    ])
+
+    report = discover_category_drift(
+        tmp_path,
+        load_allowlist(config_path),
+        ImslpClient(transport=transport, clock=FakeClock(NOW)),
+        FakeClock(NOW),
+    ).report
+
+    assert report["empty_categories"] == [
+        {"name": "For 3 guitars (arr)", "previous_member_count": None}
+    ]
+    assert all(item["name"] != "For guitar" for item in report["empty_categories"])
+
+
+@pytest.mark.parametrize("phase", ["standalone", "run_start"])
+def test_preexisting_alias_symlink_is_rejected_before_network(
+    tmp_path: Path,
+    phase: str,
+) -> None:
+    config_path = tmp_path / "config/categories.json"
+    _write_allowlist(config_path)
+    config = load_allowlist(config_path)
+    if phase == "run_start":
+        _write_complete_run(tmp_path, config.config_hash)
+    alias = tmp_path / "metadata/category_drift_report.json"
+    alias.parent.mkdir(parents=True, exist_ok=True)
+    outside = tmp_path.parent / f"outside-alias-{phase}.json"
+    outside.write_text('{"sentinel":true}\n', encoding="utf-8")
+    alias.symlink_to(outside)
+    transport = FakeTransport([])
+
+    arguments = {"phase": phase}
+    if phase == "run_start":
+        arguments["compare_run_id"] = RUN_ID
+    with pytest.raises(ValueError, match="alias.*symlink"):
+        discover_category_drift(
+            tmp_path,
+            config,
+            ImslpClient(transport=transport, clock=FakeClock(NOW)),
+            FakeClock(NOW),
+            **arguments,
+        )
+    assert transport.calls == []
+    assert outside.read_text(encoding="utf-8") == '{"sentinel":true}\n'
+
+
+def test_alias_symlink_swap_during_discovery_is_rejected_before_write(
+    tmp_path: Path,
+) -> None:
+    config_path = tmp_path / "config/categories.json"
+    _write_allowlist(config_path)
+    alias = tmp_path / "metadata/category_drift_report.json"
+    outside = tmp_path.parent / "outside-alias-swap.json"
+    outside.write_text('{"sentinel":true}\n', encoding="utf-8")
+
+    class AliasSwapClient:
+        def allcategories(self, *, prefix: str = ""):
+            assert prefix == "For"
+            alias.parent.mkdir(parents=True, exist_ok=True)
+            alias.symlink_to(outside)
+            return ()
+
+        def category_info(self, name: str) -> CategoryInfo:
+            return CategoryInfo(name, 1, 0, 0)
+
+    with pytest.raises(ValueError, match="alias.*symlink"):
+        discover_category_drift(
+            tmp_path,
+            load_allowlist(config_path),
+            AliasSwapClient(),  # type: ignore[arg-type]
+            FakeClock(NOW),
+        )
+    assert outside.read_text(encoding="utf-8") == '{"sentinel":true}\n'
+
+
+def test_existing_pointer_is_revalidated_under_lock_after_network(
+    tmp_path: Path,
+) -> None:
+    config_path = tmp_path / "config/categories.json"
+    _write_allowlist(config_path)
+    config = load_allowlist(config_path)
+    _, state_path = _write_complete_run(tmp_path, config.config_hash)
+    start_path = _bind_existing_drift(tmp_path, state_path, config.config_hash)
+
+    class PointerTamperClient:
+        def allcategories(self, *, prefix: str = ""):
+            assert prefix == "For"
+            report = read_json(start_path)
+            report["generated_at"] = datetime(2026, 8, 31, 12, 1, tzinfo=timezone.utc).isoformat()
+            atomic_write_json(start_path, report)
+            return ()
+
+        def category_info(self, name: str) -> CategoryInfo:
+            return CategoryInfo(name, 1, 0, 0)
+
+    with pytest.raises(SnapshotError, match="drift report SHA-256"):
+        discover_category_drift(
+            tmp_path,
+            config,
+            PointerTamperClient(),  # type: ignore[arg-type]
+            FakeClock(NOW),
+            phase="run_end",
+            compare_run_id=RUN_ID,
+        )
+    assert not (tmp_path / f"metadata/runs/{RUN_ID}-category-drift-end.json").exists()
+    state = RunState.from_dict(read_json(state_path))
+    assert state.end_drift_report_path is None
