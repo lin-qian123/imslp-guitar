@@ -206,6 +206,11 @@ def test_stable_ids_reject_noncanonical_leading_zero_forms() -> None:
         h.make_membership(membership_id=f"membership:{h.MEMBERSHIP_ID.split(':')[1]}:source:f301@r0202")
 
 
+def test_membership_rejects_noncanonical_work_id() -> None:
+    with pytest.raises(ValueError, match="work_id"):
+        h.make_membership(work_id="work:p0101@r0202")
+
+
 def test_membership_rejects_string_storage_method() -> None:
     with pytest.raises(TypeError, match="storage_method"):
         h.make_membership(local_path="score.pdf", storage_method="hardlink")

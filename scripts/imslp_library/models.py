@@ -93,6 +93,19 @@ def _validate_source_id(value: str, file_id: str | None = None, revision_id: int
     return match
 
 
+def _validate_work_id(value: str, page_id: int | None = None, revision_id: int | None = None) -> re.Match[str]:
+    _nonempty(value, "work_id")
+    match = _WORK_ID_RE.fullmatch(value)
+    if match is None:
+        raise ValueError("work_id is not stable")
+    canonical = f"work:p{int(match.group(1))}@r{int(match.group(2))}"
+    if value != canonical:
+        raise ValueError("work_id is not canonical")
+    if page_id is not None and revision_id is not None and value != f"work:p{page_id}@r{revision_id}":
+        raise ValueError("work_id must match page_id and revision_id")
+    return match
+
+
 def _validate_membership_id(value: str) -> re.Match[str]:
     _nonempty(value, "membership_id")
     match = _MEMBERSHIP_ID_RE.fullmatch(value)
@@ -277,8 +290,7 @@ class Work(Model):
         _nonnegative(self.revision_id, "revision_id")
         for name in ("work_id", "page_title", "title_en", "composer_en", "imslp_url"):
             _nonempty(getattr(self, name), name)
-        if self.work_id != f"work:p{self.page_id}@r{self.revision_id}":
-            raise ValueError("work_id must match page_id and revision_id")
+        _validate_work_id(self.work_id, self.page_id, self.revision_id)
 
 
 @dataclass(frozen=True, slots=True)
@@ -356,8 +368,7 @@ class Membership(Model):
         _nonempty(self.category_name, "category_name")
         if match.group(1) != hashlib.sha256(self.category_name.encode("utf-8")).hexdigest()[:10] or match.group(2) != self.source_id:
             raise ValueError("membership_id must match category_name and source_id")
-        if _WORK_ID_RE.fullmatch(self.work_id) is None:
-            raise ValueError("work_id is not stable")
+        _validate_work_id(self.work_id)
         _validate_source_id(self.source_id)
         if not isinstance(self.selection_reason, SelectionReason) or not isinstance(self.evidence, SelectionEvidence):
             raise TypeError("selection_reason and evidence have invalid types")
