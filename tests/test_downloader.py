@@ -679,6 +679,300 @@ def test_attempt_part_path_and_evidence_hash_are_replay_guarded(tmp_path):
         download_batch(tmp_path, "r1", (target,), FakeTransport([]), FakeClock.fixed())
 
 
+def test_known_hash_success_persists_canonical_object_authority(tmp_path):
+    path = valid_pdf(tmp_path)
+    target = target_for_path(path)
+    _initialize_run(tmp_path, "r1", (target,))
+    result = download_batch(tmp_path, "r1", (target,), FakeTransport([pdf_response(path)]), FakeClock.fixed())[0].result
+    attempt = _attempts(tmp_path, "r1")[0]
+    assert attempt.evidence_path == f"metadata/runs/r1/evidence/{target.score.source_id}-1-success.json"
+    evidence = read_json(tmp_path / attempt.evidence_path)
+    assert evidence == {
+        "schema_version": 1,
+        "model_type": "DownloadSuccessEvidence",
+        "run_id": "r1",
+        "source_id": target.score.source_id,
+        "page_revision_id": target.score.page_revision_id,
+        "size": result.size,
+        "sha1": result.sha1,
+        "sha256": result.sha256,
+        "object_path": f"objects/{result.sha256[:2]}/{result.sha256}.pdf",
+        "source_hash_missing": False,
+        "verified_at": FakeClock.fixed().now().isoformat(),
+    }
+
+
+@pytest.mark.parametrize("kind", ["known", "missing", "override"])
+def test_every_success_kind_fails_closed_if_object_authority_is_lost(tmp_path, kind):
+    path = valid_pdf(tmp_path)
+    target = target_for_path(path, include_sha1=kind != "missing")
+    _initialize_run(tmp_path, "r1", (target,))
+    if kind == "override":
+        override_path = tmp_path / f"metadata/overrides/download_sources/{target.score.source_id}.json"
+        payload = json.loads((ROOT / "tests/fixtures/http/source-override.json").read_text())
+        payload |= {
+            "source_id": target.score.source_id,
+            "page_revision_id": target.score.page_revision_id,
+            "expected_size": path.stat().st_size,
+            "sha1": hashlib.sha1(path.read_bytes()).hexdigest(),
+            "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+        }
+        atomic_write_json(override_path, payload)
+        response = bytes_response(path.read_bytes(), "application/pdf", final_url=payload["url"])
+    else:
+        response = pdf_response(path)
+    result = download_batch(tmp_path, "r1", (target,), FakeTransport([response]), FakeClock.fixed())[0].result
+    object_path = tmp_path / f"objects/{result.sha256[:2]}/{result.sha256}.pdf"
+    if kind == "known":
+        object_path.unlink()
+    elif kind == "missing":
+        replacement = object_path.with_suffix(".replacement")
+        replacement.write_bytes(b"x" * object_path.stat().st_size)
+        object_path.unlink()
+        replacement.rename(object_path)
+    else:
+        original = object_path.with_suffix(".original")
+        object_path.rename(original)
+        object_path.symlink_to(original)
+    with pytest.raises(DownloadError, match="object|success"):
+        download_batch(tmp_path, "r1", (target,), FakeTransport([]), FakeClock.fixed())
+    with pytest.raises(DownloadError, match="object|success"):
+        download_completion_blockers(tmp_path, "r1", FakeClock.fixed())
+
+
+def test_source_hash_review_rejects_forged_caller_result_and_non_pdf_object(tmp_path):
+    path = valid_pdf(tmp_path)
+    target = target_for_path(path, include_sha1=False)
+    _initialize_run(tmp_path, "r1", (target,))
+    result = download_batch(tmp_path, "r1", (target,), FakeTransport([pdf_response(path)]), FakeClock.fixed())[0].result
+    forged_bytes = b"not a pdf"
+    forged_hash = hashlib.sha256(forged_bytes).hexdigest()
+    forged_object = tmp_path / f"objects/{forged_hash[:2]}/{forged_hash}.pdf"
+    forged_object.parent.mkdir(parents=True, exist_ok=True)
+    forged_object.write_bytes(forged_bytes)
+    review = SourceHashReview(
+        source_id=target.score.source_id,
+        page_revision_id=target.score.page_revision_id,
+        object_sha256=forged_hash,
+        decision="accept_structural_without_source_hash",
+        reviewer_note="forged review",
+        reviewed_at=FakeClock.fixed().now(),
+    )
+    atomic_write_json(tmp_path / f"metadata/overrides/source_hash_reviews/{target.score.source_id}.json", review.to_dict())
+    forged_result = replace(result, size=len(forged_bytes), sha256=forged_hash)
+    with pytest.raises(DownloadError, match="exact|replay|object"):
+        resolve_source_hash_review(tmp_path, "r1", target, forged_result)
+
+
+def test_resolved_manual_without_exact_override_evidence_is_invalid_history(tmp_path):
+    path = valid_pdf(tmp_path)
+    target = target_for_path(path)
+    _initialize_run(tmp_path, "r1", (target,))
+    download_batch(tmp_path, "r1", (target,), FakeTransport([fixture_response("http/not-a-pdf.html")]), FakeClock.fixed())
+    attempt = _attempts(tmp_path, "r1")[0]
+    atomic_write_json(
+        tmp_path / "metadata/runs/r1-download-attempts.json",
+        {
+            "schema_version": 1,
+            "model_type": "DownloadAttemptManifest",
+            "items": [replace(attempt, review_status=ReviewStatus.RESOLVED, evidence_path=None, evidence_sha256=None).to_dict()],
+        },
+    )
+    with pytest.raises(DownloadError, match="manual|evidence|history"):
+        download_batch(tmp_path, "r1", (target,), FakeTransport([]), FakeClock.fixed())
+
+
+def test_terminal_html_with_cleared_evidence_fields_is_rejected(tmp_path):
+    path = valid_pdf(tmp_path)
+    target = target_for_path(path)
+    _initialize_run(tmp_path, "r1", (target,))
+    download_batch(tmp_path, "r1", (target,), FakeTransport([fixture_response("http/login.html")]), FakeClock.fixed())
+    attempt = _attempts(tmp_path, "r1")[0]
+    atomic_write_json(
+        tmp_path / "metadata/runs/r1-download-attempts.json",
+        {
+            "schema_version": 1,
+            "model_type": "DownloadAttemptManifest",
+            "items": [replace(attempt, evidence_path=None, evidence_sha256=None).to_dict()],
+        },
+    )
+    with pytest.raises(DownloadError, match="evidence"):
+        download_batch(tmp_path, "r1", (target,), FakeTransport([]), FakeClock.fixed())
+
+
+def test_status_selector_uses_latest_effective_status_and_combines_filters(tmp_path):
+    path = valid_pdf(tmp_path)
+    first, second = two_targets()
+    digest = hashlib.sha1(path.read_bytes()).hexdigest()
+    first = replace(first, score=replace(first.score, expected_size=path.stat().st_size, sha1_imslp=digest))
+    second = replace(second, score=replace(second.score, expected_size=path.stat().st_size, sha1_imslp=digest))
+    _initialize_run(tmp_path, "r1", (first, second))
+    download_batch(tmp_path, "r1", (first,), FakeTransport([fixture_response("http/login.html")]), FakeClock.fixed())
+    transport = FakeTransport([pdf_response(path)])
+    selected = download_batch(
+        tmp_path,
+        "r1",
+        (first, second),
+        transport,
+        FakeClock.fixed(),
+        statuses=(DownloadStatus.NOT_STARTED,),
+        category_names=(second.category_name,),
+        source_ids=(second.score.source_id,),
+        batch_limit=1,
+    )
+    assert tuple(item.source_id for item in selected) == (second.score.source_id,)
+    assert len(transport.calls) == 1
+    terminal_transport = FakeTransport([])
+    terminal = download_batch(
+        tmp_path,
+        "r1",
+        (first,),
+        terminal_transport,
+        FakeClock.fixed(),
+        statuses=(DownloadStatus.LOGIN_REQUIRED,),
+    )
+    assert terminal[0].result.status is DownloadStatus.LOGIN_REQUIRED
+    assert terminal_transport.calls == []
+
+
+def test_unfinished_attempt_maps_to_not_started_status_selector(tmp_path):
+    path = valid_pdf(tmp_path)
+    target = target_for_path(path)
+    _initialize_run(tmp_path, "r1", (target,))
+
+    def crash(phase):
+        if phase == "attempt_started":
+            raise RuntimeError("crash")
+
+    with pytest.raises(RuntimeError):
+        download_batch(tmp_path, "r1", (target,), FakeTransport([pdf_response(path)]), FakeClock.fixed(), transition_hook=crash)
+    transport = FakeTransport([pdf_response(path)])
+    result = download_batch(
+        tmp_path,
+        "r1",
+        (target,),
+        transport,
+        FakeClock.fixed(),
+        statuses=(DownloadStatus.NOT_STARTED,),
+        max_attempts=1,
+    )
+    assert result[0].result.status is DownloadStatus.DOWNLOADED_VERIFIED
+    assert len(transport.calls) == 1
+
+
+@pytest.mark.parametrize(
+    "phase",
+    ["invalid_intent_written", "invalid_moved", "invalid_attempt_checkpointed", "invalid_before_cleanup"],
+)
+def test_invalid_pdf_quarantine_wal_recovers_every_crash_window(tmp_path, phase):
+    path = valid_pdf(tmp_path)
+    target = target_for_path(path, include_sha1=False)
+    _initialize_run(tmp_path, "r1", (target,))
+    broken_body = b"%PDF-broken" + b"x" * (path.stat().st_size - len(b"%PDF-broken"))
+    broken = bytes_response(broken_body, "application/pdf", final_url="https://s9.imslp.org/files/score.pdf")
+
+    def crash(current):
+        if current == phase:
+            raise RuntimeError(f"crash at {phase}")
+
+    with pytest.raises(RuntimeError, match=phase):
+        download_batch(tmp_path, "r1", (target,), FakeTransport([broken]), FakeClock.fixed(), transition_hook=crash)
+    result = download_batch(tmp_path, "r1", (target,), FakeTransport([]), FakeClock.fixed())
+    assert result[0].result.status is DownloadStatus.MANUAL_REVIEW
+    assert result[0].result.detail == "pdf_invalid"
+    attempt = _attempts(tmp_path, "r1")[0]
+    assert attempt.phase is AttemptPhase.FINISHED
+    assert attempt.evidence_path is not None
+    assert (tmp_path / attempt.evidence_path).is_file()
+    assert not list((tmp_path / "quarantine/transactions").glob("download-invalid-*.json"))
+
+
+@pytest.mark.parametrize("mutation", ["unknown_bytes", "symlink"])
+def test_invalid_quarantine_wal_rejects_unknown_or_symlinked_source(tmp_path, mutation):
+    path = valid_pdf(tmp_path)
+    target = target_for_path(path, include_sha1=False)
+    _initialize_run(tmp_path, "r1", (target,))
+    broken_body = b"%PDF-broken" + b"x" * (path.stat().st_size - len(b"%PDF-broken"))
+    broken = bytes_response(broken_body, "application/pdf", final_url="https://s9.imslp.org/files/score.pdf")
+
+    def crash(phase):
+        if phase == "invalid_intent_written":
+            raise RuntimeError("crash")
+
+    with pytest.raises(RuntimeError):
+        download_batch(tmp_path, "r1", (target,), FakeTransport([broken]), FakeClock.fixed(), transition_hook=crash)
+    part = tmp_path / "objects/.parts/r1/f301-r202.part"
+    if mutation == "unknown_bytes":
+        altered = bytearray(part.read_bytes())
+        altered[-1] ^= 1
+        part.write_bytes(altered)
+    else:
+        retained = tmp_path / "retained-invalid.part"
+        part.rename(retained)
+        part.symlink_to(retained)
+    with pytest.raises(DownloadError, match="quarantine|source|unsafe|mismatch"):
+        download_batch(tmp_path, "r1", (target,), FakeTransport([]), FakeClock.fixed())
+
+
+def test_pending_source_hash_review_is_visible_to_status_selector(tmp_path):
+    path = valid_pdf(tmp_path)
+    target = target_for_path(path, include_sha1=False)
+    _initialize_run(tmp_path, "r1", (target,))
+    download_batch(tmp_path, "r1", (target,), FakeTransport([pdf_response(path)]), FakeClock.fixed())
+    transport = FakeTransport([])
+    result = download_batch(
+        tmp_path,
+        "r1",
+        (target,),
+        transport,
+        FakeClock.fixed(),
+        statuses=(DownloadStatus.DOWNLOADED_VERIFIED,),
+    )
+    assert result[0].result.status is DownloadStatus.DOWNLOADED_VERIFIED
+    assert result[0].result.review_status is ReviewStatus.PENDING
+    assert transport.calls == []
+
+
+def test_post_terminal_metadata_conflict_wins_without_illegal_new_attempt(tmp_path):
+    path = valid_pdf(tmp_path)
+    target = target_for_path(path)
+    _initialize_run(tmp_path, "r1", (target,))
+    download_batch(tmp_path, "r1", (target,), FakeTransport([pdf_response(path)]), FakeClock.fixed())
+    category = "For 4 guitars (arr)"
+    membership = f"membership:{hashlib.sha256(category.encode()).hexdigest()[:10]}:{target.score.source_id}"
+    conflicting = replace(
+        target,
+        category_name=category,
+        membership_id=membership,
+        score=replace(target.score, expected_size=target.score.expected_size + 1),
+    )
+    transport = FakeTransport([])
+    result = download_batch(tmp_path, "r1", (target, conflicting), transport, FakeClock.fixed())
+    assert result[0].result.status is DownloadStatus.MANUAL_REVIEW
+    assert result[0].result.detail == "source_metadata_conflict"
+    assert len(result[0].category_names) == 2
+    assert transport.calls == []
+    assert len(_attempts(tmp_path, "r1")) == 1
+
+
+def test_membership_wait_history_cannot_retry_before_recorded_deadline(tmp_path):
+    path = valid_pdf(tmp_path)
+    target = target_for_path(path)
+    _initialize_run(tmp_path, "r1", (target,))
+    download_batch(tmp_path, "r1", (target,), FakeTransport([fixture_response("http/membership-wait.html")]), FakeClock.fixed())
+    due = FakeClock.fixed()
+    due.current += timedelta(seconds=60)
+    download_batch(tmp_path, "r1", (target,), FakeTransport([pdf_response(path)]), due)
+    attempts = list(_attempts(tmp_path, "r1"))
+    attempts[1] = replace(attempts[1], started_at=attempts[0].retry_after - timedelta(seconds=1), completed_at=attempts[0].retry_after - timedelta(seconds=1))
+    atomic_write_json(
+        tmp_path / "metadata/runs/r1-download-attempts.json",
+        {"schema_version": 1, "model_type": "DownloadAttemptManifest", "items": [item.to_dict() for item in attempts]},
+    )
+    with pytest.raises(DownloadError, match="retry_after|wait|history"):
+        download_completion_blockers(tmp_path, "r1", FakeClock.fixed())
+
+
 def test_same_source_is_downloaded_once_with_all_associations(tmp_path):
     path = valid_pdf(tmp_path)
     first = target_for_path(path)
