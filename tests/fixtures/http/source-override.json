@@ -1,0 +1,11 @@
+{
+  "approved_at": "2026-08-30T12:00:00+00:00",
+  "expected_size": 1,
+  "legal_source_note": "Public-domain scan mirrored by the institution",
+  "page_revision_id": 202,
+  "schema_version": 1,
+  "sha1": "0000000000000000000000000000000000000000",
+  "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "source_id": "source:f301@r202",
+  "url": "https://archive.example.edu/public-domain/score.pdf"
+}
