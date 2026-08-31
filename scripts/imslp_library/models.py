@@ -273,7 +273,7 @@ class FrozenPage(Model):
         _nonnegative(self.page_id, "page_id")
         _nonnegative(self.revision_id, "revision_id")
         _nonempty(self.page_title, "page_title")
-        _strings(self.category_names, "category_names", nonempty=True)
+        _strings(self.category_names, "category_names")
         _nonempty(self.wikitext_path, "wikitext_path")
         _required_sha256(self.wikitext_sha256, "wikitext_sha256")
 
@@ -425,16 +425,16 @@ class ExtractionResult(Model):
             raise TypeError("decisions must be a tuple of ExtractionDecision")
 
     @property
-    def selected(self) -> tuple[ExtractionDecision, ...]:
-        return tuple(item for item in self.decisions if item.disposition == "selected")
+    def selected(self) -> list[ExtractionDecision]:
+        return [item for item in self.decisions if item.disposition == "selected"]
 
     @property
-    def excluded(self) -> tuple[ExtractionDecision, ...]:
-        return tuple(item for item in self.decisions if item.disposition == "excluded")
+    def excluded(self) -> list[ExtractionDecision]:
+        return [item for item in self.decisions if item.disposition == "excluded"]
 
     @property
-    def manual_review(self) -> tuple[ExtractionDecision, ...]:
-        return tuple(item for item in self.decisions if item.disposition == "manual_review")
+    def manual_review(self) -> list[ExtractionDecision]:
+        return [item for item in self.decisions if item.disposition == "manual_review"]
 
 
 @dataclass(frozen=True, slots=True)

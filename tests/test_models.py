@@ -60,9 +60,14 @@ def test_extraction_result_properties_preserve_decision_order() -> None:
     excluded = h.make_extraction_decision(filename="b.pdf", disposition="excluded", selection_reason=None)
     manual = h.make_extraction_decision(filename="c.pdf", disposition="manual_review", selection_reason=None)
     result = h.make_extraction_result(decisions=(manual, selected, excluded, selected))
-    assert result.manual_review == (manual,)
-    assert result.selected == (selected, selected)
-    assert result.excluded == (excluded,)
+    assert result.manual_review == [manual]
+    assert result.selected == [selected, selected]
+    assert result.excluded == [excluded]
+
+
+def test_frozen_page_allows_empty_category_membership_for_extraction_gates() -> None:
+    page = h.make_frozen_page(category_names=())
+    assert page.category_names == ()
 
 
 @pytest.mark.parametrize(("factory", "changes"), [
