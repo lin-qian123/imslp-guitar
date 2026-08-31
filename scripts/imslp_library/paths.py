@@ -190,7 +190,8 @@ def _validate_path_map_manifest(payload: dict[str, object]) -> None:
             isinstance(item, dict)
             and set(item) == keys
             and item["kind"] in _KINDS
-            and all(isinstance(item[name], str) and item[name] for name in ("stable_id", "original", "mapped"))
+            and isinstance(item["original"], str)
+            and all(isinstance(item[name], str) and item[name] for name in ("stable_id", "mapped"))
             and item["collision_reason"] in {None, "clean_or_casefold_collision", "truncation_collision", "suffix_collision"}
             and len(item["mapped"].encode("utf-8")) <= MAX_COMPONENT_BYTES
         )

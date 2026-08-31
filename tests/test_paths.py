@@ -6,6 +6,7 @@ from pathlib import Path
 
 import pytest
 
+from imslp_library.jsonio import read_json
 from imslp_library.paths import (
     PathSource,
     build_path_map,
@@ -179,6 +180,38 @@ def test_path_map_persists_complete_deterministic_records(tmp_path):
     assert {(row["original"], row["mapped"], row["kind"], row["stable_id"], row["collision_reason"]) for row in payload["items"]} == {
         (source.original, mappings[source].mapped, source.kind, source.stable_id, mappings[source].collision_reason)
         for source in sources
+    }
+
+
+def test_path_map_round_trips_empty_originals_as_untitled(tmp_path):
+    sources = [
+        PathSource(kind="composer", original="", stable_id="attribution"),
+        PathSource(kind="work", original="", stable_id="7"),
+        PathSource(kind="file", original="", stable_id="301"),
+    ]
+    mappings = build_path_map(sources)
+
+    path = write_path_map(tmp_path, mappings)
+
+    payload = read_json(path)
+    assert [item["original"] for item in payload["items"]] == ["", "", ""]
+    assert {item["mapped"] for item in payload["items"]} == {"Untitled"}
+    assert payload == {
+        "schema_version": 1,
+        "model_type": "PathMapManifest",
+        "items": sorted(
+            [
+                {
+                    "kind": source.kind,
+                    "stable_id": source.stable_id,
+                    "original": "",
+                    "mapped": "Untitled",
+                    "collision_reason": None,
+                }
+                for source in sources
+            ],
+            key=lambda item: (item["kind"], item["stable_id"], item["original"]),
+        ),
     }
 
 
