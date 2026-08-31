@@ -890,6 +890,36 @@ def test_status_selector_uses_latest_effective_status_and_combines_filters(tmp_p
     assert terminal_transport.calls == []
 
 
+def test_capacity_guard_receives_only_selected_restored_groups(tmp_path):
+    path = valid_pdf(tmp_path)
+    first, second = two_targets()
+    digest = hashlib.sha1(path.read_bytes()).hexdigest()
+    first = replace(first, score=replace(first.score, expected_size=path.stat().st_size, sha1_imslp=digest))
+    second = replace(second, score=replace(second.score, expected_size=path.stat().st_size, sha1_imslp=digest))
+    _initialize_run(tmp_path, "r1", (first, second))
+    download_batch(tmp_path, "r1", (first,), FakeTransport([fixture_response("http/login.html")]), FakeClock.fixed())
+    seen: list[tuple] = []
+
+    def reject_capacity(_root, selected_targets):
+        seen.append(selected_targets)
+        return False
+
+    result = download_batch(
+        tmp_path,
+        "r1",
+        (first, second),
+        FakeTransport([]),
+        FakeClock.fixed(),
+        source_ids=(second.score.source_id,),
+        statuses=(DownloadStatus.NOT_STARTED,),
+        capacity_guard=reject_capacity,
+    )
+
+    assert tuple(item.source_id for item in result) == (second.score.source_id,)
+    assert tuple(item.score.source_id for item in seen[0]) == (second.score.source_id,)
+    assert result[0].result.detail == "insufficient_capacity"
+
+
 def test_unfinished_attempt_maps_to_not_started_status_selector(tmp_path):
     path = valid_pdf(tmp_path)
     target = target_for_path(path)

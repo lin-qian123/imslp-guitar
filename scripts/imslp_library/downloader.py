@@ -1628,13 +1628,6 @@ def download_batch(
     attempts = _reconcile_invalid_intents(root, run_id, attempts)
     attempts = _reconcile_unfinished_attempts(root, run_id, attempts, clock)
     _reconcile_success_part_cleanup(root, run_id, attempts)
-    if capacity_guard is not None:
-        try:
-            passed = capacity_guard(root, targets)
-        except OSError:
-            passed = False
-        if passed is False:
-            return tuple(_batch(group, _empty_result(group[0].score.source_id, DownloadStatus.RETRYABLE, clock.now(), "insufficient_capacity")) for group in groups)
     restored_groups: list[tuple[DownloadTarget, ...]] = []
     for group in groups:
         latest = max(
@@ -1658,6 +1651,25 @@ def download_batch(
             in statuses_filter
         )
     ]
+    if capacity_guard is not None and selected:
+        selected_targets = tuple(target for group in selected for target in group)
+        try:
+            passed = capacity_guard(root, selected_targets)
+        except OSError:
+            passed = False
+        if passed is False:
+            return tuple(
+                _batch(
+                    group,
+                    _empty_result(
+                        group[0].score.source_id,
+                        DownloadStatus.RETRYABLE,
+                        clock.now(),
+                        "insufficient_capacity",
+                    ),
+                )
+                for group in selected
+            )
     results: list[DownloadBatchResult] = []
     stopped = False
     started_groups = 0
