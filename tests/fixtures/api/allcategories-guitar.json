@@ -1,0 +1,90 @@
+{
+  "pages": [
+    {
+      "continue": {
+        "accontinue": "For 4 guitars",
+        "continue": "-||"
+      },
+      "query": {
+        "allcategories": [
+          {
+            "category": "For 3 guitars",
+            "files": 0,
+            "pages": 4,
+            "size": 4,
+            "subcats": 0
+          },
+          {
+            "category": "For 3-guitars (arr)",
+            "files": 0,
+            "pages": 4,
+            "size": 4,
+            "subcats": 0
+          },
+          {
+            "category": "For 2 electric guitars",
+            "files": 0,
+            "pages": 3,
+            "size": 3,
+            "subcats": 0
+          },
+          {
+            "category": "For bass guitar (arr)",
+            "files": 0,
+            "pages": 2,
+            "size": 2,
+            "subcats": 0
+          },
+          {
+            "category": "For guitar, voice",
+            "files": 0,
+            "pages": 9,
+            "size": 9,
+            "subcats": 0
+          }
+        ]
+      }
+    },
+    {
+      "query": {
+        "allcategories": [
+          {
+            "category": "For 4 guitars",
+            "files": 0,
+            "pages": 6,
+            "size": 6,
+            "subcats": 0
+          },
+          {
+            "category": "For guitar and piano",
+            "files": 0,
+            "pages": 7,
+            "size": 7,
+            "subcats": 0
+          },
+          {
+            "category": "For guitar?search=bad",
+            "files": 0,
+            "pages": 1,
+            "size": 1,
+            "subcats": 0
+          },
+          {
+            "category": "For guitar orchestra (arr)",
+            "files": 0,
+            "pages": 0,
+            "size": 0,
+            "subcats": 0
+          },
+          {
+            "category": "For lute",
+            "files": 0,
+            "pages": 5,
+            "size": 5,
+            "subcats": 0
+          }
+        ]
+      }
+    }
+  ]
+}
