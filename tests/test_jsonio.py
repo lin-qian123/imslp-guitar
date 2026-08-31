@@ -78,6 +78,31 @@ def test_read_models_rejects_unexpected_manifest_type(tmp_path: Path) -> None:
         jsonio.read_models(path, "ScoreManifest")
 
 
+@pytest.mark.parametrize(("label", "factory", "wrong_factory"), [
+    ("MembershipManifest", h.make_membership, h.make_work),
+    ("ScoreFileManifest", h.make_score, h.make_membership),
+    ("DownloadAttemptManifest", h.make_download_attempt, h.make_score),
+])
+def test_manifest_label_is_bound_to_exact_item_model(tmp_path: Path, label, factory, wrong_factory) -> None:
+    path = tmp_path / f"{label}.json"
+    jsonio.atomic_write_models(path, label, (factory(),))
+    assert jsonio.read_models(path, label) == (factory(),)
+    with pytest.raises(TypeError, match="item model"):
+        jsonio.atomic_write_models(path, label, (wrong_factory(),))
+    jsonio.atomic_write_json(path, {"schema_version": 1, "model_type": label, "items": [wrong_factory().to_dict()]})
+    with pytest.raises(ValueError, match="item model"):
+        jsonio.read_models(path, label)
+
+
+def test_unknown_manifest_labels_are_rejected_on_write_and_read(tmp_path: Path) -> None:
+    path = tmp_path / "unknown.json"
+    with pytest.raises(ValueError, match="unknown manifest"):
+        jsonio.atomic_write_models(path, "UnknownManifest", (h.make_work(),))
+    jsonio.atomic_write_json(path, {"schema_version": 1, "model_type": "UnknownManifest", "items": []})
+    with pytest.raises(ValueError, match="unknown manifest"):
+        jsonio.read_models(path, "UnknownManifest")
+
+
 def test_replace_failure_preserves_old_target_and_cleans_only_own_temp(tmp_path: Path, monkeypatch) -> None:
     path = tmp_path / "state.json"
     jsonio.atomic_write_json(path, {"schema_version": 1, "value": "old"})
@@ -100,3 +125,16 @@ def test_successful_write_fsyncs_file_and_parent_then_replaces(tmp_path: Path, m
     assert jsonio.read_json(path) == {"value": "new"}
     assert len(calls) == 2
     assert not list(tmp_path.glob(f".{path.name}.*.tmp"))
+
+
+@pytest.mark.parametrize("existing", [
+    {"schema_version": 2, "value": "old"},
+    {"schema_version": 2, "model_type": "MembershipManifest", "items": []},
+])
+def test_missing_incoming_schema_cannot_overwrite_versioned_document(tmp_path: Path, existing) -> None:
+    path = tmp_path / "versioned.json"
+    jsonio.atomic_write_json(path, existing)
+    incoming = {key: value for key, value in existing.items() if key != "schema_version"} | {"value": "new"}
+    with pytest.raises(ValueError, match="downgrade"):
+        jsonio.atomic_write_json(path, incoming)
+    assert jsonio.read_json(path) == existing

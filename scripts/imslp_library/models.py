@@ -55,6 +55,11 @@ def _sha256(value: str | None, name: str) -> None:
         raise ValueError(f"{name} must be 64 lowercase hexadecimal characters")
 
 
+def _required_sha256(value: object, name: str) -> None:
+    if not isinstance(value, str) or _SHA256_RE.fullmatch(value) is None:
+        raise ValueError(f"{name} must be 64 lowercase hexadecimal characters")
+
+
 def _aware(value: datetime | None, name: str, *, optional: bool = False) -> None:
     if value is None:
         if optional:
@@ -76,9 +81,14 @@ def _validate_source_id(value: str, file_id: str | None = None, revision_id: int
     match = _SOURCE_ID_RE.fullmatch(value)
     if match is None:
         raise ValueError("source_id is not stable")
-    if file_id is not None and match.group(1) != file_id:
+    if match.group(2) != str(int(match.group(2))):
+        raise ValueError("source_id revision is not canonical")
+    if file_id is not None and revision_id is not None:
+        if value != f"source:f{file_id}@r{revision_id}":
+            raise ValueError("source_id does not match file_id and page_revision_id")
+    elif file_id is not None and match.group(1) != file_id:
         raise ValueError("source_id does not match file_id")
-    if revision_id is not None and int(match.group(2)) != revision_id:
+    elif revision_id is not None and match.group(2) != str(revision_id):
         raise ValueError("source_id does not match page_revision_id")
     return match
 
@@ -88,7 +98,10 @@ def _validate_membership_id(value: str) -> re.Match[str]:
     match = _MEMBERSHIP_ID_RE.fullmatch(value)
     if match is None:
         raise ValueError("membership_id is not stable")
-    _validate_source_id(match.group(2))
+    try:
+        _validate_source_id(match.group(2))
+    except ValueError as exc:
+        raise ValueError("membership_id contains a noncanonical source_id") from exc
     return match
 
 
@@ -225,6 +238,12 @@ def model_from_dict(payload: object) -> Model:
     return Model.from_dict(payload)
 
 
+def model_class_for_name(model_type: str) -> type[Model]:
+    if not isinstance(model_type, str) or model_type not in _MODEL_REGISTRY:
+        raise ValueError(f"unknown model_type: {model_type}")
+    return _MODEL_REGISTRY[model_type]
+
+
 @dataclass(frozen=True, slots=True)
 class FrozenPage(Model):
     page_id: int
@@ -240,7 +259,7 @@ class FrozenPage(Model):
         _nonempty(self.page_title, "page_title")
         _strings(self.category_names, "category_names", nonempty=True)
         _nonempty(self.wikitext_path, "wikitext_path")
-        _sha256(self.wikitext_sha256, "wikitext_sha256")
+        _required_sha256(self.wikitext_sha256, "wikitext_sha256")
 
 
 @dataclass(frozen=True, slots=True)
@@ -258,8 +277,7 @@ class Work(Model):
         _nonnegative(self.revision_id, "revision_id")
         for name in ("work_id", "page_title", "title_en", "composer_en", "imslp_url"):
             _nonempty(getattr(self, name), name)
-        match = _WORK_ID_RE.fullmatch(self.work_id)
-        if match is None or (int(match.group(1)), int(match.group(2))) != (self.page_id, self.revision_id):
+        if self.work_id != f"work:p{self.page_id}@r{self.revision_id}":
             raise ValueError("work_id must match page_id and revision_id")
 
 
@@ -348,6 +366,8 @@ class Membership(Model):
             raise ValueError("local_path and storage_method must be present together")
         if self.local_path is not None:
             _nonempty(self.local_path, "local_path")
+            if not isinstance(self.storage_method, StorageMethod):
+                raise TypeError("storage_method must be StorageMethod")
         if type(self.active) is not bool:
             raise TypeError("active must be boolean")
 
@@ -424,7 +444,7 @@ class ExtractionReview(Model):
             _validate_source_id(self.source_id, revision_id=self.revision_id)
         if self.decision != "exclude":
             raise ValueError("ExtractionReview decision must be exclude")
-        _sha256(self.extraction_decision_sha256, "extraction_decision_sha256")
+        _required_sha256(self.extraction_decision_sha256, "extraction_decision_sha256")
         _aware(self.reviewed_at, "reviewed_at")
 
 
@@ -462,7 +482,7 @@ class RunSnapshot(Model):
         _positive(self.schema_version, "schema_version")
         for name in ("run_id", "config_version"):
             _nonempty(getattr(self, name), name)
-        _sha256(self.config_sha256, "config_sha256")
+        _required_sha256(self.config_sha256, "config_sha256")
         _aware(self.snapshot_started_at, "snapshot_started_at")
         _aware(self.snapshot_completed_at, "snapshot_completed_at", optional=True)
         if not isinstance(self.status, RunStatus):
@@ -508,6 +528,17 @@ class RunState(Model):
                 _nonempty(path, f"{stem}_path")
         if self.download_attempt_manifest_path is not None:
             _nonempty(self.download_attempt_manifest_path, "download_attempt_manifest_path")
+        if self.snapshot_sha256 is None and any(
+            value is not None
+            for value in (
+                self.start_drift_report_path,
+                self.start_drift_report_sha256,
+                self.end_drift_report_path,
+                self.end_drift_report_sha256,
+                self.download_attempt_manifest_path,
+            )
+        ):
+            raise ValueError("incomplete snapshot cannot reference drift or download artifacts")
         _aware(self.updated_at, "updated_at")
 
 
@@ -631,14 +662,24 @@ class DownloadResult(Model):
                 _nonempty(value, name)
         if self.review_status is ReviewStatus.NOT_REQUIRED and self.review_evidence_path is not None:
             raise ValueError("not-required review cannot have review evidence")
+        if self.review_status is ReviewStatus.PENDING and self.review_evidence_path is not None:
+            raise ValueError("pending review cannot have review evidence")
         if self.review_status is ReviewStatus.RESOLVED and self.review_evidence_path is None:
             raise ValueError("resolved review requires review evidence")
-        if self.status in {DownloadStatus.DOWNLOADED_VERIFIED, DownloadStatus.SOURCE_OVERRIDE_VERIFIED} and (self.size is None or self.sha256 is None):
+        verified_statuses = {DownloadStatus.DOWNLOADED_VERIFIED, DownloadStatus.SOURCE_OVERRIDE_VERIFIED}
+        no_payload_statuses = set(DownloadStatus) - verified_statuses - {DownloadStatus.MANUAL_REVIEW}
+        if self.status in no_payload_statuses and any(value is not None for value in (self.size, self.sha1, self.sha256)):
+            raise ValueError("non-success status cannot carry verified payload")
+        if self.status in verified_statuses and (self.size is None or self.sha256 is None):
             raise ValueError("verified download requires size and sha256")
-        if self.status is DownloadStatus.DOWNLOADED_VERIFIED and (self.source_hash_missing or self.review_status is not ReviewStatus.NOT_REQUIRED):
-            raise ValueError("downloaded_verified requires source hash and no review")
-        if self.status is DownloadStatus.SOURCE_OVERRIDE_VERIFIED and (not self.source_hash_missing or self.review_status is not ReviewStatus.RESOLVED):
-            raise ValueError("source_override_verified requires missing source hash and resolved review")
+        if self.status is DownloadStatus.DOWNLOADED_VERIFIED:
+            if self.source_hash_missing:
+                if self.review_status not in {ReviewStatus.PENDING, ReviewStatus.RESOLVED}:
+                    raise ValueError("missing source hash requires pending or resolved review")
+                if self.review_status is ReviewStatus.PENDING and self.evidence_path is None:
+                    raise ValueError("pending source hash review requires diagnostic evidence")
+            elif self.review_status is not ReviewStatus.NOT_REQUIRED:
+                raise ValueError("source-hashed download does not require review")
 
 
 @dataclass(frozen=True, slots=True)
@@ -667,7 +708,7 @@ class SourceHashReview(Model):
     def __post_init__(self) -> None:
         _nonnegative(self.page_revision_id, "page_revision_id")
         _validate_source_id(self.source_id, revision_id=self.page_revision_id)
-        _sha256(self.object_sha256, "object_sha256")
+        _required_sha256(self.object_sha256, "object_sha256")
         if self.decision not in {"accept_structural_without_source_hash", "reject"}:
             raise ValueError("invalid source hash review decision")
         _nonempty(self.reviewer_note, "reviewer_note")
@@ -683,7 +724,7 @@ class StoredObject(Model):
     verified_at: datetime
 
     def __post_init__(self) -> None:
-        _sha256(self.sha256, "sha256")
+        _required_sha256(self.sha256, "sha256")
         _nonnegative(self.size, "size")
         _nonempty(self.object_path, "object_path")
         _sha1(self.sha1_imslp, "sha1_imslp")
@@ -702,7 +743,7 @@ class MaterializationResult(Model):
         _nonempty(self.local_path, "local_path")
         if not isinstance(self.storage_method, StorageMethod):
             raise TypeError("storage_method must be StorageMethod")
-        _sha256(self.sha256, "sha256")
+        _required_sha256(self.sha256, "sha256")
 
 
 @dataclass(frozen=True, slots=True)
@@ -747,4 +788,4 @@ class VerificationReport(Model):
         object.__setattr__(self, "issues", tuple(sorted(self.issues, key=lambda item: (item.severity.value, item.code, item.stable_ids))))
         if type(self.complete) is not bool:
             raise TypeError("complete must be boolean")
-        _sha256(self.report_sha256, "report_sha256")
+        _required_sha256(self.report_sha256, "report_sha256")

@@ -148,11 +148,75 @@ def test_review_source_revision_must_match_reviewed_revision() -> None:
 
 
 def test_verified_download_states_distinguish_source_hash_and_override_review() -> None:
+    h.make_download_result()
+    h.make_download_result(status=DownloadStatus.SOURCE_OVERRIDE_VERIFIED)
+    h.make_download_result(sha1=None, source_hash_missing=True, review_status=ReviewStatus.PENDING, evidence_path="metadata/verification/source-f301.json")
+    h.make_download_result(sha1=None, source_hash_missing=True, review_status=ReviewStatus.RESOLVED, review_evidence_path="metadata/overrides/source_hash_review.json")
     with pytest.raises(ValueError):
         h.make_download_result(sha1=None, source_hash_missing=True)
     with pytest.raises(ValueError):
-        h.make_download_result(status=DownloadStatus.SOURCE_OVERRIDE_VERIFIED)
-    h.make_download_result(status=DownloadStatus.SOURCE_OVERRIDE_VERIFIED, review_status=ReviewStatus.RESOLVED, review_evidence_path="metadata/overrides/source_hash_review.json", sha1=None, source_hash_missing=True)
+        h.make_download_result(review_status=ReviewStatus.PENDING, review_evidence_path="premature.json")
+
+
+NO_SUCCESS_PAYLOAD_STATUSES = tuple(status for status in DownloadStatus if status not in {DownloadStatus.MANUAL_REVIEW, DownloadStatus.DOWNLOADED_VERIFIED, DownloadStatus.SOURCE_OVERRIDE_VERIFIED})
+
+
+@pytest.mark.parametrize("status", NO_SUCCESS_PAYLOAD_STATUSES)
+def test_non_success_download_statuses_reject_verified_payload(status) -> None:
+    with pytest.raises(ValueError, match="payload"):
+        h.make_download_result(status=status)
+    h.make_download_result(status=status, size=None, sha1=None, sha256=None, source_hash_missing=True)
+
+
+def test_manual_review_may_retain_quarantined_object_hashes() -> None:
+    h.make_download_result(status=DownloadStatus.MANUAL_REVIEW, review_status=ReviewStatus.PENDING)
+
+
+@pytest.mark.parametrize(("factory", "field"), [
+    (h.make_frozen_page, "wikitext_sha256"),
+    (h.make_extraction_review, "extraction_decision_sha256"),
+    (h.make_run_snapshot, "config_sha256"),
+    (h.make_source_hash_review, "object_sha256"),
+    (h.make_stored_object, "sha256"),
+    (h.make_materialization_result, "sha256"),
+    (h.make_verification_report, "report_sha256"),
+])
+def test_required_sha256_fields_reject_none(factory, field) -> None:
+    with pytest.raises(ValueError, match=field):
+        factory(**{field: None})
+
+
+def test_incomplete_run_state_cannot_reference_completed_snapshot_artifacts() -> None:
+    h.make_run_state(snapshot_sha256=None)
+    for changes in [
+        {"snapshot_sha256": None, "start_drift_report_path": "start.json", "start_drift_report_sha256": h.SHA256},
+        {"snapshot_sha256": None, "end_drift_report_path": "end.json", "end_drift_report_sha256": h.SHA256},
+        {"snapshot_sha256": None, "download_attempt_manifest_path": "attempts.json"},
+    ]:
+        with pytest.raises(ValueError, match="snapshot"):
+            h.make_run_state(**changes)
+
+
+def test_stable_ids_reject_noncanonical_leading_zero_forms() -> None:
+    with pytest.raises(ValueError, match="work_id"):
+        h.make_work(work_id="work:p0101@r0202")
+    with pytest.raises(ValueError, match="source_id"):
+        h.make_score(source_id="source:f301@r0202")
+    with pytest.raises(ValueError, match="membership_id"):
+        h.make_membership(membership_id=f"membership:{h.MEMBERSHIP_ID.split(':')[1]}:source:f301@r0202")
+
+
+def test_membership_rejects_string_storage_method() -> None:
+    with pytest.raises(TypeError, match="storage_method"):
+        h.make_membership(local_path="score.pdf", storage_method="hardlink")
+
+
+def test_factory_literals_match_the_manifest_fixture_contract() -> None:
+    assert h.make_score().source_url == "https://imslp.org/files/score.pdf"
+    assert h.make_evidence().branch == "Arrangements and Transcriptions"
+    assert h.make_run_state().snapshot_path == "metadata/runs/run-20260830T120000Z.json"
+    with pytest.raises(ValueError, match="membership_id"):
+        h.make_membership(source_id="source:f999@r202")
 
 
 def test_strict_deserialization_rejects_bad_shape_and_nested_types() -> None:

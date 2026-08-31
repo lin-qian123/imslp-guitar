@@ -56,17 +56,16 @@ def make_work(**overrides):
 
 
 def make_score(file_id: str = "301", **overrides):
-    return _build(ScoreFile, {"source_id": f"source:f{file_id}@r202", "file_id": file_id, "page_id": 101, "page_revision_id": 202, "filename": "score.pdf", "source_url": "https://imslp.org/wiki/Special:ImagefromIndex/301", "expected_size": 123, "sha1_imslp": SHA1, "source_hash_missing": False, "mime": "application/pdf", "copyright_label": "Public Domain", "sha256": None, "object_path": None}, overrides)
+    return _build(ScoreFile, {"source_id": f"source:f{file_id}@r202", "file_id": file_id, "page_id": 101, "page_revision_id": 202, "filename": "score.pdf", "source_url": "https://imslp.org/files/score.pdf", "expected_size": 123, "sha1_imslp": SHA1, "source_hash_missing": False, "mime": "application/pdf", "copyright_label": "Public Domain", "sha256": None, "object_path": None}, overrides)
 
 
 def make_evidence(**overrides):
-    return _build(SelectionEvidence, {"heading_raw": "For 3 Guitars", "heading_normalized": "for 3 guitars", "heading_ancestry": ("Arrangements and Transcriptions", "For 3 Guitars"), "instrumentation_raw": "orchestra", "instrumentation_normalized": "orchestra", "branch": "arrangements", "reason_detail": "exact heading"}, overrides)
+    return _build(SelectionEvidence, {"heading_raw": "For 3 Guitars", "heading_normalized": "for 3 guitars", "heading_ancestry": ("Arrangements and Transcriptions", "For 3 Guitars"), "instrumentation_raw": "orchestra", "instrumentation_normalized": "orchestra", "branch": "Arrangements and Transcriptions", "reason_detail": "exact heading"}, overrides)
 
 
 def make_membership(category: str = CATEGORY, filename: str = "score.pdf", **overrides):
-    source_id = str(overrides.get("source_id", SOURCE_ID))
     category_sha10 = hashlib.sha256(category.encode("utf-8")).hexdigest()[:10]
-    return _build(Membership, {"membership_id": f"membership:{category_sha10}:{source_id}", "category_name": category, "work_id": "work:p101@r202", "source_id": source_id, "selection_reason": SelectionReason.EXACT_ARRANGEMENT_HEADING, "evidence": make_evidence(), "planned_local_path": f"{category}/scores/Composer, Test/Fixture/{filename}", "local_path": None, "storage_method": None, "active": True}, overrides)
+    return _build(Membership, {"membership_id": f"membership:{category_sha10}:{SOURCE_ID}", "category_name": category, "work_id": "work:p101@r202", "source_id": SOURCE_ID, "selection_reason": SelectionReason.EXACT_ARRANGEMENT_HEADING, "evidence": make_evidence(), "planned_local_path": f"{category}/scores/Composer, Test/Fixture/{filename}", "local_path": None, "storage_method": None, "active": True}, overrides)
 
 
 def make_download_result(**overrides):
@@ -98,7 +97,7 @@ def make_run_snapshot(**overrides):
 
 
 def make_run_state(**overrides):
-    return _build(RunState, {"schema_version": 1, "run_id": "run-20260830T120000Z", "snapshot_path": "metadata/runs/run-20260830T120000Z/snapshot.json", "snapshot_sha256": SHA256, "start_drift_report_path": None, "start_drift_report_sha256": None, "end_drift_report_path": None, "end_drift_report_sha256": None, "download_attempt_manifest_path": None, "updated_at": NOW}, overrides)
+    return _build(RunState, {"schema_version": 1, "run_id": "run-20260830T120000Z", "snapshot_path": "metadata/runs/run-20260830T120000Z.json", "snapshot_sha256": SHA256, "start_drift_report_path": None, "start_drift_report_sha256": None, "end_drift_report_path": None, "end_drift_report_sha256": None, "download_attempt_manifest_path": None, "updated_at": NOW}, overrides)
 
 
 def make_download_target(**overrides):

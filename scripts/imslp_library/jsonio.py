@@ -6,7 +6,7 @@ import tempfile
 from collections.abc import Mapping
 from pathlib import Path
 
-from .models import Model, model_from_dict
+from .models import Model, model_class_for_name, model_from_dict
 
 _ENVELOPE_KEYS = {"schema_version", "model_type", "items"}
 
@@ -35,11 +35,23 @@ def read_json(path: str | os.PathLike[str]) -> dict[str, object]:
 
 def _reject_downgrade(path: Path, incoming: Mapping[str, object]) -> None:
     incoming_version = _schema_version(incoming)
-    if incoming_version is None or not path.exists():
+    if not path.exists():
         return
     existing_version = _schema_version(read_json(path))
-    if existing_version is not None and existing_version > incoming_version:
+    if existing_version is not None and incoming_version is None:
+        raise ValueError(f"schema downgrade rejected: existing={existing_version}, incoming=missing")
+    if existing_version is not None and incoming_version is not None and existing_version > incoming_version:
         raise ValueError(f"schema downgrade rejected: existing={existing_version}, incoming={incoming_version}")
+
+
+def _manifest_item_class(manifest_type: str) -> type[Model]:
+    if not isinstance(manifest_type, str) or not manifest_type.endswith("Manifest"):
+        raise ValueError(f"unknown manifest model_type: {manifest_type}")
+    item_type = manifest_type.removesuffix("Manifest")
+    try:
+        return model_class_for_name(item_type)
+    except ValueError as exc:
+        raise ValueError(f"unknown manifest model_type: {manifest_type}") from exc
 
 
 def _canonical_bytes(mapping: Mapping[str, object]) -> bytes:
@@ -91,6 +103,7 @@ def atomic_write_models(
 ) -> None:
     if not isinstance(model_type, str) or not model_type.strip():
         raise ValueError("model_type must be a nonempty string")
+    expected_item_class = _manifest_item_class(model_type)
     if type(schema_version) is not int or schema_version <= 0:
         raise ValueError("schema_version must be a positive integer")
     if isinstance(items, (str, bytes, Mapping)):
@@ -101,8 +114,8 @@ def atomic_write_models(
         raise TypeError("items must be an iterable of typed models") from exc
     if not all(isinstance(item, Model) for item in values):
         raise TypeError("items must contain only typed models")
-    if values and len({type(item) for item in values}) != 1:
-        raise TypeError("manifest items must have one model type")
+    if any(type(item) is not expected_item_class for item in values):
+        raise TypeError(f"{model_type} item model must be {expected_item_class.__name__}")
     envelope: dict[str, object] = {
         "schema_version": schema_version,
         "model_type": model_type,
@@ -114,6 +127,7 @@ def atomic_write_models(
 def read_models(path: str | os.PathLike[str], expected_model_type: str) -> tuple[Model, ...]:
     if not isinstance(expected_model_type, str) or not expected_model_type.strip():
         raise ValueError("expected_model_type must be a nonempty string")
+    expected_item_class = _manifest_item_class(expected_model_type)
     envelope = read_json(path)
     if set(envelope) != _ENVELOPE_KEYS:
         missing = sorted(_ENVELOPE_KEYS - set(envelope))
@@ -129,12 +143,6 @@ def read_models(path: str | os.PathLike[str], expected_model_type: str) -> tuple
     if not isinstance(raw_items, list):
         raise TypeError("items must be an array")
     items = tuple(model_from_dict(item) for item in raw_items)
-    if items and len({type(item) for item in items}) != 1:
-        raise ValueError("manifest items must have one model type")
-    expected_item_type = expected_model_type.removesuffix("Manifest")
-    if expected_model_type.endswith("Manifest") and items and expected_item_type in {type(item).__name__ for item in items}:
-        if any(type(item).__name__ != expected_item_type for item in items):
-            raise ValueError("manifest contains the wrong item model_type")
-    elif expected_model_type.endswith("Manifest") and expected_item_type == "Membership" and items:
-        raise ValueError("MembershipManifest must contain Membership items")
+    if any(type(item) is not expected_item_class for item in items):
+        raise ValueError(f"{expected_model_type} item model must be {expected_item_class.__name__}")
     return items
