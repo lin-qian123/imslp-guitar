@@ -11,10 +11,10 @@ from datetime import datetime
 from pathlib import Path
 
 from .client import Clock, FileMetadata, ImslpClient, RevisionRecord
-from .config import LibraryConfig
+from .config import ConfigError, LibraryConfig, validate_library_config_binding
 from .enums import RunStatus
 from .headings import parse_heading_tree
-from .jsonio import atomic_write_json, read_json
+from .jsonio import _canonical_bytes, atomic_write_json, read_json
 from .models import CategorySnapshot, FrozenPage, RunSnapshot, RunState, ScoreFile
 from .paths import _assert_safe_write_target
 
@@ -43,6 +43,14 @@ def _paths(root: Path, run_id: str) -> tuple[Path, Path]:
     return base / f"{run_id}.json", base / f"{run_id}-state.json"
 
 
+def _initialization_intent_path(root: Path, run_id: str) -> Path:
+    return root / "metadata/runs" / f"{run_id}-initialization.json"
+
+
+def _completion_intent_path(root: Path, run_id: str) -> Path:
+    return root / "metadata/runs" / f"{run_id}-completion.json"
+
+
 def _relative(root: Path, path: Path) -> str:
     return path.relative_to(root).as_posix()
 
@@ -57,6 +65,26 @@ def _sha256_file(path: Path) -> str:
         for chunk in iter(lambda: source.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def _unlink_durable(path: Path) -> None:
+    try:
+        path.unlink()
+    except FileNotFoundError:
+        return
+    _fsync_directory(path.parent)
+
+
+def _strict_intent(path: Path, model_type: str, keys: set[str]) -> dict[str, object]:
+    if path.is_symlink():
+        raise SnapshotError(f"{model_type} cannot be a symlink")
+    try:
+        payload = read_json(path)
+    except (OSError, UnicodeError, json.JSONDecodeError, TypeError, ValueError) as exc:
+        raise SnapshotError(f"invalid {model_type}") from exc
+    if set(payload) != keys or payload.get("schema_version") != 1 or payload.get("model_type") != model_type:
+        raise SnapshotError(f"invalid {model_type} envelope")
+    return payload
 
 
 def _snapshot_from_path(path: Path) -> RunSnapshot:
@@ -88,6 +116,114 @@ def _new_state(root: Path, run_id: str, snapshot_path: Path, now: datetime) -> R
     )
 
 
+def _initialization_payload(snapshot: RunSnapshot, state: RunState) -> dict[str, object]:
+    snapshot_mapping = snapshot.to_dict()
+    state_mapping = state.to_dict()
+    return {
+        "schema_version": 1,
+        "model_type": "SnapshotInitializationIntent",
+        "run_id": snapshot.run_id,
+        "snapshot": snapshot_mapping,
+        "snapshot_sha256": _sha256_bytes(_canonical_bytes(snapshot_mapping)),
+        "state": state_mapping,
+        "state_sha256": _sha256_bytes(_canonical_bytes(state_mapping)),
+    }
+
+
+def _validate_initialization_payload(
+    payload: dict[str, object],
+    run_id: str,
+    config: LibraryConfig,
+) -> tuple[RunSnapshot, RunState]:
+    try:
+        snapshot = RunSnapshot.from_dict(payload["snapshot"])
+        state = RunState.from_dict(payload["state"])
+    except (KeyError, TypeError, ValueError) as exc:
+        raise SnapshotError("invalid SnapshotInitializationIntent models") from exc
+    if (
+        payload["run_id"] != run_id
+        or snapshot.run_id != run_id
+        or state.run_id != run_id
+        or snapshot.status is not RunStatus.SNAPSHOT_INCOMPLETE
+        or snapshot.categories
+        or snapshot.pages
+        or snapshot.score_files
+        or state.snapshot_sha256 is not None
+        or state.snapshot_path != f"metadata/runs/{run_id}.json"
+        or snapshot.config_version != config.version
+        or snapshot.config_sha256 != config.config_hash
+    ):
+        raise SnapshotError("SnapshotInitializationIntent identity mismatch")
+    expected_snapshot_hash = _sha256_bytes(_canonical_bytes(snapshot.to_dict()))
+    expected_state_hash = _sha256_bytes(_canonical_bytes(state.to_dict()))
+    if payload["snapshot_sha256"] != expected_snapshot_hash or payload["state_sha256"] != expected_state_hash:
+        raise SnapshotError("SnapshotInitializationIntent digest mismatch")
+    return snapshot, state
+
+
+def _reconcile_initialization(
+    root: Path,
+    run_id: str,
+    config: LibraryConfig,
+    snapshot_path: Path,
+    state_path: Path,
+) -> None:
+    intent_path = _initialization_intent_path(root, run_id)
+    for path, label in (
+        (intent_path, "snapshot initialization intent"),
+        (snapshot_path, "run snapshot"),
+        (state_path, "run state"),
+    ):
+        _assert_safe_write_target(root, path, label)
+    if not intent_path.exists():
+        return
+    payload = _strict_intent(
+        intent_path,
+        "SnapshotInitializationIntent",
+        {"schema_version", "model_type", "run_id", "snapshot", "snapshot_sha256", "state", "state_sha256"},
+    )
+    snapshot, state = _validate_initialization_payload(payload, run_id, config)
+    for path, mapping, digest, label in (
+        (snapshot_path, snapshot.to_dict(), payload["snapshot_sha256"], "run snapshot"),
+        (state_path, state.to_dict(), payload["state_sha256"], "run state"),
+    ):
+        _assert_safe_write_target(root, path, label)
+        if path.exists():
+            if path.is_symlink() or _sha256_file(path) != digest:
+                raise SnapshotError(f"{label} does not match initialization intent")
+        else:
+            atomic_write_json(path, mapping)
+            if _sha256_file(path) != digest:
+                raise SnapshotError(f"{label} write does not match initialization intent")
+    _unlink_durable(intent_path)
+
+
+def _write_initial_pair(
+    root: Path,
+    run_id: str,
+    config: LibraryConfig,
+    snapshot_path: Path,
+    state_path: Path,
+    snapshot: RunSnapshot,
+    state: RunState,
+) -> None:
+    intent_path = _initialization_intent_path(root, run_id)
+    for path, label in (
+        (intent_path, "snapshot initialization intent"),
+        (snapshot_path, "run snapshot"),
+        (state_path, "run state"),
+    ):
+        _assert_safe_write_target(root, path, label)
+    if any(path.exists() or path.is_symlink() for path in (intent_path, snapshot_path, state_path)):
+        raise SnapshotError("snapshot initialization targets must be absent")
+    payload = _initialization_payload(snapshot, state)
+    _validate_initialization_payload(payload, run_id, config)
+    atomic_write_json(intent_path, payload)
+    atomic_write_json(snapshot_path, snapshot.to_dict())
+    atomic_write_json(state_path, state.to_dict())
+    _reconcile_initialization(root, run_id, config, snapshot_path, state_path)
+
+
 def _checkpoint(
     root: Path,
     snapshot_path: Path,
@@ -104,6 +240,128 @@ def _checkpoint(
     updated = replace(state, snapshot_sha256=None, updated_at=now)
     atomic_write_json(state_path, updated.to_dict())
     return updated
+
+
+def _completion_payload(snapshot: RunSnapshot, state: RunState) -> dict[str, object]:
+    if snapshot.status is not RunStatus.SNAPSHOT_COMPLETE or state.snapshot_sha256 is None:
+        raise SnapshotError("completion intent requires complete snapshot and state")
+    snapshot_mapping = snapshot.to_dict()
+    expected = _sha256_bytes(_canonical_bytes(snapshot_mapping))
+    if state.snapshot_sha256 != expected:
+        raise SnapshotError("completion state hash does not bind expected snapshot")
+    return {
+        "schema_version": 1,
+        "model_type": "SnapshotCompletionIntent",
+        "run_id": snapshot.run_id,
+        "snapshot": snapshot_mapping,
+        "snapshot_sha256": expected,
+        "state": state.to_dict(),
+    }
+
+
+def _validate_completion_payload(
+    payload: dict[str, object],
+    run_id: str,
+    config: LibraryConfig,
+) -> tuple[RunSnapshot, RunState]:
+    try:
+        expected_snapshot = RunSnapshot.from_dict(payload["snapshot"])
+        expected_state = RunState.from_dict(payload["state"])
+    except (KeyError, TypeError, ValueError) as exc:
+        raise SnapshotError("invalid SnapshotCompletionIntent models") from exc
+    digest = _sha256_bytes(_canonical_bytes(expected_snapshot.to_dict()))
+    if (
+        payload["run_id"] != run_id
+        or expected_snapshot.run_id != run_id
+        or expected_state.run_id != run_id
+        or expected_snapshot.status is not RunStatus.SNAPSHOT_COMPLETE
+        or expected_state.snapshot_sha256 != digest
+        or expected_state.snapshot_path != f"metadata/runs/{run_id}.json"
+        or payload["snapshot_sha256"] != digest
+        or expected_snapshot.config_version != config.version
+        or expected_snapshot.config_sha256 != config.config_hash
+    ):
+        raise SnapshotError("SnapshotCompletionIntent identity or digest mismatch")
+    return expected_snapshot, expected_state
+
+
+def _reconcile_completion(
+    root: Path,
+    run_id: str,
+    config: LibraryConfig,
+    snapshot_path: Path,
+    state_path: Path,
+    snapshot: RunSnapshot,
+    state: RunState,
+) -> tuple[RunSnapshot, RunState]:
+    intent_path = _completion_intent_path(root, run_id)
+    _assert_safe_write_target(root, intent_path, "snapshot completion intent")
+    if not intent_path.exists():
+        if snapshot.status is RunStatus.SNAPSHOT_COMPLETE and state.snapshot_sha256 is None:
+            raise SnapshotError("complete snapshot with missing digest has no completion intent")
+        return snapshot, state
+    payload = _strict_intent(
+        intent_path,
+        "SnapshotCompletionIntent",
+        {"schema_version", "model_type", "run_id", "snapshot", "snapshot_sha256", "state"},
+    )
+    expected_snapshot, expected_state = _validate_completion_payload(payload, run_id, config)
+    expected_digest = expected_state.snapshot_sha256
+    if snapshot.status is RunStatus.SNAPSHOT_INCOMPLETE:
+        expected_incomplete = replace(
+            expected_snapshot,
+            status=RunStatus.SNAPSHOT_INCOMPLETE,
+            snapshot_completed_at=None,
+        )
+        if snapshot != expected_incomplete or state.snapshot_sha256 is not None:
+            raise SnapshotError("incomplete snapshot does not match completion intent predecessor")
+        atomic_write_json(snapshot_path, expected_snapshot.to_dict())
+        snapshot = expected_snapshot
+    elif snapshot != expected_snapshot:
+        raise SnapshotError("complete snapshot does not match completion intent")
+    if _sha256_file(snapshot_path) != expected_digest:
+        raise SnapshotError("complete snapshot bytes do not match completion intent")
+    if state.snapshot_sha256 is None:
+        atomic_write_json(state_path, expected_state.to_dict())
+        state = expected_state
+    elif state != expected_state:
+        raise SnapshotError("RunState does not match completion intent")
+    _unlink_durable(intent_path)
+    try:
+        snapshot_path.chmod(0o444)
+    except OSError:
+        pass
+    return snapshot, state
+
+
+def _commit_completion(
+    root: Path,
+    run_id: str,
+    config: LibraryConfig,
+    snapshot_path: Path,
+    state_path: Path,
+    completed: RunSnapshot,
+    final_state: RunState,
+) -> None:
+    intent_path = _completion_intent_path(root, run_id)
+    for path, label in (
+        (intent_path, "snapshot completion intent"),
+        (snapshot_path, "run snapshot"),
+        (state_path, "run state"),
+    ):
+        _assert_safe_write_target(root, path, label)
+    if intent_path.exists() or intent_path.is_symlink():
+        raise SnapshotError("snapshot completion intent already exists")
+    payload = _completion_payload(completed, final_state)
+    _validate_completion_payload(payload, run_id, config)
+    atomic_write_json(intent_path, payload)
+    atomic_write_json(snapshot_path, completed.to_dict())
+    atomic_write_json(state_path, final_state.to_dict())
+    reconciled_snapshot, reconciled_state = _reconcile_completion(
+        root, run_id, config, snapshot_path, state_path, completed, final_state
+    )
+    if reconciled_snapshot != completed or reconciled_state != final_state:
+        raise SnapshotError("completion reconciliation changed committed models")
 
 
 def _cache_path(root: Path, page: FrozenPage) -> Path:
@@ -154,6 +412,8 @@ def _validate_manifest_item(
     run_id: str,
     expected_hashes: dict[tuple[int, int], str],
     item: dict[str, object],
+    *,
+    require_quarantine_file: bool = True,
 ) -> None:
     if set(item) != _CACHE_ITEM_KEYS:
         raise SnapshotError("invalid CacheQuarantineManifest item keys")
@@ -192,10 +452,11 @@ def _validate_manifest_item(
         raise SnapshotError("CacheQuarantineManifest does not match the frozen checkpoint")
     quarantine = root / str(item["quarantine_path"])
     _assert_safe_write_target(root, quarantine, "cache quarantine")
-    if quarantine.is_symlink() or not quarantine.is_file():
-        raise SnapshotError("cache quarantine manifest does not equal quarantine tree")
-    if quarantine.stat().st_size != item["size"] or _sha256_file(quarantine) != item["actual_sha256"]:
-        raise SnapshotError("cache quarantine manifest does not equal quarantine tree")
+    if require_quarantine_file:
+        if quarantine.is_symlink() or not quarantine.is_file():
+            raise SnapshotError("cache quarantine manifest does not equal quarantine tree")
+        if quarantine.stat().st_size != item["size"] or _sha256_file(quarantine) != item["actual_sha256"]:
+            raise SnapshotError("cache quarantine manifest does not equal quarantine tree")
 
 
 def _read_cache_manifest(
@@ -237,59 +498,155 @@ def _fsync_directory(path: Path) -> None:
         os.close(descriptor)
 
 
-def _quarantine_corrupt_cache(root: Path, run_id: str, page: FrozenPage, clock: Clock) -> None:
-    source = _cache_path(root, page)
-    quarantine = root / "quarantine/cache" / run_id / str(page.page_id) / f"{page.revision_id}.wiki"
-    manifest_path = root / "quarantine/manifests" / f"cache-{run_id}.json"
-    for path, label in ((source, "revision cache"), (quarantine, "cache quarantine"), (manifest_path, "cache quarantine manifest")):
-        _assert_safe_write_target(root, path, label)
+def _expected_cache_hashes(run_snapshot: RunSnapshot) -> dict[tuple[int, int], str]:
+    return {
+        (item.page_id, item.revision_id): item.wikitext_sha256
+        for item in run_snapshot.pages
+    }
+
+
+def _cache_intent_path(root: Path, run_id: str, page_id: int, revision_id: int) -> Path:
+    return root / "quarantine/transactions" / f"cache-{run_id}-{page_id}-{revision_id}.json"
+
+
+def _validate_quarantine_file(root: Path, item: dict[str, object]) -> None:
+    quarantine = root / str(item["quarantine_path"])
+    if quarantine.is_symlink() or not quarantine.is_file():
+        raise SnapshotError("cache quarantine intent destination is invalid")
+    if quarantine.stat().st_size != item["size"] or _sha256_file(quarantine) != item["actual_sha256"]:
+        raise SnapshotError("cache quarantine intent destination bytes mismatch")
+
+
+def _validate_quarantine_source(root: Path, item: dict[str, object]) -> None:
+    source = root / str(item["source_path"])
     if source.is_symlink() or not source.is_file():
-        raise SnapshotError("corrupt revision cache is not a regular file")
-    mode = os.stat(source, follow_symlinks=False).st_mode
-    if not stat.S_ISREG(mode) or os.stat(source, follow_symlinks=False).st_nlink != 1:
-        raise SnapshotError("corrupt revision cache must be singly linked")
-    if quarantine.exists() or quarantine.is_symlink():
-        raise SnapshotError("cache quarantine destination already exists")
-    run_snapshot = _snapshot_from_path(root / "metadata/runs" / f"{run_id}.json")
+        raise SnapshotError("cache quarantine intent source is invalid")
+    details = os.stat(source, follow_symlinks=False)
+    if not stat.S_ISREG(details.st_mode) or details.st_nlink != 1:
+        raise SnapshotError("cache quarantine intent source must be singly linked")
+    if details.st_size != item["size"] or _sha256_file(source) != item["actual_sha256"]:
+        raise SnapshotError("cache quarantine intent source bytes mismatch")
+
+
+def _validate_quarantine_tree(root: Path, run_id: str, items: list[dict[str, object]]) -> None:
+    tree_root = root / "quarantine/cache" / run_id
+    _assert_safe_write_target(root, tree_root / ".probe", "cache quarantine tree")
+    actual: set[str] = set()
+    if tree_root.exists() or tree_root.is_symlink():
+        if tree_root.is_symlink() or not tree_root.is_dir():
+            raise SnapshotError("cache quarantine tree root is invalid")
+        for path in tree_root.rglob("*"):
+            if path.is_symlink():
+                raise SnapshotError("cache quarantine tree contains a symlink")
+            if path.is_file():
+                actual.add(_relative(root, path))
+            elif not path.is_dir():
+                raise SnapshotError("cache quarantine tree contains a special file")
+    expected = {str(item["quarantine_path"]) for item in items}
+    if actual != expected:
+        raise SnapshotError("cache quarantine manifest and tree are not equal")
+
+
+def _reconcile_cache_quarantine(root: Path, run_id: str, run_snapshot: RunSnapshot) -> None:
     expected_hashes = {
         (item.page_id, item.revision_id): item.wikitext_sha256
         for item in run_snapshot.pages
     }
+    manifest_path = root / "quarantine/manifests" / f"cache-{run_id}.json"
+    _assert_safe_write_target(root, manifest_path, "cache quarantine manifest")
+    items = _read_cache_manifest(root, manifest_path, run_id, expected_hashes)
+    by_identity = {(item["page_id"], item["revision_id"]): item for item in items}
+    transactions = root / "quarantine/transactions"
+    _assert_safe_write_target(root, transactions / ".probe", "cache quarantine transactions")
+    intent_paths = sorted(transactions.glob(f"cache-{run_id}-*.json")) if transactions.exists() else []
+    for intent_path in intent_paths:
+        payload = _strict_intent(
+            intent_path,
+            "CacheQuarantineIntent",
+            {"schema_version", "model_type", "run_id", "item"},
+        )
+        if payload["run_id"] != run_id or not isinstance(payload["item"], dict):
+            raise SnapshotError("cache quarantine intent identity mismatch")
+        item = payload["item"]
+        _validate_manifest_item(
+            root, run_id, expected_hashes, item, require_quarantine_file=False
+        )
+        identity = (item["page_id"], item["revision_id"])
+        if intent_path != _cache_intent_path(root, run_id, *identity):
+            raise SnapshotError("cache quarantine intent filename mismatch")
+        source = root / str(item["source_path"])
+        quarantine = root / str(item["quarantine_path"])
+        for path, label in ((source, "revision cache"), (quarantine, "cache quarantine")):
+            _assert_safe_write_target(root, path, label)
+        existing = by_identity.get(identity)
+        if existing is not None:
+            if existing != item or source.exists() or source.is_symlink():
+                raise SnapshotError("cache quarantine intent conflicts with committed manifest")
+            _validate_quarantine_file(root, item)
+            _unlink_durable(intent_path)
+            continue
+        source_present = source.exists() or source.is_symlink()
+        quarantine_present = quarantine.exists() or quarantine.is_symlink()
+        if source_present and not quarantine_present:
+            _validate_quarantine_source(root, item)
+            quarantine.parent.mkdir(parents=True, exist_ok=True)
+            os.replace(source, quarantine)
+            _fsync_directory(source.parent)
+            _fsync_directory(quarantine.parent)
+        elif not source_present and quarantine_present:
+            _validate_quarantine_file(root, item)
+        else:
+            raise SnapshotError("cache quarantine intent has ambiguous source/destination state")
+        atomic_write_json(
+            manifest_path,
+            {"schema_version": 1, "model_type": "CacheQuarantineManifest", "items": [*items, item]},
+        )
+        items = _read_cache_manifest(root, manifest_path, run_id, expected_hashes)
+        by_identity[identity] = item
+        _unlink_durable(intent_path)
+    _validate_quarantine_tree(root, run_id, items)
+
+
+def _quarantine_corrupt_cache(root: Path, run_id: str, page: FrozenPage, clock: Clock) -> None:
+    source = _cache_path(root, page)
+    quarantine = root / "quarantine/cache" / run_id / str(page.page_id) / f"{page.revision_id}.wiki"
+    intent_path = _cache_intent_path(root, run_id, page.page_id, page.revision_id)
+    for path, label in (
+        (source, "revision cache"),
+        (quarantine, "cache quarantine"),
+        (intent_path, "cache quarantine intent"),
+    ):
+        _assert_safe_write_target(root, path, label)
+    if source.is_symlink() or not source.is_file():
+        raise SnapshotError("corrupt revision cache is not a regular file")
+    details = os.stat(source, follow_symlinks=False)
+    if not stat.S_ISREG(details.st_mode) or details.st_nlink != 1:
+        raise SnapshotError("corrupt revision cache must be singly linked")
+    if quarantine.exists() or quarantine.is_symlink() or intent_path.exists() or intent_path.is_symlink():
+        raise SnapshotError("cache quarantine target or intent already exists")
+    run_snapshot = _snapshot_from_path(root / "metadata/runs" / f"{run_id}.json")
+    expected_hashes = _expected_cache_hashes(run_snapshot)
     if expected_hashes.get((page.page_id, page.revision_id)) != page.wikitext_sha256:
         raise SnapshotError("corrupt cache page is not in the frozen checkpoint")
-    items = _read_cache_manifest(root, manifest_path, run_id, expected_hashes)
-    if any(item["page_id"] == page.page_id and item["revision_id"] == page.revision_id for item in items):
-        raise SnapshotError("cache quarantine identity already exists")
-    size = source.stat().st_size
-    actual = _sha256_file(source)
     item: dict[str, object] = {
         "page_id": page.page_id,
         "revision_id": page.revision_id,
         "source_path": _relative(root, source),
         "quarantine_path": _relative(root, quarantine),
-        "size": size,
+        "size": details.st_size,
         "expected_sha256": page.wikitext_sha256,
-        "actual_sha256": actual,
+        "actual_sha256": _sha256_file(source),
         "reason": "cache_sha256_mismatch",
         "quarantined_at": clock.now().isoformat(),
     }
-    quarantine.parent.mkdir(parents=True, exist_ok=True)
-    os.replace(source, quarantine)
-    _fsync_directory(source.parent)
-    _fsync_directory(quarantine.parent)
-    try:
-        atomic_write_json(
-            manifest_path,
-            {"schema_version": 1, "model_type": "CacheQuarantineManifest", "items": [*items, item]},
-        )
-        _read_cache_manifest(root, manifest_path, run_id, expected_hashes)
-    except BaseException:
-        if quarantine.exists() and not source.exists():
-            source.parent.mkdir(parents=True, exist_ok=True)
-            os.replace(quarantine, source)
-            _fsync_directory(source.parent)
-            _fsync_directory(quarantine.parent)
-        raise
+    _validate_manifest_item(
+        root, run_id, expected_hashes, item, require_quarantine_file=False
+    )
+    atomic_write_json(
+        intent_path,
+        {"schema_version": 1, "model_type": "CacheQuarantineIntent", "run_id": run_id, "item": item},
+    )
+    _reconcile_cache_quarantine(root, run_id, run_snapshot)
 
 
 def _cache_is_valid(root: Path, run_id: str, page: FrozenPage, clock: Clock) -> bool:
@@ -307,7 +664,7 @@ def _cache_is_valid(root: Path, run_id: str, page: FrozenPage, clock: Clock) -> 
     return False
 
 
-def _page_filenames(root: Path, page: FrozenPage) -> tuple[str, ...]:
+def _page_file_chunks(root: Path, page: FrozenPage) -> tuple[object, ...]:
     path = _cache_path(root, page)
     try:
         wikitext = path.read_text(encoding="utf-8")
@@ -319,7 +676,11 @@ def _page_filenames(root: Path, page: FrozenPage) -> tuple[str, ...]:
         chunks = parse_heading_tree(wikitext).file_templates
     except (TypeError, ValueError) as exc:
         raise SnapshotError("cannot parse exact revision file metadata") from exc
-    return tuple(sorted({chunk.filename for chunk in chunks}))
+    return chunks
+
+
+def _page_filenames(root: Path, page: FrozenPage) -> tuple[str, ...]:
+    return tuple(sorted({chunk.filename for chunk in _page_file_chunks(root, page)}))
 
 
 def _score_metadata_complete(root: Path, page: FrozenPage, scores: tuple[ScoreFile, ...]) -> bool:
@@ -330,6 +691,89 @@ def _score_metadata_complete(root: Path, page: FrozenPage, scores: tuple[ScoreFi
     )
     actual = {score.filename for score in actual_scores}
     return actual == expected and len(actual_scores) == len(actual)
+
+
+def _validate_score_bindings(root: Path, snapshot: RunSnapshot) -> None:
+    pages = {(page.page_id, page.revision_id): page for page in snapshot.pages}
+    if len(pages) != len(snapshot.pages):
+        raise SnapshotError("snapshot contains duplicate frozen page identities")
+    source_ids: set[str] = set()
+    attachment_ids: set[tuple[int, int, str]] = set()
+    file_ids: set[tuple[int, int, str]] = set()
+    filenames_by_page: dict[tuple[int, int], set[str]] = {}
+    chunks_by_page: dict[tuple[int, int], tuple[object, ...]] = {}
+    manifest_path = root / "quarantine/manifests" / f"cache-{snapshot.run_id}.json"
+    quarantined = {
+        (item["page_id"], item["revision_id"])
+        for item in _read_cache_manifest(
+            root, manifest_path, snapshot.run_id, _expected_cache_hashes(snapshot)
+        )
+    }
+    for score in snapshot.score_files:
+        page_identity = (score.page_id, score.page_revision_id)
+        page = pages.get(page_identity)
+        if page is None:
+            raise SnapshotError("score file does not bind an exact frozen page/revision")
+        if score.source_id in source_ids:
+            raise SnapshotError("score file source identity is not unique")
+        source_ids.add(score.source_id)
+        attachment_identity = (*page_identity, score.filename)
+        file_identity = (*page_identity, score.file_id)
+        if attachment_identity in attachment_ids or file_identity in file_ids:
+            raise SnapshotError("score file attachment/file identity is not unique")
+        attachment_ids.add(attachment_identity)
+        file_ids.add(file_identity)
+        cache = _cache_path(root, page)
+        if cache.is_symlink():
+            raise SnapshotError("checkpointed score file cache is a symlink")
+        if not cache.exists():
+            if page_identity in quarantined:
+                continue
+            raise SnapshotError("checkpointed score file has no exact revision cache")
+        if not cache.is_file():
+            raise SnapshotError("checkpointed score file cache is not a regular file")
+        if _sha256_file(cache) == page.wikitext_sha256:
+            if page_identity not in filenames_by_page:
+                chunks = _page_file_chunks(root, page)
+                chunks_by_page[page_identity] = chunks
+                filenames_by_page[page_identity] = {chunk.filename for chunk in chunks}
+            expected = filenames_by_page[page_identity]
+            if score.filename not in expected:
+                raise SnapshotError("score file filename is extra to exact cached revision")
+            matching_chunks = tuple(
+                chunk for chunk in chunks_by_page[page_identity]
+                if chunk.filename == score.filename
+            )
+            explicit_ids = {chunk.file_id for chunk in matching_chunks if chunk.file_id is not None}
+            if any(chunk.file_id_conflict for chunk in matching_chunks) or (
+                explicit_ids and explicit_ids != {score.file_id}
+            ):
+                raise SnapshotError("score file ID conflicts with exact cached revision")
+
+
+def _validate_complete_score_set(root: Path, snapshot: RunSnapshot) -> None:
+    _validate_score_bindings(root, snapshot)
+    for page in snapshot.pages:
+        if not _score_metadata_complete(root, page, snapshot.score_files):
+            raise SnapshotError("score files do not exactly equal cached revision attachments")
+
+
+def _validate_category_page_bindings(snapshot: RunSnapshot, approved_names: set[str]) -> None:
+    categories = {category.name: category for category in snapshot.categories}
+    pages = {page.page_id: page for page in snapshot.pages}
+    if len(categories) != len(snapshot.categories) or len(pages) != len(snapshot.pages):
+        raise SnapshotError("snapshot category/page identities are not unique")
+    if not set(categories).issubset(approved_names):
+        raise SnapshotError("snapshot contains a category outside the config")
+    expected_by_page: dict[int, set[str]] = {page_id: set() for page_id in pages}
+    for category in categories.values():
+        for page_id in category.member_page_ids:
+            if page_id not in pages:
+                raise SnapshotError("category snapshot references a missing frozen page")
+            expected_by_page[page_id].add(category.name)
+    for page_id, page in pages.items():
+        if set(page.category_names) != expected_by_page[page_id]:
+            raise SnapshotError("frozen page categories do not equal category snapshots")
 
 
 def _scores_for_page(
@@ -436,12 +880,26 @@ def freeze_snapshot(
         raise ValueError("run_id is not path-safe")
     if not isinstance(config, LibraryConfig):
         raise TypeError("config must be a LibraryConfig")
+    try:
+        validate_library_config_binding(config)
+    except ConfigError as exc:
+        raise SnapshotError("config canonical source binding mismatch") from exc
     if not isinstance(config.config_hash, str) or _SHA256_RE.fullmatch(config.config_hash) is None:
         raise ValueError("config hash must be canonical SHA-256")
     if type(revision_batch_size) is not int or revision_batch_size <= 0:
         raise ValueError("revision_batch_size must be positive")
+    if root.is_symlink() or (root.exists() and not root.is_dir()):
+        raise SnapshotError("library root is a symlink or not a directory")
     root.mkdir(parents=True, exist_ok=True)
     snapshot_path, state_path = _paths(root, run_id)
+    for path, label in (
+        (_initialization_intent_path(root, run_id), "snapshot initialization intent"),
+        (_completion_intent_path(root, run_id), "snapshot completion intent"),
+        (snapshot_path, "run snapshot"),
+        (state_path, "run state"),
+    ):
+        _assert_safe_write_target(root, path, label)
+    _reconcile_initialization(root, run_id, config, snapshot_path, state_path)
     existing = _validate_existing(root, run_id, config, snapshot_path, state_path)
     if existing is None:
         started = clock.now()
@@ -458,29 +916,34 @@ def freeze_snapshot(
             score_files=(),
         )
         state = _new_state(root, run_id, snapshot_path, started)
-        # Both durable files precede the first possible client request.
-        atomic_write_json(snapshot_path, snapshot.to_dict())
-        atomic_write_json(state_path, state.to_dict())
+        # A durable intent makes the two-file initialization crash-recoverable,
+        # and both model files still precede the first possible client request.
+        _write_initial_pair(root, run_id, config, snapshot_path, state_path, snapshot, state)
     else:
         snapshot, state = existing
+        snapshot, state = _reconcile_completion(
+            root, run_id, config, snapshot_path, state_path, snapshot, state
+        )
+        _reconcile_cache_quarantine(root, run_id, snapshot)
+        _validate_score_bindings(root, snapshot)
         if snapshot.status is RunStatus.SNAPSHOT_COMPLETE:
             actual = _sha256_file(snapshot_path)
-            if state.snapshot_sha256 is None:
-                state = replace(state, snapshot_sha256=actual, updated_at=clock.now())
-                atomic_write_json(state_path, state.to_dict())
-            elif state.snapshot_sha256 != actual:
+            if state.snapshot_sha256 != actual:
                 raise SnapshotError("completed snapshot SHA-256 does not match RunState")
+            _validate_complete_score_set(root, snapshot)
             return snapshot
         if snapshot.status is not RunStatus.SNAPSHOT_INCOMPLETE or state.snapshot_sha256 is not None:
             raise SnapshotError("run cannot resume from its current state")
+
+    _reconcile_cache_quarantine(root, run_id, snapshot)
+    _validate_score_bindings(root, snapshot)
 
     category_by_name = {category.name: category for category in snapshot.categories}
     pages_by_id = {page.page_id: page for page in snapshot.pages}
     if len(pages_by_id) != len(snapshot.pages):
         raise SnapshotError("snapshot contains duplicate page identities")
     approved_names = {category.name for category in config.categories}
-    if not set(category_by_name).issubset(approved_names):
-        raise SnapshotError("snapshot contains a category outside the config")
+    _validate_category_page_bindings(snapshot, approved_names)
 
     for category in config.categories:
         if category.name in category_by_name:
@@ -576,18 +1039,14 @@ def freeze_snapshot(
         if not _cache_is_valid(root, run_id, page, clock) or not _score_metadata_complete(root, page, snapshot.score_files):
             raise SnapshotError("exact revisions and file metadata are incomplete")
 
+    _validate_complete_score_set(root, snapshot)
+
     completed = replace(
         snapshot,
         status=RunStatus.SNAPSHOT_COMPLETE,
         snapshot_completed_at=clock.now(),
     )
-    # The one-way transition is the last snapshot write. Re-entry only verifies it.
-    atomic_write_json(snapshot_path, completed.to_dict())
-    snapshot_digest = _sha256_file(snapshot_path)
+    snapshot_digest = _sha256_bytes(_canonical_bytes(completed.to_dict()))
     final_state = replace(state, snapshot_sha256=snapshot_digest, updated_at=clock.now())
-    atomic_write_json(state_path, final_state.to_dict())
-    try:
-        snapshot_path.chmod(0o444)
-    except OSError:
-        pass
+    _commit_completion(root, run_id, config, snapshot_path, state_path, completed, final_state)
     return completed

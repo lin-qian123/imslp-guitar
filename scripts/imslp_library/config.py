@@ -71,6 +71,7 @@ class LibraryConfig:
     approved_at: str
     categories: tuple[CategoryConfig, ...]
     config_hash: str
+    canonical_json: str
 
 
 def _strict_keys(value: dict[str, object], expected: set[str], scope: str) -> None:
@@ -142,8 +143,7 @@ def _category(value: object) -> CategoryConfig:
     )
 
 
-def load_allowlist(path: Path) -> LibraryConfig:
-    payload = json.loads(path.read_text(encoding="utf-8"))
+def _library_config_from_payload(payload: object) -> LibraryConfig:
     if not isinstance(payload, dict):
         raise _error("invalid_config")
     _strict_keys(payload, TOP_LEVEL_KEYS, "top-level")
@@ -164,5 +164,44 @@ def load_allowlist(path: Path) -> LibraryConfig:
     names = [category.name for category in categories]
     if len(names) != len(set(names)):
         raise _error("duplicate_name")
-    normalized = json.dumps(payload, sort_keys=True, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
-    return LibraryConfig(payload["schema_version"], payload["version"], payload["approved_at"], categories, hashlib.sha256(normalized).hexdigest())
+    canonical_json = json.dumps(payload, sort_keys=True, ensure_ascii=False, separators=(",", ":"))
+    normalized = canonical_json.encode("utf-8")
+    return LibraryConfig(
+        payload["schema_version"],
+        payload["version"],
+        payload["approved_at"],
+        categories,
+        hashlib.sha256(normalized).hexdigest(),
+        canonical_json,
+    )
+
+
+def validate_library_config_binding(config: LibraryConfig) -> None:
+    """Verify that compiled rules still equal the exact JSON loaded as their source."""
+
+    if not isinstance(config, LibraryConfig):
+        raise TypeError("config must be a LibraryConfig")
+    try:
+        payload = json.loads(config.canonical_json)
+    except (TypeError, json.JSONDecodeError) as exc:
+        raise _error("config_binding_mismatch") from exc
+    canonical_json = json.dumps(payload, sort_keys=True, ensure_ascii=False, separators=(",", ":"))
+    if canonical_json != config.canonical_json:
+        raise _error("config_binding_mismatch")
+    try:
+        rebound = _library_config_from_payload(payload)
+    except (ConfigError, TypeError, ValueError) as exc:
+        raise _error("config_binding_mismatch") from exc
+    if (
+        rebound.schema_version != config.schema_version
+        or rebound.version != config.version
+        or rebound.approved_at != config.approved_at
+        or rebound.categories != config.categories
+        or rebound.config_hash != config.config_hash
+    ):
+        raise _error("config_binding_mismatch")
+
+
+def load_allowlist(path: Path) -> LibraryConfig:
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    return _library_config_from_payload(payload)

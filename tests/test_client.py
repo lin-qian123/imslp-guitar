@@ -43,6 +43,7 @@ def test_category_members_accepts_modern_continuation_and_sets_identity_headers(
     )
     assert "cmcontinue" not in _query(transport.calls[0].url)
     assert _query(transport.calls[1].url)["cmcontinue"] == ["next"]
+    assert _query(transport.calls[1].url)["continue"] == ["-||"]
     for call in transport.calls:
         headers = dict(call.headers)
         assert headers["Accept-Encoding"] == "identity"
@@ -63,6 +64,37 @@ def test_category_members_accepts_legacy_query_continue() -> None:
 
     assert len(client.category_members("For 3 guitars")) == 2
     assert _query(transport.calls[1].url)["cmcontinue"] == ["legacy-next"]
+    assert "continue" not in _query(transport.calls[1].url)
+
+
+def test_modern_continuation_rejects_unknown_or_repeated_tokens_boundedly() -> None:
+    unknown = _fixture("categorymembers-page-1.json")
+    assert isinstance(unknown, dict)
+    unknown["continue"]["unexpected"] = "injected"
+    client = ImslpClient(transport=FakeTransport([json_response(unknown)]), clock=FakeClock.fixed())
+    with pytest.raises(ImslpClientError, match="continuation"):
+        client.category_members("For guitar")
+
+    repeated = _fixture("categorymembers-page-1.json")
+    repeated_with_changed_generic = _fixture("categorymembers-page-1.json")
+    repeated_with_changed_generic["continue"]["continue"] = "different-generic-token"
+    transport = FakeTransport([json_response(repeated), json_response(repeated_with_changed_generic)])
+    client = ImslpClient(transport=transport, clock=FakeClock.fixed())
+    with pytest.raises(ImslpClientError, match="repeated continuation"):
+        client.category_members("For guitar")
+    assert len(transport.calls) == 2
+
+
+def test_pagination_page_cap_fails_before_an_unbounded_followup() -> None:
+    transport = FakeTransport([json_response(_fixture("categorymembers-page-1.json"))])
+    client = ImslpClient(
+        transport=transport,
+        clock=FakeClock.fixed(),
+        max_pagination_pages=1,
+    )
+    with pytest.raises(ImslpClientError, match="page cap"):
+        client.category_members("For guitar")
+    assert len(transport.calls) == 1
 
 
 def test_revision_and_file_metadata_results_are_typed_and_exact() -> None:

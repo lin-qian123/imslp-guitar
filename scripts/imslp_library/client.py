@@ -204,21 +204,25 @@ def _pages(payload: dict[str, object]) -> list[dict[str, object]]:
     return values
 
 
-def _continuation(payload: dict[str, object], module: str, key: str) -> str | None:
+def _continuation(payload: dict[str, object], module: str, key: str) -> dict[str, str] | None:
     modern = payload.get("continue")
-    if isinstance(modern, dict) and key in modern:
-        value = modern[key]
-        if not isinstance(value, str) or not value:
-            raise ImslpClientError(f"invalid {key} continuation")
-        return value
     legacy = payload.get("query-continue")
-    if isinstance(legacy, dict):
-        module_value = legacy.get(module)
-        if isinstance(module_value, dict) and key in module_value:
-            value = module_value[key]
-            if not isinstance(value, str) or not value:
-                raise ImslpClientError(f"invalid legacy {key} continuation")
-            return value
+    if "continue" in payload:
+        if "query-continue" in payload or not isinstance(modern, dict) or set(modern) != {"continue", key}:
+            raise ImslpClientError(f"invalid {module} continuation mapping")
+        if not all(isinstance(value, str) and value for value in modern.values()):
+            raise ImslpClientError(f"invalid {module} continuation token")
+        return {"continue": modern["continue"], key: modern[key]}
+    if "query-continue" in payload:
+        if not isinstance(legacy, dict) or set(legacy) != {module}:
+            raise ImslpClientError(f"invalid legacy {module} continuation mapping")
+        module_value = legacy[module]
+        if not isinstance(module_value, dict) or set(module_value) != {key}:
+            raise ImslpClientError(f"invalid legacy {module} continuation mapping")
+        value = module_value[key]
+        if not isinstance(value, str) or not value:
+            raise ImslpClientError(f"invalid legacy {key} continuation")
+        return {key: value}
     return None
 
 
@@ -235,6 +239,7 @@ class ImslpClient:
         max_attempts: int = 4,
         backoff_seconds: float = 1.0,
         max_backoff_seconds: float = 30.0,
+        max_pagination_pages: int = 1000,
     ) -> None:
         _validate_approved_url(api_url)
         if not isinstance(user_agent, str) or not user_agent.strip():
@@ -247,6 +252,8 @@ class ImslpClient:
             raise ValueError("backoff_seconds must be nonnegative")
         if type(max_backoff_seconds) not in (int, float) or max_backoff_seconds <= 0:
             raise ValueError("max_backoff_seconds must be positive")
+        if type(max_pagination_pages) is not int or max_pagination_pages <= 0:
+            raise ValueError("max_pagination_pages must be positive")
         self._transport = transport or UrllibTransport()
         self._clock = clock or _SystemClock()
         self._api_url = api_url
@@ -255,6 +262,7 @@ class ImslpClient:
         self._max_attempts = max_attempts
         self._backoff_seconds = float(backoff_seconds)
         self._max_backoff_seconds = float(max_backoff_seconds)
+        self._max_pagination_pages = max_pagination_pages
 
     def _backoff(self, attempt: int) -> float:
         return min(self._backoff_seconds * (2 ** (attempt - 1)), self._max_backoff_seconds)
@@ -336,7 +344,10 @@ class ImslpClient:
             "cmprop": "ids|title",
         }
         members: dict[int, CategoryMember] = {}
+        seen_continuations: set[str] = set()
+        page_number = 0
         while True:
+            page_number += 1
             payload = self._request_json(parameters)
             query = payload.get("query")
             raw = query.get("categorymembers") if isinstance(query, dict) else None
@@ -353,10 +364,16 @@ class ImslpClient:
                 if existing is not None and existing != member:
                     raise ImslpClientError("category member identity conflict")
                 members[member.page_id] = member
-            token = _continuation(payload, "categorymembers", "cmcontinue")
-            if token is None:
+            continuation = _continuation(payload, "categorymembers", "cmcontinue")
+            if continuation is None:
                 break
-            parameters["cmcontinue"] = token
+            identity = continuation["cmcontinue"]
+            if identity in seen_continuations:
+                raise ImslpClientError("repeated continuation token")
+            seen_continuations.add(identity)
+            if page_number >= self._max_pagination_pages:
+                raise ImslpClientError("pagination page cap reached")
+            parameters.update(continuation)
         return tuple(sorted(members.values(), key=lambda item: (item.page_id, item.title)))
 
     def category_info(self, category_name: str) -> CategoryInfo:
@@ -479,7 +496,10 @@ class ImslpClient:
             raise TypeError("prefix must be a string")
         parameters = {"list": "allcategories", "aclimit": "max", "acprop": "size", "acprefix": prefix}
         categories: dict[str, AllCategory] = {}
+        seen_continuations: set[str] = set()
+        page_number = 0
         while True:
+            page_number += 1
             payload = self._request_json(parameters)
             query = payload.get("query")
             raw = query.get("allcategories") if isinstance(query, dict) else None
@@ -495,8 +515,14 @@ class ImslpClient:
                 if category.name in categories and categories[category.name] != category:
                     raise ImslpClientError("allcategories identity conflict")
                 categories[category.name] = category
-            token = _continuation(payload, "allcategories", "accontinue")
-            if token is None:
+            continuation = _continuation(payload, "allcategories", "accontinue")
+            if continuation is None:
                 break
-            parameters["accontinue"] = token
+            identity = continuation["accontinue"]
+            if identity in seen_continuations:
+                raise ImslpClientError("repeated continuation token")
+            seen_continuations.add(identity)
+            if page_number >= self._max_pagination_pages:
+                raise ImslpClientError("pagination page cap reached")
+            parameters.update(continuation)
         return tuple(sorted(categories.values(), key=lambda item: item.name))

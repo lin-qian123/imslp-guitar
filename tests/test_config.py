@@ -3,11 +3,12 @@ from __future__ import annotations
 import copy
 import json
 import subprocess
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
 
-from imslp_library.config import ConfigError, load_allowlist
+from imslp_library.config import ConfigError, load_allowlist, validate_library_config_binding
 from tests.basic_helpers import make_file_template, make_wikitext, write_json, write_minimal_pdf
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -53,6 +54,16 @@ def test_config_has_exact_approved_categories_and_stable_hash(tmp_path: Path) ->
     alternate = tmp_path / "reordered.json"
     alternate.write_text("\n" + reordered + "\n", encoding="utf-8")
     assert load_allowlist(alternate).config_hash == config.config_hash
+    assert load_allowlist(alternate).canonical_json == config.canonical_json
+    validate_library_config_binding(config)
+
+
+def test_config_canonical_source_binding_rejects_dataclass_replacement() -> None:
+    config = load_allowlist(CONFIG_PATH)
+    with pytest.raises(ConfigError, match="config_binding_mismatch"):
+        validate_library_config_binding(replace(config, categories=config.categories[:1]))
+    with pytest.raises(ConfigError, match="config_binding_mismatch"):
+        validate_library_config_binding(replace(config, config_hash="f" * 64))
 
 
 def test_every_category_has_the_complete_annotation_reject_list() -> None:

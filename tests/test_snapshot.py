@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 from dataclasses import replace
 from pathlib import Path
 
@@ -10,7 +11,9 @@ import pytest
 from imslp_library.client import CategoryMember, FileMetadata, RevisionRecord
 from imslp_library.config import LibraryConfig, load_allowlist
 from imslp_library.enums import RunStatus
-from imslp_library.models import RunSnapshot, RunState
+from imslp_library.jsonio import atomic_write_json
+from imslp_library.models import RunSnapshot, RunState, ScoreFile
+from imslp_library import snapshot as snapshot_module
 from imslp_library.snapshot import SnapshotError, freeze_snapshot, load_complete_snapshot
 from tests.basic_helpers import ROOT
 from tests.network_helpers import FakeClock
@@ -21,9 +24,17 @@ ALPHA = "| *****FILES***** =\n{{#fte:imslpfile\n|File Name 1=alpha.pdf\n}}\n| **
 BETA = "| *****FILES***** =\n{{#fte:imslpfile\n|File Name 1=beta.pdf\n}}\n| *****WORK INFO*****\n|Instrumentation=3 guitars"
 
 
-def _config(count: int = 1, *, config_hash: str = "1" * 64) -> LibraryConfig:
-    source = load_allowlist(ROOT / "config/categories.json")
-    return replace(source, categories=source.categories[:count], config_hash=config_hash)
+class SimulatedPowerLoss(BaseException):
+    pass
+
+
+def _config(tmp_path: Path, count: int = 1) -> LibraryConfig:
+    payload = json.loads((ROOT / "config/categories.json").read_text(encoding="utf-8"))
+    payload["version"] = f"test-{count}"
+    payload["categories"] = payload["categories"][:count]
+    path = tmp_path / f"categories-{count}.json"
+    path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+    return load_allowlist(path)
 
 
 def _revision(page_id: int, revision_id: int, title: str, content: str) -> RevisionRecord:
@@ -116,7 +127,7 @@ def _read_state(root: Path) -> RunState:
 
 
 def test_initial_files_exist_before_network_and_category_resume_is_config_bound(tmp_path: Path) -> None:
-    config = _config(2)
+    config = _config(tmp_path, 2)
     snapshot_path = tmp_path / f"metadata/runs/{RUN_ID}.json"
     state_path = tmp_path / f"metadata/runs/{RUN_ID}-state.json"
 
@@ -144,7 +155,7 @@ def test_initial_files_exist_before_network_and_category_resume_is_config_bound(
 
     wrong_config = replace(config, config_hash="2" * 64)
     untouched = SnapshotClient(_members(config, 101), (), ())
-    with pytest.raises(SnapshotError, match="config hash"):
+    with pytest.raises(SnapshotError, match="config.*(hash|binding)"):
         freeze_snapshot(tmp_path, RUN_ID, wrong_config, untouched, FakeClock.fixed())
     assert untouched.calls == []
 
@@ -196,7 +207,7 @@ def test_all_29_categories_exact_files_completion_hash_and_immutable_reentry(tmp
 
 
 def test_incomplete_snapshot_cannot_be_loaded_for_downstream_work(tmp_path: Path) -> None:
-    config = _config()
+    config = _config(tmp_path)
     client = SnapshotClient(
         _members(config, 101),
         (_revision(101, 201, "Work 101 (Composer, Test)", ALPHA),),
@@ -210,7 +221,7 @@ def test_incomplete_snapshot_cannot_be_loaded_for_downstream_work(tmp_path: Path
 
 
 def test_exact_revision_batch_checkpoint_resumes_without_refetching_completed_batch(tmp_path: Path) -> None:
-    config = _config()
+    config = _config(tmp_path)
     revisions = (
         _revision(101, 201, "Work 101 (Composer, Test)", ALPHA),
         _revision(102, 202, "Work 102 (Composer, Test)", BETA),
@@ -252,6 +263,40 @@ def test_exact_revision_batch_checkpoint_resumes_without_refetching_completed_ba
     assert ("exact_revisions", (202,)) in resumed.calls
 
 
+def test_corrupt_cache_from_completed_exact_batch_is_quarantined_and_refetched(tmp_path: Path) -> None:
+    config = _config(tmp_path)
+    library = tmp_path / "library"
+    revisions = (
+        _revision(101, 201, "Work 101 (Composer, Test)", ALPHA),
+        _revision(102, 202, "Work 102 (Composer, Test)", BETA),
+    )
+    files = (_file("301", "alpha.pdf"), _file("302", "beta.pdf"))
+    interrupted = SnapshotClient(
+        _members(config, 101, 102),
+        revisions,
+        files,
+        fail_exact_for={(202,): RuntimeError("second batch interrupted")},
+    )
+    with pytest.raises(RuntimeError, match="second batch"):
+        freeze_snapshot(
+            library, RUN_ID, config, interrupted, FakeClock.fixed(), revision_batch_size=1
+        )
+    cache = library / "metadata/.cache/pages/101/201.wiki"
+    cache.write_bytes(b"corrupt after completed batch")
+
+    resumed = SnapshotClient(_members(config, 101, 102), revisions, files)
+    completed = freeze_snapshot(
+        library, RUN_ID, config, resumed, FakeClock.fixed(), revision_batch_size=1
+    )
+    assert completed.status is RunStatus.SNAPSHOT_COMPLETE
+    assert ("exact_revisions", (201,)) in resumed.calls
+    assert ("exact_revisions", (202,)) in resumed.calls
+    assert cache.read_text(encoding="utf-8") == ALPHA
+    assert (
+        library / f"quarantine/cache/{RUN_ID}/101/201.wiki"
+    ).read_bytes() == b"corrupt after completed batch"
+
+
 def _leave_category_checkpoint(root: Path, config: LibraryConfig) -> None:
     client = SnapshotClient(
         _members(config, 101),
@@ -264,7 +309,7 @@ def _leave_category_checkpoint(root: Path, config: LibraryConfig) -> None:
 
 
 def test_exact_revision_is_pinned_and_corrupt_cache_is_quarantined_exactly(tmp_path: Path) -> None:
-    config = _config()
+    config = _config(tmp_path)
     _leave_category_checkpoint(tmp_path, config)
     cache = tmp_path / "metadata/.cache/pages/101/201.wiki"
     cache.parent.mkdir(parents=True, exist_ok=True)
@@ -304,7 +349,7 @@ def test_exact_revision_is_pinned_and_corrupt_cache_is_quarantined_exactly(tmp_p
 
 
 def test_refetched_exact_revision_hash_mismatch_fails_after_quarantine(tmp_path: Path) -> None:
-    config = _config()
+    config = _config(tmp_path)
     _leave_category_checkpoint(tmp_path, config)
     cache = tmp_path / "metadata/.cache/pages/101/201.wiki"
     cache.parent.mkdir(parents=True, exist_ok=True)
@@ -324,7 +369,7 @@ def test_refetched_exact_revision_hash_mismatch_fails_after_quarantine(tmp_path:
 
 
 def test_identical_records_in_different_api_order_have_identical_canonical_bytes(tmp_path: Path) -> None:
-    config = _config()
+    config = _config(tmp_path)
     revisions = (
         _revision(101, 201, "Alpha (Composer, Test)", ALPHA),
         _revision(102, 202, "Beta (Composer, Test)", BETA),
@@ -355,3 +400,213 @@ def test_identical_records_in_different_api_order_have_identical_canonical_bytes
     assert first == second
     assert [(item.page_id, item.revision_id) for item in first.pages] == [(101, 201), (102, 202)]
     assert [item.source_id for item in first.score_files] == ["source:f301@r201", "source:f302@r202"]
+
+
+def test_replaced_config_categories_or_hash_cannot_reuse_original_binding(tmp_path: Path) -> None:
+    original = load_allowlist(ROOT / "config/categories.json")
+    for forged in (
+        replace(original, categories=original.categories[:1]),
+        replace(original, config_hash="f" * 64),
+    ):
+        client = SnapshotClient({}, (), ())
+        with pytest.raises(SnapshotError, match="config.*binding"):
+            freeze_snapshot(tmp_path / forged.config_hash[:8], RUN_ID, forged, client, FakeClock.fixed())
+        assert client.calls == []
+
+
+def test_orphan_score_file_in_incomplete_snapshot_is_rejected_globally(tmp_path: Path) -> None:
+    config = _config(tmp_path)
+    library = tmp_path / "library"
+    _leave_category_checkpoint(library, config)
+    snapshot_path = library / f"metadata/runs/{RUN_ID}.json"
+    snapshot = _read_snapshot(library)
+    orphan = ScoreFile(
+        source_id="source:f999@r201",
+        file_id="999",
+        page_id=999,
+        page_revision_id=201,
+        filename="orphan.pdf",
+        source_url="https://imslp.org/files/orphan.pdf",
+        expected_size=1,
+        sha1_imslp=None,
+        source_hash_missing=True,
+        mime="application/pdf",
+        copyright_label=None,
+        sha256=None,
+        object_path=None,
+    )
+    atomic_write_json(snapshot_path, replace(snapshot, score_files=(orphan,)).to_dict())
+    client = SnapshotClient(
+        _members(config, 101),
+        (_revision(101, 201, "Work 101 (Composer, Test)", ALPHA),),
+        (_file("301", "alpha.pdf"),),
+    )
+
+    with pytest.raises(SnapshotError, match="score file.*frozen page"):
+        freeze_snapshot(library, RUN_ID, config, client, FakeClock.fixed())
+    assert client.calls == []
+
+
+def test_initial_writes_reject_metadata_symlink_before_escape_or_request(tmp_path: Path) -> None:
+    config = _config(tmp_path)
+    library = tmp_path / "library"
+    outside = tmp_path / "outside"
+    library.mkdir()
+    outside.mkdir()
+    (library / "metadata").symlink_to(outside, target_is_directory=True)
+    client = SnapshotClient(_members(config, 101), (), ())
+
+    with pytest.raises((ValueError, SnapshotError), match="symlink"):
+        freeze_snapshot(library, RUN_ID, config, client, FakeClock.fixed())
+    assert list(outside.iterdir()) == []
+    assert client.calls == []
+
+
+def test_initial_snapshot_state_crash_window_reconciles_before_network(tmp_path: Path, monkeypatch) -> None:
+    config = _config(tmp_path)
+    library = tmp_path / "library"
+    state_path = library / f"metadata/runs/{RUN_ID}-state.json"
+    intent_path = library / f"metadata/runs/{RUN_ID}-initialization.json"
+    real_write = snapshot_module.atomic_write_json
+    raised = False
+
+    def interrupt_state(path, mapping):
+        nonlocal raised
+        if Path(path) == state_path and mapping.get("model_type") == "RunState" and not raised:
+            raised = True
+            raise SimulatedPowerLoss("lost between initial snapshot and state")
+        return real_write(path, mapping)
+
+    monkeypatch.setattr(snapshot_module, "atomic_write_json", interrupt_state)
+    client = SnapshotClient(_members(config, 101), (), ())
+    with pytest.raises(SimulatedPowerLoss):
+        freeze_snapshot(library, RUN_ID, config, client, FakeClock.fixed())
+    assert intent_path.is_file()
+    assert client.calls == []
+
+    monkeypatch.setattr(snapshot_module, "atomic_write_json", real_write)
+    resumed = SnapshotClient(
+        _members(config, 101),
+        (_revision(101, 201, "Work 101 (Composer, Test)", ALPHA),),
+        (_file("301", "alpha.pdf"),),
+    )
+    assert freeze_snapshot(library, RUN_ID, config, resumed, FakeClock.fixed()).status is RunStatus.SNAPSHOT_COMPLETE
+    assert not intent_path.exists()
+
+
+def test_quarantine_move_manifest_crash_is_reconciled_without_orphan(tmp_path: Path, monkeypatch) -> None:
+    config = _config(tmp_path)
+    library = tmp_path / "library"
+    _leave_category_checkpoint(library, config)
+    cache = library / "metadata/.cache/pages/101/201.wiki"
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    cache.write_bytes(b"corrupt")
+    manifest_path = library / f"quarantine/manifests/cache-{RUN_ID}.json"
+    intent_path = library / f"quarantine/transactions/cache-{RUN_ID}-101-201.json"
+    quarantine = library / f"quarantine/cache/{RUN_ID}/101/201.wiki"
+    real_write = snapshot_module.atomic_write_json
+
+    def interrupt_manifest(path, mapping):
+        if Path(path) == manifest_path:
+            raise SimulatedPowerLoss("lost after cache move")
+        return real_write(path, mapping)
+
+    monkeypatch.setattr(snapshot_module, "atomic_write_json", interrupt_manifest)
+    client = SnapshotClient(
+        _members(config, 101),
+        (_revision(101, 201, "Work 101 (Composer, Test)", ALPHA),),
+        (_file("301", "alpha.pdf"),),
+    )
+    with pytest.raises(SimulatedPowerLoss):
+        freeze_snapshot(library, RUN_ID, config, client, FakeClock.fixed())
+    assert quarantine.read_bytes() == b"corrupt"
+    assert intent_path.is_file()
+    assert not manifest_path.exists()
+
+    monkeypatch.setattr(snapshot_module, "atomic_write_json", real_write)
+    resumed = SnapshotClient(
+        _members(config, 101),
+        (_revision(101, 201, "Work 101 (Composer, Test)", ALPHA),),
+        (_file("301", "alpha.pdf"),),
+    )
+    assert freeze_snapshot(library, RUN_ID, config, resumed, FakeClock.fixed()).status is RunStatus.SNAPSHOT_COMPLETE
+    assert not intent_path.exists()
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    assert {item["quarantine_path"] for item in manifest["items"]} == {
+        f"quarantine/cache/{RUN_ID}/101/201.wiki"
+    }
+
+
+def test_unmanifested_quarantine_tree_orphan_fails_closed(tmp_path: Path) -> None:
+    config = _config(tmp_path)
+    library = tmp_path / "library"
+    _leave_category_checkpoint(library, config)
+    orphan = library / f"quarantine/cache/{RUN_ID}/101/201.wiki"
+    orphan.parent.mkdir(parents=True, exist_ok=True)
+    orphan.write_bytes(b"orphan")
+    client = SnapshotClient(
+        _members(config, 101),
+        (_revision(101, 201, "Work 101 (Composer, Test)", ALPHA),),
+        (_file("301", "alpha.pdf"),),
+    )
+    with pytest.raises(SnapshotError, match="quarantine.*tree"):
+        freeze_snapshot(library, RUN_ID, config, client, FakeClock.fixed())
+    assert client.calls == []
+
+
+def test_complete_snapshot_without_completion_intent_cannot_be_reauthenticated(tmp_path: Path) -> None:
+    config = _config(tmp_path)
+    library = tmp_path / "library"
+    client = SnapshotClient(
+        _members(config, 101),
+        (_revision(101, 201, "Work 101 (Composer, Test)", ALPHA),),
+        (_file("301", "alpha.pdf"),),
+    )
+    freeze_snapshot(library, RUN_ID, config, client, FakeClock.fixed())
+    snapshot_path = library / f"metadata/runs/{RUN_ID}.json"
+    state_path = library / f"metadata/runs/{RUN_ID}-state.json"
+    raw = json.loads(snapshot_path.read_text(encoding="utf-8"))
+    raw["score_files"][0]["copyright_label"] = "Tampered"
+    os.chmod(snapshot_path, 0o600)
+    atomic_write_json(snapshot_path, raw)
+    atomic_write_json(state_path, replace(_read_state(library), snapshot_sha256=None).to_dict())
+    no_requests = SnapshotClient({}, (), ())
+
+    with pytest.raises(SnapshotError, match="completion intent"):
+        freeze_snapshot(library, RUN_ID, config, no_requests, FakeClock.fixed())
+    assert no_requests.calls == []
+
+
+def test_completion_intent_recovers_state_write_crash_without_snapshot_mutation(tmp_path: Path, monkeypatch) -> None:
+    config = _config(tmp_path)
+    library = tmp_path / "library"
+    state_path = library / f"metadata/runs/{RUN_ID}-state.json"
+    intent_path = library / f"metadata/runs/{RUN_ID}-completion.json"
+    real_write = snapshot_module.atomic_write_json
+
+    def interrupt_final_state(path, mapping):
+        if Path(path) == state_path and mapping.get("snapshot_sha256") is not None:
+            raise SimulatedPowerLoss("lost after complete snapshot write")
+        return real_write(path, mapping)
+
+    monkeypatch.setattr(snapshot_module, "atomic_write_json", interrupt_final_state)
+    client = SnapshotClient(
+        _members(config, 101),
+        (_revision(101, 201, "Work 101 (Composer, Test)", ALPHA),),
+        (_file("301", "alpha.pdf"),),
+    )
+    with pytest.raises(SimulatedPowerLoss):
+        freeze_snapshot(library, RUN_ID, config, client, FakeClock.fixed())
+    assert intent_path.is_file()
+    snapshot_path = library / f"metadata/runs/{RUN_ID}.json"
+    before = snapshot_path.read_bytes()
+    before_mtime = snapshot_path.stat().st_mtime_ns
+
+    monkeypatch.setattr(snapshot_module, "atomic_write_json", real_write)
+    no_requests = SnapshotClient({}, (), ())
+    completed = freeze_snapshot(library, RUN_ID, config, no_requests, FakeClock.fixed())
+    assert completed.status is RunStatus.SNAPSHOT_COMPLETE
+    assert no_requests.calls == []
+    assert snapshot_path.read_bytes() == before
+    assert snapshot_path.stat().st_mtime_ns == before_mtime
+    assert not intent_path.exists()
