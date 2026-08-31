@@ -217,6 +217,30 @@ def _run_responses() -> list[object]:
     ]
 
 
+def _run_responses_with_present_zero_allowlisted() -> list[object]:
+    first, second = _fixture_pages()
+    query = first["query"]
+    assert isinstance(query, dict) and isinstance(query["allcategories"], list)
+    query["allcategories"].append(
+        {
+            "category": "For 3 guitars (arr)",
+            "files": 0,
+            "pages": 0,
+            "size": 0,
+            "subcats": 0,
+        }
+    )
+    return [
+        json_response(first),
+        json_response(second),
+        json_response(_categoryinfo("For 3 guitars (arr)", 0)),
+        json_response(_categoryinfo("For guitar", 2)),
+        json_response(_members("For 3 guitars", (1, 2, 8, 9))),
+        json_response(_members("For 3-guitars (arr)", (1, 2, 3, 4))),
+        json_response(_members("For 4 guitars", (30, 31, 32, 33, 34, 35))),
+    ]
+
+
 def _strict_run_report(config_hash: str) -> dict[str, object]:
     return _drift_report(
         "run_start",
@@ -509,6 +533,47 @@ def test_run_reports_are_immutable_and_bound_atomically_to_state(
     with pytest.raises(FileExistsError):
         run_phase("run_start")
     assert start_path.read_bytes() == (tmp_path / start.report_path).read_bytes()
+
+
+def test_present_zero_allowlisted_category_persists_filtered_count_change(
+    tmp_path: Path,
+) -> None:
+    config_path = tmp_path / "config/categories.json"
+    _write_allowlist(config_path)
+    config = load_allowlist(config_path)
+    _write_complete_run(tmp_path, config.config_hash)
+    transport = FakeTransport(_run_responses_with_present_zero_allowlisted())
+
+    result = discover_category_drift(
+        tmp_path,
+        config,
+        ImslpClient(transport=transport, clock=FakeClock(NOW)),
+        FakeClock(NOW),
+        phase="run_start",
+        compare_run_id=RUN_ID,
+    )
+
+    filtered = {
+        item["name"]: item["reason"] for item in result.report["filtered_candidates"]
+    }
+    assert filtered["For 3 guitars (arr)"] == "zero_members"
+    assert result.report["empty_categories"] == []
+    assert result.report["deleted_categories"] == []
+    assert result.report["member_count_changes"] == [
+        {
+            "name": "For 3 guitars (arr)",
+            "previous_member_count": 5,
+            "current_member_count": 0,
+        }
+    ]
+    report_path = tmp_path / result.report_path
+    assert report_path.is_file()
+    assert read_json(tmp_path / "metadata/category_drift_report.json") == result.report
+    state = RunState.from_dict(
+        read_json(tmp_path / f"metadata/runs/{RUN_ID}-state.json")
+    )
+    assert state.start_drift_report_path == result.report_path
+    assert state.start_drift_report_sha256 == result.report_sha256
 
 
 def test_report_has_only_the_exact_public_fields(tmp_path: Path) -> None:
@@ -1125,6 +1190,34 @@ def test_reviewer_forged_report_semantics_are_rejected(
             run_id=RUN_ID,
             phase="run_start",
             config=config,
+        )
+
+
+def test_nonzero_filtered_reason_cannot_overlap_zero_count_change() -> None:
+    report = _strict_run_report("0" * 64)
+    report["filtered_candidates"] = [
+        {
+            "name": "For electric guitar",
+            "size": 1,
+            "page_count": 1,
+            "file_count": 0,
+            "subcategory_count": 0,
+            "reason": "electric_guitar",
+        }
+    ]
+    report["member_count_changes"].append(
+        {
+            "name": "For electric guitar",
+            "previous_member_count": 1,
+            "current_member_count": 0,
+        }
+    )
+
+    with pytest.raises(SnapshotError, match="filtered and count-change"):
+        discovery_module._validate_drift_report(
+            report,
+            run_id=RUN_ID,
+            phase="run_start",
         )
 
 

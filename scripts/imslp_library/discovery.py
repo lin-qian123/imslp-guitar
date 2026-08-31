@@ -415,24 +415,44 @@ def _validate_drift_report(
         raise SnapshotError("drift report candidate groups overlap")
     if set(empty_names) & set(deleted_names):
         raise SnapshotError("drift report empty and deleted groups overlap")
-    evidence_names = set(empty_names) | set(deleted_names) | set(change_names)
-    if (set(new_names) | set(filtered_names)) & evidence_names:
-        raise SnapshotError("drift report candidate and allowlisted evidence groups overlap")
+    changes = {
+        item["name"]: (item["previous_member_count"], item["current_member_count"])
+        for item in change_items
+    }
+    empty_or_deleted = set(empty_names) | set(deleted_names)
+    if set(new_names) & (empty_or_deleted | set(change_names)):
+        raise SnapshotError("drift report new candidate and allowlisted evidence overlap")
+    if set(filtered_names) & empty_or_deleted:
+        raise SnapshotError("drift report filtered and absent category evidence overlap")
+    filtered_reasons = {
+        category.name: item["reason"]
+        for item, category in zip(filtered_items, filtered_categories, strict=True)
+    }
+    filtered_by_name = {category.name: category for category in filtered_categories}
+    if any(
+        filtered_reasons[filtered_name] != "zero_members"
+        or filtered_by_name[filtered_name].size != 0
+        or changes[filtered_name][0] <= 0
+        or changes[filtered_name][1] != 0
+        for filtered_name in set(filtered_names) & set(change_names)
+    ):
+        raise SnapshotError("drift report filtered and count-change evidence is inconsistent")
     if actual_phase == "standalone" and (change_items or rename_items):
         raise SnapshotError("standalone drift report cannot compare counts or renames")
     if actual_phase != "standalone":
-        changes = {
-            item["name"]: (item["previous_member_count"], item["current_member_count"])
-            for item in change_items
-        }
         for source_name, previous in (empty_counts | deleted_counts).items():
             expected = (previous, 0) if previous and previous > 0 else None
             if changes.get(source_name) != expected:
                 raise SnapshotError(
                     "drift report empty or deleted category change evidence is incomplete"
                 )
+        explained_zero_changes = empty_or_deleted | {
+            filtered_name
+            for filtered_name, reason in filtered_reasons.items()
+            if reason == "zero_members"
+        }
         if any(
-            current == 0 and changed_name not in empty_counts | deleted_counts
+            current == 0 and changed_name not in explained_zero_changes
             for changed_name, (_, current) in changes.items()
         ):
             raise SnapshotError("drift report zero count change lacks category evidence")
