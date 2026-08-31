@@ -54,6 +54,26 @@ def _manifest_item_class(manifest_type: str) -> type[Model]:
         raise ValueError(f"unknown manifest model_type: {manifest_type}") from exc
 
 
+def _read_models_envelope(path: str | os.PathLike[str]) -> tuple[str, tuple[Model, ...]]:
+    envelope = read_json(path)
+    if set(envelope) != _ENVELOPE_KEYS:
+        missing = sorted(_ENVELOPE_KEYS - set(envelope))
+        extra = sorted(set(envelope) - _ENVELOPE_KEYS)
+        raise ValueError(f"invalid envelope keys; missing={missing}, extra={extra}")
+    _schema_version(envelope)
+    model_type = envelope["model_type"]
+    if not isinstance(model_type, str):
+        raise TypeError("model_type must be a string")
+    expected_item_class = _manifest_item_class(model_type)
+    raw_items = envelope["items"]
+    if not isinstance(raw_items, list):
+        raise TypeError("items must be an array")
+    items = tuple(model_from_dict(item) for item in raw_items)
+    if any(type(item) is not expected_item_class for item in items):
+        raise ValueError(f"{model_type} item model must be {expected_item_class.__name__}")
+    return model_type, items
+
+
 def _canonical_bytes(mapping: Mapping[str, object]) -> bytes:
     if not all(isinstance(key, str) for key in mapping):
         raise TypeError("mapping keys must be strings")
@@ -121,28 +141,19 @@ def atomic_write_models(
         "model_type": model_type,
         "items": [item.to_dict() for item in values],
     }
+    target = Path(path)
+    if target.exists():
+        existing_model_type, _ = _read_models_envelope(target)
+        if existing_model_type != model_type:
+            raise ValueError(f"existing model_type {existing_model_type} does not match incoming {model_type}")
     atomic_write_json(path, envelope)
 
 
 def read_models(path: str | os.PathLike[str], expected_model_type: str) -> tuple[Model, ...]:
     if not isinstance(expected_model_type, str) or not expected_model_type.strip():
         raise ValueError("expected_model_type must be a nonempty string")
-    expected_item_class = _manifest_item_class(expected_model_type)
-    envelope = read_json(path)
-    if set(envelope) != _ENVELOPE_KEYS:
-        missing = sorted(_ENVELOPE_KEYS - set(envelope))
-        extra = sorted(set(envelope) - _ENVELOPE_KEYS)
-        raise ValueError(f"invalid envelope keys; missing={missing}, extra={extra}")
-    _schema_version(envelope)
-    model_type = envelope["model_type"]
-    if not isinstance(model_type, str):
-        raise TypeError("model_type must be a string")
+    _manifest_item_class(expected_model_type)
+    model_type, items = _read_models_envelope(path)
     if model_type != expected_model_type:
         raise ValueError(f"model_type must be {expected_model_type}")
-    raw_items = envelope["items"]
-    if not isinstance(raw_items, list):
-        raise TypeError("items must be an array")
-    items = tuple(model_from_dict(item) for item in raw_items)
-    if any(type(item) is not expected_item_class for item in items):
-        raise ValueError(f"{expected_model_type} item model must be {expected_item_class.__name__}")
     return items

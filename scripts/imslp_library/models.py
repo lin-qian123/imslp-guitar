@@ -215,11 +215,14 @@ class Model:
     def __init_subclass__(cls) -> None:
         super().__init_subclass__()
         cls.model_type = cls.__name__
-        _MODEL_REGISTRY[cls.__name__] = cls
+        if cls.__module__ == __name__:
+            _MODEL_REGISTRY[cls.__name__] = cls
 
     def to_dict(self) -> dict[str, object]:
         if not is_dataclass(self):
             raise TypeError("model must be a dataclass")
+        if _MODEL_REGISTRY.get(type(self).__name__) is not type(self):
+            raise ValueError(f"unknown model_type: {type(self).__name__}")
         payload = {field.name: _encode(getattr(self, field.name)) for field in fields(self)}
         payload["model_type"] = type(self).__name__
         return {key: payload[key] for key in sorted(payload)}
@@ -665,6 +668,8 @@ class DownloadResult(Model):
             _nonnegative(self.size, "size")
         _sha1(self.sha1, "sha1")
         _sha256(self.sha256, "sha256")
+        if (self.size is None) != (self.sha256 is None):
+            raise ValueError("size and sha256 must be present together")
         if type(self.source_hash_missing) is not bool or self.source_hash_missing != (self.sha1 is None):
             raise ValueError("source_hash_missing must reflect sha1 absence")
         for name in ("review_evidence_path", "evidence_path"):
@@ -677,6 +682,8 @@ class DownloadResult(Model):
             raise ValueError("pending review cannot have review evidence")
         if self.review_status is ReviewStatus.RESOLVED and self.review_evidence_path is None:
             raise ValueError("resolved review requires review evidence")
+        if self.status is DownloadStatus.MANUAL_REVIEW and self.review_status not in {ReviewStatus.PENDING, ReviewStatus.RESOLVED}:
+            raise ValueError("manual_review requires pending or resolved review")
         verified_statuses = {DownloadStatus.DOWNLOADED_VERIFIED, DownloadStatus.SOURCE_OVERRIDE_VERIFIED}
         no_payload_statuses = set(DownloadStatus) - verified_statuses - {DownloadStatus.MANUAL_REVIEW}
         if self.status in no_payload_statuses and any(value is not None for value in (self.size, self.sha1, self.sha256)):
@@ -691,6 +698,15 @@ class DownloadResult(Model):
                     raise ValueError("pending source hash review requires diagnostic evidence")
             elif self.review_status is not ReviewStatus.NOT_REQUIRED:
                 raise ValueError("source-hashed download does not require review")
+        if self.status is DownloadStatus.SOURCE_OVERRIDE_VERIFIED and (
+            self.size is None
+            or self.sha1 is None
+            or self.sha256 is None
+            or self.source_hash_missing
+            or self.review_status is not ReviewStatus.RESOLVED
+            or self.review_evidence_path is None
+        ):
+            raise ValueError("source_override_verified requires approved legal source evidence and complete hashes")
 
 
 @dataclass(frozen=True, slots=True)

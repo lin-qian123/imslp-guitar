@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import json
-from dataclasses import FrozenInstanceError, fields, replace
+from dataclasses import FrozenInstanceError, dataclass, fields, replace
 from datetime import datetime
 
 import pytest
@@ -16,7 +16,7 @@ from imslp_library.enums import (
     SelectionReason,
     StorageMethod,
 )
-from imslp_library.models import ExtractionResult, RunSnapshot, VerificationReport
+from imslp_library.models import ExtractionResult, Model, RunSnapshot, VerificationReport, model_class_for_name
 from tests import model_helpers as h
 
 
@@ -149,7 +149,7 @@ def test_review_source_revision_must_match_reviewed_revision() -> None:
 
 def test_verified_download_states_distinguish_source_hash_and_override_review() -> None:
     h.make_download_result()
-    h.make_download_result(status=DownloadStatus.SOURCE_OVERRIDE_VERIFIED)
+    h.make_download_result(status=DownloadStatus.SOURCE_OVERRIDE_VERIFIED, review_status=ReviewStatus.RESOLVED, review_evidence_path="metadata/overrides/legal-source.json")
     h.make_download_result(sha1=None, source_hash_missing=True, review_status=ReviewStatus.PENDING, evidence_path="metadata/verification/source-f301.json")
     h.make_download_result(sha1=None, source_hash_missing=True, review_status=ReviewStatus.RESOLVED, review_evidence_path="metadata/overrides/source_hash_review.json")
     with pytest.raises(ValueError):
@@ -170,6 +170,52 @@ def test_non_success_download_statuses_reject_verified_payload(status) -> None:
 
 def test_manual_review_may_retain_quarantined_object_hashes() -> None:
     h.make_download_result(status=DownloadStatus.MANUAL_REVIEW, review_status=ReviewStatus.PENDING)
+    h.make_download_result(status=DownloadStatus.MANUAL_REVIEW, review_status=ReviewStatus.PENDING, size=None, sha1=None, sha256=None, source_hash_missing=True)
+    h.make_download_result(status=DownloadStatus.MANUAL_REVIEW, review_status=ReviewStatus.RESOLVED, review_evidence_path="metadata/reviews/manual.json")
+    with pytest.raises(ValueError, match="manual_review"):
+        h.make_download_result(status=DownloadStatus.MANUAL_REVIEW)
+
+
+def _legal_download_overrides(status: DownloadStatus) -> dict[str, object]:
+    if status is DownloadStatus.DOWNLOADED_VERIFIED:
+        return {"status": status}
+    if status is DownloadStatus.SOURCE_OVERRIDE_VERIFIED:
+        return {"status": status, "review_status": ReviewStatus.RESOLVED, "review_evidence_path": "metadata/overrides/legal-source.json"}
+    if status is DownloadStatus.MANUAL_REVIEW:
+        return {"status": status, "review_status": ReviewStatus.PENDING}
+    return {"status": status, "size": None, "sha1": None, "sha256": None, "source_hash_missing": True}
+
+
+@pytest.mark.parametrize("status", tuple(DownloadStatus))
+@pytest.mark.parametrize(("size", "sha256"), [(None, h.SHA256), (123, None)])
+def test_every_download_status_requires_size_and_sha256_together(status, size, sha256) -> None:
+    with pytest.raises(ValueError, match="size and sha256"):
+        h.make_download_result(**(_legal_download_overrides(status) | {"size": size, "sha256": sha256}))
+
+
+@pytest.mark.parametrize("changes", [
+    {"size": None, "sha256": None},
+    {"sha1": None, "source_hash_missing": True},
+    {"review_status": ReviewStatus.NOT_REQUIRED, "review_evidence_path": None},
+    {"review_status": ReviewStatus.PENDING, "review_evidence_path": None},
+    {"review_status": ReviewStatus.RESOLVED, "review_evidence_path": None},
+])
+def test_source_override_verified_requires_complete_approved_legal_source(changes) -> None:
+    valid = {"status": DownloadStatus.SOURCE_OVERRIDE_VERIFIED, "review_status": ReviewStatus.RESOLVED, "review_evidence_path": "metadata/overrides/legal-source.json"}
+    with pytest.raises(ValueError):
+        h.make_download_result(**(valid | changes))
+
+
+def test_foreign_model_subclasses_are_not_registered_or_serializable() -> None:
+    @dataclass(frozen=True, slots=True)
+    class ForeignRecord(Model):
+        value: str
+
+    record = ForeignRecord("fixture")
+    with pytest.raises(ValueError, match="unknown model_type"):
+        record.to_dict()
+    with pytest.raises(ValueError, match="unknown model_type"):
+        model_class_for_name("ForeignRecord")
 
 
 @pytest.mark.parametrize(("factory", "field"), [

@@ -103,6 +103,28 @@ def test_unknown_manifest_labels_are_rejected_on_write_and_read(tmp_path: Path) 
         jsonio.read_models(path, "UnknownManifest")
 
 
+def test_existing_manifest_path_cannot_change_model_identity(tmp_path: Path) -> None:
+    path = tmp_path / "manifest.json"
+    jsonio.atomic_write_models(path, "MembershipManifest", (h.make_membership(),))
+    old_bytes = path.read_bytes()
+    with pytest.raises(ValueError, match="model_type"):
+        jsonio.atomic_write_models(path, "WorkManifest", (h.make_work(),))
+    assert path.read_bytes() == old_bytes
+
+
+@pytest.mark.parametrize("invalid_existing", [
+    {"schema_version": 1, "value": "not an envelope"},
+    {"schema_version": 1, "model_type": "MembershipManifest", "items": [h.make_work().to_dict()]},
+])
+def test_existing_invalid_manifest_is_never_overwritten(tmp_path: Path, invalid_existing) -> None:
+    path = tmp_path / "manifest.json"
+    jsonio.atomic_write_json(path, invalid_existing)
+    old_bytes = path.read_bytes()
+    with pytest.raises((TypeError, ValueError)):
+        jsonio.atomic_write_models(path, "MembershipManifest", (h.make_membership(),))
+    assert path.read_bytes() == old_bytes
+
+
 def test_replace_failure_preserves_old_target_and_cleans_only_own_temp(tmp_path: Path, monkeypatch) -> None:
     path = tmp_path / "state.json"
     jsonio.atomic_write_json(path, {"schema_version": 1, "value": "old"})
