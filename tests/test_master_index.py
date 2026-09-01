@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 import runpy
 from pathlib import Path
 
@@ -12,7 +13,9 @@ def write_json(path: Path, payload: object) -> None:
     path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
 
 
-def test_master_index_is_compact_and_searches_category_cards(tmp_path: Path) -> None:
+def test_master_index_is_compact_and_returns_work_and_composer_results(
+    tmp_path: Path,
+) -> None:
     write_json(
         tmp_path / "config/categories.json",
         {"categories": [{"name": "For guitar"}]},
@@ -41,8 +44,29 @@ def test_master_index_is_compact_and_searches_category_cards(tmp_path: Path) -> 
     assert '<details' not in rendered
     assert 'class="work"' not in rendered
     assert 'href="For%20guitar/index.html"' in rendered
-    assert 'data-search="' in rendered
-    assert "ghirlanda di varii fiori" in rendered
-    assert "阿巴泰莎" in rendered
-    assert "querySelectorAll('.card')" in rendered
+    assert 'id="search-results"' in rendered
+    match = re.search(
+        r'<script type="application/json" id="search-data">(.*?)</script>', rendered
+    )
+    assert match is not None
+    search_data = json.loads(match.group(1))
+    assert search_data == [{
+        "t": "Ghirlanda di varii fiori",
+        "z": "《各种鲜花的花环》",
+        "c": "Abbatessa, Giovanni Battista",
+        "cz": "阿巴泰莎，乔瓦尼·巴蒂斯塔",
+        "n": "For guitar",
+        "nz": "1把吉他·原作",
+        "h": "For%20guitar/index.html",
+        "u": "",
+        "s": (
+            "ghirlanda di varii fiori 《各种鲜花的花环》 "
+            "abbatessa, giovanni battista 阿巴泰莎，乔瓦尼·巴蒂斯塔"
+        ),
+    }]
+    assert "result-title" in rendered
+    assert "result-composer" in rendered
+    assert "所属分类" in rendered
+    assert "曲名或作者结果" in rendered
+    assert "categories.hidden=true" in rendered
     assert "点击分类卡片进入独立乐谱目录" in rendered

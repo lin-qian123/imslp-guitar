@@ -30,7 +30,7 @@ file:///Volumes/PHILIPS/programs/muse-cache/imslp/index.html
 
 ## 实际结构
 
-- 根 `index.html`：页首跨分类搜索与分类导航；作品和 PDF 详情只在各分类自己的 `index.html` 中显示。
+- 根 `index.html`：未搜索时显示分类导航；页首跨分类搜索会直接返回匹配的中英文曲名、作者和所属分类，完整作品与 PDF 详情仍在各分类自己的 `index.html` 中显示。
 - IMSLP 原名目录：每个分类独立 HTML、Markdown、CSV 和 JSON 双语目录。
 - 分类 `scores/`：按音乐家/作品/文件保存 PDF。
 - 分类 `metadata/`：分类成员、清单、翻译、缓存和下载覆盖记录。
