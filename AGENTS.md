@@ -1,13 +1,18 @@
 # Project instructions
 
 This directory is a reproducible, source-attributed, offline IMSLP library for
-pure classical/acoustic guitar instrumentation categories.
+classical/acoustic guitar categories, including pure-guitar and guitar chamber
+instrumentation.
 
 - Preserve each included IMSLP category name exactly as its directory name.
-- Include only categories configured in `config/categories.json`. Do not infer
-  scope from the mere presence of the word `guitar`.
-- Exclude electric guitar, bass guitar, voice, and any mixed-instrument
-  category.
+- Include pure-guitar categories configured in `config/categories.json` and
+  mixed/chamber categories configured in `config/mixed_categories.json`. Do
+  not infer scope from the mere presence of the word `guitar`.
+- Exclude electric, bass, Hawaiian, steel, and slide guitar; voice/chorus;
+  electronics/tape; large orchestra; and alternative-solo categories where
+  guitar is only an `or` option.
+- Group mixed categories as strings, woodwinds, brass, keyboard/free reed,
+  plucked instruments, percussion, or mixed chamber ensemble.
 - Treat original and `(arr)` categories separately. Original categories may
   use only original scores/parts; arrangement categories may use only the
   exact target instrumentation subsection in the page `FILES` area.
@@ -30,8 +35,9 @@ pure classical/acoustic guitar instrumentation categories.
   verified.
 - Measure completion against a frozen run snapshot and approved category
   allowlist version; report upstream category drift separately.
-- Migrate existing libraries through a verified staging tree and retained
-  rollback copy. Never rename or rewrite the only known-good tree first.
+- When extending the existing library, use the resumable production pipeline
+  directly. Do not introduce additional specification or review gates unless
+  scope, permissions, or destructive changes genuinely require them.
 - Use `python`, not the system `python3`, for project commands.
 - Keep `README.md`, `TODO.md`, and this file current as implementation proceeds.
 - Do not commit PDFs, caches, partial downloads, logs, or generated bulk

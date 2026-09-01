@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Build and maintain one local IMSLP pure-guitar category library.
+"""Build and maintain one local IMSLP guitar category library.
 
 The script deliberately separates metadata discovery from file downloading.
 IMSLP may require an interactive human verification before serving score files;
@@ -37,13 +37,18 @@ from typing import Any, Iterable
 
 ROOT = Path(os.environ.get("IMSLP_LIBRARY_ROOT", Path(__file__).resolve().parents[1])).expanduser().resolve()
 METADATA_DIR = ROOT / "metadata"
-CACHE_DIR = METADATA_DIR / ".cache" / "pages"
+CACHE_DIR = Path(
+    os.environ.get("IMSLP_PAGE_CACHE_DIR", METADATA_DIR / ".cache" / "pages")
+).expanduser().resolve()
 SCORES_DIR = ROOT / "scores"
 LOGS_DIR = ROOT / "logs"
 API_URL = "https://imslp.org/api.php"
 CATEGORY_NAME = os.environ.get("IMSLP_CATEGORY_NAME", "For 3 guitars (arr)").strip()
 CATEGORY_KIND = os.environ.get("IMSLP_CATEGORY_KIND", "arrangement").strip().casefold()
 GUITAR_COUNT = int(os.environ.get("IMSLP_GUITAR_COUNT", "3"))
+ALLOW_MIXED_TARGET = os.environ.get("IMSLP_ALLOW_MIXED_TARGET", "").strip().casefold() in {
+    "1", "true", "yes",
+}
 if CATEGORY_KIND not in {"original", "arrangement"}:
     raise RuntimeError("IMSLP_CATEGORY_KIND must be 'original' or 'arrangement'")
 if GUITAR_COUNT < 1:
@@ -84,7 +89,9 @@ CATALOG_CSV = ROOT / "catalog.csv"
 MANIFEST_CSV = ROOT / "score_manifest.csv"
 DOWNLOAD_LOG = LOGS_DIR / "download_status.csv"
 DOWNLOAD_OVERRIDES_JSON = METADATA_DIR / "download_overrides.json"
-EXCLUDED_NON_TARGET_JSON = METADATA_DIR / "excluded_non_guitar_files.json"
+EXCLUDED_NON_TARGET_JSON = METADATA_DIR / (
+    "excluded_non_target_files.json" if ALLOW_MIXED_TARGET else "excluded_non_guitar_files.json"
+)
 QUARANTINE_DIR = ROOT / "quarantine" / "non-guitar"
 REVISION_QUARANTINE_DIR = ROOT / "quarantine" / "revision-mismatch"
 REVISION_ALIAS_RECOVERY_JSON = METADATA_DIR / "revision_alias_recovery.json"
@@ -396,9 +403,89 @@ def nearest_heading(body: str, offset: int) -> str:
     return headings[-1].group(2).strip() if headings else ""
 
 
+def mixed_instrument_signature(value: str) -> tuple[str, ...]:
+    """Normalize comma/and ordering without erasing meaningful ``or``."""
+    value = normalized_heading(value)
+    value = re.sub(r"^for\s+", "", value)
+    value = re.sub(r"\s+(?:and|&)\s+", ",", value)
+    parts = [re.sub(r"\s+", " ", part).strip(" .") for part in value.split(",")]
+    return tuple(sorted(part for part in parts if part))
+
+
+MIXED_HEADING_INSTRUMENTS: tuple[tuple[str, re.Pattern[str]], ...] = tuple(
+    (label, re.compile(rf"(?<!\w)(?:{pattern})(?!\w)", re.IGNORECASE))
+    for label, pattern in (
+        ("guitar", r"guitars?|guitarre|guitare|gitarre|guitarra|harp guitar"),
+        ("violin", r"violins?"), ("viola", r"violas?"),
+        ("cello", r"cellos?|violoncellos?"),
+        ("double bass", r"double bass(?:es)?|contrabass(?:es)?"),
+        ("flute", r"flutes?"), ("piccolo", r"piccolos?"),
+        ("recorder", r"recorders?|csakan"), ("oboe", r"oboes?"),
+        ("clarinet", r"clarinets?"), ("bassoon", r"bassoons?"),
+        ("saxophone", r"saxophones?"), ("horn", r"horns?"),
+        ("trumpet", r"trumpets?"), ("trombone", r"trombones?"),
+        ("tuba", r"tubas?"), ("piano", r"pianos?"),
+        ("harpsichord", r"harpsichords?"), ("organ", r"organs?"),
+        ("accordion", r"accordions?|bandoneons?|concertinas?"),
+        ("harmonica", r"harmonicas?"), ("mandolin", r"mandolins?"),
+        ("mandola", r"mandolas?"), ("mandocello", r"mandocellos?|mandolon-?cellos?"),
+        ("lute", r"lutes?"), ("bandurria", r"bandurrias?"),
+        ("harp", r"harps?"), ("ukulele", r"ukuleles?"),
+        ("percussion", r"percussion|timpani|marimbas?|vibraphones?|glockenspiels?"),
+        ("treble instrument", r"treble instruments?"),
+        ("bass instrument", r"bass instruments?"),
+        ("strings", r"strings?"), ("continuo", r"continuo"),
+    )
+)
+MIXED_HEADING_OUT_OF_SCOPE_RE = re.compile(
+    r"(?<!\w)(?:voices?|vocal|chorus|choir|narrators?|reciters?|speakers?|"
+    r"electric guitars?|bass guitars?|orchestra|synthesizers?|electronics?|tape)(?!\w)",
+    re.IGNORECASE,
+)
+
+
+def mixed_instrument_tokens(value: str) -> frozenset[str]:
+    normalized = normalized_heading(value)
+    return frozenset(
+        label for label, pattern in MIXED_HEADING_INSTRUMENTS if pattern.search(normalized)
+    )
+
+
+def mixed_target_is_contained_in_heading(heading: str, target: str) -> bool:
+    if MIXED_HEADING_OUT_OF_SCOPE_RE.search(heading):
+        return False
+    target_tokens = mixed_instrument_tokens(target)
+    heading_tokens = mixed_instrument_tokens(heading)
+    if not target_tokens or not target_tokens <= heading_tokens:
+        return False
+    for count, instrument in re.findall(
+        r"(?<!\w)(\d+)\s+(guitars?|violins?|violas?|cellos?|flutes?|recorders?|"
+        r"oboes?|clarinets?|bassoons?|saxophones?|mandolins?|mandolas?|mandocellos?)(?!\w)",
+        normalized_heading(target),
+    ):
+        if not re.search(
+            rf"(?<!\w){re.escape(count)}\s+{re.escape(instrument.rstrip('s'))}s?(?!\w)",
+            normalized_heading(heading),
+        ):
+            return False
+    return True
+
+
 def is_target_arrangement_heading(value: str) -> bool:
     heading = normalized_heading(value)
     target_instrument = normalized_heading(TARGET_INSTRUMENT)
+    if ALLOW_MIXED_TARGET:
+        match = re.fullmatch(r"(?P<body>for .+?)(?: \((?P<annotation>[^()]*)\))?", heading)
+        if not match:
+            return False
+        annotation = (match.group("annotation") or "").casefold()
+        if any(token in annotation for token in MIXED_INSTRUMENT_TOKENS):
+            return False
+        return (
+            mixed_instrument_signature(match.group("body"))
+            == mixed_instrument_signature(target_instrument)
+            or mixed_target_is_contained_in_heading(match.group("body"), target_instrument)
+        )
     if GUITAR_COUNT > 1 and re.fullmatch(rf"{GUITAR_COUNT} guitars?", target_instrument):
         instrument = rf"for {GUITAR_COUNT}(?: \d+[- ]string)? guitars?"
     else:
@@ -418,7 +505,10 @@ def work_matches_target_instrumentation(wikitext: str) -> bool:
         return False
     instrumentation = normalized_heading(match.group(1))
     target = rf"(?<!\w){re.escape(normalized_heading(TARGET_INSTRUMENT))}(?!\w)"
-    return bool(re.search(target, instrumentation)) and not any(
+    matched = bool(re.search(target, instrumentation))
+    if ALLOW_MIXED_TARGET:
+        return matched
+    return matched and not any(
         token in instrumentation for token in MIXED_INSTRUMENT_TOKENS
     )
 
@@ -601,6 +691,11 @@ def work_instrumentation_is_mixed(value: str) -> bool:
 
 def score_file_exclusion_reason(record: dict[str, Any]) -> str:
     """Return file-level non-target instrumentation evidence, if any."""
+    if ALLOW_MIXED_TARGET:
+        # Membership in an original mixed-instrument category identifies the
+        # work's scoring; an exact arrangement heading identifies arranged
+        # versions.  Full scores and individual parts are all desired here.
+        return ""
     # Exact arrangement headings already identify the target guitar version.
     # Their file descriptions and names often mention the source instrument
     # (for example, a cello suite or lute notes), so do not reject those.
@@ -861,6 +956,59 @@ def filesystem_path_key(value: str) -> str:
     return unicodedata.normalize("NFC", value).casefold()
 
 
+def assign_unique_relative_paths(records: list[dict[str, Any]]) -> None:
+    """Make manifest paths unique on case-insensitive macOS/exFAT volumes.
+
+    IMSLP can expose distinct attachments whose filenames differ only by case.
+    Keep one readable original path and add a deterministic content-identity
+    suffix to the remaining records so they cannot overwrite one another.
+    """
+    groups: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for record in records:
+        groups[filesystem_path_key(record["relative_path"])].append(record)
+
+    occupied = {
+        filesystem_path_key(record["relative_path"])
+        for group in groups.values()
+        if len(group) == 1
+        for record in group
+    }
+    for group in groups.values():
+        if len(group) == 1:
+            continue
+        ordered = sorted(
+            group,
+            key=lambda record: (
+                record["relative_path"],
+                record.get("sha1_imslp", ""),
+                record.get("download_url", ""),
+            ),
+        )
+        occupied.add(filesystem_path_key(ordered[0]["relative_path"]))
+        for record in ordered[1:]:
+            original = Path(record["relative_path"])
+            identity = record.get("sha1_imslp") or hashlib.sha1(
+                "|".join([
+                    record.get("filename", ""),
+                    record.get("download_url", ""),
+                    str(record.get("expected_size", "")),
+                ]).encode("utf-8")
+            ).hexdigest()
+            stem = original.stem
+            suffix = original.suffix
+            digest_length = 8
+            while True:
+                candidate = original.with_name(
+                    f"{stem}__imslp_{identity[:digest_length]}{suffix}"
+                ).as_posix()
+                key = filesystem_path_key(candidate)
+                if key not in occupied:
+                    record["relative_path"] = candidate
+                    occupied.add(key)
+                    break
+                digest_length += 4
+
+
 def page_url(page_title: str) -> str:
     return "https://imslp.org/wiki/" + urllib.parse.quote(page_title.replace(" ", "_"), safe="_(),'-.~")
 
@@ -1086,6 +1234,7 @@ def build_metadata(refresh: bool = False) -> tuple[list[dict[str, Any]], list[di
         has_explicit_non_target_file = any(base_reasons.values())
         mixed_work = (
             CATEGORY_KIND == "original"
+            and not ALLOW_MIXED_TARGET
             and GUITAR_COUNT == 1
             and work_instrumentation_is_mixed(work_instrumentation)
         )
@@ -1198,6 +1347,8 @@ def build_metadata(refresh: bool = False) -> tuple[list[dict[str, Any]], list[di
         if override:
             manifest_record.update(override)
         manifest.append(manifest_record)
+
+    assign_unique_relative_paths(manifest)
 
     translations = load_translations()
     for work in works:
@@ -1548,9 +1699,13 @@ def render_readme() -> None:
         f"> 作品页：{len(works)}；作曲家/署名组：{len(composers)}；识别到{PDF_KIND_LABEL}：{len(manifest)}；本地有效 PDF：{downloaded_files}",
         "",
         (
-            f"本目录对应 IMSLP 的 **{CATEGORY_NAME}** 分类，仅收录目标吉他编制的 PDF，"
-            "不会把同一作品页上的钢琴谱或其他乐器编制误收进来。音乐家和作品的中文名均为检索用参考译名；"
-            "没有可靠通行译名时保留英文原名。"
+            f"本目录对应 IMSLP 的 **{CATEGORY_NAME}** 分类，"
+            + (
+                "收录该吉他与其他乐器编制下的原作总谱、分谱或精确匹配的改编小节。"
+                if ALLOW_MIXED_TARGET
+                else "仅收录目标吉他编制的 PDF，不会把同一作品页上的钢琴谱或其他乐器编制误收进来。"
+            )
+            + "音乐家和作品的中文名均为检索用参考译名；没有可靠通行译名时保留英文原名。"
         ),
         "",
         "## 使用说明",

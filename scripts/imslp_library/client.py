@@ -521,17 +521,62 @@ class ImslpClient:
             for item in raw:
                 if not isinstance(item, dict):
                     raise ImslpClientError("allcategories item is malformed")
+                raw_counts = [item.get(key) for key in ("size", "pages", "files", "subcats")]
+                if any(type(value) is int and value < 0 for value in raw_counts):
+                    # IMSLP uses -1 on a small number of deleted/tombstoned
+                    # category rows.  They are not live categories and cannot
+                    # be represented by AllCategory's nonnegative contract.
+                    continue
                 try:
-                    category = AllCategory(item["category"], item["size"], item["pages"], item["files"], item["subcats"])
+                    # IMSLP currently exposes the category title through the
+                    # legacy ``*`` key and encodes spaces as ``+`` even when
+                    # formatversion=2 is requested.  Older responses used the
+                    # standard ``category`` key.  Accept both documented
+                    # shapes and normalize them to the real MediaWiki title.
+                    encoded_name = item.get("category", item.get("*"))
+                    if not isinstance(encoded_name, str) or not encoded_name:
+                        raise ValueError("missing category title")
+                    category = AllCategory(
+                        urllib.parse.unquote_plus(encoded_name),
+                        item["size"],
+                        item["pages"],
+                        item["files"],
+                        item["subcats"],
+                    )
                 except (KeyError, TypeError, ValueError) as exc:
                     raise ImslpClientError("allcategories item is malformed") from exc
-                if category.name in categories and categories[category.name] != category:
-                    raise ImslpClientError("allcategories identity conflict")
-                categories[category.name] = category
-            continuation = _continuation(payload, "allcategories", "accontinue")
+                existing = categories.get(category.name)
+                if existing is not None and existing != category:
+                    # IMSLP's legacy category feed contains URL-like junk
+                    # titles whose ``+`` decoding can collide with a real
+                    # category.  A zero-member collision is not a competing
+                    # identity; retain the populated record.  Two populated
+                    # records remain a hard conflict.
+                    if existing.size == 0 and category.size > 0:
+                        categories[category.name] = category
+                    elif category.size == 0 and existing.size > 0:
+                        pass
+                    else:
+                        raise ImslpClientError(
+                            f"allcategories identity conflict: {category.name}"
+                        )
+                else:
+                    categories[category.name] = category
+            # IMSLP's live endpoint may return the legacy ``acfrom`` cursor;
+            # stock MediaWiki returns modern ``accontinue``.  Do not feed one
+            # cursor name back as the other because titles containing spaces
+            # and punctuation can otherwise be skipped.
+            if "continue" in payload:
+                continuation = _continuation(payload, "allcategories", "accontinue")
+            elif "query-continue" in payload:
+                continuation = _continuation(payload, "allcategories", "acfrom")
+            else:
+                continuation = None
             if continuation is None:
                 break
-            identity = continuation["accontinue"]
+            identity = continuation.get("accontinue", continuation.get("acfrom"))
+            if not isinstance(identity, str) or not identity:
+                raise ImslpClientError("invalid allcategories continuation token")
             if identity in seen_continuations:
                 raise ImslpClientError("repeated continuation token")
             seen_continuations.add(identity)

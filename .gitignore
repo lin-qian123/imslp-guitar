@@ -32,3 +32,5 @@ __pycache__/
 /metadata/exclusions.json
 /metadata/download_attempts.json
 /metadata/translation_coverage.json
+/metadata/mixed_*.json
+/metadata/mixed_runs/

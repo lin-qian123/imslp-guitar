@@ -6,6 +6,7 @@ from urllib.parse import parse_qs, urlsplit
 import pytest
 
 from imslp_library.client import (
+    AllCategory,
     PROJECT_USER_AGENT,
     CategoryInfo,
     CategoryMember,
@@ -166,6 +167,51 @@ def test_category_info_and_allcategories_are_typed_and_paginated() -> None:
     categories = client.allcategories(prefix="For ")
     assert [(item.name, item.page_count) for item in categories] == [("For 2 guitars", 4), ("For guitar", 7)]
     assert _query(transport.calls[2].url)["accontinue"] == ["For 2 guitars"]
+
+
+def test_allcategories_accepts_imslp_legacy_title_and_cursor_shape() -> None:
+    transport = FakeTransport([
+        json_response({
+            "query-continue": {"allcategories": {"acfrom": "For+flute,+guitar"}},
+            "query": {"allcategories": [
+                {"*": "For+accordion,+guitar", "size": 5, "pages": 5, "files": 0, "subcats": 0}
+            ]},
+        }),
+        json_response({"query": {"allcategories": [
+            {"*": "For+flute,+guitar", "size": 324, "pages": 324, "files": 0, "subcats": 0}
+        ]}}),
+    ])
+    client = ImslpClient(transport=transport, clock=FakeClock.fixed())
+
+    categories = client.allcategories(prefix="For")
+
+    assert [(item.name, item.page_count) for item in categories] == [
+        ("For accordion, guitar", 5),
+        ("For flute, guitar", 324),
+    ]
+    assert _query(transport.calls[1].url)["acfrom"] == ["For+flute,+guitar"]
+
+
+def test_allcategories_prefers_populated_record_over_decoded_empty_collision() -> None:
+    transport = FakeTransport([json_response({"query": {"allcategories": [
+        {"*": "For+flute,+guitar", "size": 0, "pages": 0, "files": 0, "subcats": 0},
+        {"category": "For flute, guitar", "size": 324, "pages": 324, "files": 0, "subcats": 0},
+    ]}})])
+    client = ImslpClient(transport=transport, clock=FakeClock.fixed())
+
+    assert client.allcategories()[0] == AllCategory(
+        "For flute, guitar", 324, 324, 0, 0
+    )
+
+
+def test_allcategories_skips_imslp_tombstone_counts() -> None:
+    transport = FakeTransport([json_response({"query": {"allcategories": [
+        {"*": "For+deleted,+guitar", "size": -1, "pages": -1, "files": 0, "subcats": 0},
+        {"*": "For+accordion,+guitar", "size": 5, "pages": 5, "files": 0, "subcats": 0},
+    ]}})])
+    client = ImslpClient(transport=transport, clock=FakeClock.fixed())
+
+    assert [item.name for item in client.allcategories()] == ["For accordion, guitar"]
 
 
 def test_category_info_distinguishes_missing_from_present_empty() -> None:

@@ -13,6 +13,18 @@ from datetime import datetime
 from pathlib import Path
 
 
+MIXED_CATEGORY_LOOKUP: dict[str, dict] = {}
+MIXED_FAMILY_ORDER = {
+    "strings": 100,
+    "woodwinds": 110,
+    "brass": 120,
+    "keyboard_reed": 130,
+    "plucked": 140,
+    "percussion": 150,
+    "mixed_chamber": 160,
+}
+
+
 def read_json(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -31,6 +43,18 @@ def record_expected_size(record: dict) -> int | None:
 
 
 def category_info(name: str) -> dict:
+    mixed = MIXED_CATEGORY_LOOKUP.get(name)
+    if mixed:
+        family_key = mixed["display_group"]
+        return {
+            "zh": mixed["name_zh"],
+            "family": mixed["family_zh"],
+            "sort": (
+                MIXED_FAMILY_ORDER.get(family_key, 199),
+                name.casefold().endswith("(arr)"),
+                name.casefold(),
+            ),
+        }
     arrangement = name.casefold().endswith("(arr)")
     kind = "改编" if arrangement else "原作"
     regular = re.fullmatch(r"For (?:(\d+) guitars?|guitar)(?: \(arr\))?", name, re.IGNORECASE)
@@ -82,9 +106,25 @@ def category_zh(name: str) -> str:
 
 
 def load_categories(root: Path) -> list[dict]:
+    global MIXED_CATEGORY_LOOKUP
+    pure_path = root / "config/categories.json"
+    pure_names = {
+        item["name"] for item in read_json(pure_path).get("categories", [])
+    } if pure_path.is_file() else set()
+    mixed_path = root / "config/mixed_categories.json"
+    if mixed_path.is_file():
+        payload = read_json(mixed_path)
+        groups = payload.get("display_groups", {})
+        MIXED_CATEGORY_LOOKUP = {
+            item["name"]: {**item, "family_zh": groups[item["display_group"]]}
+            for item in payload.get("categories", [])
+        }
+    allowed_names = pure_names | set(MIXED_CATEGORY_LOOKUP)
     categories = []
     for directory in sorted(root.iterdir(), key=lambda path: category_sort_key(path.name)):
         if not directory.is_dir() or not directory.name.startswith("For "):
+            continue
+        if allowed_names and directory.name not in allowed_names:
             continue
         catalog_path = directory / "metadata/catalog.json"
         manifest_path = directory / "metadata/score_manifest.json"
@@ -118,6 +158,9 @@ def render(root: Path) -> dict:
     root = root.resolve()
     categories = load_categories(root)
     total_works = sum(len(item["works"]) for item in categories)
+    unique_work_ids = {
+        str(work["work_id"]) for item in categories for work in item["works"]
+    }
     total_files = sum(len(item["manifest"]) for item in categories)
     total_downloaded = sum(item["downloaded"] for item in categories)
 
@@ -125,7 +168,7 @@ def render(root: Path) -> dict:
         "<!doctype html>",
         '<html lang="zh-CN"><head><meta charset="utf-8">',
         '<meta name="viewport" content="width=device-width,initial-scale=1">',
-        "<title>IMSLP 纯吉他总乐谱库</title>",
+        "<title>IMSLP 吉他总乐谱库</title>",
         "<style>",
         "body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:1280px;margin:0 auto;padding:32px 24px;color:#202124;background:#faf9f6}",
         "h1{margin-bottom:.25rem}.meta{color:#5f6368;margin-bottom:1.2rem}.nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin:18px 0 24px}",
@@ -135,8 +178,8 @@ def render(root: Path) -> dict:
         ".work{padding:11px 4px;border-top:1px solid #eceae6}.en{font-weight:650}.zh{color:#3c4043;margin-top:3px}.composer{font-size:14px;color:#5f6368;margin-top:3px}",
         ".links{margin-top:6px;font-size:14px}a{color:#1457a6;text-decoration:none}a:hover{text-decoration:underline}.pending{color:#9a6700}",
         "</style></head><body>",
-        "<h1>IMSLP 纯吉他总乐谱库</h1>",
-        f'<div class="meta">分类 {len(categories)} · 作品记录 {total_works} · PDF 记录 {total_files} · 已下载 {total_downloaded} · 更新于 {datetime.now().astimezone().strftime("%Y-%m-%d %H:%M %Z")}</div>',
+        "<h1>IMSLP 吉他总乐谱库</h1>",
+        f'<div class="meta">分类 {len(categories)} · 作品分类记录 {total_works} · 不重复作品 {len(unique_work_ids)} · PDF 记录 {total_files} · 已下载 {total_downloaded} · 更新于 {datetime.now().astimezone().strftime("%Y-%m-%d %H:%M %Z")}</div>',
     ]
     grouped_categories: dict[str, list[dict]] = defaultdict(list)
     for item in categories:
@@ -201,6 +244,7 @@ def render(root: Path) -> dict:
     return {
         "categories": len(categories),
         "works": total_works,
+        "unique_works": len(unique_work_ids),
         "pdf_records": total_files,
         "downloaded": total_downloaded,
         "index": str(root / "index.html"),
