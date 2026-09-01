@@ -132,10 +132,8 @@ def load_categories(root: Path) -> list[dict]:
             continue
         works = read_json(catalog_path)
         manifest = read_json(manifest_path)
-        files_by_work: dict[str, list[dict]] = defaultdict(list)
         valid_paths = set()
         for record in manifest:
-            files_by_work[str(record["work_id"])].append(record)
             if valid_pdf(directory / record["relative_path"], record_expected_size(record)):
                 valid_paths.add(record["relative_path"])
         categories.append(
@@ -146,7 +144,6 @@ def load_categories(root: Path) -> list[dict]:
                 "directory": directory,
                 "works": works,
                 "manifest": manifest,
-                "files_by_work": files_by_work,
                 "valid_paths": valid_paths,
                 "downloaded": len(valid_paths),
             }
@@ -171,15 +168,18 @@ def render(root: Path) -> dict:
         "<title>IMSLP 吉他总乐谱库</title>",
         "<style>",
         "body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:1280px;margin:0 auto;padding:32px 24px;color:#202124;background:#faf9f6}",
-        "h1{margin-bottom:.25rem}.meta{color:#5f6368;margin-bottom:1.2rem}.nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin:18px 0 24px}",
+        "h1{margin-bottom:.25rem}.meta{color:#5f6368;margin-bottom:1.2rem}.search-shell{position:sticky;top:8px;z-index:3;background:rgba(250,249,246,.94);backdrop-filter:blur(10px);padding:4px 0 12px}.search-note{color:#6b6f73;font-size:13px;margin:7px 2px 0}.nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin:18px 0 24px}",
         ".card{display:block;background:white;border:1px solid #e2e0dc;border-radius:10px;padding:14px;text-decoration:none;color:#202124}.card:hover{border-color:#7998bb}.card b{display:block}.card span{color:#5f6368;font-size:14px}",
-        "#search{width:100%;box-sizing:border-box;padding:12px 14px;font-size:16px;border:1px solid #c8c8c8;border-radius:8px;background:white;position:sticky;top:8px;z-index:2}",
-        "details{background:white;border:1px solid #e2e0dc;border-radius:10px;margin:14px 0;padding:8px 14px}summary{font-size:20px;font-weight:650;cursor:pointer;padding:8px 0}",
-        ".work{padding:11px 4px;border-top:1px solid #eceae6}.en{font-weight:650}.zh{color:#3c4043;margin-top:3px}.composer{font-size:14px;color:#5f6368;margin-top:3px}",
-        ".links{margin-top:6px;font-size:14px}a{color:#1457a6;text-decoration:none}a:hover{text-decoration:underline}.pending{color:#9a6700}",
+        "#search{width:100%;box-sizing:border-box;padding:13px 15px;font-size:16px;border:1px solid #b9bdc2;border-radius:9px;background:white;box-shadow:0 4px 18px rgba(48,52,58,.06)}",
+        "a{color:#1457a6;text-decoration:none}a:hover{text-decoration:underline}[hidden]{display:none!important}",
         "</style></head><body>",
         "<h1>IMSLP 吉他总乐谱库</h1>",
         f'<div class="meta">分类 {len(categories)} · 作品分类记录 {total_works} · 不重复作品 {len(unique_work_ids)} · PDF 记录 {total_files} · 已下载 {total_downloaded} · 更新于 {datetime.now().astimezone().strftime("%Y-%m-%d %H:%M %Z")}</div>',
+        '<div class="search-shell">',
+        '<input id="search" type="search" placeholder="跨分类搜索作曲家、英文名或中文名……" aria-label="搜索总目录">',
+        f'<div class="search-note" id="search-status">显示全部 {len(categories)} 个分类；点击分类卡片进入独立乐谱目录。</div>',
+        "</div>",
+        '<main id="categories">',
     ]
     grouped_categories: dict[str, list[dict]] = defaultdict(list)
     for item in categories:
@@ -188,55 +188,25 @@ def render(root: Path) -> dict:
         parts.extend([f'<section class="nav-group"><h2>{html.escape(family)}</h2>', '<div class="nav">'])
         for item in family_items:
             href = urllib.parse.quote(f'{item["name"]}/index.html', safe="/._-~()")
+            search_fields = [item["name"], item["name_zh"]]
+            for work in item["works"]:
+                search_fields.extend([
+                    work.get("composer", ""),
+                    work.get("composer_zh", ""),
+                    work.get("title_en", work.get("page_title", "")),
+                    work.get("title_zh", ""),
+                ])
+            search_text = " ".join(search_fields).casefold()
             parts.append(
-                f'<a class="card" href="{href}"><b>{html.escape(item["name"])}｜{html.escape(item["name_zh"])}</b>'
+                f'<a class="card" href="{href}" data-search="{html.escape(search_text, quote=True)}"><b>{html.escape(item["name"])}｜{html.escape(item["name_zh"])}</b>'
                 f'<span>作品 {len(item["works"])} · PDF {len(item["manifest"])} · 已下载 {item["downloaded"]}</span></a>'
             )
         parts.extend(["</div>", "</section>"])
     parts.extend(
         [
-            '<input id="search" type="search" placeholder="跨分类搜索作曲家、英文名或中文名……" aria-label="搜索总目录">',
-            '<main id="catalog">',
-        ]
-    )
-
-    for item in categories:
-        category_search = f'{item["name"]} {item["name_zh"]}'.casefold()
-        parts.append(
-            f'<details open class="category" data-category="{html.escape(category_search)}">'
-            f'<summary>{html.escape(item["name"])}｜{html.escape(item["name_zh"])}</summary>'
-        )
-        for work in item["works"]:
-            composer = work.get("composer", "Unknown")
-            composer_zh = work.get("composer_zh", f"暂无中译（原名：{composer}）")
-            title_en = work.get("title_en", work.get("page_title", "Untitled"))
-            title_zh = work.get("title_zh", f"暂无通行中译（原题：{title_en}）")
-            links = []
-            for record in item["files_by_work"].get(str(work["work_id"]), []):
-                if record["relative_path"] in item["valid_paths"]:
-                    href = urllib.parse.quote(
-                        f'{item["name"]}/{record["relative_path"]}', safe="/._-~()"
-                    )
-                    label = record.get("description") or record["filename"]
-                    links.append(f'<a href="{href}">{html.escape(label)}</a>')
-            score_html = "；".join(links) if links else '<span class="pending">待下载或无合格 PDF</span>'
-            search = f'{item["name"]} {item["name_zh"]} {composer} {composer_zh} {title_en} {title_zh}'.casefold()
-            parts.extend(
-                [
-                    f'<article class="work" data-search="{html.escape(search)}">',
-                    f'<div class="en">{html.escape(title_en)}</div>',
-                    f'<div class="zh">{html.escape(title_zh)}</div>',
-                    f'<div class="composer">{html.escape(composer)}｜{html.escape(composer_zh)}</div>',
-                    f'<div class="links"><a href="{html.escape(work["imslp_url"])}">IMSLP 原页</a> · 乐谱：{score_html}</div>',
-                    "</article>",
-                ]
-            )
-        parts.append("</details>")
-    parts.extend(
-        [
             "</main>",
             "<script>",
-            "const q=document.querySelector('#search');q.addEventListener('input',()=>{const s=q.value.trim().toLocaleLowerCase();document.querySelectorAll('.work').forEach(w=>w.hidden=s&&!w.dataset.search.includes(s));document.querySelectorAll('.category').forEach(d=>{const n=[...d.querySelectorAll('.work')].some(w=>!w.hidden);d.hidden=s&&!n&&!d.dataset.category.includes(s);if(s&&!d.hidden)d.open=true;});});",
+            "const q=document.querySelector('#search'),cards=[...document.querySelectorAll('.card')],groups=[...document.querySelectorAll('.nav-group')],status=document.querySelector('#search-status');function filter(){const raw=q.value.trim(),s=raw.toLocaleLowerCase();let shown=0;cards.forEach(card=>{const match=!s||card.dataset.search.includes(s);card.hidden=!match;if(match)shown+=1;});groups.forEach(group=>{group.hidden=![...group.querySelectorAll('.card')].some(card=>!card.hidden);});status.textContent=s?`找到 ${shown} 个相关分类；点击分类卡片查看匹配作品和乐谱。`:`显示全部 ${cards.length} 个分类；点击分类卡片进入独立乐谱目录。`;}q.addEventListener('input',filter);",
             "</script></body></html>",
         ]
     )
