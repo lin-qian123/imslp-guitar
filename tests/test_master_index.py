@@ -32,7 +32,18 @@ def test_master_index_is_compact_and_returns_work_and_composer_results(
             "composer_zh": "阿巴泰莎，乔瓦尼·巴蒂斯塔",
         }],
     )
-    write_json(category_root / "metadata/score_manifest.json", [])
+    pdf_bytes = b"%PDF-1.4\n%%EOF\n"
+    pdf_relative = "scores/Abbatessa/Ghirlanda/complete.pdf"
+    pdf_path = category_root / pdf_relative
+    pdf_path.parent.mkdir(parents=True)
+    pdf_path.write_bytes(pdf_bytes)
+    write_json(category_root / "metadata/score_manifest.json", [{
+        "work_id": "1",
+        "relative_path": pdf_relative,
+        "filename": "complete.pdf",
+        "description": "Complete Score",
+        "expected_size": len(pdf_bytes),
+    }])
     (category_root / "index.html").write_text("category", encoding="utf-8")
 
     namespace = runpy.run_path(str(ROOT / "scripts/render_master_index.py"))
@@ -59,6 +70,11 @@ def test_master_index_is_compact_and_returns_work_and_composer_results(
         "nz": "1把吉他·原作",
         "h": "For%20guitar/index.html",
         "u": "",
+        "p": [{
+            "l": "Complete Score",
+            "h": "For%20guitar/scores/Abbatessa/Ghirlanda/complete.pdf",
+        }],
+        "pc": 1,
         "s": (
             "ghirlanda di varii fiori 《各种鲜花的花环》 "
             "abbatessa, giovanni battista 阿巴泰莎，乔瓦尼·巴蒂斯塔"
@@ -66,6 +82,9 @@ def test_master_index_is_compact_and_returns_work_and_composer_results(
     }]
     assert "result-title" in rendered
     assert "result-composer" in rendered
+    assert "本地 PDF" in rendered
+    assert "暂无有效本地 PDF" in rendered
+    assert "item.p.forEach" in rendered
     assert "所属分类" in rendered
     assert "曲名或作者结果" in rendered
     assert "categories.hidden=true" in rendered
