@@ -146,11 +146,16 @@ def test_public_frontend_uses_imslp_links_without_pdf_links() -> None:
     assert "category_ids" in script
     assert "normalize(\"NFKD\")" in script
     assert "URLSearchParams" in script
+    assert "family-shortcut" in script
+    assert 'aria-pressed' in script
     assert "innerHTML" not in script
     assert "file://" not in index + script
     assert ".pdf" not in (index + script).casefold()
     assert "本地" not in index
     assert "--ink" in styles
+    assert 'src="assets/archive-hero.webp"' in index
+    hero = (ROOT / "public_site/assets/archive-hero.webp").read_bytes()
+    assert hero.startswith(b"RIFF") and hero[8:12] == b"WEBP"
 
 
 def test_public_validator_checks_counts_memberships_and_forbidden_fields(

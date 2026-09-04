@@ -52,6 +52,7 @@ The public export does not alter the complete offline view. Its deployable data 
 - **Forgiving queries, strict sources**: accent- and punctuation-insensitive search, but only validated HTTPS IMSLP page links are exported.
 - **Safe publication**: DOM text nodes render catalog values, and validation rejects disk paths, score URLs, and identity drift.
 - **Auditable translations**: source titles are immutable identity fields; reviewed Chinese titles are keyed by `work_id`.
+- **Archive-inspired browsing**: bespoke guitar-and-folio artwork, ensemble shortcuts, and responsive catalog cards keep a large collection calm and legible.
 
 ## How the catalogue is built
 
@@ -168,7 +169,7 @@ imslp-guitar/
 This is an independent catalog project. It is not affiliated with or endorsed by IMSLP. The public site hosts no score files and links each work to its IMSLP page. Copyright status and file licenses differ by work and jurisdiction; always follow the status shown by IMSLP and within each file.
 
 - Software: [MIT](LICENSE)
-- Project-authored catalog structure, reference translations, and documentation: [CC BY-SA 4.0](DATA_LICENSE.md)
+- Project-authored catalog structure, reference translations, documentation, and visual assets: [CC BY-SA 4.0](DATA_LICENSE.md)
 - Source and attribution notes: [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)
 
 ## Known boundaries

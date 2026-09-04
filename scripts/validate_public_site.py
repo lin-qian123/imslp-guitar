@@ -176,6 +176,12 @@ def validate_payload(payload: object) -> dict[str, int]:
 
 def validate_public_site(root: Path) -> dict[str, int]:
     root = root.resolve()
+    files = [path for path in root.rglob("*") if path.is_file()]
+    if any(path.is_symlink() for path in files):
+        fail("public site must not contain symbolic links")
+    score_files = [path for path in files if path.suffix.casefold() == ".pdf"]
+    if score_files:
+        fail(f"public site contains score files: {score_files[0]}")
     catalog_path = root / "data/catalog.json"
     try:
         payload = json.loads(catalog_path.read_text(encoding="utf-8"))
@@ -200,9 +206,14 @@ def validate_public_site(root: Path) -> dict[str, int]:
         fail("public script must not inject catalog data with innerHTML")
     if 'fetch("data/catalog.json"' not in script:
         fail("public script does not load the versioned catalog")
-    report["site_bytes"] = sum(
-        path.stat().st_size for path in root.rglob("*") if path.is_file()
-    )
+    hero_path = root / "assets/archive-hero.webp"
+    try:
+        hero_header = hero_path.read_bytes()[:12]
+    except OSError as exc:
+        raise PublicSiteValidationError("public hero artwork is missing") from exc
+    if not (hero_header.startswith(b"RIFF") and hero_header[8:12] == b"WEBP"):
+        fail("public hero artwork is not a valid WebP asset")
+    report["site_bytes"] = sum(path.stat().st_size for path in files)
     return report
 
 

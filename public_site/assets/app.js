@@ -12,6 +12,7 @@ const elements = {
   results: document.querySelector("#results"),
   loadMore: document.querySelector("#load-more"),
   error: document.querySelector("#error"),
+  familyShortcuts: document.querySelector("#family-shortcuts"),
 };
 
 const state = {
@@ -47,6 +48,20 @@ function addOption(select, value, label) {
   select.append(option);
 }
 
+function addFamilyShortcut(value, label) {
+  const button = makeElement("button", "family-shortcut", label);
+  button.type = "button";
+  button.dataset.family = value;
+  button.setAttribute("aria-pressed", "false");
+  button.addEventListener("click", () => {
+    elements.family.value = value;
+    elements.category.value = "all";
+    state.visible = PAGE_SIZE;
+    update();
+  });
+  elements.familyShortcuts.append(button);
+}
+
 function compactNumber(value) {
   return new Intl.NumberFormat("zh-CN").format(value);
 }
@@ -69,13 +84,25 @@ function prepareWork(item) {
 }
 
 function populateFilters() {
+  addFamilyShortcut("all", "全部 / All");
   for (const family of state.data.families) {
     state.familyById.set(family.id, family);
     addOption(elements.family, family.id, `${family.name_zh} / ${family.name_en}`);
+    addFamilyShortcut(family.id, family.name_zh);
   }
   for (const category of state.data.categories) {
     state.categoryById.set(category.id, category);
     addOption(elements.category, category.id, `${category.name}｜${category.name_zh}`);
+  }
+}
+
+function updateFamilyShortcuts() {
+  let selected = elements.family.value;
+  if (elements.category.value !== "all") {
+    selected = state.categoryById.get(Number(elements.category.value)).family;
+  }
+  for (const button of elements.familyShortcuts.querySelectorAll("button")) {
+    button.setAttribute("aria-pressed", String(button.dataset.family === selected));
   }
 }
 
@@ -160,7 +187,11 @@ function resultCard(match, index) {
   const item = match.prepared.item;
   const article = makeElement("article", "result");
   article.style.animationDelay = `${Math.min(index, 10) * 24}ms`;
-  article.append(makeElement("span", "result-number", String(index + 1).padStart(3, "0")));
+
+  const header = makeElement("div", "result-header");
+  header.append(makeElement("span", "result-number", `FOLIO ${String(index + 1).padStart(3, "0")}`));
+  header.append(makeElement("span", "result-id", `IMSLP · ${item.id}`));
+  article.append(header);
 
   const title = makeElement("div", "result-title");
   title.append(makeElement("h3", "", item.title_en));
@@ -179,7 +210,7 @@ function resultCard(match, index) {
   meta.append(categories);
   article.append(meta);
 
-  const link = makeElement("a", "source-link", "IMSLP 原页 / Source ↗");
+  const link = makeElement("a", "source-link", "打开 IMSLP 原页 / Open source");
   link.href = item.imslp_url;
   link.target = "_blank";
   link.rel = "noopener noreferrer";
@@ -205,6 +236,7 @@ function renderResults() {
 
 function update() {
   writeUrlState();
+  updateFamilyShortcuts();
   state.matches = findMatches();
   const shown = Math.min(state.visible, state.matches.length);
   elements.status.textContent = `找到 ${compactNumber(state.matches.length)} 部作品，显示 ${compactNumber(shown)} 部 / ${compactNumber(state.matches.length)} works, ${compactNumber(shown)} shown`;
@@ -267,6 +299,7 @@ async function start() {
     document.querySelector("#stat-works").textContent = compactNumber(state.data.summary.unique_work_count);
     document.querySelector("#stat-categories").textContent = compactNumber(state.data.summary.category_count);
     document.querySelector("#stat-memberships").textContent = compactNumber(state.data.summary.category_record_count);
+    document.querySelector("#stat-method").textContent = compactNumber(state.data.summary.unique_work_count);
     readUrlState();
     bindEvents();
     update();

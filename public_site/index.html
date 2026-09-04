@@ -8,6 +8,8 @@
   <meta property="og:title" content="IMSLP Guitar Index">
   <meta property="og:description" content="从散落的分类页，到一张可以检索的古典吉他乐谱地图。">
   <meta property="og:type" content="website">
+  <meta property="og:image" content="https://lin-qian123.github.io/imslp-guitar/assets/archive-hero.webp">
+  <meta name="twitter:card" content="summary_large_image">
   <title>IMSLP Guitar Index｜古典吉他乐谱索引</title>
   <link rel="stylesheet" href="assets/site.css">
   <script src="assets/app.js" defer></script>
@@ -16,109 +18,144 @@
   <a class="skip-link" href="#catalog">跳到检索 / Skip to search</a>
 
   <header class="masthead">
-    <a class="brand" href="./" aria-label="IMSLP Guitar Index home">
-      <span class="brand-mark" aria-hidden="true">𝄞</span>
-      <span>
-        <strong>IMSLP Guitar Index</strong>
-        <small>古典吉他乐谱索引</small>
-      </span>
-    </a>
-    <nav aria-label="Primary navigation">
-      <a href="#method">整理方法</a>
-      <a href="https://github.com/lin-qian123/imslp-guitar">GitHub ↗</a>
-    </nav>
+    <div class="nav-shell">
+      <a class="brand" href="./" aria-label="IMSLP Guitar Index home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>
+          <strong>IMSLP Guitar Index</strong>
+          <small>古典吉他乐谱索引</small>
+        </span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#method">整理方法 <small>Method</small></a>
+        <a href="https://github.com/lin-qian123/imslp-guitar">开放源代码 <small>GitHub ↗</small></a>
+        <a class="nav-cta" href="#catalog">开始检索</a>
+      </nav>
+    </div>
   </header>
 
   <main>
     <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-copy">
-        <p class="eyebrow">Bilingual · Source-linked · Reproducible</p>
-        <h1 id="hero-title">给古典吉他乐谱<br><em>一张可以搜索的地图</em></h1>
-        <p class="lede">把散落在数百个 IMSLP 编制分类中的独奏、重奏与室内乐作品，整理成按作品去重、保留原文、双语可检索的公共目录。</p>
-        <p class="lede-en">A bilingual map of classical guitar repertoire—deduplicated by work, organized by exact instrumentation, and linked back to its source.</p>
+      <figure class="hero-art" aria-hidden="true">
+        <img src="assets/archive-hero.webp" alt="" width="1672" height="941" fetchpriority="high">
+      </figure>
+      <div class="hero-shade" aria-hidden="true"></div>
+      <div class="hero-shell">
+        <div class="hero-copy">
+          <p class="eyebrow"><span>Open repertoire archive</span> · 公开曲目档案</p>
+          <h1 id="hero-title">为古典吉他作品<br><em>建立一座可检索的档案馆</em></h1>
+          <p class="lede">从独奏到室内乐，把散落在数百个 IMSLP 编制分类中的作品，整理成按作品去重、保留原文、双语可检索的公共目录。</p>
+          <p class="lede-en">An editorial map of classical-guitar repertoire—organized by exact instrumentation and traced back to every source.</p>
+          <div class="hero-actions">
+            <a class="primary-action" href="#catalog">进入馆藏 <span>Explore the catalogue</span></a>
+            <a class="text-action" href="#method">了解整理方法 <span aria-hidden="true">↘</span></a>
+          </div>
+        </div>
+        <div class="hero-edition" aria-hidden="true">
+          <span>Digital folio</span>
+          <strong>№ 01</strong>
+          <small>EST. 2026</small>
+        </div>
       </div>
       <aside class="hero-stats" aria-label="Collection summary">
-        <div><strong id="stat-works">—</strong><span>部去重作品<br>unique works</span></div>
-        <div><strong id="stat-categories">—</strong><span>个精确分类<br>exact categories</span></div>
-        <div><strong id="stat-memberships">—</strong><span>条分类关系<br>memberships</span></div>
+        <div><small>01</small><strong id="stat-works">—</strong><span>部去重作品<br>unique works</span></div>
+        <div><small>02</small><strong id="stat-categories">—</strong><span>个精确分类<br>exact categories</span></div>
+        <div><small>03</small><strong id="stat-memberships">—</strong><span>条分类关系<br>memberships</span></div>
+        <p>Last reviewed<br><strong>2026 · 09</strong></p>
       </aside>
-      <div class="catalogue-stamp" aria-hidden="true">EST.<br>2026</div>
     </section>
 
     <section class="catalog" id="catalog" aria-labelledby="catalog-title">
-      <div class="section-heading">
-        <div>
-          <p class="folio">CATALOGUE 01</p>
-          <h2 id="catalog-title">查找作品 <span>Search the collection</span></h2>
-        </div>
-        <p>支持中英文曲名、作曲家、编制及分类名；忽略英文重音符号，关键词顺序不限。</p>
-      </div>
-
-      <div class="search-panel">
-        <label class="search-box" for="search">
-          <span aria-hidden="true">⌕</span>
-          <input id="search" type="search" autocomplete="off" spellcheck="false"
-            placeholder="例如：柴可夫斯基、Tchaikovsky、赋格、flute guitar…">
-          <kbd>/</kbd>
-        </label>
-        <div class="filters" aria-label="Catalog filters">
-          <label>馆藏分区 / Family
-            <select id="family-filter"><option value="all">全部分区 / All families</option></select>
-          </label>
-          <label>作品类型 / Type
-            <select id="kind-filter">
-              <option value="all">原作与改编 / All</option>
-              <option value="original">原作 / Original</option>
-              <option value="arrangement">改编 / Arrangement</option>
-            </select>
-          </label>
-          <label>精确分类 / Category
-            <select id="category-filter"><option value="all">全部分类 / All categories</option></select>
-          </label>
-        </div>
-        <div class="search-actions">
-          <p id="status" role="status">正在装载目录… / Loading catalogue…</p>
+      <div class="catalog-shell">
+        <div class="section-heading">
           <div>
-            <button id="clear" type="button">清除 / Clear</button>
-            <button id="share" type="button">复制检索链接 / Copy link</button>
+            <p class="folio">COLLECTION / 01</p>
+            <h2 id="catalog-title">从一个名字开始<br><em>Search the collection</em></h2>
+          </div>
+          <p>输入曲名、作曲家或编制。中英文可以混合，英文重音符号与关键词顺序不会影响结果。</p>
+        </div>
+
+        <div class="search-panel">
+          <div class="search-panel-label"><span>SEARCH DESK</span><small>馆藏检索台</small></div>
+          <label class="search-box" for="search">
+            <span aria-hidden="true">⌕</span>
+            <input id="search" type="search" autocomplete="off" spellcheck="false"
+              placeholder="搜索柴可夫斯基、Tchaikovsky、赋格、flute guitar…">
+            <kbd>/</kbd>
+          </label>
+          <div class="filters" aria-label="Catalog filters">
+            <label><span>馆藏分区</span><small>Family</small>
+              <select id="family-filter"><option value="all">全部分区 / All families</option></select>
+            </label>
+            <label><span>作品类型</span><small>Type</small>
+              <select id="kind-filter">
+                <option value="all">原作与改编 / All</option>
+                <option value="original">原作 / Original</option>
+                <option value="arrangement">改编 / Arrangement</option>
+              </select>
+            </label>
+            <label><span>精确分类</span><small>Category</small>
+              <select id="category-filter"><option value="all">全部分类 / All categories</option></select>
+            </label>
+          </div>
+          <div class="search-actions">
+            <p id="status" role="status">正在装载目录… / Loading catalogue…</p>
+            <div>
+              <button id="clear" type="button">清除条件 <span>Clear</span></button>
+              <button id="share" type="button">复制检索链接 <span>Copy link</span></button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div id="error" class="error" role="alert" hidden></div>
-      <div id="results" class="results" aria-live="polite"></div>
-      <button id="load-more" class="load-more" type="button" hidden>继续展开 / Show more</button>
+        <div class="browse-row" aria-labelledby="browse-title">
+          <div><span id="browse-title">按编制浏览</span><small>Browse by ensemble</small></div>
+          <div id="family-shortcuts" class="family-shortcuts"></div>
+        </div>
+
+        <div id="error" class="error" role="alert" hidden></div>
+        <div id="results" class="results" aria-live="polite"></div>
+        <button id="load-more" class="load-more" type="button" hidden>继续展开馆藏 <span>Show more</span></button>
+      </div>
     </section>
 
     <section class="method" id="method" aria-labelledby="method-title">
-      <div class="section-heading light">
-        <div>
-          <p class="folio">CATALOGUE 02</p>
-          <h2 id="method-title">整理不是堆放 <span>Method before volume</span></h2>
+      <div class="method-shell">
+        <div class="method-heading">
+          <div>
+            <p class="folio">METHOD / 02</p>
+            <h2 id="method-title">整理不是堆放<br><em>Method before volume</em></h2>
+          </div>
+          <div class="method-statement">
+            <span id="stat-method">—</span>
+            <p>每个数字背后，都有明确的分类、身份与来源。</p>
+            <small>Every record has a reason to be here.</small>
+          </div>
         </div>
-        <p>这个项目关心的不只是“有多少文件”，更关心每一条记录为什么属于这里。</p>
+        <ol class="method-grid">
+          <li><span>01</span><h3>精确编制</h3><p>只使用获批准的 IMSLP 分类；改编谱还必须匹配明确的目标编制分区。</p><small>Allowlisted, anchored instrumentation</small></li>
+          <li><span>02</span><h3>原作与改编分离</h3><p>原作分类和 <code>(arr)</code> 分类独立保存，避免混淆作品身份。</p><small>Originals and arrangements stay distinct</small></li>
+          <li><span>03</span><h3>按作品去重</h3><p>同一作品可以属于多个编制分类，但在检索结果中只出现一次。</p><small>One work, many memberships</small></li>
+          <li><span>04</span><h3>可追溯双语</h3><p>英文原名始终保留；中文名用于辅助检索，并按 IMSLP 作品编号锁定。</p><small>Source titles preserved, translations reviewed</small></li>
+        </ol>
       </div>
-      <ol class="method-grid">
-        <li><span>01</span><h3>精确编制</h3><p>只使用获批准的 IMSLP 分类；改编谱还必须匹配明确的目标编制分区。</p><small>Allowlisted, anchored instrumentation</small></li>
-        <li><span>02</span><h3>原作与改编分离</h3><p>原作分类和 <code>(arr)</code> 分类独立保存，避免混淆作品身份。</p><small>Originals and arrangements stay distinct</small></li>
-        <li><span>03</span><h3>按作品去重</h3><p>同一作品可以属于多个编制分类，但在检索结果中只出现一次。</p><small>One work, many memberships</small></li>
-        <li><span>04</span><h3>可追溯双语</h3><p>英文原名始终保留；中文名用于辅助检索，并按 IMSLP 作品编号锁定。</p><small>Source titles preserved, translations reviewed</small></li>
-      </ol>
     </section>
 
     <section class="note" aria-label="Source and copyright note">
-      <span aria-hidden="true">↗</span>
-      <div>
+      <div class="note-mark" aria-hidden="true"><span>IMSLP</span><strong>↗</strong></div>
+      <div class="note-copy">
+        <p class="folio">SOURCE NOTE / 03</p>
         <h2>本站是索引，不是 IMSLP 镜像</h2>
         <p>每条作品记录都直接指向 IMSLP 原页面。乐谱文件不在本站托管；版权状态与使用条件以 IMSLP 页面及文件所附许可为准。</p>
         <p lang="en">This site is an independent index, not an IMSLP mirror. Score files are not hosted here; copyright status and reuse terms remain those shown by IMSLP and each file’s license.</p>
+        <a href="https://github.com/lin-qian123/imslp-guitar">查看来源、整理规则与开放代码 <span>View the project ↗</span></a>
       </div>
     </section>
   </main>
 
   <footer>
-    <p>IMSLP Guitar Index <span>·</span> Built for careful browsing, not bulk mirroring.</p>
-    <a href="https://github.com/lin-qian123/imslp-guitar">查看整理方法与源代码 / View source</a>
+    <div class="footer-brand"><strong>IMSLP Guitar Index</strong><span>古典吉他乐谱索引</span></div>
+    <p>Built for careful browsing,<br>not bulk mirroring.</p>
+    <a href="#">回到页首 <span>↑</span></a>
   </footer>
 
   <noscript>此目录需要 JavaScript 执行检索。This catalogue requires JavaScript for search.</noscript>

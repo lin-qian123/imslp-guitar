@@ -1,7 +1,7 @@
 # Data and translation license
 
 Project-authored catalog structure, Chinese reference translations, review
-annotations, and documentation are released under the
+annotations, documentation, and visual assets are released under the
 [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/),
 unless a source record or linked page states otherwise.
 
