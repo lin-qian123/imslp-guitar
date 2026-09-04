@@ -59,6 +59,30 @@ def test_category_chinese_name_keeps_kind_visible() -> None:
     assert category_name_zh("For guitar, mandocello") == "吉他、曼陀大提琴·原作"
 
 
+def test_category_chinese_name_translates_compound_instrument_terms() -> None:
+    cases = {
+        "For pan flute, guitar": "排箫、吉他·原作",
+        "For bass clarinet, guitar": "低音单簧管、吉他·原作",
+        "For oboe damore, guitar": "柔音双簧管、吉他·原作",
+        "For alto recorder and guitar (arr)": "中音竖笛、吉他·改编",
+        "For flute, guitar, electric piano": "长笛、吉他、电钢琴·原作",
+        "For guitar, 2 treble, bass instruments (arr)": (
+            "吉他、2件高音乐器、低音乐器·改编"
+        ),
+        "For mandolin, 2nd mandolin and piano, guitar ad libitum (arr)": (
+            "曼陀林、第二曼陀林、钢琴、吉他（可选）·改编"
+        ),
+        "For 2 mandolins, guitar, mandola and mandolon-cello (arr)": (
+            "2把曼陀林、吉他、曼陀拉、曼陀隆大提琴·改编"
+        ),
+        "For cello and piano harp guitar or for cello duo (arr)": (
+            "大提琴与钢琴式竖琴吉他，或大提琴二重奏·改编"
+        ),
+    }
+    for source, expected in cases.items():
+        assert category_name_zh(source) == expected
+
+
 def test_mixed_arrangement_heading_accepts_order_and_connector_variants(
     monkeypatch,
 ) -> None:

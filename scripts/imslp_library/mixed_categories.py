@@ -96,12 +96,18 @@ FAMILY_ZH = {
 INSTRUMENT_TRANSLATIONS: tuple[tuple[re.Pattern[str], str], ...] = tuple(
     (re.compile(rf"\b(?:{pattern})\b", re.IGNORECASE), replacement)
     for pattern, replacement in (
+        (
+            r"cello and piano harp guitar or for cello duo",
+            "大提琴与钢琴式竖琴吉他，或大提琴二重奏",
+        ),
+        (r"piano harp guitar", "钢琴式竖琴吉他"),
         (r"double bass(?:es)?", "低音提琴"),
         (r"english horn", "英国管"),
         (r"cor anglais", "英国管"),
         (r"treble instruments?", "高音乐器"),
         (r"bass instruments?", "低音乐器"),
         (r"unspecified instruments?", "未指定乐器"),
+        (r"mandolon-?cellos?", "曼陀隆大提琴"),
         (r"violoncellos?|cellos?", "大提琴"),
         (r"contrabass(?:es)?", "低音提琴"),
         (r"violins?", "小提琴"),
@@ -109,13 +115,19 @@ INSTRUMENT_TRANSLATIONS: tuple[tuple[re.Pattern[str], str], ...] = tuple(
         (r"violas?", "中提琴"),
         (r"viols?", "维奥尔琴"),
         (r"strings?", "弦乐"),
-        (r"pan-?flutes?", "排箫"),
+        (r"pan(?:-|\s)?flutes?", "排箫"),
         (r"alto flutes?", "中音长笛"),
         (r"bass flutes?", "低音长笛"),
         (r"flutes?", "长笛"),
         (r"piccolos?", "短笛"),
+        (r"alto recorders?", "中音竖笛"),
+        (r"tenor recorders?", "次中音竖笛"),
+        (r"bass recorders?", "低音竖笛"),
         (r"recorders?", "竖笛"),
+        (r"oboe d'?amore|oboe damore", "柔音双簧管"),
         (r"oboes?", "双簧管"),
+        (r"piccolo clarinets?", "高音单簧管"),
+        (r"bass clarinets?", "低音单簧管"),
         (r"clarinets?", "单簧管"),
         (r"bassoons?", "大管"),
         (r"soprano saxophones?", "高音萨克斯管"),
@@ -132,6 +144,7 @@ INSTRUMENT_TRANSLATIONS: tuple[tuple[re.Pattern[str], str], ...] = tuple(
         (r"cornetts?|cornets?", "短号"),
         (r"euphoniums?", "上低音号"),
         (r"flugelhorns?", "柔音号"),
+        (r"electric pianos?", "电钢琴"),
         (r"pianos?", "钢琴"),
         (r"harpsichords?", "羽管键琴"),
         (r"organs?", "管风琴"),
@@ -142,6 +155,7 @@ INSTRUMENT_TRANSLATIONS: tuple[tuple[re.Pattern[str], str], ...] = tuple(
         (r"harmonicas?", "口琴"),
         (r"keyboards?", "键盘乐器"),
         (r"celestas?", "钢片琴"),
+        (r"2nd mandolin", "第二曼陀林"),
         (r"mandolins?", "曼陀林"),
         (r"mandolas?", "曼陀拉"),
         (r"mandocellos?|mandoloncellos?", "曼陀大提琴"),
@@ -164,6 +178,11 @@ INSTRUMENT_TRANSLATIONS: tuple[tuple[re.Pattern[str], str], ...] = tuple(
         (r"erhus?", "二胡"),
         (r"theremins?", "特雷门琴"),
         (r"hand saw", "音乐锯"),
+        (r"resonator", "共鸣吉他"),
+        (r"ad libitum", "（可选）"),
+        (r"treble", "高音乐器"),
+        (r"bass", "低音乐器"),
+        (r"duo", "二重奏"),
         (r"bells?", "钟"),
         (r"guitars?", "吉他"),
         (r"continuo", "通奏低音"),
@@ -218,6 +237,56 @@ def category_name_zh(name: str) -> str:
     translated = re.sub(r"\s+with\s+", "与", translated, flags=re.IGNORECASE)
     translated = re.sub(r"\s+or\s+", "或", translated, flags=re.IGNORECASE)
     translated = re.sub(r"\s+", " ", translated).strip()
+    translated = re.sub(r"\s+（", "（", translated)
+    measure_words = (
+        ("件", ("高音乐器", "低音乐器", "未指定乐器")),
+        ("架", ("钢琴", "羽管键琴", "簧风琴", "电钢琴")),
+        (
+            "支",
+            (
+                "长笛",
+                "短笛",
+                "竖笛",
+                "双簧管",
+                "柔音双簧管",
+                "单簧管",
+                "大管",
+                "萨克斯管",
+                "英国管",
+                "圆号",
+                "小号",
+                "长号",
+                "大号",
+            ),
+        ),
+        (
+            "把",
+            (
+                "吉他",
+                "小提琴",
+                "中提琴",
+                "大提琴",
+                "低音提琴",
+                "维奥尔琴",
+                "曼陀林",
+                "曼陀拉",
+                "曼陀大提琴",
+                "曼陀隆大提琴",
+                "鲁特琴",
+                "班杜里亚琴",
+                "竖琴",
+                "班卓琴",
+                "尤克里里",
+            ),
+        ),
+    )
+    for measure, instruments in measure_words:
+        for instrument in instruments:
+            translated = re.sub(
+                rf"(?<!\d)(\d+)\s+{re.escape(instrument)}",
+                rf"\1{measure}{instrument}",
+                translated,
+            )
     return f"{translated}·{'改编' if arrangement else '原作'}"
 
 

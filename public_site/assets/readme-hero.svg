@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="440" viewBox="0 0 1200 440" role="img" aria-labelledby="title desc">
+  <title id="title">IMSLP Guitar Index</title>
+  <desc id="desc">A bilingual searchable map of classical guitar repertoire</desc>
+  <defs>
+    <pattern id="grain" width="8" height="8" patternUnits="userSpaceOnUse">
+      <path d="M0 7.5h8" stroke="#17283b" stroke-opacity=".035"/>
+    </pattern>
+    <linearGradient id="fade" x1="0" x2="1">
+      <stop offset="0" stop-color="#a67542" stop-opacity="0"/>
+      <stop offset=".35" stop-color="#a67542" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#a67542" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="440" rx="24" fill="#f2eadc"/>
+  <rect width="1200" height="440" rx="24" fill="url(#grain)"/>
+  <path d="M0 72h1200M0 80h1200M0 88h1200M0 96h1200M0 104h1200" stroke="url(#fade)"/>
+  <g transform="translate(74 64)">
+    <circle cx="42" cy="42" r="42" fill="#17283b"/>
+    <text x="42" y="57" text-anchor="middle" fill="#f2eadc" font-family="Georgia,serif" font-size="47">𝄞</text>
+  </g>
+  <g fill="#17283b">
+    <text x="74" y="202" font-family="Georgia,serif" font-weight="700" font-size="70" letter-spacing="-2">IMSLP GUITAR INDEX</text>
+    <text x="77" y="252" font-family="PingFang SC,Noto Serif SC,serif" font-size="25" letter-spacing="5">古典吉他乐谱索引</text>
+    <text x="77" y="314" font-family="Georgia,serif" font-style="italic" font-size="22" fill="#4b5967">From scattered category pages to a searchable repertoire map.</text>
+  </g>
+  <g transform="translate(850 332)">
+    <path d="M0 0h270" stroke="#17283b" stroke-width="2"/>
+    <text y="34" fill="#bd452f" font-family="Avenir,Arial,sans-serif" font-size="14" font-weight="700" letter-spacing="2">11,393 WORKS  ·  352 CATEGORIES</text>
+  </g>
+  <circle cx="1100" cy="92" r="51" fill="none" stroke="#bd452f" stroke-width="2"/>
+  <text x="1100" y="85" text-anchor="middle" fill="#bd452f" font-family="Avenir,Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="2">BILINGUAL</text>
+  <text x="1100" y="105" text-anchor="middle" fill="#bd452f" font-family="Avenir,Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="2">INDEX</text>
+</svg>

@@ -1,0 +1,1329 @@
+{
+  "schema_version": 1,
+  "reviewer": "title_review_pieces_sweep",
+  "entries": [
+    {
+      "work_id": "7373",
+      "title_en": "3 Pieces, Op.2",
+      "current_title_zh": "《3 首，作品 2》",
+      "new_title_zh": "《3首小品，作品2》",
+      "reason": "补回原题中的“小品”体裁信息。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "9356",
+      "title_en": "3 Pièces, Op.29",
+      "current_title_zh": "《3 首，作品 29》",
+      "new_title_zh": "《3首小品，作品29》",
+      "reason": "补回原题中的“小品”体裁信息。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "13588",
+      "title_en": "3 Morceaux, Op.19",
+      "current_title_zh": "《3 首，作品 19》",
+      "new_title_zh": "《3首小品，作品19》",
+      "reason": "补回原题中的“小品”体裁信息。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "16056",
+      "title_en": "3 Pieces, Op.24",
+      "current_title_zh": "《3 首，作品 24》",
+      "new_title_zh": "《3首小品，作品24》",
+      "reason": "补回原题中的“小品”体裁信息。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "19407",
+      "title_en": "2 Pieces, Op.10",
+      "current_title_zh": "《2 首，作品 10》",
+      "new_title_zh": "《2首小品，作品10》",
+      "reason": "补回原题中的“小品”体裁信息。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "20594",
+      "title_en": "10 Pieces, Op.6",
+      "current_title_zh": "《〈10首小品〉，Op.6》",
+      "new_title_zh": "《10首小品，作品6》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "21458",
+      "title_en": "6 Pieces on Spanish Folksongs",
+      "current_title_zh": "《6首西班牙民歌》",
+      "new_title_zh": "《根据西班牙民歌而作的6首小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "22714",
+      "title_en": "7 Charakterstücke, Op.7",
+      "current_title_zh": "《7 个角色作品，Op.7》",
+      "new_title_zh": "《7首性格小品，作品7》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "22724",
+      "title_en": "6 Kinderstücke, Op.72",
+      "current_title_zh": "《6首儿童作品，作品72》",
+      "new_title_zh": "《6首儿童小品，作品72》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "36239",
+      "title_en": "12 Easy Pieces for Flute, Viola and Guitar",
+      "current_title_zh": "《12首简单的长笛、中提琴和吉他曲目》",
+      "new_title_zh": "《12首长笛、中提琴与吉他简易小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "36297",
+      "title_en": "6 Pezzi, Op.14",
+      "current_title_zh": "《6 佩齐，作品 14》",
+      "new_title_zh": "《6首小品，作品14》",
+      "reason": "补回原题中的“小品”体裁信息。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "37921",
+      "title_en": "3 Pièces, Op.7",
+      "current_title_zh": "《3 首，作品 7》",
+      "new_title_zh": "《3首小品，作品7》",
+      "reason": "补回原题中的“小品”体裁信息。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "47653",
+      "title_en": "Morceaux agréables et non difficiles, Op.13",
+      "current_title_zh": "《令人愉快且不难的作品，Op.13》",
+      "new_title_zh": "《悦耳简易小品，作品13》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "47655",
+      "title_en": "10 Petites pièces non difficiles, Op.14",
+      "current_title_zh": "《10 首小型、不难的作品，Op.14》",
+      "new_title_zh": "《10首简易小品，作品14》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "59309",
+      "title_en": "10 Pieces for Guitar, Flute and Viola, Op.12",
+      "current_title_zh": "《为吉他、长笛和中提琴而作的 10 首作品，作品 12》",
+      "new_title_zh": "《为吉他、长笛与中提琴而作的10首小品，作品12》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "95104",
+      "title_en": "6 Pieces, Op.45",
+      "current_title_zh": "《6 首，作品 45》",
+      "new_title_zh": "《6首小品，作品45》",
+      "reason": "补回原题中的“小品”体裁信息。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "95283",
+      "title_en": "Ein Stücklein",
+      "current_title_zh": "《一小块》",
+      "new_title_zh": "《小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "96488",
+      "title_en": "3 Kleine Stücke, Op.1",
+      "current_title_zh": "《〈3首小品〉，Op.1》",
+      "new_title_zh": "《3首小品，作品1》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "97589",
+      "title_en": "6 Pieces, Op.5",
+      "current_title_zh": "《6 首，作品 5》",
+      "new_title_zh": "《6首小品，作品5》",
+      "reason": "补回原题中的“小品”体裁信息。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "120026",
+      "title_en": "2 Morceaux, Op.26",
+      "current_title_zh": "《2 首，作品 26》",
+      "new_title_zh": "《2首小品，作品26》",
+      "reason": "补回原题中的“小品”体裁信息。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "139637",
+      "title_en": "Morceau de Concours for Flute and Piano",
+      "current_title_zh": "《长笛和钢琴比赛曲目》",
+      "new_title_zh": "《长笛与钢琴竞赛曲》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "185784",
+      "title_en": "8 Vortragsstücke, Op.69",
+      "current_title_zh": "《8 篇讲座作品，Op.69》",
+      "new_title_zh": "《8首演奏小品，作品69》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "185786",
+      "title_en": "4 Charakteristische Stücke, Op.71",
+      "current_title_zh": "《4 首特色作品，作品 71》",
+      "new_title_zh": "《4首性格小品，作品71》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "188172",
+      "title_en": "2 Pequeñas piezas",
+      "current_title_zh": "《2 小块》",
+      "new_title_zh": "《2首小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "222387",
+      "title_en": "Livre d'orgue contenant cent pièces de tous les tons de l'Église",
+      "current_title_zh": "《包含一百首教堂所有音调的管风琴书》",
+      "new_title_zh": "《包含教会各调式100首乐曲的管风琴曲集》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "230976",
+      "title_en": "3 Morceaux, Op.1",
+      "current_title_zh": "《3 首，作品 1》",
+      "new_title_zh": "《3首小品，作品1》",
+      "reason": "补回原题中的“小品”体裁信息。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "242312",
+      "title_en": "4 Vortragsstücke, Op.130",
+      "current_title_zh": "《4 篇讲座作品，Op.130》",
+      "new_title_zh": "《4首演奏小品，作品130》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "246282",
+      "title_en": "Orgelstück in G major",
+      "current_title_zh": "《G大调风琴作品》",
+      "new_title_zh": "《G大调管风琴小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "246305",
+      "title_en": "10 Pieces for the Virginals or Organ",
+      "current_title_zh": "《10 首为维金纳琴或管风琴而作的作品》",
+      "new_title_zh": "《10首维吉纳琴或管风琴小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "283919",
+      "title_en": "27 Pieces for Bass Viol",
+      "current_title_zh": "《低音维奥尔琴二十七首小品》",
+      "new_title_zh": "《27首低音维奥尔琴小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "290971",
+      "title_en": "Pièces brèves, Op.50",
+      "current_title_zh": "《短篇作品，作品 50》",
+      "new_title_zh": "《短小品集，作品50》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "304917",
+      "title_en": "Selected Guitar Pieces",
+      "current_title_zh": "《精选吉他曲目》",
+      "new_title_zh": "《吉他曲选》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "315210",
+      "title_en": "Guitarre-Solostücke",
+      "current_title_zh": "《吉他独奏曲目》",
+      "new_title_zh": "《吉他独奏曲集》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "339990",
+      "title_en": "Sammlung von 18 Präludien und 24 Stücken",
+      "current_title_zh": "《收录有18首前奏曲和24首曲目》",
+      "new_title_zh": "《18首前奏曲与24首小品集》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "383373",
+      "title_en": "Stuckle, Op.9",
+      "current_title_zh": "《斯塔克尔，作品 9》",
+      "new_title_zh": "《小品，作品9》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "403529",
+      "title_en": "3 Orgelstücke, Op.4",
+      "current_title_zh": "《3 管风琴作品，Op.4》",
+      "new_title_zh": "《3首管风琴小品，作品4》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "431434",
+      "title_en": "3 Pièces de société, Op.36",
+      "current_title_zh": "《3 首协会作品，Op.36》",
+      "new_title_zh": "《3首社交小品，作品36》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "457531",
+      "title_en": "8 Orgelstücke, Op.21",
+      "current_title_zh": "《8 管风琴作品，Op.21》",
+      "new_title_zh": "《8首管风琴小品，作品21》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "478949",
+      "title_en": "Pieces from Aylesford",
+      "current_title_zh": "《艾尔斯福德的作品》",
+      "new_title_zh": "《艾尔斯福德选曲》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "492310",
+      "title_en": "7 Characteristic Pieces, Op.32",
+      "current_title_zh": "《7 首特色作品，作品 32》",
+      "new_title_zh": "《7首性格小品，作品32》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "587889",
+      "title_en": "Un petit morceau",
+      "current_title_zh": "《一小块》",
+      "new_title_zh": "《小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "605340",
+      "title_en": "Auserlesene Lauten-Stücke",
+      "current_title_zh": "《精选鲁特琴曲目》",
+      "new_title_zh": "《鲁特琴精选曲集》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "619478",
+      "title_en": "5 Pieces for Guitar",
+      "current_title_zh": "《吉他 5 首》",
+      "new_title_zh": "《5首吉他小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "660882",
+      "title_en": "Pieces for Guitar",
+      "current_title_zh": "《吉他曲目》",
+      "new_title_zh": "《吉他曲集》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "665482",
+      "title_en": "Piece for Guitar III",
+      "current_title_zh": "《吉他 III 作品》",
+      "new_title_zh": "《吉他小品第3号》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "689212",
+      "title_en": "Kleine Stücke für Gitarre Solo",
+      "current_title_zh": "《吉他独奏小片段》",
+      "new_title_zh": "《吉他独奏小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "712654",
+      "title_en": "6 Pieces pour flûte et guitarre",
+      "current_title_zh": "《6 首长笛和吉他曲目》",
+      "new_title_zh": "《6首长笛与吉他小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "720639",
+      "title_en": "3 Morceaux, Op.65",
+      "current_title_zh": "《3 首，作品 65》",
+      "new_title_zh": "《3首小品，作品65》",
+      "reason": "补回原题中的“小品”体裁信息。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "722267",
+      "title_en": "Guitar Piece No.1, Op.19 No.4",
+      "current_title_zh": "《吉他作品 第1号，Op.19 第4号》",
+      "new_title_zh": "《第1号吉他小品，作品19第4号》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "722271",
+      "title_en": "Guitar Piece No.2, Op.19 No.5",
+      "current_title_zh": "《吉他作品 第2号，Op.19 第5号》",
+      "new_title_zh": "《第2号吉他小品，作品19第5号》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "722275",
+      "title_en": "Guitar Piece No.3, Op.19 No.6",
+      "current_title_zh": "《吉他作品第 3 号，作品 19 第 6 号》",
+      "new_title_zh": "《第3号吉他小品，作品19第6号》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "723393",
+      "title_en": "4 Charakterstücke, Op.28",
+      "current_title_zh": "《4 个角色作品，Op.28》",
+      "new_title_zh": "《4首性格小品，作品28》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "724797",
+      "title_en": "Vari pezzi del balletto Il Barbiere di Seviglia, Op.16",
+      "current_title_zh": "《芭蕾舞剧〈塞维利亚理发师〉中的多部作品，作品 16》",
+      "new_title_zh": "《芭蕾舞剧〈塞维利亚理发师〉选曲，作品16》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "724936",
+      "title_en": "24 Pieces, Op.121",
+      "current_title_zh": "《24 首，作品 121》",
+      "new_title_zh": "《24首小品，作品121》",
+      "reason": "补回原题中的“小品”体裁信息。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "729268",
+      "title_en": "4 Piezas Progresivas, Op.4",
+      "current_title_zh": "《4 首前卫作品，作品 4》",
+      "new_title_zh": "《4首渐进小品，作品4》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "730880",
+      "title_en": "3 Guitar Pieces",
+      "current_title_zh": "《3 吉他作品》",
+      "new_title_zh": "《3首吉他小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "731288",
+      "title_en": "4 Guitar Pieces",
+      "current_title_zh": "《4 吉他作品》",
+      "new_title_zh": "《4首吉他小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "736216",
+      "title_en": "3 Pièces de société, Op.33",
+      "current_title_zh": "《3 首协会作品，Op.33》",
+      "new_title_zh": "《3首社交小品，作品33》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "736835",
+      "title_en": "24 Petites pièces progressives, Op.44",
+      "current_title_zh": "《24 首小型渐进作品，Op.44》",
+      "new_title_zh": "《24首渐进小品，作品44》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "737185",
+      "title_en": "6 Petites pièces progressives, Op.47",
+      "current_title_zh": "《6 首小型渐进作品，Op.47》",
+      "new_title_zh": "《6首渐进小品，作品47》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "737438",
+      "title_en": "Est-ce bien ça, 6 pièces, Op.48",
+      "current_title_zh": "《是吗，6首，Op.48》",
+      "new_title_zh": "《〈是这样吗？〉6首小品，作品48》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "747014",
+      "title_en": "Morceaux de concert, Op.54",
+      "current_title_zh": "《音乐会作品，作品 54》",
+      "new_title_zh": "《音乐会小品，作品54》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "767719",
+      "title_en": "Guitar Piece No.2",
+      "current_title_zh": "《吉他第二首》",
+      "new_title_zh": "《第2号吉他小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "800034",
+      "title_en": "Guitar Piece No.3",
+      "current_title_zh": "《吉他第 3 首》",
+      "new_title_zh": "《第3号吉他小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "822055",
+      "title_en": "Guitar Piece No.4",
+      "current_title_zh": "《吉他作品 第4号》",
+      "new_title_zh": "《第4号吉他小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "827400",
+      "title_en": "Kleines Konzertstück für Gitarre",
+      "current_title_zh": "《小型吉他音乐会曲目》",
+      "new_title_zh": "《吉他小型音乐会小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "860101",
+      "title_en": "Pièces de luth",
+      "current_title_zh": "《琵琶小品》",
+      "new_title_zh": "《鲁特琴小品集》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "867107",
+      "title_en": "Colección de diez piezas escogidas de las últimas Operas de Verdi",
+      "current_title_zh": "《威尔第最后一部歌剧中的十首作品集》",
+      "new_title_zh": "《威尔第晚期歌剧10首选曲》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "870038",
+      "title_en": "21 Pieces, Op.27",
+      "current_title_zh": "《21 首，作品 27》",
+      "new_title_zh": "《21首小品，作品27》",
+      "reason": "补回原题中的“小品”体裁信息。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "891526",
+      "title_en": "6 Morceaux, Op.21",
+      "current_title_zh": "《6 首，作品 21》",
+      "new_title_zh": "《6首小品，作品21》",
+      "reason": "补回原题中的“小品”体裁信息。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "898741",
+      "title_en": "Pieces for Guitar",
+      "current_title_zh": "《吉他曲目》",
+      "new_title_zh": "《吉他曲集》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "928481",
+      "title_en": "Guitar Piece No.5",
+      "current_title_zh": "《吉他第五首》",
+      "new_title_zh": "《第5号吉他小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "968580",
+      "title_en": "Guitar Piece No.2",
+      "current_title_zh": "《吉他第二首》",
+      "new_title_zh": "《第2号吉他小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "970790",
+      "title_en": "6 petites Pièces",
+      "current_title_zh": "《6小块》",
+      "new_title_zh": "《6首小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "983638",
+      "title_en": "Guitar Piece No.6",
+      "current_title_zh": "《吉他第 6 首》",
+      "new_title_zh": "《第6号吉他小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1014720",
+      "title_en": "6 Piccoli Pezzi",
+      "current_title_zh": "《6 小块》",
+      "new_title_zh": "《6首小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1031862",
+      "title_en": "5 Petites Pieces pour la Guitarre",
+      "current_title_zh": "《5 首小吉他曲目》",
+      "new_title_zh": "《5首吉他小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1035611",
+      "title_en": "10 Pieces favorites de differents Auteurs, Op.28",
+      "current_title_zh": "《不同作者最喜欢的 10 首作品，Op.28》",
+      "new_title_zh": "《不同作曲家的10首名作，作品28》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1042638",
+      "title_en": "Journal de Pièces tirées de divers Auteurs Espagnols et autres",
+      "current_title_zh": "《戏剧曲集摘自多位西班牙和其他作家》",
+      "new_title_zh": "《西班牙及其他作曲家作品选集》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1047177",
+      "title_en": "18 Pieces, Op.60",
+      "current_title_zh": "《18 首，作品 60》",
+      "new_title_zh": "《18首小品，作品60》",
+      "reason": "补回原题中的“小品”体裁信息。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1051104",
+      "title_en": "Papillon pour la Guitare ou Collection des Morceaux favorits",
+      "current_title_zh": "《蝴蝶吉他或最喜欢的歌曲集》",
+      "new_title_zh": "《蝴蝶，或吉他名曲集》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1077705",
+      "title_en": "Choix de plusieurs Morceaux, Op.235",
+      "current_title_zh": "《多首作品的选择，作品 235》",
+      "new_title_zh": "《多首作品选，作品235》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1081697",
+      "title_en": "9 Morceaux, Variations et 3 Rondeaux",
+      "current_title_zh": "《9 首变奏曲和 3 首回旋曲》",
+      "new_title_zh": "《9首小品及变奏曲与3首回旋曲》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1083251",
+      "title_en": "Pièces progressives pour Guitarre seule",
+      "current_title_zh": "《吉他独奏的前卫曲目》",
+      "new_title_zh": "《吉他独奏渐进小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1084031",
+      "title_en": "Recueil de differents Morceaux faciles",
+      "current_title_zh": "《不同简单作品的集合》",
+      "new_title_zh": "《不同简易小品集》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1089374",
+      "title_en": "Différentes Pièces, Op.77",
+      "current_title_zh": "《不同的作品，作品 77》",
+      "new_title_zh": "《不同小品，作品77》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1117536",
+      "title_en": "6 Pieces, Op.9",
+      "current_title_zh": "《6 首，作品 9》",
+      "new_title_zh": "《6首小品，作品9》",
+      "reason": "补回原题中的“小品”体裁信息。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1117975",
+      "title_en": "Morceau de Salon, Op.11",
+      "current_title_zh": "《沙龙作品，作品 11》",
+      "new_title_zh": "《沙龙小品，作品11》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1118499",
+      "title_en": "4 Pieces, Op.14",
+      "current_title_zh": "《4 首，作品 14》",
+      "new_title_zh": "《4首小品，作品14》",
+      "reason": "补回原题中的“小品”体裁信息。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1118769",
+      "title_en": "2 Pieces, Op.16",
+      "current_title_zh": "《2 首，作品 16》",
+      "new_title_zh": "《2首小品，作品16》",
+      "reason": "补回原题中的“小品”体裁信息。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1120036",
+      "title_en": "6 Pieces, Op.19",
+      "current_title_zh": "《6 首，作品 19》",
+      "new_title_zh": "《6首小品，作品19》",
+      "reason": "补回原题中的“小品”体裁信息。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1120038",
+      "title_en": "3 Pieces, Op.20",
+      "current_title_zh": "《3 首，作品 20》",
+      "new_title_zh": "《3首小品，作品20》",
+      "reason": "补回原题中的“小品”体裁信息。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1120382",
+      "title_en": "4 Pieces, Op.21",
+      "current_title_zh": "《4 首，作品 21》",
+      "new_title_zh": "《4首小品，作品21》",
+      "reason": "补回原题中的“小品”体裁信息。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1136096",
+      "title_en": "Salonstücke für die Guitarre",
+      "current_title_zh": "《沙龙吉他作品》",
+      "new_title_zh": "《吉他沙龙小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1140456",
+      "title_en": "16 Morceaux très faciles, Op.24",
+      "current_title_zh": "《16 首非常简单的作品，Op.24》",
+      "new_title_zh": "《16首极简小品，作品24》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1141485",
+      "title_en": "6 Différens Morceaux, Op.87",
+      "current_title_zh": "《6 首不同的作品，作品 87》",
+      "new_title_zh": "《6首不同小品，作品87》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1155061",
+      "title_en": "Morceau lyrique, Op.97",
+      "current_title_zh": "《抒情作品，作品 97》",
+      "new_title_zh": "《抒情小品，作品97》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1157644",
+      "title_en": "Leichte Stücke für die Guitarre, Op.2",
+      "current_title_zh": "《简单的吉他作品，Op.2》",
+      "new_title_zh": "《简易吉他小品，作品2》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1173019",
+      "title_en": "Pièces de société Cahier 2, Op.18",
+      "current_title_zh": "《社会作品笔记本 2，作品 18》",
+      "new_title_zh": "《社交小品第2册，作品18》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1173279",
+      "title_en": "Pièces de société Cahier 3, Op.19",
+      "current_title_zh": "《社会作品笔记本 3，作品 19》",
+      "new_title_zh": "《社交小品第3册，作品19》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1173647",
+      "title_en": "Pièces de société Cahier 5, Op.21",
+      "current_title_zh": "《协会作品 Cahier 5，Op.21》",
+      "new_title_zh": "《社交小品第5册，作品21》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1173649",
+      "title_en": "Pièces de société Cahier 6, Op.22",
+      "current_title_zh": "《社会作品笔记本 6，作品 22》",
+      "new_title_zh": "《社交小品第6册，作品22》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1173931",
+      "title_en": "8 Beliebte, leichte Stücke",
+      "current_title_zh": "《8 首流行、简单的作品》",
+      "new_title_zh": "《8首流行简易小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1175136",
+      "title_en": "24 Pièces, Op.10",
+      "current_title_zh": "《24 首，作品 10》",
+      "new_title_zh": "《24首小品，作品10》",
+      "reason": "补回原题中的“小品”体裁信息。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1180431",
+      "title_en": "Auswahl der beliebtesten Stücke aus verschiedenen Opern",
+      "current_title_zh": "《精选各类歌剧中最受欢迎的作品》",
+      "new_title_zh": "《不同歌剧名曲选》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1203695",
+      "title_en": "8 Piècen für zwei Guitarren, Op.140",
+      "current_title_zh": "《两把吉他的 8 首作品，Op.140》",
+      "new_title_zh": "《为两把吉他而作的8首小品，作品140》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1214475",
+      "title_en": "6 Pièces favorites pour la guitare, Op.238",
+      "current_title_zh": "《最喜欢的 6 首吉他作品，Op.238》",
+      "new_title_zh": "《6首吉他名曲，作品238》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1269136",
+      "title_en": "3 Pieces of church music",
+      "current_title_zh": "《3 首教堂音乐》",
+      "new_title_zh": "《3首教会音乐作品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1292646",
+      "title_en": "4 Kleine Charakterstücke, Op.41",
+      "current_title_zh": "《4 个小人物作品，作品 41》",
+      "new_title_zh": "《4首短小性格小品，作品41》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1310634",
+      "title_en": "Pièces de guitairre, à battre et à pinser",
+      "current_title_zh": "《吉他小品，用于敲击和弹拨》",
+      "new_title_zh": "《扫弦与拨弦吉他小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1330762",
+      "title_en": "6 Petites pièces progressives",
+      "current_title_zh": "《6 渐进小片》",
+      "new_title_zh": "《6首渐进小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1332329",
+      "title_en": "19 Fantazias, In Nomines and Other Pieces",
+      "current_title_zh": "《19 首幻想曲，提名及其他作品》",
+      "new_title_zh": "《19首幻想曲、“以圣父之名”曲及其他作品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1359210",
+      "title_en": "Gallichone piece No.1",
+      "current_title_zh": "《加利康作品 第1号》",
+      "new_title_zh": "《加利雄琴小品第1号》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1359212",
+      "title_en": "Gallichone piece No.2",
+      "current_title_zh": "《加利康作品 第2号》",
+      "new_title_zh": "《加利雄琴小品第2号》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1359214",
+      "title_en": "Gallichone piece No.3",
+      "current_title_zh": "《加利康作品 第3号》",
+      "new_title_zh": "《加利雄琴小品第3号》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1367824",
+      "title_en": "12 Petites pieces pour la Guitarre",
+      "current_title_zh": "《吉他的 12 个小小品》",
+      "new_title_zh": "《12首吉他小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1368102",
+      "title_en": "Pièces Favorites",
+      "current_title_zh": "《最喜欢的作品》",
+      "new_title_zh": "《名曲集》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1374840",
+      "title_en": "Variations on Favorite Pieces sung by Catalani",
+      "current_title_zh": "《卡塔拉尼最喜欢的作品变奏曲》",
+      "new_title_zh": "《卡塔拉尼演唱名曲主题变奏曲》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1375552",
+      "title_en": "Recueil de pièces pour la guitare",
+      "current_title_zh": "《吉他作品集》",
+      "new_title_zh": "《吉他曲集》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1379602",
+      "title_en": "Variations on a Tyrolienne, and 2 Pieces, Op.35",
+      "current_title_zh": "《蒂罗尔变奏曲和 2 首作品，作品 35》",
+      "new_title_zh": "《蒂罗尔舞曲变奏曲与2首小品，作品35》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1393708",
+      "title_en": "Collection of different pieces",
+      "current_title_zh": "《不同作品的集合》",
+      "new_title_zh": "《各类小品集》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1400208",
+      "title_en": "12 Pieces for Flute and Guitar, Op.36",
+      "current_title_zh": "《12 首长笛与吉他作品，作品 36》",
+      "new_title_zh": "《12首长笛与吉他小品，作品36》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1400450",
+      "title_en": "12 Pieces for Flute and Guitar, Op.37",
+      "current_title_zh": "《12 首长笛与吉他作品，作品 37》",
+      "new_title_zh": "《12首长笛与吉他小品，作品37》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1424523",
+      "title_en": "Plusieurs morceaux de Rossini",
+      "current_title_zh": "《罗西尼的几首作品》",
+      "new_title_zh": "《罗西尼作品选》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1425333",
+      "title_en": "Serenade contenant 6 pieces tirés de l'Opera Le Mandarin",
+      "current_title_zh": "《小夜曲包含 6 首选自巴黎歌剧院的曲目》",
+      "new_title_zh": "《小夜曲：歌剧〈中国官吏〉6首选曲》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1425947",
+      "title_en": "12 Leichte Stücke für die Guitarre",
+      "current_title_zh": "《12首简单的吉他乐曲》",
+      "new_title_zh": "《12首简易吉他小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1436917",
+      "title_en": "Recueil de Morceaux faciles, Op.36",
+      "current_title_zh": "《简单作品集，Op.36》",
+      "new_title_zh": "《简易小品集，作品36》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1436919",
+      "title_en": "Recueil de Morceaux faciles, Op.38",
+      "current_title_zh": "《简单作品集，Op.38》",
+      "new_title_zh": "《简易小品集，作品38》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1437853",
+      "title_en": "8 Morceaux choisis du Matrimonis segreto, Op.64",
+      "current_title_zh": "《〈秘密婚姻〉中的 8 首作品，作品 64》",
+      "new_title_zh": "《歌剧〈秘密婚姻〉8首选曲，作品64》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1442520",
+      "title_en": "24 Morceaux très faciles, Op.310",
+      "current_title_zh": "《24 首非常简单的作品，作品 310》",
+      "new_title_zh": "《24首极简小品，作品310》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1448177",
+      "title_en": "8 Pezzi per Chitarra Solista",
+      "current_title_zh": "《吉他独奏 8 首》",
+      "new_title_zh": "《8首吉他独奏小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1451194",
+      "title_en": "6 Pièces, Op.1",
+      "current_title_zh": "《6 首，作品 1》",
+      "new_title_zh": "《6首小品，作品1》",
+      "reason": "补回原题中的“小品”体裁信息。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1454057",
+      "title_en": "6 Pieces for Guitar Solo, Op.3",
+      "current_title_zh": "《吉他独奏 6 首作品，作品 3》",
+      "new_title_zh": "《6首吉他独奏小品，作品3》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1458425",
+      "title_en": "Premier cahier de pièces tirées des auteurs Espagnols, Op.11",
+      "current_title_zh": "《第一本西班牙作家作品笔记本，Op.11》",
+      "new_title_zh": "《西班牙作曲家作品选第1册，作品11》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1462453",
+      "title_en": "2 Guitar Pieces",
+      "current_title_zh": "《2 吉他作品》",
+      "new_title_zh": "《2首吉他小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1470247",
+      "title_en": "3 Pieces, Op.27",
+      "current_title_zh": "《3 首，作品 27》",
+      "new_title_zh": "《3首小品，作品27》",
+      "reason": "补回原题中的“小品”体裁信息。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1470562",
+      "title_en": "Guitar Sonatina and other pieces, Op.13",
+      "current_title_zh": "《吉他小奏鸣曲及其他作品，Op.13》",
+      "new_title_zh": "《吉他小奏鸣曲及其他小品，作品13》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1481612",
+      "title_en": "6 Morceaux, Op.30",
+      "current_title_zh": "《6 首，作品 30》",
+      "new_title_zh": "《6首小品，作品30》",
+      "reason": "补回原题中的“小品”体裁信息。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1492824",
+      "title_en": "6 Pieces, Op.1",
+      "current_title_zh": "《6 首，作品 1》",
+      "new_title_zh": "《6首小品，作品1》",
+      "reason": "补回原题中的“小品”体裁信息。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1493740",
+      "title_en": "12 Admired Pieces arranged as Guitar Duets",
+      "current_title_zh": "《12首令人钦佩的曲目改编为吉他二重奏》",
+      "new_title_zh": "《12首名曲的吉他二重奏改编》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1496871",
+      "title_en": "Divers Morceaux pour la Guitare, Op.3",
+      "current_title_zh": "《各种吉他作品，Op.3》",
+      "new_title_zh": "《吉他小品集，作品3》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1498187",
+      "title_en": "4 Pieces, Op.1",
+      "current_title_zh": "《4 首，作品 1》",
+      "new_title_zh": "《4首小品，作品1》",
+      "reason": "补回原题中的“小品”体裁信息。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1533707",
+      "title_en": "Pieza Lírica",
+      "current_title_zh": "《抒情作品》",
+      "new_title_zh": "《抒情小品》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1564295",
+      "title_en": "Pieces in Le Cocq Recueil 1729",
+      "current_title_zh": "《勒科克1729年曲集中的作品》",
+      "new_title_zh": "《勒科克1729年曲集选曲》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1564317",
+      "title_en": "Livre de guitarre et autres pièces de musique",
+      "current_title_zh": "《吉他书和其他音乐作品》",
+      "new_title_zh": "《吉他及其他音乐作品集》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1588801",
+      "title_en": "Pièces de Guitarre et de Musique",
+      "current_title_zh": "《吉他和音乐作品》",
+      "new_title_zh": "《吉他及其他音乐作品集》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1596295",
+      "title_en": "Morceaux et airs variés suivis d'une Sonate",
+      "current_title_zh": "《奏鸣曲之后的各种作品和曲调》",
+      "new_title_zh": "《小品与曲调变奏集，继以一首奏鸣曲》",
+      "reason": "修正 Piece/Pièce/Morceau 等词的机器直译或信息缺失。",
+      "basis": "music_terminology",
+      "source_refs": []
+    }
+  ]
+}

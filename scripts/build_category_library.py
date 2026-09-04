@@ -34,7 +34,10 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Iterable
 
+from imslp_library.title_review import load_reviewed_titles, resolve_reviewed_title
 
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 ROOT = Path(os.environ.get("IMSLP_LIBRARY_ROOT", Path(__file__).resolve().parents[1])).expanduser().resolve()
 METADATA_DIR = ROOT / "metadata"
 CACHE_DIR = Path(
@@ -85,6 +88,7 @@ CATALOG_JSON = METADATA_DIR / "catalog.json"
 MANIFEST_JSON = METADATA_DIR / "score_manifest.json"
 TRANSLATIONS_JSON = METADATA_DIR / "translations_zh.json"
 COMPOSER_TRANSLATIONS_JSON = METADATA_DIR / "composer_translations_zh.json"
+REVIEWED_TITLE_TRANSLATIONS_JSON = PROJECT_ROOT / "metadata/translations/title_overrides_reviewed_zh.json"
 CATALOG_CSV = ROOT / "catalog.csv"
 MANIFEST_CSV = ROOT / "score_manifest.csv"
 DOWNLOAD_LOG = LOGS_DIR / "download_status.csv"
@@ -1190,6 +1194,23 @@ def load_translations() -> dict[str, str]:
     return json.loads(TRANSLATIONS_JSON.read_text(encoding="utf-8"))
 
 
+def load_reviewed_title_translations() -> dict[str, dict[str, object]]:
+    return load_reviewed_titles(REVIEWED_TITLE_TRANSLATIONS_JSON)
+
+
+def apply_title_translations(
+    works: list[dict[str, Any]],
+    translations: dict[str, str] | None = None,
+    reviewed: dict[str, dict[str, object]] | None = None,
+) -> None:
+    translations = load_translations() if translations is None else translations
+    reviewed = load_reviewed_title_translations() if reviewed is None else reviewed
+    for work in works:
+        title_en = work["title_en"]
+        existing = translations.get(title_en, translate_title_fallback(title_en))
+        work["title_zh"] = resolve_reviewed_title(work, existing, reviewed)
+
+
 def load_composer_translations() -> dict[str, str]:
     if not COMPOSER_TRANSLATIONS_JSON.exists():
         return {}
@@ -1350,9 +1371,7 @@ def build_metadata(refresh: bool = False) -> tuple[list[dict[str, Any]], list[di
 
     assign_unique_relative_paths(manifest)
 
-    translations = load_translations()
-    for work in works:
-        work["title_zh"] = translations.get(work["title_en"], translate_title_fallback(work["title_en"]))
+    apply_title_translations(works)
     apply_composer_translations(works, manifest)
 
     works.sort(key=lambda item: (item["composer"].casefold(), item["title_en"].casefold()))
@@ -1668,9 +1687,7 @@ def render_readme() -> None:
         raise RuntimeError("Run metadata first")
     works = json.loads(CATALOG_JSON.read_text(encoding="utf-8"))
     manifest = json.loads(MANIFEST_JSON.read_text(encoding="utf-8"))
-    translations = load_translations()
-    for work in works:
-        work["title_zh"] = translations.get(work["title_en"], translate_title_fallback(work["title_en"]))
+    apply_title_translations(works)
     apply_composer_translations(works, manifest)
     CATALOG_JSON.write_text(json.dumps(works, ensure_ascii=False, indent=2), encoding="utf-8")
     MANIFEST_JSON.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")

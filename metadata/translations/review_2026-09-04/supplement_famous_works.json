@@ -1,0 +1,1149 @@
+{
+  "schema_version": 1,
+  "reviewer": "title_review_famous_works",
+  "entries": [
+    {
+      "work_id": "1410",
+      "title_en": "Piano Sonata No.8, Op.13",
+      "new_title_zh": "《C小调第八钢琴奏鸣曲“悲怆”，Op.13》",
+      "reason": "采用该奏鸣曲的通行调性与别名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《第八钢琴奏鸣曲，作品 13》"
+    },
+    {
+      "work_id": "1458",
+      "title_en": "Piano Sonata No.14, Op.27 No.2",
+      "new_title_zh": "《升C小调第十四钢琴奏鸣曲“月光”，Op.27 No.2》",
+      "reason": "采用该奏鸣曲的通行调性与别名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《钢琴奏鸣曲第 14 号，作品 27 第 2 号》"
+    },
+    {
+      "work_id": "1460",
+      "title_en": "Piano Sonata No.15, Op.28",
+      "new_title_zh": "《D大调第十五钢琴奏鸣曲“田园”，Op.28》",
+      "reason": "采用该奏鸣曲的通行调性与别名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《第十五钢琴奏鸣曲，作品 28》"
+    },
+    {
+      "work_id": "1586",
+      "title_en": "Symphony No.5, Op.67",
+      "new_title_zh": "《C小调第五交响曲“命运”，Op.67》",
+      "reason": "采用该交响曲的通行调性与别名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《第五交响曲，作品 67》"
+    },
+    {
+      "work_id": "1607",
+      "title_en": "Symphony No.9, Op.125",
+      "new_title_zh": "《D小调第九交响曲“合唱”，Op.125》",
+      "reason": "采用该交响曲的通行调性与别名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《第九交响曲，作品 125》"
+    },
+    {
+      "work_id": "1776",
+      "title_en": "Lyric Pieces, Op.12",
+      "new_title_zh": "《抒情小品，Op.12》",
+      "reason": "采用格里格曲集的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《抒情作品，作品 12》"
+    },
+    {
+      "work_id": "1953",
+      "title_en": "Piano Concerto No.2, Op.18",
+      "new_title_zh": "《C小调第二钢琴协奏曲，Op.18》",
+      "reason": "采用拉赫玛尼诺夫协奏曲的通行完整名称",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《第二钢琴协奏曲，作品 18》"
+    },
+    {
+      "work_id": "1969",
+      "title_en": "Études, Op.10",
+      "new_title_zh": "《十二首练习曲，Op.10》",
+      "reason": "采用肖邦练习曲集的规范通行名称",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《练习曲，作品 10》"
+    },
+    {
+      "work_id": "2066",
+      "title_en": "Moments musicaux, D.780",
+      "new_title_zh": "《音乐瞬间，D.780》",
+      "reason": "采用Moments musicaux的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《音乐时刻，D.780》"
+    },
+    {
+      "work_id": "2202",
+      "title_en": "Die schöne Müllerin, D.795",
+      "new_title_zh": "《美丽的磨坊女，D.795》",
+      "reason": "采用舒伯特声乐套曲的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《美丽的磨坊主的妻子，D.795》"
+    },
+    {
+      "work_id": "2203",
+      "title_en": "Winterreise, D.911",
+      "new_title_zh": "《冬之旅，D.911》",
+      "reason": "采用舒伯特声乐套曲的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《冬之旅，D.911》"
+    },
+    {
+      "work_id": "2204",
+      "title_en": "Schwanengesang, D.957",
+      "new_title_zh": "《天鹅之歌，D.957》",
+      "reason": "采用舒伯特声乐套曲的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《绝唱，D.957》"
+    },
+    {
+      "work_id": "2383",
+      "title_en": "2 Arabesques, CD 74",
+      "new_title_zh": "《两首阿拉伯风格曲，CD 74》",
+      "reason": "采用德彪西作品的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《2 阿拉伯式花纹，CD 74》"
+    },
+    {
+      "work_id": "2397",
+      "title_en": "Suite bergamasque, CD 82",
+      "new_title_zh": "《贝加莫组曲，CD 82》",
+      "reason": "采用Suite bergamasque的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《贝尔加玛斯克组曲，CD 82》"
+    },
+    {
+      "work_id": "2576",
+      "title_en": "Gaspard de la nuit, M.55",
+      "new_title_zh": "《夜之幽灵，M.55》",
+      "reason": "采用拉威尔钢琴套曲的大陆通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《夜晚的加斯帕，M.55》"
+    },
+    {
+      "work_id": "2592",
+      "title_en": "Consolations, S.172",
+      "new_title_zh": "《安慰曲，S.172》",
+      "reason": "采用李斯特钢琴曲集的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《安慰，S.172》"
+    },
+    {
+      "work_id": "2598",
+      "title_en": "Liebesträume, S.541",
+      "new_title_zh": "《爱之梦，S.541》",
+      "reason": "采用李斯特钢琴名作的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《爱的梦想，第 541 页》"
+    },
+    {
+      "work_id": "2671",
+      "title_en": "Lieder ohne Worte, Op.19b",
+      "new_title_zh": "《无词歌，Op.19b》",
+      "reason": "采用门德尔松钢琴曲集的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《无词歌，Op.19b》"
+    },
+    {
+      "work_id": "2707",
+      "title_en": "Album für die Jugend, Op.68",
+      "new_title_zh": "《少年曲集，Op.68》",
+      "reason": "采用舒曼钢琴曲集的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《少年曲集，作品68》"
+    },
+    {
+      "work_id": "2709",
+      "title_en": "Albumblätter, Op.124",
+      "new_title_zh": "《纪念册页，Op.124》",
+      "reason": "采用Albumblätter的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《专辑表，Op.124》"
+    },
+    {
+      "work_id": "2716",
+      "title_en": "The Seasons, Op.37a",
+      "new_title_zh": "《四季，Op.37a》",
+      "reason": "采用钢琴套曲的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《四季，Op.37a》"
+    },
+    {
+      "work_id": "2770",
+      "title_en": "Bunte Blätter, Op.99",
+      "new_title_zh": "《彩叶集，Op.99》",
+      "reason": "采用Bunte Blätter的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《七彩树叶，作品 99》"
+    },
+    {
+      "work_id": "2799",
+      "title_en": "Kinderszenen, Op.15",
+      "new_title_zh": "《童年情景，Op.15》",
+      "reason": "采用舒曼钢琴套曲的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《儿童节，作品 15》"
+    },
+    {
+      "work_id": "2827",
+      "title_en": "8 Novelletten, Op.21",
+      "new_title_zh": "《八首新事曲，Op.21》",
+      "reason": "采用Schumann Novelletten的通行中文体裁名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《8 篇中篇小说，作品 21》"
+    },
+    {
+      "work_id": "2924",
+      "title_en": "Fantasiestücke, Op.12",
+      "new_title_zh": "《幻想小品集，Op.12》",
+      "reason": "采用舒曼钢琴套曲的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《幻想曲集，作品12》"
+    },
+    {
+      "work_id": "2930",
+      "title_en": "Waldszenen, Op.82",
+      "new_title_zh": "《森林情景，Op.82》",
+      "reason": "采用舒曼钢琴套曲的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《森林情景，作品82》"
+    },
+    {
+      "work_id": "3071",
+      "title_en": "Die Ruinen von Athen, Op.113",
+      "new_title_zh": "《雅典的废墟，Op.113》",
+      "reason": "采用贝多芬戏剧配乐的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《雅典废墟，作品 113》"
+    },
+    {
+      "work_id": "3267",
+      "title_en": "15 Inventions, BWV 772-786",
+      "new_title_zh": "《十五首二部创意曲，BWV 772–786》",
+      "reason": "Invention在巴赫键盘作品中通行译为二部创意曲",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《15首二部创意曲，BWV 772—786》"
+    },
+    {
+      "work_id": "3577",
+      "title_en": "Pavane pour une infante défunte, M.19",
+      "new_title_zh": "《悼念公主的帕凡舞曲，M.19》",
+      "reason": "采用该作品的通行中文名，infante指公主而非婴儿",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《悼念公主的帕凡舞曲，M.19》"
+    },
+    {
+      "work_id": "3603",
+      "title_en": "Romeo and Juliet (overture-fantasia), TH 42",
+      "new_title_zh": "《罗密欧与朱丽叶幻想序曲，TH 42》",
+      "reason": "采用该作品的通行中文名称和体裁语序",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《罗密欧与朱丽叶（幻想曲序曲），TH 42》"
+    },
+    {
+      "work_id": "3779",
+      "title_en": "Mallorca, Op.202",
+      "new_title_zh": "《马略卡，Op.202》",
+      "reason": "采用阿尔贝尼斯作品的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《马略卡，Op.202》"
+    },
+    {
+      "work_id": "3855",
+      "title_en": "12 Danzas españolas",
+      "new_title_zh": "《十二首西班牙舞曲》",
+      "reason": "采用格拉纳多斯钢琴套曲的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《十二首西班牙舞曲》"
+    },
+    {
+      "work_id": "3880",
+      "title_en": "Violin Sonata No.9, Op.47",
+      "new_title_zh": "《A大调第九小提琴奏鸣曲“克莱采”，Op.47》",
+      "reason": "采用该奏鸣曲的通行调性与别名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《第九小提琴奏鸣曲，作品 47》"
+    },
+    {
+      "work_id": "4215",
+      "title_en": "3 Gymnopédies",
+      "new_title_zh": "《三首裸体歌舞》",
+      "reason": "采用萨蒂Gymnopédies的大陆常见译名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《3 裸露医学》"
+    },
+    {
+      "work_id": "4292",
+      "title_en": "6 Violin Sonatas and Partitas, BWV 1001-1006",
+      "new_title_zh": "《六首无伴奏小提琴奏鸣曲与组曲，BWV 1001–1006》",
+      "reason": "采用巴赫无伴奏小提琴作品集通行名称",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《小提琴无伴奏奏鸣曲与组曲，BWV 1001—1006》"
+    },
+    {
+      "work_id": "5008",
+      "title_en": "Danse macabre, Op.40",
+      "new_title_zh": "《骷髅之舞，Op.40》",
+      "reason": "采用圣-桑交响诗的大陆通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《恐怖之舞，作品 40》"
+    },
+    {
+      "work_id": "5059",
+      "title_en": "Die Hebriden, Op.26",
+      "new_title_zh": "《赫布里底群岛序曲，Op.26》",
+      "reason": "采用该音乐会序曲的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《赫布里底群岛，作品 26》"
+    },
+    {
+      "work_id": "5176",
+      "title_en": "Eine kleine Nachtmusik, K.525",
+      "new_title_zh": "《G大调弦乐小夜曲，K.525》",
+      "reason": "采用作品的大陆通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《G大调弦乐小夜曲，K.525》"
+    },
+    {
+      "work_id": "5355",
+      "title_en": "Lieder ohne Worte",
+      "new_title_zh": "《无词歌》",
+      "reason": "采用门德尔松钢琴曲集的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《无词歌曲》"
+    },
+    {
+      "work_id": "5477",
+      "title_en": "Symphony No.8, D.759",
+      "new_title_zh": "《B小调第八交响曲“未完成”，D.759》",
+      "reason": "采用该交响曲的通行调性与别名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《第八交响曲，D.759》"
+    },
+    {
+      "work_id": "5983",
+      "title_en": "3 Sonatas for Viola da Gamba and Harpsichord, BWV 1027-1029",
+      "new_title_zh": "《三首维奥尔琴与羽管键琴奏鸣曲，BWV 1027–1029》",
+      "reason": "采用该组奏鸣曲的通行编制名称",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《3首维奥尔琴与羽管键琴奏鸣曲，BWV 1027–1029》"
+    },
+    {
+      "work_id": "6107",
+      "title_en": "Notebooks for Anna Magdalena Bach",
+      "new_title_zh": "《安娜·玛格达莱娜·巴赫音乐笔记本》",
+      "reason": "采用该著名曲集的通行中文名称",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《安娜·玛格达莱娜·巴赫的笔记本》"
+    },
+    {
+      "work_id": "6198",
+      "title_en": "Sonatine bureaucratique",
+      "new_title_zh": "《官僚小奏鸣曲》",
+      "reason": "采用Sonatine bureaucratique的通行体裁译名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《官僚奏鸣曲》"
+    },
+    {
+      "work_id": "7234",
+      "title_en": "Guillaume Tell",
+      "new_title_zh": "《威廉·退尔》",
+      "reason": "采用罗西尼歌剧的大陆通行译名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《纪尧姆·泰尔》"
+    },
+    {
+      "work_id": "7337",
+      "title_en": "Iberia",
+      "new_title_zh": "《伊比利亚组曲》",
+      "reason": "采用阿尔贝尼斯钢琴套曲的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《伊比利亚》"
+    },
+    {
+      "work_id": "7506",
+      "title_en": "Gnossiennes",
+      "new_title_zh": "《玄秘曲集》",
+      "reason": "采用萨蒂Gnossiennes的大陆常见译名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《诺斯教徒》"
+    },
+    {
+      "work_id": "7948",
+      "title_en": "Symphony No.104 in D major, Hob.I:104",
+      "new_title_zh": "《D大调第104交响曲“伦敦”，Hob.I:104》",
+      "reason": "采用海顿交响曲的通行别名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《D大调第104号交响曲，Hob.I:104》"
+    },
+    {
+      "work_id": "8586",
+      "title_en": "The Nutcracker (ballet), Op.71",
+      "new_title_zh": "《胡桃夹子，Op.71》",
+      "reason": "采用芭蕾舞剧通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《胡桃夹子（芭蕾舞），作品 71》"
+    },
+    {
+      "work_id": "8871",
+      "title_en": "L'Arlésienne",
+      "new_title_zh": "《阿莱城姑娘》",
+      "reason": "采用比才戏剧配乐的大陆通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《阿尔勒西亚人》"
+    },
+    {
+      "work_id": "10472",
+      "title_en": "Dolly Suite, Op.56",
+      "new_title_zh": "《洋娃娃组曲，Op.56》",
+      "reason": "采用福雷作品的大陆通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《洋娃娃组曲，Op.56》"
+    },
+    {
+      "work_id": "11106",
+      "title_en": "Abschied, S.251",
+      "new_title_zh": "《告别，S.251》",
+      "reason": "采用李斯特作品通行译名并纠正目录号",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《再见，第 251 页》"
+    },
+    {
+      "work_id": "11146",
+      "title_en": "Am Grabe Richard Wagners, S.135",
+      "new_title_zh": "《在理查德·瓦格纳墓前，S.135》",
+      "reason": "采用作品标题的通行中文译法",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《Am Grabe 理查德·瓦格纳斯，S.135》"
+    },
+    {
+      "work_id": "13663",
+      "title_en": "Partita in A minor, BWV 1013",
+      "new_title_zh": "《A小调无伴奏长笛组曲，BWV 1013》",
+      "reason": "采用该长笛名作的通行中文名称",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《A小调比赛，BWV 1013》"
+    },
+    {
+      "work_id": "14377",
+      "title_en": "Für Elise, WoO 59",
+      "new_title_zh": "《致爱丽丝，WoO 59》",
+      "reason": "采用作品最通行的大陆中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《献给伊莉丝，WoO 59》"
+    },
+    {
+      "work_id": "14944",
+      "title_en": "Vocalise-étude en forme de habanera, M.51",
+      "new_title_zh": "《哈巴涅拉式声乐练习曲，M.51》",
+      "reason": "采用该声乐练习曲的通行中文表述",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《哈瓦那形状的发声练习曲，M.51》"
+    },
+    {
+      "work_id": "16223",
+      "title_en": "La traviata",
+      "new_title_zh": "《茶花女》",
+      "reason": "采用威尔第歌剧的大陆通行译名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《任性的那个》"
+    },
+    {
+      "work_id": "17351",
+      "title_en": "Aïda",
+      "new_title_zh": "《阿依达》",
+      "reason": "采用威尔第歌剧的大陆通行译名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《阿伊达》"
+    },
+    {
+      "work_id": "18079",
+      "title_en": "A Midsummer Night's Dream, incidental music, Op.61",
+      "new_title_zh": "《仲夏夜之梦配乐，Op.61》",
+      "reason": "采用门德尔松戏剧配乐的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《〈仲夏夜之梦〉戏剧配乐，作品61》"
+    },
+    {
+      "work_id": "18921",
+      "title_en": "La gazza ladra",
+      "new_title_zh": "《贼鹊》",
+      "reason": "采用罗西尼歌剧的大陆通行译名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《喜鹊》"
+    },
+    {
+      "work_id": "18979",
+      "title_en": "Symphony No.4, Op.90",
+      "new_title_zh": "《A大调第四交响曲“意大利”，Op.90》",
+      "reason": "采用该交响曲的通行调性与别名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《第四交响曲，作品 90》"
+    },
+    {
+      "work_id": "19397",
+      "title_en": "Souvenir de Hapsal, Op.2",
+      "new_title_zh": "《哈普萨尔的回忆，Op.2》",
+      "reason": "采用Souvenir de Hapsal的通行中文译名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《哈普萨尔纪念品，作品 2》"
+    },
+    {
+      "work_id": "19418",
+      "title_en": "Children's Album, Op.39",
+      "new_title_zh": "《儿童曲集，Op.39》",
+      "reason": "采用该钢琴曲集的大陆通行名称",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《儿童曲集，作品39》"
+    },
+    {
+      "work_id": "19801",
+      "title_en": "Sports et divertissements",
+      "new_title_zh": "《体育与嬉戏》",
+      "reason": "采用萨蒂钢琴套曲的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《体育及娱乐》"
+    },
+    {
+      "work_id": "20764",
+      "title_en": "Sicilienne, Op.78",
+      "new_title_zh": "《西西里舞曲，Op.78》",
+      "reason": "采用福雷作品的通行中文体裁名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《西西里岛，作品 78》"
+    },
+    {
+      "work_id": "21461",
+      "title_en": "8 Valses poeticos",
+      "new_title_zh": "《诗意圆舞曲》",
+      "reason": "采用格拉纳多斯作品的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《8首富有诗意的华尔兹》"
+    },
+    {
+      "work_id": "22848",
+      "title_en": "8 Humoresques, Op.101",
+      "new_title_zh": "《八首幽默曲，Op.101》",
+      "reason": "采用德沃夏克作品的通行中文体裁名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《8 首幽默诗，作品 101》"
+    },
+    {
+      "work_id": "24146",
+      "title_en": "Beau soir, CD 84",
+      "new_title_zh": "《美丽的黄昏，CD 84》",
+      "reason": "采用Beau soir的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《美丽的夜晚，CD 84》"
+    },
+    {
+      "work_id": "28016",
+      "title_en": "Syrinx, CD 137",
+      "new_title_zh": "《绪任克斯，CD 137》",
+      "reason": "采用德彪西长笛名作的通行音译",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《西林克斯，CD 137》"
+    },
+    {
+      "work_id": "29252",
+      "title_en": "Mosè-fantasia, MS 23",
+      "new_title_zh": "《摩西主题幻想曲，MS 23》",
+      "reason": "采用帕格尼尼名作的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《摩西幻想曲，MS 23》"
+    },
+    {
+      "work_id": "29257",
+      "title_en": "Gloria in D major, RV 589",
+      "new_title_zh": "《D大调荣耀颂，RV 589》",
+      "reason": "Gloria在宗教音乐中通行译为荣耀颂",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《D大调格洛丽亚，RV 589》"
+    },
+    {
+      "work_id": "29660",
+      "title_en": "Chaconne in G major, HWV 435",
+      "new_title_zh": "《G大调恰空，HWV 435》",
+      "reason": "Chaconne通行译为恰空而非查空",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《G大调恰空舞曲，HWV 435》"
+    },
+    {
+      "work_id": "32897",
+      "title_en": "L'italiana in Algeri",
+      "new_title_zh": "《阿尔及尔的意大利女郎》",
+      "reason": "采用罗西尼歌剧的大陆通行译名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《阿尔及利亚意大利语》"
+    },
+    {
+      "work_id": "39828",
+      "title_en": "Arpeggione Sonata, D.821",
+      "new_title_zh": "《阿佩乔尼奏鸣曲，D.821》",
+      "reason": "采用该奏鸣曲的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《琶音奏鸣曲，D.821》"
+    },
+    {
+      "work_id": "39838",
+      "title_en": "La clemenza di Tito, K.621",
+      "new_title_zh": "《狄托的仁慈，K.621》",
+      "reason": "采用歌剧的大陆通行译名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《铁托的仁慈，K.621》"
+    },
+    {
+      "work_id": "47421",
+      "title_en": "Rossiniana No.1, Op.119",
+      "new_title_zh": "《第一罗西尼亚纳，Op.119》",
+      "reason": "采用朱利亚尼作品系列的通行音译",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《罗西尼亚第一号，作品 119》"
+    },
+    {
+      "work_id": "48525",
+      "title_en": "Semiramide",
+      "new_title_zh": "《塞米拉米德》",
+      "reason": "采用罗西尼歌剧的大陆通行译名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《塞米勒米斯》"
+    },
+    {
+      "work_id": "50378",
+      "title_en": "La bohème, SC 67",
+      "new_title_zh": "《艺术家的生涯，SC 67》",
+      "reason": "采用普契尼歌剧的大陆通行译名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《波西米亚，SC 67》"
+    },
+    {
+      "work_id": "54762",
+      "title_en": "Capricho árabe",
+      "new_title_zh": "《阿拉伯风格绮想曲》",
+      "reason": "采用塔雷加名作的大陆吉他界通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《阿拉伯随想曲》"
+    },
+    {
+      "work_id": "54775",
+      "title_en": "El Ratón Tango",
+      "new_title_zh": "《老鼠探戈》",
+      "reason": "采用El Ratón Tango的通行自然译名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《探戈鼠标》"
+    },
+    {
+      "work_id": "55775",
+      "title_en": "12 Variations on 'Ah, vous dirai-je maman', K.265/300e",
+      "new_title_zh": "《小星星变奏曲，K.265/300e》",
+      "reason": "采用该组变奏曲最通行的中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《小星星变奏曲，K.265/300e》"
+    },
+    {
+      "work_id": "60082",
+      "title_en": "Gianni Schicchi, SC 88",
+      "new_title_zh": "《贾尼·斯基基，SC 88》",
+      "reason": "采用普契尼歌剧的大陆通行译名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《詹尼·斯基基，SC 88》"
+    },
+    {
+      "work_id": "80911",
+      "title_en": "Chôros No.1, W161",
+      "new_title_zh": "《第一号肖罗曲，W161》",
+      "reason": "Chôros在维拉-洛博斯作品中通行音译为肖罗曲",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《肖罗曲第1号，W161》"
+    },
+    {
+      "work_id": "92189",
+      "title_en": "Sonata concertata, MS 2",
+      "new_title_zh": "《协奏奏鸣曲，MS 2》",
+      "reason": "采用Sonata concertata的通行中文体裁名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《奏鸣曲协奏曲，MS 2》"
+    },
+    {
+      "work_id": "95951",
+      "title_en": "Gran vals",
+      "new_title_zh": "《大圆舞曲》",
+      "reason": "采用Gran vals的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《格兰瓦尔斯》"
+    },
+    {
+      "work_id": "97602",
+      "title_en": "Introduction and Variations on a Theme by Mozart, Op.9",
+      "new_title_zh": "《〈魔笛〉主题引子与变奏，Op.9》",
+      "reason": "采用索尔吉他名作的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《莫扎特主题引子与变奏，作品 9》"
+    },
+    {
+      "work_id": "110992",
+      "title_en": "Pepita",
+      "new_title_zh": "《佩皮塔》",
+      "reason": "Pepita是女性昵称，采用通行音译",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《金块》"
+    },
+    {
+      "work_id": "126435",
+      "title_en": "Violin Concerto in F minor, RV 297",
+      "new_title_zh": "《F小调小提琴协奏曲“冬”，RV 297》",
+      "reason": "采用四季中冬的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《F小调小提琴协奏曲，RV 297》"
+    },
+    {
+      "work_id": "149924",
+      "title_en": "Wachet auf, ruft uns die Stimme, BWV 140",
+      "new_title_zh": "《醒来吧，守望的声音呼唤，BWV 140》",
+      "reason": "采用该康塔塔的通行中文名称",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《醒来吧，呼唤声响起，BWV 140》"
+    },
+    {
+      "work_id": "153090",
+      "title_en": "Toccata and Fugue in D minor, BWV 565",
+      "new_title_zh": "《D小调托卡塔与赋格，BWV 565》",
+      "reason": "补全该名作通行名称中的BWV目录号",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《D小调托卡塔与赋格，BWV》"
+    },
+    {
+      "work_id": "180063",
+      "title_en": "Les petits riens, K.Anh.10/299b",
+      "new_title_zh": "《小玩意，K.Anh.10/299b》",
+      "reason": "采用该芭蕾音乐较通行的中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《小玩意，K.Anh.10/299b》"
+    },
+    {
+      "work_id": "185544",
+      "title_en": "Shéhérazade, M.41",
+      "new_title_zh": "《舍赫拉查德，M.41》",
+      "reason": "采用拉威尔声乐套曲的通行音译",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《山鲁佐德，M.41》"
+    },
+    {
+      "work_id": "224198",
+      "title_en": "12 Estudos, W235",
+      "new_title_zh": "《十二首练习曲，W235》",
+      "reason": "采用维拉-洛博斯吉他练习曲集的通行名称",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《12首练习曲，W235》"
+    },
+    {
+      "work_id": "237520",
+      "title_en": "Concerto for 2 Mandolins in G major, RV 532",
+      "new_title_zh": "《G大调双曼陀林协奏曲，RV 532》",
+      "reason": "采用该协奏曲的通行编制名称",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《G大调双曼陀林协奏曲，RV 532》"
+    },
+    {
+      "work_id": "340750",
+      "title_en": "Lágrima",
+      "new_title_zh": "《泪》",
+      "reason": "采用塔雷加名作Lágrima的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《泪珠》"
+    },
+    {
+      "work_id": "444038",
+      "title_en": "Preludes, W419",
+      "new_title_zh": "《五首前奏曲，W419》",
+      "reason": "采用维拉-洛博斯吉他前奏曲集的通行名称",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《前奏曲，W419》"
+    },
+    {
+      "work_id": "475289",
+      "title_en": "Endecha y Oremus",
+      "new_title_zh": "《挽歌与祈祷》",
+      "reason": "采用Endecha y Oremus的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《恩德查·奥雷穆斯》"
+    },
+    {
+      "work_id": "527260",
+      "title_en": "Suite populaire brésilienne, W020",
+      "new_title_zh": "《巴西民间组曲，W020》",
+      "reason": "采用Suite populaire brésilienne的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《流行的巴西组曲，W020》"
+    },
+    {
+      "work_id": "570485",
+      "title_en": "5 Lyric Pieces",
+      "new_title_zh": "《五首抒情小品》",
+      "reason": "采用格里格Lyric Pieces的通行中文名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《五首抒情小品》"
+    },
+    {
+      "work_id": "654743",
+      "title_en": "Rossiniana No.2, Op.120",
+      "new_title_zh": "《第二罗西尼亚纳，Op.120》",
+      "reason": "采用朱利亚尼作品系列的通行音译",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《罗西尼亚No.2，作品120》"
+    },
+    {
+      "work_id": "654747",
+      "title_en": "Rossiniana No.3, Op.121",
+      "new_title_zh": "《第三罗西尼亚纳，Op.121》",
+      "reason": "采用朱利亚尼作品系列的通行音译",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《罗西尼亚No.3，作品121》"
+    },
+    {
+      "work_id": "696485",
+      "title_en": "Pavana",
+      "new_title_zh": "《帕凡舞曲》",
+      "reason": "采用Pavana的通行音乐体裁译名",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《帕凡舞曲》"
+    },
+    {
+      "work_id": "738086",
+      "title_en": "Invention in C major, BWV 772",
+      "new_title_zh": "《C大调二部创意曲，BWV 772》",
+      "reason": "Invention在巴赫作品中通行译为二部创意曲",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《C大调二部创意曲，BWV 772》"
+    },
+    {
+      "work_id": "738237",
+      "title_en": "Invention in D major, BWV 774",
+      "new_title_zh": "《D大调二部创意曲，BWV 774》",
+      "reason": "Invention在巴赫作品中通行译为二部创意曲",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《D大调发明，BWV 774》"
+    },
+    {
+      "work_id": "746479",
+      "title_en": "Canon in D major, BWV 1086",
+      "new_title_zh": "《D大调卡农，BWV 1086》",
+      "reason": "Canon通行译为卡农而非佳能",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《D大调佳能，BWV 1086》"
+    },
+    {
+      "work_id": "752445",
+      "title_en": "Rossiniana No.4, Op.122",
+      "new_title_zh": "《第四罗西尼亚纳，Op.122》",
+      "reason": "采用朱利亚尼作品系列的通行音译",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《罗西尼亚No.4，作品122》"
+    },
+    {
+      "work_id": "753052",
+      "title_en": "Rossiniana No.5, Op.123",
+      "new_title_zh": "《第五罗西尼亚纳，Op.123》",
+      "reason": "采用朱利亚尼作品系列的通行音译",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《罗西尼亚舞曲 No.5, Op.123》"
+    },
+    {
+      "work_id": "753525",
+      "title_en": "Rossiniana No.6, Op.124",
+      "new_title_zh": "《第六罗西尼亚纳，Op.124》",
+      "reason": "采用朱利亚尼作品系列的通行音译",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《罗西尼亚舞曲 No.6, Op.124》"
+    },
+    {
+      "work_id": "807106",
+      "title_en": "Invention in D minor, BWV 775",
+      "new_title_zh": "《D小调二部创意曲，BWV 775》",
+      "reason": "Invention在巴赫作品中通行译为二部创意曲",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《D小调发明，BWV 775》"
+    },
+    {
+      "work_id": "807120",
+      "title_en": "Invention in E minor, BWV 778",
+      "new_title_zh": "《E小调二部创意曲，BWV 778》",
+      "reason": "Invention在巴赫作品中通行译为二部创意曲",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《E小调二部创意曲，BWV 778》"
+    },
+    {
+      "work_id": "807121",
+      "title_en": "Invention in F major, BWV 779",
+      "new_title_zh": "《F大调二部创意曲，BWV 779》",
+      "reason": "Invention在巴赫作品中通行译为二部创意曲",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《F大调发明，BWV 779》"
+    },
+    {
+      "work_id": "807126",
+      "title_en": "Invention in F minor, BWV 780",
+      "new_title_zh": "《F小调二部创意曲，BWV 780》",
+      "reason": "Invention在巴赫作品中通行译为二部创意曲",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《F小调发明，BWV 780》"
+    },
+    {
+      "work_id": "807128",
+      "title_en": "Invention in G major, BWV 781",
+      "new_title_zh": "《G大调二部创意曲，BWV 781》",
+      "reason": "Invention在巴赫作品中通行译为二部创意曲",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《G大调二部创意曲，BWV 781》"
+    },
+    {
+      "work_id": "807140",
+      "title_en": "Invention in A minor, BWV 784",
+      "new_title_zh": "《A小调二部创意曲，BWV 784》",
+      "reason": "Invention在巴赫作品中通行译为二部创意曲",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《A小调发明，BWV 784》"
+    },
+    {
+      "work_id": "807146",
+      "title_en": "Invention in B minor, BWV 786",
+      "new_title_zh": "《B小调二部创意曲，BWV 786》",
+      "reason": "Invention在巴赫作品中通行译为二部创意曲",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《B小调发明，BWV 786》"
+    },
+    {
+      "work_id": "808961",
+      "title_en": "Sinfonia in C major, BWV 787",
+      "new_title_zh": "《C大调三部创意曲，BWV 787》",
+      "reason": "Sinfonia在巴赫键盘作品中通行译为三部创意曲",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《C大调三部创意曲，BWV 787》"
+    },
+    {
+      "work_id": "808963",
+      "title_en": "Sinfonia in C minor, BWV 788",
+      "new_title_zh": "《C小调三部创意曲，BWV 788》",
+      "reason": "Sinfonia在巴赫键盘作品中通行译为三部创意曲",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《C小调三部创意曲，BWV 788》"
+    },
+    {
+      "work_id": "808964",
+      "title_en": "Sinfonia in D major, BWV 789",
+      "new_title_zh": "《D大调三部创意曲，BWV 789》",
+      "reason": "Sinfonia在巴赫键盘作品中通行译为三部创意曲",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《D大调三部创意曲，BWV 789》"
+    },
+    {
+      "work_id": "808966",
+      "title_en": "Sinfonia in D minor, BWV 790",
+      "new_title_zh": "《D小调三部创意曲，BWV 790》",
+      "reason": "Sinfonia在巴赫键盘作品中通行译为三部创意曲",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《D小调三部创意曲，BWV 790》"
+    },
+    {
+      "work_id": "808968",
+      "title_en": "Sinfonia in E major, BWV 792",
+      "new_title_zh": "《E大调三部创意曲，BWV 792》",
+      "reason": "Sinfonia在巴赫键盘作品中通行译为三部创意曲",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《E大调三部创意曲，BWV 792》"
+    },
+    {
+      "work_id": "808974",
+      "title_en": "Sinfonia in E minor, BWV 793",
+      "new_title_zh": "《E小调三部创意曲，BWV 793》",
+      "reason": "Sinfonia在巴赫键盘作品中通行译为三部创意曲",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《E小调三部创意曲，BWV 793》"
+    },
+    {
+      "work_id": "808988",
+      "title_en": "Sinfonia in F major, BWV 794",
+      "new_title_zh": "《F大调三部创意曲，BWV 794》",
+      "reason": "Sinfonia在巴赫键盘作品中通行译为三部创意曲",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《F大调三部创意曲，BWV 794》"
+    },
+    {
+      "work_id": "808990",
+      "title_en": "Sinfonia in G major, BWV 796",
+      "new_title_zh": "《G大调三部创意曲，BWV 796》",
+      "reason": "Sinfonia在巴赫键盘作品中通行译为三部创意曲",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《G大调三部创意曲，BWV 796》"
+    },
+    {
+      "work_id": "808991",
+      "title_en": "Sinfonia in G minor, BWV 797",
+      "new_title_zh": "《G小调三部创意曲，BWV 797》",
+      "reason": "Sinfonia在巴赫键盘作品中通行译为三部创意曲",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《G小调三部创意曲，BWV 797》"
+    },
+    {
+      "work_id": "808993",
+      "title_en": "Sinfonia in A major, BWV 798",
+      "new_title_zh": "《A大调三部创意曲，BWV 798》",
+      "reason": "Sinfonia在巴赫键盘作品中通行译为三部创意曲",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《A大调三部创意曲，BWV 798》"
+    },
+    {
+      "work_id": "808995",
+      "title_en": "Sinfonia in A minor, BWV 799",
+      "new_title_zh": "《A小调三部创意曲，BWV 799》",
+      "reason": "Sinfonia在巴赫键盘作品中通行译为三部创意曲",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《A小调三部创意曲，BWV 799》"
+    },
+    {
+      "work_id": "808996",
+      "title_en": "Sinfonia in B-flat major, BWV 800",
+      "new_title_zh": "《降B大调三部创意曲，BWV 800》",
+      "reason": "Sinfonia在巴赫键盘作品中通行译为三部创意曲",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《降B大调三部创意曲，BWV 800》"
+    },
+    {
+      "work_id": "808999",
+      "title_en": "Sinfonia in B minor, BWV 801",
+      "new_title_zh": "《B小调三部创意曲，BWV 801》",
+      "reason": "Sinfonia在巴赫键盘作品中通行译为三部创意曲",
+      "basis": "common_name",
+      "source_refs": [],
+      "current_title_zh": "《B小调三部创意曲，BWV 801》"
+    }
+  ]
+}

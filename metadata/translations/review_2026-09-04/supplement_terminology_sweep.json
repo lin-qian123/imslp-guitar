@@ -1,0 +1,1347 @@
+{
+  "schema_version": 1,
+  "reviewer": "title_review_terminology_sweep",
+  "entries": [
+    {
+      "work_id": "4215",
+      "title_en": "3 Gymnopédies",
+      "current_title_zh": "《三首裸体歌舞》",
+      "new_title_zh": "《三首裸体舞曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "17206",
+      "title_en": "Sonatina for Mandolin and Harpsichord, WoO 43a",
+      "current_title_zh": "《曼陀林和大键琴奏鸣曲，WoO 43a》",
+      "new_title_zh": "《曼陀林和大键琴小奏鸣曲，WoO 43a》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "23730",
+      "title_en": "Piano Sonatina in C major, Op.5",
+      "current_title_zh": "《C大调钢琴奏鸣曲，作品5》",
+      "new_title_zh": "《C大调钢琴小奏鸣曲，作品5》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "51399",
+      "title_en": "6 Duos for 2 Cellos, Op.156",
+      "current_title_zh": "《2把大提琴的6重奏，作品156》",
+      "new_title_zh": "《六首双大提琴二重奏，作品156》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "57864",
+      "title_en": "Petit boléro, Op.62",
+      "current_title_zh": "《小短上衣，Op.62》",
+      "new_title_zh": "《小波莱罗舞曲，Op.62》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "61209",
+      "title_en": "Ricercari per organo",
+      "current_title_zh": "《风琴米饭》",
+      "new_title_zh": "《管风琴利切尔卡尔集》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "70253",
+      "title_en": "2 Quadrilles and Country Dances, Op.3",
+      "current_title_zh": "《2 四方舞和乡村舞曲，作品 3》",
+      "new_title_zh": "《两首四对舞曲与乡村舞曲，作品3》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "89252",
+      "title_en": "24 Études for Guitar",
+      "current_title_zh": "《24 吉他习作》",
+      "new_title_zh": "《二十四首吉他练习曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "93704",
+      "title_en": "Guitar Sonatina No.1",
+      "current_title_zh": "《吉他奏鸣曲第一号》",
+      "new_title_zh": "《吉他小奏鸣曲第一号》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "94996",
+      "title_en": "Duo No.9",
+      "current_title_zh": "《二人组9号》",
+      "new_title_zh": "《第九号二重奏》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "95038",
+      "title_en": "Marsch",
+      "current_title_zh": "《行进》",
+      "new_title_zh": "《进行曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "95108",
+      "title_en": "Duo No.7",
+      "current_title_zh": "《二人组7号》",
+      "new_title_zh": "《第七号二重奏》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "95253",
+      "title_en": "Duo No.3",
+      "current_title_zh": "《二人组3号》",
+      "new_title_zh": "《第三号二重奏》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "111071",
+      "title_en": "Minueto",
+      "current_title_zh": "《米努埃托》",
+      "new_title_zh": "《小步舞曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "113652",
+      "title_en": "Ouverture-Suite, TWV 55:h1",
+      "current_title_zh": "《序曲-续，TWV 55:h1》",
+      "new_title_zh": "《序曲组曲，TWV 55:h1》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "121008",
+      "title_en": "6 Duos for Violin and Cello, B.501-506",
+      "current_title_zh": "《小提琴和大提琴六重奏，B.501-506》",
+      "new_title_zh": "《六首小提琴与大提琴二重奏，B.501—506》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "122405",
+      "title_en": "3 Duos for 2 Cellos, Op.22",
+      "current_title_zh": "《2 大提琴 3 重奏，Op.22》",
+      "new_title_zh": "《三首双大提琴二重奏，Op.22》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "127123",
+      "title_en": "Sonatina for Guitar solo",
+      "current_title_zh": "《吉他独奏奏鸣曲》",
+      "new_title_zh": "《吉他独奏小奏鸣曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "135845",
+      "title_en": "Variations on Deh! calma oh ciel from 'Othello', Op.101",
+      "current_title_zh": "《Deh 的变体！平静的天空，选自〈奥赛罗〉，Op.101》",
+      "new_title_zh": "《歌剧〈奥赛罗〉中〈啊，平静吧，苍天〉主题变奏曲，Op.101》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "141963",
+      "title_en": "La prova di un’opera seria",
+      "current_title_zh": "《认真工作的证据》",
+      "new_title_zh": "《正歌剧的考验》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "154816",
+      "title_en": "Fuga prima",
+      "current_title_zh": "《先逃走》",
+      "new_title_zh": "《第一赋格曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "174229",
+      "title_en": "Sonatina",
+      "current_title_zh": "《奏鸣曲》",
+      "new_title_zh": "《小奏鸣曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "208643",
+      "title_en": "Sonatina 1942",
+      "current_title_zh": "《奏鸣曲 1942》",
+      "new_title_zh": "《小奏鸣曲 1942》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "210393",
+      "title_en": "Lullaby",
+      "current_title_zh": "《催眠曲》",
+      "new_title_zh": "《摇篮曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "249531",
+      "title_en": "Canzonetta in A minor, BuxWV 225",
+      "current_title_zh": "《A小调小调，BuxWV 225》",
+      "new_title_zh": "《A小调坎佐内塔，BuxWV 225》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "254169",
+      "title_en": "Keyboard Sonatina in G minor, HWV 583",
+      "current_title_zh": "《G小调键盘奏鸣曲，HWV 583》",
+      "new_title_zh": "《G小调键盘小奏鸣曲，HWV 583》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "271740",
+      "title_en": "Guitar Sonatina, Op.66",
+      "current_title_zh": "《吉他奏鸣曲，作品 66》",
+      "new_title_zh": "《吉他小奏鸣曲，作品 66》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "285842",
+      "title_en": "Fantasía",
+      "current_title_zh": "《想要》",
+      "new_title_zh": "《幻想曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "290640",
+      "title_en": "Sonatina for Mandolin and Harpsichord, WoO 44a",
+      "current_title_zh": "《曼陀林和大键琴奏鸣曲，WoO 44a》",
+      "new_title_zh": "《曼陀林和大键琴小奏鸣曲，WoO 44a》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "299351",
+      "title_en": "Chaconne in F minor, P.43",
+      "current_title_zh": "《F小调查空舞曲，P.43》",
+      "new_title_zh": "《F小调恰空舞曲，P.43》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "306688",
+      "title_en": "Colascione Sonatina",
+      "current_title_zh": "《科拉西奥奏鸣曲》",
+      "new_title_zh": "《科拉西奥小奏鸣曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "320124",
+      "title_en": "Arie",
+      "current_title_zh": "《阿里》",
+      "new_title_zh": "《咏叹调》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "370395",
+      "title_en": "3 Duos for 2 Violins, Op.116",
+      "current_title_zh": "《2把小提琴的3重奏，作品116》",
+      "new_title_zh": "《三首双小提琴二重奏，作品116》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "375847",
+      "title_en": "Fuga Tertia",
+      "current_title_zh": "《三号航班》",
+      "new_title_zh": "《第三赋格曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "395247",
+      "title_en": "Contradanza",
+      "current_title_zh": "《对比度》",
+      "new_title_zh": "《对舞曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "397990",
+      "title_en": "Guitar Sonatina in A minor",
+      "current_title_zh": "《A小调吉他奏鸣曲》",
+      "new_title_zh": "《A小调吉他小奏鸣曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "412443",
+      "title_en": "Valse",
+      "current_title_zh": "《错误的》",
+      "new_title_zh": "《圆舞曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "416399",
+      "title_en": "The Joke Tarantella",
+      "current_title_zh": "《塔兰泰拉笑话》",
+      "new_title_zh": "《诙谐塔兰泰拉舞曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "428354",
+      "title_en": "Guitar Sonatina, Op.48",
+      "current_title_zh": "《吉他奏鸣曲，作品 48》",
+      "new_title_zh": "《吉他小奏鸣曲，作品 48》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "439710",
+      "title_en": "Ricercar in G minor, Op.3 No.1",
+      "current_title_zh": "《G小调里瑟卡，作品 3 第1号》",
+      "new_title_zh": "《G小调利切尔卡尔，作品3第1号》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "448526",
+      "title_en": "Guitar Sonatina, Op.25",
+      "current_title_zh": "《吉他奏鸣曲，作品 25》",
+      "new_title_zh": "《吉他小奏鸣曲，作品 25》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "448528",
+      "title_en": "Guitar Sonatina, Op.28",
+      "current_title_zh": "《吉他奏鸣曲，作品 28》",
+      "new_title_zh": "《吉他小奏鸣曲，作品 28》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "448532",
+      "title_en": "Guitar Sonatina, Op.45",
+      "current_title_zh": "《吉他奏鸣曲，作品 45》",
+      "new_title_zh": "《吉他小奏鸣曲，作品 45》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "448534",
+      "title_en": "Guitar Sonatina, Op.46",
+      "current_title_zh": "《吉他奏鸣曲，作品 46》",
+      "new_title_zh": "《吉他小奏鸣曲，作品 46》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "450056",
+      "title_en": "Humoresque",
+      "current_title_zh": "《幽默》",
+      "new_title_zh": "《幽默曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "466054",
+      "title_en": "Opera nova de balli",
+      "current_title_zh": "《新舞剧》",
+      "new_title_zh": "《新舞曲集》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "480919",
+      "title_en": "Keyboard Sonatina in A minor, HWV 584",
+      "current_title_zh": "《A小调键盘奏鸣曲，HWV 584》",
+      "new_title_zh": "《A小调键盘小奏鸣曲，HWV 584》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "481318",
+      "title_en": "Keyboard Sonatina in G major, HWV 582",
+      "current_title_zh": "《G大调键盘奏鸣曲，HWV 582》",
+      "new_title_zh": "《G大调键盘小奏鸣曲，HWV 582》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "481322",
+      "title_en": "Keyboard Sonatina in B-flat major, HWV 585",
+      "current_title_zh": "《降B大调键盘奏鸣曲，HWV 585》",
+      "new_title_zh": "《降B大调键盘小奏鸣曲，HWV 585》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "530254",
+      "title_en": "Bourrée in B minor",
+      "current_title_zh": "《B小调布瑞》",
+      "new_title_zh": "《B小调布列舞曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "554569",
+      "title_en": "Varii scherzi di sonate, Libro 4",
+      "current_title_zh": "《各种奏鸣曲笑话，第 4 册》",
+      "new_title_zh": "《多首奏鸣嬉游曲，第四册》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "559465",
+      "title_en": "Guitar Sonatina in D major, Op.21",
+      "current_title_zh": "《D大调吉他奏鸣曲，作品21》",
+      "new_title_zh": "《D大调吉他小奏鸣曲，作品21》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "588007",
+      "title_en": "Prelude and Invention",
+      "current_title_zh": "《前奏与发明》",
+      "new_title_zh": "《前奏曲与创意曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "589064",
+      "title_en": "Guitar Sonatina No.2",
+      "current_title_zh": "《吉他奏鸣曲第二号》",
+      "new_title_zh": "《吉他小奏鸣曲第二号》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "589287",
+      "title_en": "Guitar Sonatina No.1",
+      "current_title_zh": "《吉他奏鸣曲第一号》",
+      "new_title_zh": "《吉他小奏鸣曲第一号》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "594758",
+      "title_en": "Courante, TMA 120",
+      "current_title_zh": "《当前，TMA 120》",
+      "new_title_zh": "《库朗特舞曲，TMA 120》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "599191",
+      "title_en": "Courante, TMA 191",
+      "current_title_zh": "《当前，TMA 191》",
+      "new_title_zh": "《库朗特舞曲，TMA 191》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "599964",
+      "title_en": "Love's Old Sweet Song",
+      "current_title_zh": "《爱情的老歌甜甜的》",
+      "new_title_zh": "《古老甜蜜的情歌》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "607625",
+      "title_en": "Villa Mors Chaconne",
+      "current_title_zh": "《莫尔斯查孔别墅》",
+      "new_title_zh": "《维拉·莫尔斯恰空舞曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "666900",
+      "title_en": "Ricercar No.6",
+      "current_title_zh": "《水稻6号车》",
+      "new_title_zh": "《第六号利切尔卡尔》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "671384",
+      "title_en": "Bourrée",
+      "current_title_zh": "《酿的》",
+      "new_title_zh": "《布列舞曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "723076",
+      "title_en": "Trauer Marsch auf den Todt des Herrn Michael Haydn",
+      "current_title_zh": "《悼念迈克尔·海顿先生逝世的哀悼游行》",
+      "new_title_zh": "《悼念迈克尔·海顿逝世的哀悼进行曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "730665",
+      "title_en": "Chinese Galop",
+      "current_title_zh": "《中国赛马》",
+      "new_title_zh": "《中国加洛普舞曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "734578",
+      "title_en": "Sonatina in A major, Op.68",
+      "current_title_zh": "《A大调奏鸣曲，作品68》",
+      "new_title_zh": "《A大调小奏鸣曲，作品68》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "747363",
+      "title_en": "6 Valses et un galop, Op.57",
+      "current_title_zh": "《6首华尔兹与疾驰，作品57》",
+      "new_title_zh": "《六首圆舞曲与一首加洛普舞曲，作品57》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "794087",
+      "title_en": "Scherzino mexicano",
+      "current_title_zh": "《墨西哥笑话》",
+      "new_title_zh": "《墨西哥小谐谑曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "795001",
+      "title_en": "Fugue pour le Jour de Noël",
+      "current_title_zh": "《圣诞节那天逃跑》",
+      "new_title_zh": "《圣诞日赋格曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "795206",
+      "title_en": "Polaca fantástica",
+      "current_title_zh": "《出色的波兰语》",
+      "new_title_zh": "《幻想波兰舞曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "795609",
+      "title_en": "Ping Pong Galop",
+      "current_title_zh": "《乒乓驰骋》",
+      "new_title_zh": "《乒乓加洛普舞曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "815377",
+      "title_en": "Lullaby",
+      "current_title_zh": "《催眠曲》",
+      "new_title_zh": "《摇篮曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "823733",
+      "title_en": "Aria di Fiorenza & Sua Corrente",
+      "current_title_zh": "《佛罗伦萨咏叹调及其现状》",
+      "new_title_zh": "《佛罗伦萨咏叹调与库朗特舞曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "833189",
+      "title_en": "Guitar Sonatina in C major, MS 85 No.1",
+      "current_title_zh": "《C大调吉他奏鸣曲，MS 85 第1号》",
+      "new_title_zh": "《C大调吉他小奏鸣曲，MS 85 第1号》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "834630",
+      "title_en": "Guitar Sonatina in C major, MS 85 No.5",
+      "current_title_zh": "《C大调吉他奏鸣曲，MS 85 第5号》",
+      "new_title_zh": "《C大调吉他小奏鸣曲，MS 85 第5号》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "840567",
+      "title_en": "Guitar Sonatina in C major, MS 85 No.4",
+      "current_title_zh": "《C大调吉他奏鸣曲，MS 85 第4号》",
+      "new_title_zh": "《C大调吉他小奏鸣曲，MS 85 第4号》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "863353",
+      "title_en": "Principios para tocar la guitarra de 6 ordenes",
+      "current_title_zh": "《六阶吉他的演奏原理》",
+      "new_title_zh": "《六组复弦吉他演奏原理》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "897128",
+      "title_en": "Gavotte en Rondeau",
+      "current_title_zh": "《朗多加沃特舞曲》",
+      "new_title_zh": "《回旋加沃特舞曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "914331",
+      "title_en": "Hoch Habsburg",
+      "current_title_zh": "《哈布斯堡王朝》",
+      "new_title_zh": "《哈布斯堡万岁》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "924197",
+      "title_en": "Menuet in E minor",
+      "current_title_zh": "《E小调小调》",
+      "new_title_zh": "《E小调小步舞曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "929595",
+      "title_en": "Gigue - Lentement",
+      "current_title_zh": "《抖动 - 缓慢》",
+      "new_title_zh": "《吉格舞曲——缓慢》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "958233",
+      "title_en": "Romanze, Op.370",
+      "current_title_zh": "《罗曼兹，作品 370》",
+      "new_title_zh": "《浪漫曲，作品370》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "961729",
+      "title_en": "Reina Galop",
+      "current_title_zh": "《驰骋女王》",
+      "new_title_zh": "《女王加洛普舞曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "965133",
+      "title_en": "Berceuse in F major, Op.5",
+      "current_title_zh": "《F大调贝尔塞兹，作品5》",
+      "new_title_zh": "《F大调摇篮曲，作品5》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "970412",
+      "title_en": "Berceuse, Op.28",
+      "current_title_zh": "《贝尔塞斯，作品。 28》",
+      "new_title_zh": "《摇篮曲，Op.28》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "984766",
+      "title_en": "Menuet, Rda, f.89",
+      "current_title_zh": "《梅纽特，Rda，f。 89》",
+      "new_title_zh": "《小步舞曲，Rda，f.89》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "984916",
+      "title_en": "Sonatina meridional",
+      "current_title_zh": "《子午奏鸣曲》",
+      "new_title_zh": "《南方小奏鸣曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1021260",
+      "title_en": "6 Arie nazionale scozzesi",
+      "current_title_zh": "《6 苏格兰民族音乐》",
+      "new_title_zh": "《六首苏格兰民族曲调》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1024786",
+      "title_en": "3 Duos for Guitar and Violin, Op.3",
+      "current_title_zh": "《吉他和小提琴三重奏，作品 3》",
+      "new_title_zh": "《三首吉他与小提琴二重奏，作品3》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1037739",
+      "title_en": "Valses Melodieuses, Op.141",
+      "current_title_zh": "《虚假旋律，作品 141》",
+      "new_title_zh": "《旋律圆舞曲，作品141》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1038282",
+      "title_en": "20 Duettinos",
+      "current_title_zh": "《20 双人舞》",
+      "new_title_zh": "《二十首小二重奏曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1039005",
+      "title_en": "Alfred Walzer",
+      "current_title_zh": "《阿尔弗雷德·瓦尔泽》",
+      "new_title_zh": "《阿尔弗雷德圆舞曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1054871",
+      "title_en": "Variations on 'O no We never mention her'",
+      "current_title_zh": "《“哦，不，我们从来没有提到过她”的变体》",
+      "new_title_zh": "《〈噢，不，我们从不提起她〉主题变奏曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1059659",
+      "title_en": "Polacca",
+      "current_title_zh": "《抛光》",
+      "new_title_zh": "《波兰舞曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1060877",
+      "title_en": "2 Boleros",
+      "current_title_zh": "《2 短上衣》",
+      "new_title_zh": "《两首波莱罗舞曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1060922",
+      "title_en": "Contradanza",
+      "current_title_zh": "《对比度》",
+      "new_title_zh": "《对舞曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1065953",
+      "title_en": "Variaciones",
+      "current_title_zh": "《变化》",
+      "new_title_zh": "《变奏曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1073015",
+      "title_en": "Castaldo Marsch",
+      "current_title_zh": "《卡斯塔尔多·马什》",
+      "new_title_zh": "《卡斯塔尔多进行曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1075133",
+      "title_en": "Grande Marche, Op.161",
+      "current_title_zh": "《大马尔凯，作品 161》",
+      "new_title_zh": "《大进行曲，作品161》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1114766",
+      "title_en": "Divertimento No.3",
+      "current_title_zh": "《乐趣3号》",
+      "new_title_zh": "《第三号嬉游曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1125096",
+      "title_en": "Menuet difícil, CSdG, f.28 I",
+      "current_title_zh": "《困难的菜单，CSdG，f.28 I》",
+      "new_title_zh": "《困难小步舞曲，CSdG，f.28 I》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1157996",
+      "title_en": "Sonata de seis órdenes",
+      "current_title_zh": "《六阶奏鸣曲》",
+      "new_title_zh": "《六组复弦吉他奏鸣曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1160513",
+      "title_en": "Polaca",
+      "current_title_zh": "《抛光》",
+      "new_title_zh": "《波兰舞曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1187585",
+      "title_en": "6 Variations on 'Nel cor più non mi sento'",
+      "current_title_zh": "《“我心里不再有感觉”的 6 种变体》",
+      "new_title_zh": "《〈Nel cor più non mi sento〉主题六首变奏曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1189610",
+      "title_en": "6 Duos for Guitar and Violin, Op.7",
+      "current_title_zh": "《吉他和小提琴六重奏，作品 7》",
+      "new_title_zh": "《六首吉他与小提琴二重奏，作品7》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1223118",
+      "title_en": "Albumblatt, Op.293",
+      "current_title_zh": "《专辑表，Op.293》",
+      "new_title_zh": "《纪念册页，Op.293》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1259338",
+      "title_en": "Variazioni facili sopra un tema della Cenerentolla",
+      "current_title_zh": "《灰姑娘主题的简单变化》",
+      "new_title_zh": "《〈灰姑娘〉主题简易变奏曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1268110",
+      "title_en": "Bon-Temps Galop",
+      "current_title_zh": "《美好时光驰骋》",
+      "new_title_zh": "《美好时光加洛普舞曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1268143",
+      "title_en": "Circus Galop",
+      "current_title_zh": "《马戏团驰骋》",
+      "new_title_zh": "《马戏团加洛普舞曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1281926",
+      "title_en": "Impromptu No.1",
+      "current_title_zh": "《即兴第一号》",
+      "new_title_zh": "《第一号即兴曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1297862",
+      "title_en": "Guitar Sonatina in A major",
+      "current_title_zh": "《A大调吉他奏鸣曲》",
+      "new_title_zh": "《A大调吉他小奏鸣曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1304078",
+      "title_en": "Pic nic Quadrilles",
+      "current_title_zh": "《四方舞野餐》",
+      "new_title_zh": "《野餐四对舞曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1322929",
+      "title_en": "Tema con variaciones",
+      "current_title_zh": "《具有变化的主题》",
+      "new_title_zh": "《主题与变奏曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1346650",
+      "title_en": "Rondeau a la militaire",
+      "current_title_zh": "《朗多在军队》",
+      "new_title_zh": "《军队风回旋曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1349470",
+      "title_en": "Fantasía con variaciones",
+      "current_title_zh": "《充满变化的幻想》",
+      "new_title_zh": "《幻想曲与变奏曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1349738",
+      "title_en": "Sonatina, Op.20",
+      "current_title_zh": "《奏鸣曲，作品 20》",
+      "new_title_zh": "《小奏鸣曲，作品 20》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1352066",
+      "title_en": "6 Mélodies Nocturnes originales, Op.4",
+      "current_title_zh": "《6首原创夜间旋律，作品4》",
+      "new_title_zh": "《六首原创夜曲旋律，作品4》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1367033",
+      "title_en": "Sonatina in E-major for guitar",
+      "current_title_zh": "《E大调吉他奏鸣曲》",
+      "new_title_zh": "《E大调吉他小奏鸣曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1379900",
+      "title_en": "Sonatina Canonica, Op.196",
+      "current_title_zh": "《卡尼卡小奏鸣曲，作品 196》",
+      "new_title_zh": "《卡农式小奏鸣曲，作品196》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1384694",
+      "title_en": "Walzer-Guirlande in E major, Op.47",
+      "current_title_zh": "《E大调瓦尔泽-吉兰德，作品47》",
+      "new_title_zh": "《E大调圆舞曲花环，作品47》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1404606",
+      "title_en": "Chaconne and Fugue in D minor, BWV 1178",
+      "current_title_zh": "《D小调查空与赋格，BWV 1178》",
+      "new_title_zh": "《D小调恰空与赋格，BWV 1178》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1404867",
+      "title_en": "Preludiando",
+      "current_title_zh": "《序曲》",
+      "new_title_zh": "《前奏曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1421963",
+      "title_en": "3 Duos for 2 Guitars, Op.34",
+      "current_title_zh": "《2把吉他的3对奏，Op.34》",
+      "new_title_zh": "《三首双吉他二重奏，Op.34》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1424557",
+      "title_en": "Courante du Sieur Iacob Reys",
+      "current_title_zh": "《雅各布·雷斯爵士现任职务》",
+      "new_title_zh": "《雅各布·雷斯先生的库朗特舞曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1426161",
+      "title_en": "Fantaisie en duo pour Guitare et Piano concertants",
+      "current_title_zh": "《吉他与钢琴协奏曲双重奏幻想曲》",
+      "new_title_zh": "《吉他与钢琴协奏性二重奏幻想曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1429655",
+      "title_en": "Sonatina in D major",
+      "current_title_zh": "《D大调奏鸣曲》",
+      "new_title_zh": "《D大调小奏鸣曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1433469",
+      "title_en": "Gigue Aymable",
+      "current_title_zh": "《抖动》",
+      "new_title_zh": "《可爱的吉格舞曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1437856",
+      "title_en": "6 Duos for 2 Guitars, Op.67",
+      "current_title_zh": "《2 吉他 6 重奏，Op.67》",
+      "new_title_zh": "《六首双吉他二重奏，Op.67》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1441627",
+      "title_en": "3 Duos for Guitar and Violin, Op.202",
+      "current_title_zh": "《吉他和小提琴三重奏，作品 202》",
+      "new_title_zh": "《三首吉他与小提琴二重奏，作品202》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1441907",
+      "title_en": "3 Duos for 2 Guitars, Op.203",
+      "current_title_zh": "《2把吉他的3对奏，Op.203》",
+      "new_title_zh": "《三首双吉他二重奏，Op.203》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1445596",
+      "title_en": "3 Duetti per Chitarra Francese",
+      "current_title_zh": "《法国吉他三重奏》",
+      "new_title_zh": "《三首法国吉他二重奏曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1446259",
+      "title_en": "Duo brillant et facile, Op.1",
+      "current_title_zh": "《两首明亮而轻松，Op.1》",
+      "new_title_zh": "《华丽简易二重奏，Op.1》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1449510",
+      "title_en": "Duo No.7",
+      "current_title_zh": "《二人组7号》",
+      "new_title_zh": "《第七号二重奏》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1462204",
+      "title_en": "Passacaglia",
+      "current_title_zh": "《游行》",
+      "new_title_zh": "《帕萨卡利亚》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1479815",
+      "title_en": "3 Duos",
+      "current_title_zh": "《3 双人组》",
+      "new_title_zh": "《三首二重奏》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1493028",
+      "title_en": "Variations de Pleyel",
+      "current_title_zh": "《普莱耶变化》",
+      "new_title_zh": "《普莱耶尔主题变奏曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1503408",
+      "title_en": "Ricercar, Ness No.4",
+      "current_title_zh": "《莱斯卡，内斯4号》",
+      "new_title_zh": "《利切尔卡尔，Ness第4号》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1523988",
+      "title_en": "Menuet, ms.5362, f.36r",
+      "current_title_zh": "《小舞曲，ms.5362，f.36r》",
+      "new_title_zh": "《小步舞曲，ms.5362，f.36r》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1526010",
+      "title_en": "Fuoco Fatuo",
+      "current_title_zh": "《小精灵》",
+      "new_title_zh": "《鬼火》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1526524",
+      "title_en": "Original Song Without Words 'Song of the Sea', Op.235",
+      "current_title_zh": "《无词原创歌曲〈海之歌〉，Op.235》",
+      "new_title_zh": "《无词歌〈海之歌〉，Op.235》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1528835",
+      "title_en": "The Study of Harmony, Op.242",
+      "current_title_zh": "《和声学习，Op.242》",
+      "new_title_zh": "《和声学，Op.242》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1529220",
+      "title_en": "The Study of Harmony: The Preparation of Seventh Chords, Op.243",
+      "current_title_zh": "《和声学习：七和弦的准备，Op.243》",
+      "new_title_zh": "《和声学：七和弦的准备，Op.243》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1539547",
+      "title_en": "Courante Extrardinaire",
+      "current_title_zh": "《异常电流》",
+      "new_title_zh": "《非凡的库朗特舞曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1562868",
+      "title_en": "Sarabande en rondeau",
+      "current_title_zh": "《萨拉班德圆形》",
+      "new_title_zh": "《回旋萨拉班德舞曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1569002",
+      "title_en": "Allemande la belle lucrece",
+      "current_title_zh": "《德国美女卢克丽丝》",
+      "new_title_zh": "《美丽的卢克莱丝阿勒曼德舞曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1572443",
+      "title_en": "De gli scherzi armonici trovati e facilitati",
+      "current_title_zh": "《发现并促成的和谐笑话》",
+      "new_title_zh": "《新创并简化的和声嬉游曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1573251",
+      "title_en": "Menuet en rondeau, R 6.12",
+      "current_title_zh": "《圆舞曲，R 6.12》",
+      "new_title_zh": "《回旋小步舞曲，R 6.12》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1574389",
+      "title_en": "4 Pequeñas fugas para los principiantes",
+      "current_title_zh": "《初学者的 4 个小逃脱》",
+      "new_title_zh": "《为初学者而作的四首小赋格曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1587903",
+      "title_en": "6 Invenzioni",
+      "current_title_zh": "《6 项发明》",
+      "new_title_zh": "《六首创意曲》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1598812",
+      "title_en": "10 Pieces for Classic Guitar, Op.111",
+      "current_title_zh": "《经典吉他 10 首作品，作品 111》",
+      "new_title_zh": "《古典吉他十首小品，作品111》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1606655",
+      "title_en": "La Montfermeil rondeau, R 10.02",
+      "current_title_zh": "《拉蒙费梅圆舞曲，R 10.02》",
+      "new_title_zh": "《蒙费梅伊回旋曲，R 10.02》",
+      "reason": "全库曲式词汇反查：修正机器翻译造成的标准音乐术语、作品数量或通行题名错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    }
+  ]
+}

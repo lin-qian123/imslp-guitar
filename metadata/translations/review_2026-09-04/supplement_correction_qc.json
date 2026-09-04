@@ -1,0 +1,791 @@
+{
+  "schema_version": 1,
+  "reviewer": "title_review_correction_qc",
+  "entries": [
+    {
+      "work_id": "58206",
+      "title_en": "Canzone detta la Capricciosa",
+      "current_title_zh": "《坎佐纳“随想者”》",
+      "new_title_zh": "《坎佐纳〈随想者〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "247041",
+      "title_en": "Fantasias and In Nomine for 3 Viols",
+      "current_title_zh": "《为3把维奥尔琴而作的幻想曲与“以圣父之名”曲》",
+      "new_title_zh": "《为3把维奥尔琴而作的幻想曲与〈以圣父之名〉曲》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "254163",
+      "title_en": "Air à 2 Claviers, HWV 470",
+      "current_title_zh": "《双键盘咏叹调，HWV 470》",
+      "new_title_zh": "《双键盘曲调，HWV 470》",
+      "reason": "器乐标题 Air 应译为曲调，不应译作声乐咏叹调",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "264569",
+      "title_en": "Canzon vigesima 'La Moranda'",
+      "current_title_zh": "《第20坎佐纳“莫兰达”》",
+      "new_title_zh": "《第20坎佐纳〈莫兰达〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "266379",
+      "title_en": "Canzon duodecima 'La Alle'",
+      "current_title_zh": "《第12坎佐纳“拉阿勒”》",
+      "new_title_zh": "《第12坎佐纳〈拉阿勒〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "356753",
+      "title_en": "Canzon 14 'La gustosa'",
+      "current_title_zh": "《第十四坎佐纳“拉古斯托萨”》",
+      "new_title_zh": "《第十四坎佐纳〈拉古斯托萨〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "357592",
+      "title_en": "Canzona La Foccara",
+      "current_title_zh": "《坎佐纳“拉福卡拉”》",
+      "new_title_zh": "《坎佐纳〈拉福卡拉〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "357789",
+      "title_en": "Canzon 'sol-sol-la-sol-fa-mi', Ch.191",
+      "current_title_zh": "《坎佐纳“sol-sol-la-sol-fa-mi”，Ch.191》",
+      "new_title_zh": "《坎佐纳〈sol-sol-la-sol-fa-mi〉，Ch.191》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "357904",
+      "title_en": "Canzona decima 'La Feliciana'",
+      "current_title_zh": "《第十坎佐纳“拉费利恰纳”》",
+      "new_title_zh": "《第十坎佐纳〈拉费利恰纳〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "358599",
+      "title_en": "Canzona 'La Foresta'",
+      "current_title_zh": "《坎佐纳“森林”》",
+      "new_title_zh": "《坎佐纳〈森林〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "360331",
+      "title_en": "Canzon 1 'La Morosa'",
+      "current_title_zh": "《第一坎佐纳“拉莫罗萨”》",
+      "new_title_zh": "《第一坎佐纳〈拉莫罗萨〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "360339",
+      "title_en": "Canzon 4 'La Pace'",
+      "current_title_zh": "《第四坎佐纳“和平”》",
+      "new_title_zh": "《第四坎佐纳〈和平〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "360470",
+      "title_en": "Canzon settima 'La Mazzuola'",
+      "current_title_zh": "《第7坎佐纳“马祖奥拉”》",
+      "new_title_zh": "《第7坎佐纳〈马祖奥拉〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "362231",
+      "title_en": "Sonata 'La Sguizzerotta'",
+      "current_title_zh": "《奏鸣曲“拉斯维策罗塔”》",
+      "new_title_zh": "《奏鸣曲〈拉斯维策罗塔〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "379180",
+      "title_en": "Canzon 'Bergamasca', SSWV 64",
+      "current_title_zh": "《坎佐纳“贝加马斯卡”，SSWV 64》",
+      "new_title_zh": "《坎佐纳〈贝加马斯卡〉，SSWV 64》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "385232",
+      "title_en": "Canzon 6 'Irene'",
+      "current_title_zh": "《第6坎佐纳“艾琳”》",
+      "new_title_zh": "《第6坎佐纳〈艾琳〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "399363",
+      "title_en": "Canzon 6 'La Vaga'",
+      "current_title_zh": "《第6坎佐纳“拉瓦加”》",
+      "new_title_zh": "《第6坎佐纳〈拉瓦加〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "399404",
+      "title_en": "Canzon detta 'Qui la dira'",
+      "current_title_zh": "《坎佐纳“Qui la dira”》",
+      "new_title_zh": "《坎佐纳〈Qui la dira〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "400570",
+      "title_en": "Canzon 12 'La Doppia'",
+      "current_title_zh": "《第12坎佐纳“双重”》",
+      "new_title_zh": "《第12坎佐纳〈双重〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "401527",
+      "title_en": "Variations sur l'air 'Gestern Abend war Vetter Michel da'",
+      "current_title_zh": "《曲调变奏“米歇尔表弟昨晚在那儿”》",
+      "new_title_zh": "《曲调变奏〈米歇尔表弟昨晚在那儿〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "408155",
+      "title_en": "Canzon prima 'La Brivia'",
+      "current_title_zh": "《第1坎佐纳“布里维亚”》",
+      "new_title_zh": "《第1坎佐纳〈布里维亚〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "429494",
+      "title_en": "Canzon undecima 'La Serafina'",
+      "current_title_zh": "《第十一坎佐纳“拉塞拉菲娜”》",
+      "new_title_zh": "《第十一坎佐纳〈拉塞拉菲娜〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "431530",
+      "title_en": "Canzon prima 'L'Olica'",
+      "current_title_zh": "《第一坎佐纳“洛利卡”》",
+      "new_title_zh": "《第一坎佐纳〈洛利卡〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "431783",
+      "title_en": "Toccata Quarta à 4, detta la Licina",
+      "current_title_zh": "《第四托卡塔“拉利奇纳”（四声部）》",
+      "new_title_zh": "《第四托卡塔〈拉利奇纳〉（四声部）》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "431907",
+      "title_en": "Canzon quinta 'La Marteletta'",
+      "current_title_zh": "《第5坎佐纳“马尔泰莱塔”》",
+      "new_title_zh": "《第5坎佐纳〈马尔泰莱塔〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "432440",
+      "title_en": "Canzon 9 'La Gratiosa'",
+      "current_title_zh": "《第九坎佐纳“拉格拉齐奥萨”》",
+      "new_title_zh": "《第九坎佐纳〈拉格拉齐奥萨〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "432778",
+      "title_en": "Canzon 15 'La Martinenga'",
+      "current_title_zh": "《第15坎佐纳“马丁嫩加”》",
+      "new_title_zh": "《第15坎佐纳〈马丁嫩加〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "432851",
+      "title_en": "Canzon 2 'La Morata'",
+      "current_title_zh": "《第二坎佐纳“拉莫拉塔”》",
+      "new_title_zh": "《第二坎佐纳〈拉莫拉塔〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "433515",
+      "title_en": "Canzon 'La Honorata'",
+      "current_title_zh": "《坎佐纳“拉奥诺拉塔”》",
+      "new_title_zh": "《坎佐纳〈拉奥诺拉塔〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "439715",
+      "title_en": "Canzon 'Cornetto', SSWV 56",
+      "current_title_zh": "《坎佐纳“科内托”，SSWV 56》",
+      "new_title_zh": "《坎佐纳〈科内托〉，SSWV 56》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "441617",
+      "title_en": "Canzon 'La Guamina'",
+      "current_title_zh": "《坎佐纳“拉瓜米娜”》",
+      "new_title_zh": "《坎佐纳〈拉瓜米娜〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "442785",
+      "title_en": "Sonata 'L'Angioletta'",
+      "current_title_zh": "《“小天使”奏鸣曲》",
+      "new_title_zh": "《〈小天使〉奏鸣曲》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "442842",
+      "title_en": "Canzon 16 'La Novella'",
+      "current_title_zh": "《第16坎佐纳“新曲”》",
+      "new_title_zh": "《第16坎佐纳〈La Novella〉》",
+      "reason": "La Novella 是作品别称；缺少依据时不应擅自意译为“新曲”",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "450187",
+      "title_en": "Aria di corente prima 'La Salentina'",
+      "current_title_zh": "《第一库朗特咏叹调“拉萨伦蒂纳”》",
+      "new_title_zh": "《第一库朗特咏叹调〈拉萨伦蒂纳〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "450227",
+      "title_en": "Canzon undecima 'La Ducalina'",
+      "current_title_zh": "《第十一坎佐纳“拉杜卡利娜”》",
+      "new_title_zh": "《第十一坎佐纳〈拉杜卡利娜〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "450425",
+      "title_en": "Canzon francese detta 'La Mariana'",
+      "current_title_zh": "《法国坎佐纳“拉马里亚娜”》",
+      "new_title_zh": "《法国坎佐纳〈拉马里亚娜〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "451568",
+      "title_en": "Canzone detta la Nora",
+      "current_title_zh": "《坎佐纳“诺拉”》",
+      "new_title_zh": "《坎佐纳〈诺拉〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "481079",
+      "title_en": "Canzon à 6 'La Rose'",
+      "current_title_zh": "《坎佐纳“玫瑰”（六声部）》",
+      "new_title_zh": "《坎佐纳〈玫瑰〉（六声部）》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "494757",
+      "title_en": "Canzon Francese detta 'Pour ung plaisir'",
+      "current_title_zh": "《法国坎佐纳“为了片刻欢愉”》",
+      "new_title_zh": "《法国坎佐纳〈为了片刻欢愉〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "510913",
+      "title_en": "Voices",
+      "current_title_zh": "《声部》",
+      "new_title_zh": "《众声》",
+      "reason": "Voices 作为作品标题宜译为“众声”；“声部”会擅自限定为谱面分部",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "534723",
+      "title_en": "Canzone detta la Serpentina",
+      "current_title_zh": "《坎佐纳“拉塞尔彭蒂娜”》",
+      "new_title_zh": "《坎佐纳〈拉塞尔彭蒂娜〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "540878",
+      "title_en": "Capriccio 'La Loda'",
+      "current_title_zh": "《随想曲“拉洛达”》",
+      "new_title_zh": "《随想曲〈拉洛达〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "605730",
+      "title_en": "Alamanda 'Bruynsmedelijn', SSWV 558",
+      "current_title_zh": "《阿勒曼德舞曲“布鲁因斯梅德莱因”，SSWV 558》",
+      "new_title_zh": "《阿勒曼德舞曲〈布鲁因斯梅德莱因〉，SSWV 558》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "661687",
+      "title_en": "Air from 'Il Pirata'",
+      "current_title_zh": "《〈海盗〉选段咏叹调》",
+      "new_title_zh": "《歌剧〈海盗〉选曲》",
+      "reason": "Air from an opera 仅能确定为选曲，“选段咏叹调”既重复又无充分依据",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "661719",
+      "title_en": "Air from 'The Night Camp in Granada'",
+      "current_title_zh": "《来自“格拉纳达夜营”的曲调》",
+      "new_title_zh": "《〈格拉纳达夜营〉选曲》",
+      "reason": "Air from a named work 应自然表达为该作品选曲",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "701497",
+      "title_en": "Canzone detta 'L'Albergona'",
+      "current_title_zh": "《坎佐纳“阿尔贝尔戈纳”》",
+      "new_title_zh": "《坎佐纳〈阿尔贝尔戈纳〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "725834",
+      "title_en": "3 Airs variés, Op.166",
+      "current_title_zh": "《3首咏叹调变奏曲，作品166》",
+      "new_title_zh": "《3首曲调变奏曲，作品166》",
+      "reason": "无声乐语境的 Air varié 采用“曲调变奏曲”",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "725836",
+      "title_en": "3 Divertissements sur des motifs des 'Huguenots'",
+      "current_title_zh": "《3 以“胡格诺派”为主题的嬉游曲》",
+      "new_title_zh": "《3 以〈胡格诺派〉为主题的嬉游曲》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "733805",
+      "title_en": "Sounds from Spain",
+      "current_title_zh": "《西班牙音响》",
+      "new_title_zh": "《西班牙之声》",
+      "reason": "Sounds from Spain 的自然标题译法是“西班牙之声”，“西班牙音响”生硬且偏设备义",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "791140",
+      "title_en": "Escuela para tocar con perfeccion la guitarra de cinco y seis ordenes",
+      "current_title_zh": "《五弦与六弦吉他完善演奏教程》",
+      "new_title_zh": "《五组弦与六组弦吉他完善演奏教程》",
+      "reason": "原文 órdenes 指历史吉他的弦组，不是现代意义的单根弦数",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "864765",
+      "title_en": "Canzon detta La Sabbatina, F 10.02",
+      "current_title_zh": "《坎佐纳“萨巴蒂娜”，F 10.02》",
+      "new_title_zh": "《坎佐纳〈萨巴蒂娜〉，F 10.02》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "864773",
+      "title_en": "Canzon detta La Crivelli, F 10.03",
+      "current_title_zh": "《坎佐纳“克里韦利”，F 10.03》",
+      "new_title_zh": "《坎佐纳〈克里韦利〉，F 10.03》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "864780",
+      "title_en": "Canzon detta La Scacchi, F 10.04",
+      "current_title_zh": "《坎佐纳“拉斯卡基”，F 10.04》",
+      "new_title_zh": "《坎佐纳〈拉斯卡基〉，F 10.04》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "865037",
+      "title_en": "Canzon detta La Pesenti, F 10.06",
+      "current_title_zh": "《坎佐纳“拉佩森蒂”，F 10.06》",
+      "new_title_zh": "《坎佐纳〈拉佩森蒂〉，F 10.06》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "869870",
+      "title_en": "Canzon Decima \"La Luzzaga\"",
+      "current_title_zh": "《第10坎佐纳“卢扎加”》",
+      "new_title_zh": "《第10坎佐纳〈卢扎加〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "869891",
+      "title_en": "Canzon Terza \"La Conta\"",
+      "current_title_zh": "《第3坎佐纳“拉孔塔”》",
+      "new_title_zh": "《第3坎佐纳〈拉孔塔〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "869897",
+      "title_en": "Canzon Seconda \"La Fontana\"",
+      "current_title_zh": "《第二坎佐纳“喷泉”》",
+      "new_title_zh": "《第二坎佐纳〈喷泉〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "869902",
+      "title_en": "Canzon Prima \"La Ghirardella\"",
+      "current_title_zh": "《第一坎佐纳“拉吉拉尔德拉”》",
+      "new_title_zh": "《第一坎佐纳〈拉吉拉尔德拉〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "870518",
+      "title_en": "Canzon Decima sesta \"La Luzzara\" à 8",
+      "current_title_zh": "《第十六坎佐纳“拉卢扎拉”（八声部）》",
+      "new_title_zh": "《第十六坎佐纳〈拉卢扎拉〉（八声部）》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "910868",
+      "title_en": "Air varié in E major",
+      "current_title_zh": "《E大调咏叹调变奏曲》",
+      "new_title_zh": "《E大调曲调变奏曲》",
+      "reason": "无声乐语境的 Air varié 采用“曲调变奏曲”",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "949301",
+      "title_en": "Canzon detta 'Je ne diray mot bergiere'",
+      "current_title_zh": "《坎佐纳“牧羊女，我一言不发”》",
+      "new_title_zh": "《坎佐纳〈牧羊女，我一言不发〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "967684",
+      "title_en": "\"Trip-O-Let\" Dance",
+      "current_title_zh": "《“三连音”舞曲》",
+      "new_title_zh": "《〈三连音〉舞曲》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1000918",
+      "title_en": "Air Varié pour la Guitare",
+      "current_title_zh": "《吉他曲调变奏》",
+      "new_title_zh": "《吉他曲调变奏曲》",
+      "reason": "Air varié 应完整译为“曲调变奏曲”",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1009591",
+      "title_en": "Air Russe 'Oh mother, my head hurts'",
+      "current_title_zh": "《俄罗斯曲调“哦妈妈，我头疼”》",
+      "new_title_zh": "《俄罗斯曲调〈哦妈妈，我头疼〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1011711",
+      "title_en": "Air Russe 'The Cossack rode beyond the Danube'",
+      "current_title_zh": "《俄罗斯曲调“哥萨克越过多瑙河”》",
+      "new_title_zh": "《俄罗斯曲调〈哥萨克越过多瑙河〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1081688",
+      "title_en": "6 Airs italiens, Op.42",
+      "current_title_zh": "《6 意大利人的曲调，Op.42》",
+      "new_title_zh": "《6首意大利曲调，Op.42》",
+      "reason": "“意大利曲调”指曲目来源，不是“意大利人的曲调”",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1167884",
+      "title_en": "Air varié, Op.1",
+      "current_title_zh": "《变化的曲调，Op.1》",
+      "new_title_zh": "《曲调变奏曲，Op.1》",
+      "reason": "Air varié 是曲调变奏曲，不是“变化的曲调”",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1187398",
+      "title_en": "Air Varié pour Flûte et Guitare No.7, Op.9",
+      "current_title_zh": "《为长笛与吉他而作的咏叹调变奏曲第7号，作品9》",
+      "new_title_zh": "《为长笛与吉他而作的曲调变奏曲第7号，作品9》",
+      "reason": "长笛与吉他器乐曲中的 Air varié 应译为曲调变奏曲",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1276399",
+      "title_en": "Canzona La novella",
+      "current_title_zh": "《坎佐纳“新曲”》",
+      "new_title_zh": "《坎佐纳〈La novella〉》",
+      "reason": "La novella 是作品别称；缺少依据时不应擅自意译为“新曲”",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1297242",
+      "title_en": "Duett Concertante for 2 Guitars \"Quintetto & Chorus from Semiramide\"",
+      "current_title_zh": "《两把吉他协奏二重奏“塞米拉米德五重奏与合唱团”》",
+      "new_title_zh": "《两把吉他协奏二重奏〈塞米拉米德五重奏与合唱团〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1322420",
+      "title_en": "Air varié, IFS 79",
+      "current_title_zh": "《变奏曲调，IFS 79》",
+      "new_title_zh": "《曲调变奏曲，IFS 79》",
+      "reason": "Air varié 的规范语序是“曲调变奏曲”",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1322423",
+      "title_en": "Air varié, IFS 80",
+      "current_title_zh": "《咏叹调变奏曲，IFS 80》",
+      "new_title_zh": "《曲调变奏曲，IFS 80》",
+      "reason": "无声乐语境的 Air varié 采用“曲调变奏曲”",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1343859",
+      "title_en": "2 Estudios en Do y S, Op.8",
+      "current_title_zh": "《C与S两首练习曲，Op.8》",
+      "new_title_zh": "《C大调与E大调两首练习曲，Op.8》",
+      "reason": "原题 S 是截断；福尔蒂亚官方目录列作 en Do y en Mi，不应保留无意义的“S”",
+      "basis": "semantic_correction",
+      "source_refs": [
+        "https://bibliotecafortea.com/wp-content/uploads/2021/05/Catalog_2021_ni.pdf"
+      ]
+    },
+    {
+      "work_id": "1389260",
+      "title_en": "3 Airs Variés pour la Guitare avec Accompagnement d'Alto ou Violon, Op.5",
+      "current_title_zh": "《3首吉他咏叹调变奏曲（中提琴或小提琴伴奏），作品5》",
+      "new_title_zh": "《3首吉他曲调变奏曲（中提琴或小提琴伴奏），作品5》",
+      "reason": "吉他器乐曲中的 Airs variés 应译为曲调变奏曲",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1424787",
+      "title_en": "Air varié suivi d'un Andante et de trois Valses pour la Guitare, Op.14",
+      "current_title_zh": "《变奏曲调、行板与三首圆舞曲，吉他曲，Op.14》",
+      "new_title_zh": "《吉他曲调变奏曲、行板与三首圆舞曲，Op.14》",
+      "reason": "调整 Air varié 的规范语序，并明确三类曲目均为吉他曲",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1425331",
+      "title_en": "Choix d'Airs favoris de l'opéra La Dame Blanche de Boieldieu",
+      "current_title_zh": "《布瓦迪厄歌剧〈白衣夫人〉著名曲调选集》",
+      "new_title_zh": "《布瓦迪厄歌剧〈白衣女郎〉著名曲调选集》",
+      "reason": "La Dame Blanche 的大陆常用译名为《白衣女郎》，并与本库其他条目统一",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1432544",
+      "title_en": "2 Airs Russes, Op.12",
+      "current_title_zh": "《2 俄罗斯曲调，作品 12》",
+      "new_title_zh": "《2首俄罗斯曲调，作品12》",
+      "reason": "补足量词，使数量与原题关系明确",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1446002",
+      "title_en": "La Retraite Française et 3 Airs Variés, Op.9",
+      "current_title_zh": "《法国撤退号与三首变奏曲调，Op.9》",
+      "new_title_zh": "《法国撤退号与三首曲调变奏曲，Op.9》",
+      "reason": "Airs variés 的规范语序是“曲调变奏曲”",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1451355",
+      "title_en": "Petites Leçons progressives, Op.3",
+      "current_title_zh": "《简易渐进练习》",
+      "new_title_zh": "《简易渐进练习，Op.3》",
+      "reason": "前次修订遗漏了原题作品号 Op.3",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1458913",
+      "title_en": "2 Airs Variés, Op.18",
+      "current_title_zh": "《2首咏叹调变奏曲，作品18》",
+      "new_title_zh": "《2首曲调变奏曲，作品18》",
+      "reason": "无声乐语境的 Airs variés 应译为曲调变奏曲",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1463197",
+      "title_en": "Journal d'Airs No.3, Op.11",
+      "current_title_zh": "《曲调曲集 第3号，作品 11》",
+      "new_title_zh": "《曲调集刊第3号，作品11》",
+      "reason": "删除“曲调曲集”的重复用词",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1464182",
+      "title_en": "Prelude in G minor 'Time Goes On', Op.136",
+      "current_title_zh": "《G小调前奏曲“时光流逝”，Op.136》",
+      "new_title_zh": "《G小调前奏曲〈时光流逝〉，Op.136》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1464446",
+      "title_en": "Study in E minor 'Evocation', Op.141",
+      "current_title_zh": "《E小调“召唤”练习曲，作品 141》",
+      "new_title_zh": "《E小调〈召唤〉练习曲，作品 141》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1464585",
+      "title_en": "Exercise in Am 'Beginning', Op.142",
+      "current_title_zh": "《A小调练习曲“开始”，作品142》",
+      "new_title_zh": "《A小调练习曲〈开始〉，作品142》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1568861",
+      "title_en": "Sarabande la piece de huict heures",
+      "current_title_zh": "《“八时”萨拉班德舞曲》",
+      "new_title_zh": "《〈八时〉萨拉班德舞曲》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1587421",
+      "title_en": "Study 'Hooray!'",
+      "current_title_zh": "《练习曲“万岁！”》",
+      "new_title_zh": "《练习曲〈万岁！〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1633334",
+      "title_en": "Study 'Virtuoso'",
+      "current_title_zh": "《练习曲“大师”》",
+      "new_title_zh": "《练习曲〈大师〉》",
+      "reason": "将内嵌曲名或别称的引号统一为〈〉，外层仍仅保留一对《》",
+      "basis": "format_consistency",
+      "source_refs": []
+    }
+  ]
+}

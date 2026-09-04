@@ -1,0 +1,15 @@
+{
+  "categories": 352,
+  "category_records": 12548,
+  "unique_work_ids": 11393,
+  "reviewed_work_ids": 11393,
+  "missing_review_ids": [],
+  "extra_review_ids": [],
+  "title_identity_mismatches": 0,
+  "catalog_title_mismatches": 0,
+  "cross_category_inconsistent_work_ids": 0,
+  "quality_flag_counts": {},
+  "identity_flag_counts": {},
+  "format_flag_counts": {},
+  "inconsistent_exact_english_titles": 0
+}

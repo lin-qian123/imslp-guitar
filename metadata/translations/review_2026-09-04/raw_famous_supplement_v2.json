@@ -1,0 +1,1129 @@
+{
+  "schema_version": 1,
+  "reviewer": "title_review_famous_final",
+  "entries": [
+    {
+      "work_id": "1412",
+      "title_en": "Piano Sonata No.10, Op.14 No.2",
+      "current_title_zh": "《钢琴奏鸣曲第 10 号，作品 14 第 2 号》",
+      "new_title_zh": "《第十钢琴奏鸣曲，作品14第2号》",
+      "reason": "将奏鸣曲编号置于体裁前，避免“奏鸣曲第10号”的生硬语序。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "2533",
+      "title_en": "Peer Gynt Suite No.1, Op.46",
+      "current_title_zh": "《皮尔·金特组曲第一号，作品 46》",
+      "new_title_zh": "《〈培尔·金特〉第一组曲，作品46》",
+      "reason": "采用大陆音乐界通行作品名“培尔·金特”，并调整组曲编号语序。",
+      "basis": "common_name",
+      "source_refs": []
+    },
+    {
+      "work_id": "2534",
+      "title_en": "Peer Gynt Suite No.2, Op.55",
+      "current_title_zh": "《皮尔·金特组曲第 2 号，作品 55》",
+      "new_title_zh": "《〈培尔·金特〉第二组曲，作品55》",
+      "reason": "采用大陆音乐界通行作品名“培尔·金特”，并调整组曲编号语序。",
+      "basis": "common_name",
+      "source_refs": []
+    },
+    {
+      "work_id": "2603",
+      "title_en": "Trübe Wolken, S.199",
+      "current_title_zh": "《阴云密布，第 199 页》",
+      "new_title_zh": "《灰色的云，S.199》",
+      "reason": "采用作品通行名并恢复 S.199 目录号；S. 被误识别成“页”。",
+      "basis": "common_name",
+      "source_refs": [
+        "https://sin80.com/work/liszt-nuages-s199"
+      ]
+    },
+    {
+      "work_id": "4182",
+      "title_en": "El amor brujo",
+      "current_title_zh": "《魔幻的爱》",
+      "new_title_zh": "《魔法师之恋》",
+      "reason": "采用 El amor brujo 在中国大陆演出资料中的通行译名。",
+      "basis": "common_name",
+      "source_refs": [
+        "https://cultura.cervantes.es/pekin/zh/El-amor-brujo/172616"
+      ]
+    },
+    {
+      "work_id": "4187",
+      "title_en": "Homenaje",
+      "current_title_zh": "《贡》",
+      "new_title_zh": "《致敬》",
+      "reason": "Homenaje 意为“致敬/献礼”，原译“贡”是词义误判。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "4779",
+      "title_en": "String Quartet No.9, Op.59 No.3",
+      "current_title_zh": "《第九号弦乐四重奏，作品 59 第三号》",
+      "new_title_zh": "《第九弦乐四重奏，作品59第3号》",
+      "reason": "按中文音乐目录习惯调整编号语序。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "5759",
+      "title_en": "Aufforderung zum Tanze, Op.65",
+      "current_title_zh": "《舞蹈邀请，作品 65》",
+      "new_title_zh": "《邀舞，作品65》",
+      "reason": "Aufforderung zum Tanze 的通行中文名为《邀舞》。",
+      "basis": "common_name",
+      "source_refs": [
+        "https://open.spotify.com/track/2EhGsGbPeP95DswhM3T8pL"
+      ]
+    },
+    {
+      "work_id": "6700",
+      "title_en": "Maple Leaf Rag",
+      "current_title_zh": "《枫叶抹布》",
+      "new_title_zh": "《枫叶拉格》",
+      "reason": "Rag 在此是拉格泰姆体裁简称，不能按日常词义译为“抹布”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "7373",
+      "title_en": "3 Pieces, Op.2",
+      "current_title_zh": "《3 首，作品 2》",
+      "new_title_zh": "《三首小品，作品2》",
+      "reason": "补回 Pieces 的体裁含义；数字 3 表示数量。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "7428",
+      "title_en": "3 Valses distinguées du précieux dégoûté",
+      "current_title_zh": "《3 珍贵的厌恶的杰出华尔兹》",
+      "new_title_zh": "《厌烦的矜贵者的三首高雅圆舞曲》",
+      "reason": "采用亨乐中文资料中的作品译名，修正法文所有格和 précieux dégoûté 的机译。",
+      "basis": "common_name",
+      "source_refs": [
+        "https://blog.henle.de/cn/2025/07/14/%E5%9C%A8%E7%96%8F%E7%A6%BB%E5%92%8C%E8%B5%9E%E5%8F%B9%E4%B9%8B%E9%97%B4-%E8%90%A8%E8%92%82%E4%B8%8E%E6%8B%89%E5%A8%81%E5%B0%94/"
+      ]
+    },
+    {
+      "work_id": "7842",
+      "title_en": "36 Originaltänze, D.365",
+      "current_title_zh": "《36首原创舞蹈，D.365》",
+      "new_title_zh": "《三十六首原创舞曲，D.365》",
+      "reason": "Tänze 在作品标题中应译为“舞曲”，并明确 36 是数量而非编号。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "9865",
+      "title_en": "Weihnachtsbaum, S.186",
+      "current_title_zh": "《圣诞树，第 186 页》",
+      "new_title_zh": "《圣诞树，S.186》",
+      "reason": "恢复原题中的 S.186 目录号；S. 不是页码。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "9920",
+      "title_en": "Ecossaise for Military Band, WoO 23",
+      "current_title_zh": "《苏格兰女军乐队，WoO 23》",
+      "new_title_zh": "《军乐队苏格兰舞曲，WoO 23》",
+      "reason": "Ecossaise 是苏格兰舞曲；原译误把法语阴性形式识别成“女军乐队”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "14994",
+      "title_en": "Der Freischütz, Op.77",
+      "current_title_zh": "《自由炮兵，作品 77》",
+      "new_title_zh": "《自由射手，作品77》",
+      "reason": "Der Freischütz 的通行中文名为《自由射手》，原译“自由炮兵”错误。",
+      "basis": "common_name",
+      "source_refs": []
+    },
+    {
+      "work_id": "19407",
+      "title_en": "2 Pieces, Op.10",
+      "current_title_zh": "《2 首，作品 10》",
+      "new_title_zh": "《两首小品，作品10》",
+      "reason": "补回 Pieces 的体裁含义；数字 2 表示数量。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "19654",
+      "title_en": "Avant-dernières pensées",
+      "current_title_zh": "《倒数第二个想法》",
+      "new_title_zh": "《倒数第二的思想》",
+      "reason": "Avant-dernières pensées 是复数“倒数第二的思想”，原译误成单数日常“想法”。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "19671",
+      "title_en": "Chapitres tournés en tous sens",
+      "current_title_zh": "《章节转向各个方向》",
+      "new_title_zh": "《翻来覆去的章节》",
+      "reason": "Chapitres tournés en tous sens 意为“朝各个方向翻转的章节”，原译词序生硬。",
+      "basis": "semantic_correction",
+      "source_refs": [
+        "https://imslp.org/wiki/Chapitres_Tourn%C3%A9s_en_Tous_Sens_%28Satie%2C_Erik_Alfred_Leslie%29"
+      ]
+    },
+    {
+      "work_id": "19677",
+      "title_en": "Embryons desséchés",
+      "current_title_zh": "《干胚胎》",
+      "new_title_zh": "《干瘪的胎儿》",
+      "reason": "采用该作品常见中文译名，desséchés 不是简单的“干”。",
+      "basis": "common_name",
+      "source_refs": [
+        "https://zh.wikipedia.org/wiki/%E5%9F%83%E9%87%8C%E5%85%8B%C2%B7%E8%96%A9%E8%92%82"
+      ]
+    },
+    {
+      "work_id": "19878",
+      "title_en": "Les pantins dansent",
+      "current_title_zh": "《木偶们正在跳舞》",
+      "new_title_zh": "《木偶之舞》",
+      "reason": "Les pantins dansent 自然译作“木偶之舞”，避免叙述句式机译。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "21458",
+      "title_en": "6 Pieces on Spanish Folksongs",
+      "current_title_zh": "《6首西班牙民歌》",
+      "new_title_zh": "《以西班牙民歌为主题的六首小品》",
+      "reason": "原题是基于西班牙民歌的六首小品，原译误成六首民歌本身。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "21471",
+      "title_en": "Moresque y Canción Arabe",
+      "current_title_zh": "《摩尔斯克语和阿拉伯语歌曲》",
+      "new_title_zh": "《摩尔舞曲与阿拉伯歌曲》",
+      "reason": "Moresque 和 Canción Arabe 是曲种/曲名，不是“摩尔斯克语和阿拉伯语”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "21615",
+      "title_en": "Die Sterne, D.684",
+      "current_title_zh": "《斯特恩，D.684》",
+      "new_title_zh": "《星辰，D.684》",
+      "reason": "Die Sterne 意为“星辰”，原译“斯特恩”是误音译。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "22714",
+      "title_en": "7 Charakterstücke, Op.7",
+      "current_title_zh": "《7 个角色作品，Op.7》",
+      "new_title_zh": "《七首性格小品，作品7》",
+      "reason": "Charakterstücke 的标准音乐术语是“性格小品”，不是“角色作品”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "22724",
+      "title_en": "6 Kinderstücke, Op.72",
+      "current_title_zh": "《6首儿童作品，作品72》",
+      "new_title_zh": "《六首儿童小品，作品72》",
+      "reason": "Kinderstücke 是“儿童小品”，不是泛称“儿童作品”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "39963",
+      "title_en": "Kaiser-Walzer, Op.437",
+      "current_title_zh": "《凯撒华尔兹，作品 437》",
+      "new_title_zh": "《皇帝圆舞曲，作品437》",
+      "reason": "Kaiser-Walzer 的通行中文名为《皇帝圆舞曲》，不是“凯撒华尔兹”。",
+      "basis": "common_name",
+      "source_refs": [
+        "https://www.chncpa.org/wjsc/202306/P020230601394379940377.pdf"
+      ]
+    },
+    {
+      "work_id": "40404",
+      "title_en": "3 Petites pièces montées",
+      "current_title_zh": "《3首梨形小品》",
+      "new_title_zh": "《三首小型拼装曲》",
+      "reason": "该作是 Trois petites pièces montées；原译“梨形小品”误套用了另一部作品 Trois morceaux en forme de poire。",
+      "basis": "semantic_correction",
+      "source_refs": [
+        "https://imslp.org/wiki/3_Petites_pi%C3%A8ces_mont%C3%A9es_%28Satie%2C_Erik%29",
+        "https://catalogue.bnf.fr/ark:/12148/cb13918669w"
+      ]
+    },
+    {
+      "work_id": "52904",
+      "title_en": "Fest- und Gedenksprüche, Op.109",
+      "current_title_zh": "《节日和纪念谚语，Op.109》",
+      "new_title_zh": "《节庆与纪念箴言，作品109》",
+      "reason": "Sprüche 在宗教合唱标题中是“箴言/格言”，不是“谚语”。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "69512",
+      "title_en": "3 Sonatinas, Op.1",
+      "current_title_zh": "《3 奏鸣曲，作品 1》",
+      "new_title_zh": "《三首小奏鸣曲，作品1》",
+      "reason": "Sonatinas 是小奏鸣曲，不是奏鸣曲。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "69708",
+      "title_en": "12 Waltzes, Op.23",
+      "current_title_zh": "《第十二华尔兹，作品 23》",
+      "new_title_zh": "《十二首华尔兹，作品23》",
+      "reason": "12 表示十二首的数量，不是“第十二”首。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "71975",
+      "title_en": "Terzetto, MS 69",
+      "current_title_zh": "《泰泽托，MS 69》",
+      "new_title_zh": "《三重奏，MS 69》",
+      "reason": "Terzetto 是三重奏，不应直接音译。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "71979",
+      "title_en": "Terzetto concertante, MS 114",
+      "current_title_zh": "《第三协奏曲，MS 114》",
+      "new_title_zh": "《协奏三重奏，MS 114》",
+      "reason": "Terzetto concertante 是协奏三重奏，不是“第三协奏曲”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "72657",
+      "title_en": "3 Thèmes variés pour la Guitare, Op.12",
+      "current_title_zh": "《3 种不同的吉他主题，Op.12》",
+      "new_title_zh": "《三首吉他主题变奏曲，作品12》",
+      "reason": "Thèmes variés 是主题变奏曲，不是“三种不同的主题”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "82128",
+      "title_en": "3 Rondos brillants, Op.2",
+      "current_title_zh": "《3 精彩回旋曲，作品 2》",
+      "new_title_zh": "《三首辉煌回旋曲，作品2》",
+      "reason": "brillants 在音乐标题中规范译为“辉煌”，并明确 3 是数量。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "83034",
+      "title_en": "Von Gott will ich nicht lassen, BuxWV 220",
+      "current_title_zh": "《我不想放开上帝，BuxWV 220》",
+      "new_title_zh": "《我决不离弃上帝，BuxWV 220》",
+      "reason": "德文圣咏题意为不离弃上帝，原译口语化且语义偏弱。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "85294",
+      "title_en": "Duettino Facile, Op.77",
+      "current_title_zh": "《简易二重唱，作品 77》",
+      "new_title_zh": "《简易小二重奏，作品77》",
+      "reason": "Duettino 是器乐小二重奏，不是声乐“二重唱”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "87672",
+      "title_en": "12 Waltzes, Op.57",
+      "current_title_zh": "《第十二华尔兹，作品 57》",
+      "new_title_zh": "《十二首华尔兹，作品57》",
+      "reason": "12 表示数量，不是“第十二”首。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "95104",
+      "title_en": "6 Pieces, Op.45",
+      "current_title_zh": "《6 首，作品 45》",
+      "new_title_zh": "《六首小品，作品45》",
+      "reason": "补回 Pieces 的体裁含义。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "97589",
+      "title_en": "6 Pieces, Op.5",
+      "current_title_zh": "《6 首，作品 5》",
+      "new_title_zh": "《六首小品，作品5》",
+      "reason": "补回 Pieces 的体裁含义。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "114253",
+      "title_en": "Sonata à 4, TWV 43:A1",
+      "current_title_zh": "《四人奏鸣曲，TWV 43:A1》",
+      "new_title_zh": "《四声部奏鸣曲，TWV 43:A1》",
+      "reason": "Sonata à 4 指四声部奏鸣曲，不是“四人奏鸣曲”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "126904",
+      "title_en": "Schweigt stille, plaudert nicht, BWV 211",
+      "current_title_zh": "《保持沉默，不要聊天，BWV 211》",
+      "new_title_zh": "《静静地，别再喧闹，BWV 211》",
+      "reason": "德文标题是“安静，别再喧闹”，不是日常语境的“不要聊天”。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "139637",
+      "title_en": "Morceau de Concours for Flute and Piano",
+      "current_title_zh": "《长笛和钢琴比赛曲目》",
+      "new_title_zh": "《长笛与钢琴竞赛曲》",
+      "reason": "Morceau de concours 是音乐院校语境中的“竞赛曲”，不是泛称“比赛曲目”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "153088",
+      "title_en": "Toccata, Adagio and Fugue in C major, BWV 564",
+      "current_title_zh": "《C大调托卡塔、慢板和赋格，BWV》",
+      "new_title_zh": "《C大调托卡塔、慢板与赋格，BWV 564》",
+      "reason": "补回原题中遗漏的 BWV 564，并按标准体裁名排列。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "155174",
+      "title_en": "Andantino in F major",
+      "current_title_zh": "《F大调行板》",
+      "new_title_zh": "《F大调小行板》",
+      "reason": "Andantino 的规范速度术语译名是“小行板”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "173104",
+      "title_en": "12 Piezas características, Op.92",
+      "current_title_zh": "《12 首特色作品，作品 92》",
+      "new_title_zh": "《十二首性格小品，作品92》",
+      "reason": "Piezas características 的标准译法是“性格小品”，不是“特色作品”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "190828",
+      "title_en": "Préludes flasques (pour un chien)",
+      "current_title_zh": "《松弛的前奏曲（给狗）》",
+      "new_title_zh": "《软塌塌的前奏曲（为狗而作）》",
+      "reason": "按 flasques 的讽刺语气与 pour un chien 的题献结构自然翻译。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "205387",
+      "title_en": "Swipesy Cake Walk",
+      "current_title_zh": "《滑动蛋糕步行》",
+      "new_title_zh": "《斯怀普西蛋糕步舞》",
+      "reason": "保留专名 Swipesy 的音译，并把 Cake Walk 译为舞曲体裁“蛋糕步舞”，修正逐词机译。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "206098",
+      "title_en": "Resignazione, S.187a/b",
+      "current_title_zh": "《辞职，S.187a/b》",
+      "new_title_zh": "《顺从，S.187a/b》",
+      "reason": "Resignazione 在此是“顺从/听命”之意，不是职业意义的“辞职”。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "208503",
+      "title_en": "Sonata for Viola da Gamba, TWV 40:1",
+      "current_title_zh": "《甘巴中提琴奏鸣曲，TWV 40:1》",
+      "new_title_zh": "《维奥尔琴奏鸣曲，TWV 40:1》",
+      "reason": "Viola da gamba 的规范译名是维奥尔琴，不是“甘巴中提琴”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "249444",
+      "title_en": "Erhalt uns, Herr, bei deinem Wort, BuxWV 185",
+      "current_title_zh": "《主啊，用你的话保守我们，BuxWV 185》",
+      "new_title_zh": "《主啊，使我们坚守你的圣言，BuxWV 185》",
+      "reason": "bei deinem Wort 在圣咏语境是坚守圣言，不是工具格“用你的话”。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "333965",
+      "title_en": "Ground in C minor, ZD 221",
+      "current_title_zh": "《C小调地面，ZD 221》",
+      "new_title_zh": "《C小调固定低音曲，ZD 221》",
+      "reason": "Ground 是基于固定低音的变奏体裁，不是“地面”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "340713",
+      "title_en": "Quemadmodum desiderat cervus, BuxWV 92",
+      "current_title_zh": "《正如鹿的渴望，BuxWV 92》",
+      "new_title_zh": "《如鹿切慕溪水，BuxWV 92》",
+      "reason": "采用拉丁经文 Quemadmodum desiderat cervus 的通行中文表达。",
+      "basis": "common_name",
+      "source_refs": []
+    },
+    {
+      "work_id": "364910",
+      "title_en": "Recercar terzo, F 9.03",
+      "current_title_zh": "《重新关闭 terzo，F 9.03》",
+      "new_title_zh": "《第三里切尔卡，F 9.03》",
+      "reason": "Recercar 是复调体裁“里切尔卡”，原译“重新关闭”是词形误判。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "371285",
+      "title_en": "Abendruhe, K.Anh.C 9.10",
+      "current_title_zh": "《阿本德鲁厄，K.Anh.C 9.10》",
+      "new_title_zh": "《夜晚的宁静，K.Anh.C 9.10》",
+      "reason": "Abendruhe 意为“夜晚的宁静”，不应直接按德文音译。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "393167",
+      "title_en": "Capriccio sopra la Bassa Flamenga, F 4.05",
+      "current_title_zh": "《下弗拉门加上空的随想曲，F 4.05》",
+      "new_title_zh": "《〈佛兰德低音〉主题随想曲，F 4.05》",
+      "reason": "sopra 在标题中表示“基于……主题”，Bassa Flamenga 不是空间方位。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "408343",
+      "title_en": "Bist du bei mir, BWV 508",
+      "current_title_zh": "《你和我在一起吗，BWV 508》",
+      "new_title_zh": "《你若在我身旁，BWV 508》",
+      "reason": "Bist du bei mir 是陈述性歌词起句，通行译法为“你若在我身旁”，不是疑问句。",
+      "basis": "common_name",
+      "source_refs": []
+    },
+    {
+      "work_id": "418603",
+      "title_en": "Thême varié, Op.15c",
+      "current_title_zh": "《多样的主题，Op.15c》",
+      "new_title_zh": "《主题变奏曲，作品15c》",
+      "reason": "Thême varié 是主题变奏曲，不是“多样的主题”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "431434",
+      "title_en": "3 Pièces de société, Op.36",
+      "current_title_zh": "《3 首协会作品，Op.36》",
+      "new_title_zh": "《三首沙龙小品，作品36》",
+      "reason": "Pièces de société 是沙龙小品，不是“协会作品”。",
+      "basis": "music_terminology",
+      "source_refs": [
+        "https://www.naxos.com/catalogue/item.asp?item_code=8.553722"
+      ]
+    },
+    {
+      "work_id": "434317",
+      "title_en": "Viola da gamba Sonata, TWV 41:e5",
+      "current_title_zh": "《中提琴奏鸣曲，TWV 41:e5》",
+      "new_title_zh": "《维奥尔琴奏鸣曲，TWV 41:e5》",
+      "reason": "Viola da gamba 的规范译名是维奥尔琴，不是现代中提琴。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "443717",
+      "title_en": "Capriccio sopra la Spagnoletta, F 4.06",
+      "current_title_zh": "《西班牙随想曲，F 4.06》",
+      "new_title_zh": "《〈斯帕尼奥莱塔〉主题随想曲，F 4.06》",
+      "reason": "保留舞曲专名 Spagnoletta，并译明 sopra 的主题关系。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "444794",
+      "title_en": "A Ground in Gamut, Z.645",
+      "current_title_zh": "《色域中的地面，Z.645》",
+      "new_title_zh": "《音阶固定低音曲，Z.645》",
+      "reason": "Ground 是固定低音曲；gamut 在此指音阶范围，不是“色域中的地面”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "475301",
+      "title_en": "Gran jota",
+      "current_title_zh": "《格兰霍塔》",
+      "new_title_zh": "《大霍塔舞曲》",
+      "reason": "Jota 是西班牙舞曲体裁，应译出“霍塔舞曲”，不是把 Gran jota 整体音译。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "475308",
+      "title_en": "12 Waltzes, Op.21",
+      "current_title_zh": "《第十二华尔兹，作品 21》",
+      "new_title_zh": "《十二首华尔兹，作品21》",
+      "reason": "12 表示数量，不是“第十二”首。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "475316",
+      "title_en": "Mazurka in G major",
+      "current_title_zh": "《玛祖卡和G大调》",
+      "new_title_zh": "《G大调玛祖卡舞曲》",
+      "reason": "修正介词误译，并将调性置于体裁前。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "506479",
+      "title_en": "Fantasia terza sopra un soggietto, F 6.03",
+      "current_title_zh": "《关于某个主题的第三次幻想，F 6.03》",
+      "new_title_zh": "《单主题第三幻想曲，F 6.03》",
+      "reason": "sopra un soggietto 是“基于一个主题”，terza 是作品序号。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "506486",
+      "title_en": "Fantasia prima sopra un soggietto, F 6.01",
+      "current_title_zh": "《第一次幻想某个主题，F 6.01》",
+      "new_title_zh": "《单主题第一幻想曲，F 6.01》",
+      "reason": "sopra un soggietto 是“基于一个主题”，prima 是作品序号。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "506497",
+      "title_en": "Fantasia seconda sopra un soggietto, F 6.02",
+      "current_title_zh": "《关于某个主题的第二次幻想，F 6.02》",
+      "new_title_zh": "《单主题第二幻想曲，F 6.02》",
+      "reason": "sopra un soggietto 是“基于一个主题”，seconda 是作品序号。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "506582",
+      "title_en": "Fantasia quarta sopra doi sogietti, F 6.04",
+      "current_title_zh": "《第四个关于两个主题的幻想，F 6.04》",
+      "new_title_zh": "《双主题第四幻想曲，F 6.04》",
+      "reason": "doi sogietti 是两个主题，不是方位或一般“科目”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "506663",
+      "title_en": "Fantasia undecima sopra quattro soggietti, F 6.11",
+      "current_title_zh": "《关于四个主题的第十一个幻想，F 6.11》",
+      "new_title_zh": "《四主题第十一幻想曲，F 6.11》",
+      "reason": "quattro soggietti 是四个音乐主题，并调整编号语序。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "506880",
+      "title_en": "Fantasia nona sopra tre soggietti, F 6.09",
+      "current_title_zh": "《第九个关于三个主题的幻想，F 6.09》",
+      "new_title_zh": "《三主题第九幻想曲，F 6.09》",
+      "reason": "tre soggietti 是三个音乐主题，并调整编号语序。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "506898",
+      "title_en": "Fantasia sesta sopra doi soggietti, F 6.06",
+      "current_title_zh": "《第六幻想以上两个科目，F 6.06》",
+      "new_title_zh": "《双主题第六幻想曲，F 6.06》",
+      "reason": "doi soggietti 是两个音乐主题，原译“科目”错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "532893",
+      "title_en": "Chiome d'oro, bel thesoro, SV 143",
+      "current_title_zh": "《金镜，美丽的宝藏，SV 143》",
+      "new_title_zh": "《金色秀发，美丽的珍宝，SV 143》",
+      "reason": "Chiome d’oro 意为“金色秀发”，原译“金镜”错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "534400",
+      "title_en": "Magnificat noni toni, BuxWV 205",
+      "current_title_zh": "《第九音颂扬曲，BuxWV 205》",
+      "new_title_zh": "《第九调式尊主颂，BuxWV 205》",
+      "reason": "Magnificat 是“尊主颂”，noni toni 指第九调式，不是“第九音”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "556653",
+      "title_en": "Centone di sonate, MS 112",
+      "current_title_zh": "《数百首奏鸣曲，MS 112》",
+      "new_title_zh": "《奏鸣曲集，MS 112》",
+      "reason": "Centone 是奏鸣曲集，不表示“数百首”；采用国家大剧院唱片资料中的通行名。",
+      "basis": "common_name",
+      "source_refs": [
+        "https://membershop.chncpa.org/mall/detail/goods_code/3296.html"
+      ]
+    },
+    {
+      "work_id": "628456",
+      "title_en": "Flow My Tears",
+      "current_title_zh": "《流我的泪水》",
+      "new_title_zh": "《流吧，我的泪》",
+      "reason": "采用 Flow My Tears 自然且通行的中文祈使句译法。",
+      "basis": "common_name",
+      "source_refs": []
+    },
+    {
+      "work_id": "724936",
+      "title_en": "24 Pieces, Op.121",
+      "current_title_zh": "《24 首，作品 121》",
+      "new_title_zh": "《二十四首小品，作品121》",
+      "reason": "补回 Pieces 的体裁含义并明确 24 是数量。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "733830",
+      "title_en": "Fugue in C minor, P.152",
+      "current_title_zh": "《C小调赋格曲，第152页》",
+      "new_title_zh": "《C小调赋格曲，P.152》",
+      "reason": "P.152 是作品目录号，不是第152页。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "734480",
+      "title_en": "Fugue in F minor, P.157",
+      "current_title_zh": "《F小调赋格曲，第157页》",
+      "new_title_zh": "《F小调赋格曲，P.157》",
+      "reason": "P.157 是作品目录号，不是第157页。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "736216",
+      "title_en": "3 Pièces de société, Op.33",
+      "current_title_zh": "《3 首协会作品，Op.33》",
+      "new_title_zh": "《三首沙龙小品，作品33》",
+      "reason": "Pièces de société 是沙龙小品，不是“协会作品”。",
+      "basis": "music_terminology",
+      "source_refs": [
+        "https://www.naxos.com/catalogue/item.asp?item_code=8.553722"
+      ]
+    },
+    {
+      "work_id": "736835",
+      "title_en": "24 Petites pièces progressives, Op.44",
+      "current_title_zh": "《24 首小型渐进作品，Op.44》",
+      "new_title_zh": "《二十四首渐进小品，作品44》",
+      "reason": "Petites pièces progressives 是教学难度渐进的小品。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "737185",
+      "title_en": "6 Petites pièces progressives, Op.47",
+      "current_title_zh": "《6 首小型渐进作品，Op.47》",
+      "new_title_zh": "《六首渐进小品，作品47》",
+      "reason": "Petites pièces progressives 是教学难度渐进的小品。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "737438",
+      "title_en": "Est-ce bien ça, 6 pièces, Op.48",
+      "current_title_zh": "《是吗，6首，Op.48》",
+      "new_title_zh": "《真是这样吗？——六首小品，作品48》",
+      "reason": "补回 six pièces 的“小品”体裁并理顺主标题与数量关系。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "747014",
+      "title_en": "Morceaux de concert, Op.54",
+      "current_title_zh": "《音乐会作品，作品 54》",
+      "new_title_zh": "《音乐会小品，作品54》",
+      "reason": "Morceaux de concert 的规范译法是“音乐会小品”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "751665",
+      "title_en": "Ich steh an deiner Krippen hier, BWV 469",
+      "current_title_zh": "《我站在你的婴儿床上，BWV 469》",
+      "new_title_zh": "《我站在你的马槽旁，BWV 469》",
+      "reason": "Krippe 在圣诞圣咏语境指马槽，不是婴儿床。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "769922",
+      "title_en": "Tarleton's Riserrectione",
+      "current_title_zh": "《塔尔顿的立面》",
+      "new_title_zh": "《塔尔顿的复活》",
+      "reason": "Riserrectione 是 resurrection 的旧拼/异拼，原译“立面”错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "782048",
+      "title_en": "Kommt her zu mir, spricht Gottes Sohn, BuxWV 201",
+      "current_title_zh": "《到我这里来，上帝之子说，BuxWV 201》",
+      "new_title_zh": "《上帝之子说：到我这里来，BuxWV 201》",
+      "reason": "按德文引语结构恢复主句与引语的关系。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "804291",
+      "title_en": "Ach, daß nicht die letzte Stunde, BWV 439",
+      "current_title_zh": "《哦，那不是最后一个小时，BWV 439》",
+      "new_title_zh": "《但愿最后时刻尚未来临，BWV 439》",
+      "reason": "修正德文圣咏起句的条件/祈愿语义，避免逐词误译为“最后一个小时”。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "833830",
+      "title_en": "43 Ghiribizzi, MS 43",
+      "current_title_zh": "《43 吉里比兹，MS 43》",
+      "new_title_zh": "《四十三首随想曲，MS 43》",
+      "reason": "Ghiribizzi 在此为“随想曲”，不是需要保留的专名音译。",
+      "basis": "common_name",
+      "source_refs": [
+        "https://music.sonyselect.net/page/album.html?id=748"
+      ]
+    },
+    {
+      "work_id": "841297",
+      "title_en": "Allegretto in A minor, MS 91",
+      "current_title_zh": "《A小调快板，MS 91》",
+      "new_title_zh": "《A小调小快板，MS 91》",
+      "reason": "Allegretto 的规范速度术语译名是“小快板”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "841415",
+      "title_en": "Allegretto in A major, MS 90",
+      "current_title_zh": "《A大调快板，MS 90》",
+      "new_title_zh": "《A大调小快板，MS 90》",
+      "reason": "Allegretto 的规范速度术语译名是“小快板”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "841417",
+      "title_en": "Andantino in F minor, MS 102",
+      "current_title_zh": "《F小调行板，MS 102》",
+      "new_title_zh": "《F小调小行板，MS 102》",
+      "reason": "Andantino 的规范速度术语译名是“小行板”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "841740",
+      "title_en": "Andantino in G major, MS 99",
+      "current_title_zh": "《G大调行板，MS 99》",
+      "new_title_zh": "《G大调小行板，MS 99》",
+      "reason": "Andantino 的规范速度术语译名是“小行板”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "844298",
+      "title_en": "Andantino in C major, MS 97",
+      "current_title_zh": "《C大调行板，MS 97》",
+      "new_title_zh": "《C大调小行板，MS 97》",
+      "reason": "Andantino 的规范速度术语译名是“小行板”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "844440",
+      "title_en": "Andantino in C major, MS 89",
+      "current_title_zh": "《C大调行板，MS 89》",
+      "new_title_zh": "《C大调小行板，MS 89》",
+      "reason": "Andantino 的规范速度术语译名是“小行板”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "844444",
+      "title_en": "Rondoncino in E major, MS 94",
+      "current_title_zh": "《E大调回旋曲，MS 94》",
+      "new_title_zh": "《E大调小回旋曲，MS 94》",
+      "reason": "Rondoncino 是“小回旋曲”，不是一般回旋曲。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "856894",
+      "title_en": "Sinfonia della Lodovisca, MS 98",
+      "current_title_zh": "《洛多维斯卡交响乐团，MS 98》",
+      "new_title_zh": "《〈洛多维斯卡〉交响曲，MS 98》",
+      "reason": "Sinfonia 是交响曲，不是交响乐团；Lodovisca 是被引用的作品名。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "879347",
+      "title_en": "2 Ländler in E-flat major, D.980b",
+      "current_title_zh": "《2 兰德勒，降E大调，D.980b》",
+      "new_title_zh": "《降E大调两首兰德勒舞曲，D.980b》",
+      "reason": "将调性前置，并补足 Ländler 的舞曲体裁含义。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1045300",
+      "title_en": "Schaff's mit mir, Gott, nach deinem Willen, BWV 514",
+      "current_title_zh": "《上帝，按照你的意愿与我一起管理它，BWV 514》",
+      "new_title_zh": "《上帝啊，请按你的旨意待我，BWV 514》",
+      "reason": "Schaff’s mit mir 在此意为“请按旨意待我”，不是“与我一起管理它”。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1064020",
+      "title_en": "3 Guitar Sonatinas, Op.7",
+      "current_title_zh": "《3 吉他奏鸣曲，作品 7》",
+      "new_title_zh": "《三首吉他小奏鸣曲，作品7》",
+      "reason": "Sonatinas 是小奏鸣曲，不是奏鸣曲。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1068458",
+      "title_en": "3 Thêmes variés pour Guitare, Op.91",
+      "current_title_zh": "《3 种不同的吉他主题，Op.91》",
+      "new_title_zh": "《三首吉他主题变奏曲，作品91》",
+      "reason": "Thêmes variés 是主题变奏曲，不是“三种不同的主题”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1082479",
+      "title_en": "Diverse Sonate progressive per Chitarra",
+      "current_title_zh": "《几首前卫吉他奏鸣曲》",
+      "new_title_zh": "《若干首循序渐进的吉他奏鸣曲》",
+      "reason": "progressive 在教材曲目语境指循序渐进，不是风格上的“前卫”。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1083251",
+      "title_en": "Pièces progressives pour Guitarre seule",
+      "current_title_zh": "《吉他独奏的前卫曲目》",
+      "new_title_zh": "《吉他独奏渐进小品》",
+      "reason": "progressives 指难度渐进，Pièces 是小品；原译“前卫曲目”错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1282683",
+      "title_en": "Wenn dich Unglück tut greifen an, BWV 1104",
+      "current_title_zh": "《如果不幸降临，就攻击，BWV 1104》",
+      "new_title_zh": "《当不幸向你袭来，BWV 1104》",
+      "reason": "德文意为“不幸攫住你之时”，原译误把 greifen an 译成命令“攻击”。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1283927",
+      "title_en": "Ich hab mein Sach Gott heimgestellt, BWV 1113",
+      "current_title_zh": "《我把我的东西归还给上帝，BWV 1113》",
+      "new_title_zh": "《我已将一切托付给上帝，BWV 1113》",
+      "reason": "德文意为把自己的事务托付给上帝，不是把“东西归还”上帝。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1323830",
+      "title_en": "Fantasia sobre motivos de Marina",
+      "current_title_zh": "《以海洋为主题的幻想》",
+      "new_title_zh": "《〈玛丽娜〉主题幻想曲》",
+      "reason": "Marina 是被引用的作品专名，不是普通名词“海洋”。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1326802",
+      "title_en": "Etude, 2 Exercises and Prelude",
+      "current_title_zh": "《练习曲、2首练习曲和前奏曲》",
+      "new_title_zh": "《练习曲、两项练习与前奏曲》",
+      "reason": "区分 Etude（练习曲）与 Exercises（练习），避免两者都译成练习曲。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1330762",
+      "title_en": "6 Petites pièces progressives",
+      "current_title_zh": "《6 渐进小片》",
+      "new_title_zh": "《六首渐进小品》",
+      "reason": "Petites pièces progressives 是渐进小品；原译“小片”错误。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1332329",
+      "title_en": "19 Fantazias, In Nomines and Other Pieces",
+      "current_title_zh": "《19 首幻想曲，提名及其他作品》",
+      "new_title_zh": "《十九首幻想曲、〈以主之名〉及其他小品》",
+      "reason": "In Nomine 是英国复调器乐体裁名，不能译为“提名”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1361386",
+      "title_en": "Kyrie, Gott heiliger Geist, BWV 671",
+      "current_title_zh": "《凯里，圣灵神，BWV 671》",
+      "new_title_zh": "《求主怜悯，圣灵上帝，BWV 671》",
+      "reason": "Kyrie 应译为礼仪用语“求主怜悯”，不是音译“凯里”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1371977",
+      "title_en": "3 Sonates brillantes, Op.96",
+      "current_title_zh": "《3首精彩奏鸣曲，Op.96》",
+      "new_title_zh": "《三首辉煌奏鸣曲，作品96》",
+      "reason": "brillantes 在音乐标题中规范译为“辉煌”，不是“精彩”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1373112",
+      "title_en": "3 Polonesi concertanti for 2 Guitars, Op.137",
+      "current_title_zh": "《3 波兰尼西协奏曲，为 2 把吉他而作，作品 137》",
+      "new_title_zh": "《双吉他协奏波兰舞曲三首，作品137》",
+      "reason": "Polonesi 是波兰舞曲，原译“波兰尼西”是误音译。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1373376",
+      "title_en": "4 Variations and Finale, Op.140",
+      "current_title_zh": "《4 首变奏曲和结局，作品 140》",
+      "new_title_zh": "《四首变奏曲与终曲，作品140》",
+      "reason": "Finale 的规范音乐术语是“终曲”，不是“结局”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1373587",
+      "title_en": "4 Variations and Finale, Op.142",
+      "current_title_zh": "《4 首变奏曲和结局，作品 142》",
+      "new_title_zh": "《四首变奏曲与终曲，作品142》",
+      "reason": "Finale 的规范音乐术语是“终曲”，不是“结局”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1373589",
+      "title_en": "4 Variations and Finale, Op.143",
+      "current_title_zh": "《4 首变奏曲和结局，作品 143》",
+      "new_title_zh": "《四首变奏曲与终曲，作品143》",
+      "reason": "Finale 的规范音乐术语是“终曲”，不是“结局”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1373764",
+      "title_en": "4 Variations and Finale, Op.145",
+      "current_title_zh": "《4 变奏曲和结局，作品 145》",
+      "new_title_zh": "《四首变奏曲与终曲，作品145》",
+      "reason": "Finale 的规范音乐术语是“终曲”，不是“结局”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1437648",
+      "title_en": "3 Sonatines, Op.59",
+      "current_title_zh": "《3首奏鸣曲，作品59》",
+      "new_title_zh": "《三首小奏鸣曲，作品59》",
+      "reason": "Sonatines 是小奏鸣曲，不是奏鸣曲。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1440076",
+      "title_en": "Simphonie d'Haydn, Op.152",
+      "current_title_zh": "《海顿辛芬妮，作品 152》",
+      "new_title_zh": "《海顿交响曲，作品152》",
+      "reason": "Simphonie 是旧拼法的“交响曲”，不应音译为“辛芬妮”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1440828",
+      "title_en": "Adagio and Finale from Haydn's Symphonies, Op.163",
+      "current_title_zh": "《海顿交响曲 Op.163 的柔板和终曲》",
+      "new_title_zh": "《选自海顿交响曲的慢板与终曲，作品163》",
+      "reason": "作品163属于卡鲁利本作，不属于海顿交响曲；调整修饰关系。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1452862",
+      "title_en": "2 Airs variés",
+      "current_title_zh": "《2 不同的曲调》",
+      "new_title_zh": "《两首曲调变奏曲》",
+      "reason": "Airs variés 是曲调变奏曲，不是“不同的曲调”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1477900",
+      "title_en": "Terzetto",
+      "current_title_zh": "《三人组》",
+      "new_title_zh": "《三重奏》",
+      "reason": "Terzetto 是音乐体裁“三重奏”，不是人员组合“三人组”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1495120",
+      "title_en": "16 Walses pour deux Guitares, Op.16",
+      "current_title_zh": "《为两把吉他而作的第 16 首华尔兹舞曲，作品 16》",
+      "new_title_zh": "《双吉他华尔兹十六首，作品16》",
+      "reason": "16 表示整套华尔兹的数量，不是“第16首”。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1613806",
+      "title_en": "Valse Brillante à l'Espagnole composée pour la Guitare, Op.55",
+      "current_title_zh": "《为吉他而作的精彩西班牙华尔兹，作品 55》",
+      "new_title_zh": "《吉他西班牙风格辉煌圆舞曲，作品55》",
+      "reason": "brillante 是音乐标题中惯用的“辉煌”，不是泛义“精彩”。",
+      "basis": "music_terminology",
+      "source_refs": []
+    }
+  ]
+}

@@ -1,0 +1,3768 @@
+{
+  "schema_version": 1,
+  "reviewer": "title_review_cross_consistency",
+  "entries": [
+    {
+      "work_id": "1413",
+      "title_en": "Piano Sonata No.2, Op.2 No.2",
+      "current_title_zh": "《第二钢琴奏鸣曲，作品 2 No.2》",
+      "new_title_zh": "《第二钢琴奏鸣曲，作品 2 第2号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "2313",
+      "title_en": "Nocturne in E minor, Op.72 No.1",
+      "current_title_zh": "《E小调夜曲，Op.72 No.1》",
+      "new_title_zh": "《E小调夜曲，Op.72 第1号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "16450",
+      "title_en": "Album Leaf",
+      "current_title_zh": "《专辑叶》",
+      "new_title_zh": "《纪念册页》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "20933",
+      "title_en": "Suite española No.2, Op.97",
+      "current_title_zh": "《西班牙组曲 No.2，作品 97》",
+      "new_title_zh": "《西班牙组曲 第2号，作品 97》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "24807",
+      "title_en": "Polonaise 'Pożegnanie Ojczyzny'",
+      "current_title_zh": "《波兰舞曲《告别祖国》》",
+      "new_title_zh": "《波兰舞曲〈告别祖国〉》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "25283",
+      "title_en": "Nocturne No.5, Op.52",
+      "current_title_zh": "《夜曲 No.5，作品 52》",
+      "new_title_zh": "《夜曲 第5号，作品 52》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "30696",
+      "title_en": "Harpsichord Sonata in C minor, Op.5 No.9",
+      "current_title_zh": "《C小调羽管键琴奏鸣曲，Op.5 No.9》",
+      "new_title_zh": "《C小调羽管键琴奏鸣曲，Op.5 第9号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "40345",
+      "title_en": "Notturno for 4 Flutes in D major",
+      "current_title_zh": "《D大调四长笛《夜曲》》",
+      "new_title_zh": "《D大调四长笛〈夜曲〉》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "46585",
+      "title_en": "6 Variations on 'Wir winden dir den Jungfernkranz', Op.6",
+      "current_title_zh": "《6 变奏《我们为你缠绕少女花环》，Op.6》",
+      "new_title_zh": "《6 变奏〈我们为你缠绕少女花环〉，Op.6》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "50116",
+      "title_en": "Serenade No.3 for 2 Guitars, Op.63",
+      "current_title_zh": "《小夜曲 No.3 2 吉他，作品 63》",
+      "new_title_zh": "《小夜曲 第3号 2 吉他，作品 63》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "56063",
+      "title_en": "Bagatellen, Op.81",
+      "current_title_zh": "《小事，作品 81》",
+      "new_title_zh": "《小品，作品81》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "58767",
+      "title_en": "Fantasie No.4, Op.12",
+      "current_title_zh": "《幻想曲 No.4，作品 12》",
+      "new_title_zh": "《幻想曲 第4号，作品 12》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "62534",
+      "title_en": "Clarinet Duet in D minor, Op.6 No.2",
+      "current_title_zh": "《D小调单簧管二重奏，作品 6 No.2》",
+      "new_title_zh": "《D小调单簧管二重奏，作品 6 第2号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "69718",
+      "title_en": "2 Ballet Airs from Rossini's 'Mosè in Egitto', Op.28",
+      "current_title_zh": "《2 罗西尼《埃及的摩西》中的芭蕾舞曲，Op.28》",
+      "new_title_zh": "《2 罗西尼〈埃及的摩西〉中的芭蕾舞曲，Op.28》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "74609",
+      "title_en": "Fantaisie sur l'opéra 'La fiancée', Op.35",
+      "current_title_zh": "《歌剧《新娘》幻想曲，Op.35》",
+      "new_title_zh": "《歌剧〈新娘〉幻想曲，Op.35》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "75182",
+      "title_en": "Mélange sur des thèmes favoris de 'La Sirène', Op.74",
+      "current_title_zh": "《混合了《美人鱼》Op.74 中最受欢迎的主题》",
+      "new_title_zh": "《混合了〈美人鱼〉Op.74 中最受欢迎的主题》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "81586",
+      "title_en": "Nocturne No.4, Op.34",
+      "current_title_zh": "《夜曲 No.4，作品 34》",
+      "new_title_zh": "《夜曲 第4号，作品 34》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "81814",
+      "title_en": "Notturno No.1, Op.37",
+      "current_title_zh": "《夜曲 No.1，作品 37》",
+      "new_title_zh": "《夜曲 第1号，作品 37》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "81816",
+      "title_en": "Notturno No.2, Op.38",
+      "current_title_zh": "《夜曲 No.2，作品 38》",
+      "new_title_zh": "《夜曲 第2号，作品 38》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "82615",
+      "title_en": "Idylle No.1, Op.82",
+      "current_title_zh": "《田园诗 No.1，作品 82》",
+      "new_title_zh": "《田园诗 第1号，作品 82》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "87052",
+      "title_en": "Nocturne No.1, Op.3",
+      "current_title_zh": "《夜曲 No.1，作品 3》",
+      "new_title_zh": "《夜曲 第1号，作品 3》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "93359",
+      "title_en": "7 Variations sur la Cavatine Favorite de l'opera Tancredi, Op.50",
+      "current_title_zh": "《坦克雷迪歌剧《卡瓦汀最爱》7 变奏曲，作品 50》",
+      "new_title_zh": "《坦克雷迪歌剧〈卡瓦汀最爱〉7 变奏曲，作品 50》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "93542",
+      "title_en": "Duo No.2",
+      "current_title_zh": "《二重奏第2号》",
+      "new_title_zh": "《第2号二重奏》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "93550",
+      "title_en": "Fantasie über das Lied 'Der Abschied von den Bergen'",
+      "current_title_zh": "《关于《告别大山》这首歌的幻想》",
+      "new_title_zh": "《关于〈告别大山〉这首歌的幻想》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "93571",
+      "title_en": "Marche Serieuse",
+      "current_title_zh": "《严肃的步行》",
+      "new_title_zh": "《庄严进行曲》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "93577",
+      "title_en": "Etude No.3",
+      "current_title_zh": "《练习曲No.3》",
+      "new_title_zh": "《练习曲第3号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "93716",
+      "title_en": "Duo No.2",
+      "current_title_zh": "《二人组2号》",
+      "new_title_zh": "《第2号二重奏》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "94059",
+      "title_en": "Method for the Guitar, Op.250",
+      "current_title_zh": "《吉他方法，Op.250》",
+      "new_title_zh": "《吉他教程，作品250》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "94291",
+      "title_en": "Duo No.13 'Desert'",
+      "current_title_zh": "《二重奏 No.13 '沙漠'》",
+      "new_title_zh": "《二重奏 第13号 '沙漠'》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "94371",
+      "title_en": "Impromptu",
+      "current_title_zh": "《不料》",
+      "new_title_zh": "《即兴曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "95136",
+      "title_en": "Etude No.5",
+      "current_title_zh": "《练习曲No.5》",
+      "new_title_zh": "《练习曲第5号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "95343",
+      "title_en": "Fantasie",
+      "current_title_zh": "《幻想》",
+      "new_title_zh": "《幻想曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "95490",
+      "title_en": "Capriccetto 'Ronde des Fées', Op.2",
+      "current_title_zh": "《随想曲《仙女的轮回》，作品 2》",
+      "new_title_zh": "《随想曲〈仙女的轮回〉，作品 2》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "95999",
+      "title_en": "Fantasia on Pacini's 'Saffo'",
+      "current_title_zh": "《帕西尼的《萨福》幻想曲》",
+      "new_title_zh": "《帕西尼的〈萨福〉幻想曲》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "96702",
+      "title_en": "Kleine Fantasie über 'Stille Nacht'",
+      "current_title_zh": "《关于《平安夜》的小幻想》",
+      "new_title_zh": "《关于〈平安夜〉的小幻想》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "96885",
+      "title_en": "Canzon IX",
+      "current_title_zh": "《坎佐纳第9号》",
+      "new_title_zh": "《第9坎佐纳》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "96891",
+      "title_en": "Canzon VI",
+      "current_title_zh": "《第六坎佐纳》",
+      "new_title_zh": "《第6坎佐纳》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "97587",
+      "title_en": "Fantasie No.2, Op.4",
+      "current_title_zh": "《幻想 No.2，作品 4》",
+      "new_title_zh": "《幻想 第2号，作品 4》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "97600",
+      "title_en": "Fantasie No.3, Op.10",
+      "current_title_zh": "《幻想 No.3，作品 10》",
+      "new_title_zh": "《幻想 第3号，作品 10》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "98391",
+      "title_en": "Nocturne No.1, Op.68",
+      "current_title_zh": "《夜曲 No.1，作品 68》",
+      "new_title_zh": "《夜曲 第1号，作品 68》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "109530",
+      "title_en": "Bolero",
+      "current_title_zh": "《波莱罗》",
+      "new_title_zh": "《波莱罗舞曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "121390",
+      "title_en": "Fantasia No.10",
+      "current_title_zh": "《幻想曲10号》",
+      "new_title_zh": "《第10号幻想曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "135845",
+      "title_en": "Variations on Deh! calma oh ciel from 'Othello', Op.101",
+      "current_title_zh": "《Deh 的变体！平静的天空，选自《奥赛罗》，Op.101》",
+      "new_title_zh": "《Deh 的变体！平静的天空，选自〈奥赛罗〉，Op.101》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "143221",
+      "title_en": "Bagatelle, Op.33",
+      "current_title_zh": "《小事，作品 33》",
+      "new_title_zh": "《小品，作品33》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "150051",
+      "title_en": "Progression March",
+      "current_title_zh": "《行进进行曲》",
+      "new_title_zh": "《进阶进行曲》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "168679",
+      "title_en": "Bagatelle",
+      "current_title_zh": "《琐事》",
+      "new_title_zh": "《小品》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "191506",
+      "title_en": "Pastorale",
+      "current_title_zh": "《田园风光》",
+      "new_title_zh": "《田园曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "203882",
+      "title_en": "Nocturne No.1, Op.17",
+      "current_title_zh": "《夜曲 No.1，作品 17》",
+      "new_title_zh": "《夜曲 第1号，作品 17》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "247798",
+      "title_en": "Magnificat sur les huit tons avec Te Deum laudamus et deux Preludes",
+      "current_title_zh": "《八音颂赞曲，配以《赞美赞歌》和两首前奏曲》",
+      "new_title_zh": "《八音颂赞曲，配以〈赞美赞歌〉和两首前奏曲》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "293042",
+      "title_en": "La pellegrina, Op.1 No.3",
+      "current_title_zh": "《朝圣者，作品 1 No.3》",
+      "new_title_zh": "《朝圣者，作品 1 第3号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "313368",
+      "title_en": "Quinto Ballo detto lo Ninfe di Senna",
+      "current_title_zh": "《第五支舞《塞纳的仙女》》",
+      "new_title_zh": "《第五支舞〈塞纳的仙女〉》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "314323",
+      "title_en": "Polonaise No.3, Op.12",
+      "current_title_zh": "《波兰舞曲 No.3，作品 12》",
+      "new_title_zh": "《波兰舞曲 第3号，作品 12》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "347640",
+      "title_en": "Ricercar No.2",
+      "current_title_zh": "《利切尔卡尔二号》",
+      "new_title_zh": "《第2号利切尔卡尔》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "347951",
+      "title_en": "Symphony in E-flat major, Op.10 No.1",
+      "current_title_zh": "《降E大调交响曲，Op.10 No.1》",
+      "new_title_zh": "《降E大调交响曲，Op.10 第1号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "357215",
+      "title_en": "Ricercar",
+      "current_title_zh": "《搜索》",
+      "new_title_zh": "《利切尔卡尔》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "357882",
+      "title_en": "Fantasia de vihuela de secondo tono No.3",
+      "current_title_zh": "《第二音维韦拉幻想曲 No.3》",
+      "new_title_zh": "《第二音维韦拉幻想曲 第3号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "357918",
+      "title_en": "Ricercare 11",
+      "current_title_zh": "《搜索 11》",
+      "new_title_zh": "《第11号利切尔卡尔》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "361679",
+      "title_en": "Canzon I",
+      "current_title_zh": "《第一坎佐纳》",
+      "new_title_zh": "《第1坎佐纳》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "372597",
+      "title_en": "Trio Sonata in G major, Op.1 No.2",
+      "current_title_zh": "《G大调三重奏鸣曲，Op.1 No.2》",
+      "new_title_zh": "《G大调三重奏鸣曲，Op.1 第2号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "373882",
+      "title_en": "Magnificat Tertii toni, Op.1 No.3",
+      "current_title_zh": "《第三音放大曲，Op.1 No.3》",
+      "new_title_zh": "《第三音放大曲，Op.1 第3号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "374632",
+      "title_en": "Toccata 'Athalanta'",
+      "current_title_zh": "《托卡塔《阿塔兰塔》》",
+      "new_title_zh": "《托卡塔〈阿塔兰塔〉》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "412334",
+      "title_en": "Canzon 3",
+      "current_title_zh": "《第三坎佐纳》",
+      "new_title_zh": "《第3坎佐纳》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "412815",
+      "title_en": "Canzon 1",
+      "current_title_zh": "《坎佐纳第1号》",
+      "new_title_zh": "《第1坎佐纳》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "418583",
+      "title_en": "Marche du ballet de 'Cendrillon', Op.15c",
+      "current_title_zh": "《芭蕾舞进行曲《灰姑娘》，Op.15c》",
+      "new_title_zh": "《芭蕾舞进行曲〈灰姑娘〉，Op.15c》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "418605",
+      "title_en": "Fantasie No.5, Op.16",
+      "current_title_zh": "《幻想 No.5，作品 16》",
+      "new_title_zh": "《幻想 第5号，作品 16》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "423009",
+      "title_en": "Complete Method for the Mandoline",
+      "current_title_zh": "《曼陀林的完整方法》",
+      "new_title_zh": "《曼陀林完整教程》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "430265",
+      "title_en": "Canzon 4",
+      "current_title_zh": "《坎佐纳第4号》",
+      "new_title_zh": "《第4坎佐纳》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "432031",
+      "title_en": "Canzon Quarta",
+      "current_title_zh": "《第四首坎佐纳》",
+      "new_title_zh": "《第4坎佐纳》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "439710",
+      "title_en": "Ricercar in G minor, Op.3 No.1",
+      "current_title_zh": "《G小调里瑟卡，作品 3 No.1》",
+      "new_title_zh": "《G小调里瑟卡，作品 3 第1号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "445102",
+      "title_en": "Suite brasileira No.2",
+      "current_title_zh": "《巴西组曲 No.2》",
+      "new_title_zh": "《巴西组曲 第2号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "460841",
+      "title_en": "Ricercar No.3",
+      "current_title_zh": "《利切尔卡尔第3号》",
+      "new_title_zh": "《第3号利切尔卡尔》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "466721",
+      "title_en": "Triste No.1",
+      "current_title_zh": "《悲伤No.1》",
+      "new_title_zh": "《悲伤第1号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "469902",
+      "title_en": "La lusignuola, Op.1 No.2",
+      "current_title_zh": "《卢西尼奥拉，作品 1 No.2》",
+      "new_title_zh": "《卢西尼奥拉，作品 1 第2号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "471317",
+      "title_en": "La ghirardella, Op.1 No.1",
+      "current_title_zh": "《吉拉德拉，作品 1 No.1》",
+      "new_title_zh": "《吉拉德拉，作品 1 第1号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "474302",
+      "title_en": "La ciria, Op.1 No.6",
+      "current_title_zh": "《拉西里亚，作品 1 No.6》",
+      "new_title_zh": "《拉西里亚，作品 1 第6号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "475516",
+      "title_en": "Canzon 1",
+      "current_title_zh": "《第一坎佐纳》",
+      "new_title_zh": "《第1坎佐纳》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "475739",
+      "title_en": "Canzon 2",
+      "current_title_zh": "《坎佐纳第2号》",
+      "new_title_zh": "《第2坎佐纳》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "476060",
+      "title_en": "Canzon 4",
+      "current_title_zh": "《第四坎佐纳》",
+      "new_title_zh": "《第4坎佐纳》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "476070",
+      "title_en": "La livia, Op.1 No.8",
+      "current_title_zh": "《利维亚，作品 1 No.8》",
+      "new_title_zh": "《利维亚，作品 1 第8号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "476279",
+      "title_en": "La monteverde, Op.1 No.9",
+      "current_title_zh": "《蒙特维德，作品 1 No.9》",
+      "new_title_zh": "《蒙特维德，作品 1 第9号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "476288",
+      "title_en": "L'orbina, Op.1 No.10",
+      "current_title_zh": "《奥尔比娜，作品 1 No.10》",
+      "new_title_zh": "《奥尔比娜，作品 1 第10号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "476294",
+      "title_en": "La piva, Op.1 No.11",
+      "current_title_zh": "《拉皮瓦，作品 1 No.11》",
+      "new_title_zh": "《拉皮瓦，作品 1 第11号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "483016",
+      "title_en": "Ricercar 1 del primo tono",
+      "current_title_zh": "《搜索第一个音调中的 1 个》",
+      "new_title_zh": "《第一调式利切尔卡尔第1号》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "498466",
+      "title_en": "Ricercar secondo",
+      "current_title_zh": "《搜索第二》",
+      "new_title_zh": "《第2号利切尔卡尔》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "502577",
+      "title_en": "Ricercare 13",
+      "current_title_zh": "《搜索 13》",
+      "new_title_zh": "《第13号利切尔卡尔》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "507089",
+      "title_en": "Postlude in D major, Op.5 No.1",
+      "current_title_zh": "《D大调尾奏曲，Op.5 No.1》",
+      "new_title_zh": "《D大调尾奏曲，Op.5 第1号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "535009",
+      "title_en": "New Guitar Method",
+      "current_title_zh": "《新吉他方法》",
+      "new_title_zh": "《新吉他教程》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "537442",
+      "title_en": "Guitar Duo No.12, Op.82",
+      "current_title_zh": "《吉他二重奏 No.12，作品 82》",
+      "new_title_zh": "《吉他二重奏 第12号，作品 82》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "550252",
+      "title_en": "Polonaise No.4, Op.17",
+      "current_title_zh": "《波兰舞曲 No.4，作品 17》",
+      "new_title_zh": "《波兰舞曲 第4号，作品 17》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "566728",
+      "title_en": "Fantasie quartusdecimus 'Da pacem domine'",
+      "current_title_zh": "《第十四幻想《请赐平安吧主》》",
+      "new_title_zh": "《第十四幻想〈请赐平安吧主〉》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "569019",
+      "title_en": "Sonata in A minor, Op.1 No.5",
+      "current_title_zh": "《A小调奏鸣曲，作品 1 No.5》",
+      "new_title_zh": "《A小调奏鸣曲，作品 1 第5号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "581017",
+      "title_en": "O Venus bant",
+      "current_title_zh": "《爱神维纳斯的束缚》",
+      "new_title_zh": "《维纳斯的束缚》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "601257",
+      "title_en": "Canzon Prima, Op.8 No.40",
+      "current_title_zh": "《第一坎佐纳，Op.8 No.40》",
+      "new_title_zh": "《第一坎佐纳，Op.8 第40号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "601876",
+      "title_en": "Ricercar Terzo à 4",
+      "current_title_zh": "《搜索第三至第四》",
+      "new_title_zh": "《四声部第3号利切尔卡尔》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "639904",
+      "title_en": "Violin Sonata in D minor 'La Folia', Op.5 No.12",
+      "current_title_zh": "《D小调小提琴奏鸣曲“La Folia”，作品 5 No.12》",
+      "new_title_zh": "《D小调小提琴奏鸣曲“La Folia”，作品 5 第12号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "639922",
+      "title_en": "Violin Sonata in E minor, Op.5 No.8",
+      "current_title_zh": "《E小调小提琴奏鸣曲，Op.5 No.8》",
+      "new_title_zh": "《E小调小提琴奏鸣曲，Op.5 第8号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "662150",
+      "title_en": "Ricercar primi toni, CM II.5",
+      "current_title_zh": "《搜索第一声调，CM II.5》",
+      "new_title_zh": "《第一调式利切尔卡尔，CM II.5》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "663433",
+      "title_en": "Polonaise from 'Tancredi'",
+      "current_title_zh": "《选自《坦克雷迪》的波兰舞曲》",
+      "new_title_zh": "《选自〈坦克雷迪〉的波兰舞曲》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "663748",
+      "title_en": "Nocturne No.1, Op.70",
+      "current_title_zh": "《夜曲 No.1，作品 70》",
+      "new_title_zh": "《夜曲 第1号，作品 70》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "666103",
+      "title_en": "Fantasie",
+      "current_title_zh": "《幻想》",
+      "new_title_zh": "《幻想曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "680793",
+      "title_en": "Ricercar No.2",
+      "current_title_zh": "《第二利切尔卡尔》",
+      "new_title_zh": "《第2号利切尔卡尔》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "690385",
+      "title_en": "Polonaise",
+      "current_title_zh": "《波洛奈兹舞曲》",
+      "new_title_zh": "《波兰舞曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "698226",
+      "title_en": "Ricercar No.3",
+      "current_title_zh": "《第三利切尔卡尔》",
+      "new_title_zh": "《第3号利切尔卡尔》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "701266",
+      "title_en": "Metodo elementare per Chitarra,Op.284",
+      "current_title_zh": "《吉他基本方法，Op.284》",
+      "new_title_zh": "《吉他基础教程，作品284》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "705900",
+      "title_en": "Ave Maria de Josquin",
+      "current_title_zh": "《若斯坎的《万福玛利亚》》",
+      "new_title_zh": "《若斯坎的〈万福玛利亚〉》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "715087",
+      "title_en": "Ricercare 4 a due voci",
+      "current_title_zh": "《搜索 4 包含两个项目》",
+      "new_title_zh": "《二声部第4号利切尔卡尔》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "715292",
+      "title_en": "Ricercare 7 a due voci",
+      "current_title_zh": "《用两种声音搜索 7》",
+      "new_title_zh": "《二声部第7号利切尔卡尔》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "715338",
+      "title_en": "Ricercare 11 a due voci",
+      "current_title_zh": "《用两种声音搜索 11》",
+      "new_title_zh": "《二声部第11号利切尔卡尔》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "719725",
+      "title_en": "En mi ventana un castillo No.1",
+      "current_title_zh": "《我的窗子里有一座城堡No.1》",
+      "new_title_zh": "《我的窗子里有一座城堡第1号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "719816",
+      "title_en": "Fantasie aus 'Linda von Chamounix', Op.14",
+      "current_title_zh": "《幻想曲《夏穆尼的琳达》，作品 14》",
+      "new_title_zh": "《幻想曲〈夏穆尼的琳达〉，作品 14》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "720202",
+      "title_en": "Fantaisie über 'Belisar', Op.30",
+      "current_title_zh": "《幻想曲《贝利撒留》，Op.30》",
+      "new_title_zh": "《幻想曲〈贝利撒留〉，Op.30》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "722267",
+      "title_en": "Guitar Piece No.1, Op.19 No.4",
+      "current_title_zh": "《吉他作品 No.1，Op.19 No.4》",
+      "new_title_zh": "《吉他作品 第1号，Op.19 第4号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "722271",
+      "title_en": "Guitar Piece No.2, Op.19 No.5",
+      "current_title_zh": "《吉他作品 No.2，Op.19 No.5》",
+      "new_title_zh": "《吉他作品 第2号，Op.19 第5号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "722949",
+      "title_en": "Melodie nell'opera 'Un ballo in maschera' di Verdi",
+      "current_title_zh": "《威尔第歌剧《假面舞会》中的旋律》",
+      "new_title_zh": "《威尔第歌剧〈假面舞会〉中的旋律》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "724288",
+      "title_en": "Boléro nei Vespri Siciliani di Verdi, Op.22",
+      "current_title_zh": "《威尔第《西西里晚祷》中的波莱罗舞曲，Op.22》",
+      "new_title_zh": "《威尔第〈西西里晚祷〉中的波莱罗舞曲，Op.22》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "724571",
+      "title_en": "Scelte melodie nell'opera 'Il trovatore' di Verdi",
+      "current_title_zh": "《威尔第歌剧《游吟诗人》旋律精选》",
+      "new_title_zh": "《威尔第歌剧〈游吟诗人〉旋律精选》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "724640",
+      "title_en": "Diversi motivi della 'Marta' di Flotow, Op.14",
+      "current_title_zh": "《弗洛托的《玛尔塔》，作品 14 中的几个主题》",
+      "new_title_zh": "《弗洛托的〈玛尔塔〉，作品 14 中的几个主题》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "724797",
+      "title_en": "Vari pezzi del balletto Il Barbiere di Seviglia, Op.16",
+      "current_title_zh": "《芭蕾舞剧《塞维利亚理发师》中的多部作品，作品 16》",
+      "new_title_zh": "《芭蕾舞剧〈塞维利亚理发师〉中的多部作品，作品 16》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "724807",
+      "title_en": "12 Ecossoises, Op.33",
+      "current_title_zh": "《12 《生态》，作品 33》",
+      "new_title_zh": "《12首埃科塞斯舞曲，作品33》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "729826",
+      "title_en": "Variations sur un duo de l'opéra 'Don Juan', Op.6",
+      "current_title_zh": "《歌剧二重奏变奏曲《唐璜》，作品 6》",
+      "new_title_zh": "《歌剧二重奏变奏曲〈唐璜〉，作品 6》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "729974",
+      "title_en": "Grande polonaise No.1, Op.24",
+      "current_title_zh": "《第一大波洛奈兹舞曲，Op.24》",
+      "new_title_zh": "《大型波兰舞曲第1号，作品24》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "731311",
+      "title_en": "4 Pieces for Guitar",
+      "current_title_zh": "《吉他 4 首》",
+      "new_title_zh": "《4首吉他小品》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "743403",
+      "title_en": "Canzon Seconda, Op.8 No.41",
+      "current_title_zh": "《第二坎佐纳，Op.8 No.41》",
+      "new_title_zh": "《第二坎佐纳，Op.8 第41号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "746849",
+      "title_en": "Suite from 'Stilhed får ikke et pendul til at svinge', Op.23",
+      "current_title_zh": "《组曲《沉默不会使钟摆摆动》，Op.23》",
+      "new_title_zh": "《组曲〈沉默不会使钟摆摆动〉，Op.23》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "757469",
+      "title_en": "Faded Flowers, Op.71 No.1",
+      "current_title_zh": "《凋谢的花，Op.71 No.1》",
+      "new_title_zh": "《凋谢的花，Op.71 第1号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "757477",
+      "title_en": "On the 'Charles', Op.71 No.2",
+      "current_title_zh": "《关于“查尔斯”，Op.71 No.2》",
+      "new_title_zh": "《关于“查尔斯”，Op.71 第2号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "759065",
+      "title_en": "Balletto detto la Fedeltà d'Amore",
+      "current_title_zh": "《芭蕾舞剧《爱的忠诚》》",
+      "new_title_zh": "《芭蕾舞剧〈爱的忠诚〉》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "770710",
+      "title_en": "Sonata No.2 for 2 Guitars",
+      "current_title_zh": "《2 吉他奏鸣曲 No.2》",
+      "new_title_zh": "《2 吉他奏鸣曲 第2号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "772108",
+      "title_en": "String Trio in D major, Op.9 No.2",
+      "current_title_zh": "《D大调弦乐三重奏，Op.9 No.2》",
+      "new_title_zh": "《D大调弦乐三重奏，Op.9 第2号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "786819",
+      "title_en": "Partita",
+      "current_title_zh": "《匹配》",
+      "new_title_zh": "《组曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "786829",
+      "title_en": "Polonaise",
+      "current_title_zh": "《波洛奈兹舞曲》",
+      "new_title_zh": "《波兰舞曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "795126",
+      "title_en": "Jota Aragonesa",
+      "current_title_zh": "《阿拉贡的一些东西》",
+      "new_title_zh": "《阿拉贡霍塔舞曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "795694",
+      "title_en": "Sinfonía de la ópera Marta",
+      "current_title_zh": "《歌剧《玛尔塔》交响曲》",
+      "new_title_zh": "《歌剧〈玛尔塔〉交响曲》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "795733",
+      "title_en": "Motivo de la ópera El Barbero de Sevilla",
+      "current_title_zh": "《歌剧《塞维利亚的理发师》的主题》",
+      "new_title_zh": "《歌剧〈塞维利亚的理发师〉的主题》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "797079",
+      "title_en": "Stahl's Minstrel Parade March",
+      "current_title_zh": "《斯塔尔的吟游诗人游行进行曲》",
+      "new_title_zh": "《斯塔尔吟游艺人巡游进行曲》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "799767",
+      "title_en": "Método completo y progresivo de guitarra",
+      "current_title_zh": "《完整渐进的吉他方法》",
+      "new_title_zh": "《完整渐进吉他教程》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "799883",
+      "title_en": "Sinfonia de la opera El barbero de Sevilla",
+      "current_title_zh": "《歌剧《塞维利亚理发师》交响曲》",
+      "new_title_zh": "《歌剧〈塞维利亚理发师〉交响曲》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "801119",
+      "title_en": "Nuevo método fácil y progresivo",
+      "current_title_zh": "《新的简单且渐进的方法》",
+      "new_title_zh": "《简易渐进新教程》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "807235",
+      "title_en": "Polonaise No.2, Op.11",
+      "current_title_zh": "《波兰舞曲 No.2，作品 11》",
+      "new_title_zh": "《波兰舞曲 第2号，作品 11》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "812575",
+      "title_en": "Trio Sonata in D minor, Op.2 No.2",
+      "current_title_zh": "《D小调三重奏鸣曲，Op.2 No.2》",
+      "new_title_zh": "《D小调三重奏鸣曲，Op.2 第2号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "817841",
+      "title_en": "Sonatine No.2",
+      "current_title_zh": "《第二号奏鸣曲》",
+      "new_title_zh": "《第2号小奏鸣曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "818120",
+      "title_en": "Pastorale",
+      "current_title_zh": "《田园风光》",
+      "new_title_zh": "《田园曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "818334",
+      "title_en": "6 Valses",
+      "current_title_zh": "《6 华尔兹》",
+      "new_title_zh": "《6首华尔兹》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "820106",
+      "title_en": "Sonata No.1 for 2 Guitars",
+      "current_title_zh": "《2 吉他奏鸣曲 No.1》",
+      "new_title_zh": "《2 吉他奏鸣曲 第1号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "822055",
+      "title_en": "Guitar Piece No.4",
+      "current_title_zh": "《吉他作品 No.4》",
+      "new_title_zh": "《吉他作品 第4号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "824096",
+      "title_en": "Magnificat Quarti toni, Op.1 No.4",
+      "current_title_zh": "《第四音颂扬曲，Op.1 No.4》",
+      "new_title_zh": "《第四音颂扬曲，Op.1 第4号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "825820",
+      "title_en": "Estudio No.4",
+      "current_title_zh": "《练习曲第4号》",
+      "new_title_zh": "《第4号练习曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "827024",
+      "title_en": "Estudio No.3",
+      "current_title_zh": "《第三练习曲》",
+      "new_title_zh": "《第3号练习曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "827377",
+      "title_en": "Estudio No.6",
+      "current_title_zh": "《练习曲六》",
+      "new_title_zh": "《第6号练习曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "832478",
+      "title_en": "Grande Fantaisie, Op.25",
+      "current_title_zh": "《伟大的幻想曲，作品 25》",
+      "new_title_zh": "《大型幻想曲，作品25》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "833189",
+      "title_en": "Guitar Sonatina in C major, MS 85 No.1",
+      "current_title_zh": "《C大调吉他奏鸣曲，MS 85 No.1》",
+      "new_title_zh": "《C大调吉他奏鸣曲，MS 85 第1号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "833390",
+      "title_en": "Guitar Sonata in A major, MS 84 No.21",
+      "current_title_zh": "《A大调吉他奏鸣曲，MS 84 No.21》",
+      "new_title_zh": "《A大调吉他奏鸣曲，MS 84 第21号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "833970",
+      "title_en": "Guitar Sonata in G major, MS 84 No.24",
+      "current_title_zh": "《G大调吉他奏鸣曲，MS 84 No.24》",
+      "new_title_zh": "《G大调吉他奏鸣曲，MS 84 第24号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "834367",
+      "title_en": "Guitar Sonata in C major, MS 84 No.3",
+      "current_title_zh": "《C大调吉他奏鸣曲，MS 84 No.3》",
+      "new_title_zh": "《C大调吉他奏鸣曲，MS 84 第3号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "834630",
+      "title_en": "Guitar Sonatina in C major, MS 85 No.5",
+      "current_title_zh": "《C大调吉他奏鸣曲，MS 85 No.5》",
+      "new_title_zh": "《C大调吉他奏鸣曲，MS 85 第5号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "834904",
+      "title_en": "Guitar Sonata in C major, MS 84 No.13",
+      "current_title_zh": "《C大调吉他奏鸣曲，MS 84 No.13》",
+      "new_title_zh": "《C大调吉他奏鸣曲，MS 84 第13号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "835686",
+      "title_en": "Guitar Sonata in E major, MS 84 No.32",
+      "current_title_zh": "《E大调吉他奏鸣曲，MS 84 No.32》",
+      "new_title_zh": "《E大调吉他奏鸣曲，MS 84 第32号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "836140",
+      "title_en": "Guitar Sonata in A major, MS 84 No.34",
+      "current_title_zh": "《A大调吉他奏鸣曲，MS 84 No.34》",
+      "new_title_zh": "《A大调吉他奏鸣曲，MS 84 第34号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "836723",
+      "title_en": "Guitar Sonata in C major, MS 84 No.31",
+      "current_title_zh": "《C大调吉他奏鸣曲，MS 84 No.31》",
+      "new_title_zh": "《C大调吉他奏鸣曲，MS 84 第31号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "837425",
+      "title_en": "Guitar Sonata in E major, MS 84 No.35",
+      "current_title_zh": "《E大调吉他奏鸣曲，MS 84 No.35》",
+      "new_title_zh": "《E大调吉他奏鸣曲，MS 84 第35号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "837808",
+      "title_en": "Guitar Sonata in A major, MS 84 No.37",
+      "current_title_zh": "《A大调吉他奏鸣曲，MS 84 No.37》",
+      "new_title_zh": "《A大调吉他奏鸣曲，MS 84 第37号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "838445",
+      "title_en": "Guitar Sonata in A major, MS 84 No.36",
+      "current_title_zh": "《A大调吉他奏鸣曲，MS 84 No.36》",
+      "new_title_zh": "《A大调吉他奏鸣曲，MS 84 第36号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "838586",
+      "title_en": "Guitar Sonata in C minor, MS 84 No.33",
+      "current_title_zh": "《C小调吉他奏鸣曲，MS 84 No.33》",
+      "new_title_zh": "《C小调吉他奏鸣曲，MS 84 第33号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "838764",
+      "title_en": "Guitar Sonata in A major, MS 84 No.26",
+      "current_title_zh": "《A大调吉他奏鸣曲，MS 84 No.26》",
+      "new_title_zh": "《A大调吉他奏鸣曲，MS 84 第26号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "839090",
+      "title_en": "Guitar Sonata in F major, MS 84 No.7",
+      "current_title_zh": "《F大调吉他奏鸣曲 MS 84 No.7》",
+      "new_title_zh": "《F大调吉他奏鸣曲 MS 84 第7号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "839176",
+      "title_en": "Guitar Sonata in F major, MS 84 No.6",
+      "current_title_zh": "《F大调吉他奏鸣曲，MS 84 No.6》",
+      "new_title_zh": "《F大调吉他奏鸣曲，MS 84 第6号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "839711",
+      "title_en": "Guitar Sonata in C major, MS 84 No.19",
+      "current_title_zh": "《C大调吉他奏鸣曲，MS 84 No.19》",
+      "new_title_zh": "《C大调吉他奏鸣曲，MS 84 第19号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "840059",
+      "title_en": "Duet for Violin and Cello in C major, Op.6 No.1",
+      "current_title_zh": "《C 大调小提琴与大提琴二重奏，作品 6 No.1》",
+      "new_title_zh": "《C 大调小提琴与大提琴二重奏，作品 6 第1号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "840567",
+      "title_en": "Guitar Sonatina in C major, MS 85 No.4",
+      "current_title_zh": "《C大调吉他奏鸣曲，MS 85 No.4》",
+      "new_title_zh": "《C大调吉他奏鸣曲，MS 85 第4号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "841011",
+      "title_en": "Guitar Sonata in A major, MS 84 No.23",
+      "current_title_zh": "《A大调吉他奏鸣曲，MS 84 No.23》",
+      "new_title_zh": "《A大调吉他奏鸣曲，MS 84 第23号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "841742",
+      "title_en": "Guitar Sonata in A major, MS 84 No.27",
+      "current_title_zh": "《A大调吉他奏鸣曲，MS 84 No.27》",
+      "new_title_zh": "《A大调吉他奏鸣曲，MS 84 第27号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "841943",
+      "title_en": "Guitar Sonata in C major, MS 84 No.9",
+      "current_title_zh": "《C大调吉他奏鸣曲，MS 84 No.9》",
+      "new_title_zh": "《C大调吉他奏鸣曲，MS 84 第9号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "842991",
+      "title_en": "Guitar Sonata in A major, MS 84 No.1",
+      "current_title_zh": "《A大调吉他奏鸣曲，MS 84 No.1》",
+      "new_title_zh": "《A大调吉他奏鸣曲，MS 84 第1号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "843750",
+      "title_en": "Guitar Sonata in A major, MS 84 No.17",
+      "current_title_zh": "《A大调吉他奏鸣曲，MS 84 No.17》",
+      "new_title_zh": "《A大调吉他奏鸣曲，MS 84 第17号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "844300",
+      "title_en": "Guitar Sonata in E major, MS 84 No.16",
+      "current_title_zh": "《E大调吉他奏鸣曲，MS 84 No.16》",
+      "new_title_zh": "《E大调吉他奏鸣曲，MS 84 第16号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "848741",
+      "title_en": "Simple Duet No.3, Op.29b",
+      "current_title_zh": "《简单二重奏 No.3，作品 29b》",
+      "new_title_zh": "《简单二重奏 第3号，作品 29b》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "848773",
+      "title_en": "Simple Duet No.1, Op.20",
+      "current_title_zh": "《简单二重奏 No.1，作品 20》",
+      "new_title_zh": "《简单二重奏 第1号，作品 20》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "848774",
+      "title_en": "Simple Duet No.2, Op.21",
+      "current_title_zh": "《简单二重奏 No.2，作品 21》",
+      "new_title_zh": "《简单二重奏 第2号，作品 21》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "852046",
+      "title_en": "Guitar Sonata in A major, MS 84 No.2",
+      "current_title_zh": "《A大调吉他奏鸣曲，MS 84 No.2》",
+      "new_title_zh": "《A大调吉他奏鸣曲，MS 84 第2号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "852315",
+      "title_en": "Guitar Sonata in D major, MS 84 No.10",
+      "current_title_zh": "《D大调吉他奏鸣曲，MS 84 No.10》",
+      "new_title_zh": "《D大调吉他奏鸣曲，MS 84 第10号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "852447",
+      "title_en": "Guitar Sonata in A major, MS 84 No.11",
+      "current_title_zh": "《A大调吉他奏鸣曲，MS 84 No.11》",
+      "new_title_zh": "《A大调吉他奏鸣曲，MS 84 第11号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "852772",
+      "title_en": "Guitar Sonata in A major, MS 84 No.12",
+      "current_title_zh": "《A大调吉他奏鸣曲，MS 84 No.12》",
+      "new_title_zh": "《A大调吉他奏鸣曲，MS 84 第12号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "853191",
+      "title_en": "Guitar Sonata in D major, MS 84 No.4",
+      "current_title_zh": "《D大调吉他奏鸣曲，MS 84 No.4》",
+      "new_title_zh": "《D大调吉他奏鸣曲，MS 84 第4号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "853373",
+      "title_en": "Guitar Sonata in G major, MS 84 No.5",
+      "current_title_zh": "《G大调吉他奏鸣曲，MS 84 No.5》",
+      "new_title_zh": "《G大调吉他奏鸣曲，MS 84 第5号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "853759",
+      "title_en": "Guitar Sonata in F major, MS 84 No.14",
+      "current_title_zh": "《F大调吉他奏鸣曲 MS 84 No.14》",
+      "new_title_zh": "《F大调吉他奏鸣曲 MS 84 第14号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "853920",
+      "title_en": "Guitar Sonata in C major, MS 84 No.15",
+      "current_title_zh": "《C大调吉他奏鸣曲，MS 84 No.15》",
+      "new_title_zh": "《C大调吉他奏鸣曲，MS 84 第15号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "854992",
+      "title_en": "Guitar Sonata in G major, MS 84 No.8",
+      "current_title_zh": "《G大调吉他奏鸣曲，MS 84 No.8》",
+      "new_title_zh": "《G大调吉他奏鸣曲，MS 84 第8号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "855250",
+      "title_en": "Guitar Sonata in C major, MS 84 No.20",
+      "current_title_zh": "《C大调吉他奏鸣曲，MS 84 No.20》",
+      "new_title_zh": "《C大调吉他奏鸣曲，MS 84 第20号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "855409",
+      "title_en": "Guitar Sonata in A major, MS 84 No.18",
+      "current_title_zh": "《A大调吉他奏鸣曲，MS 84 No.18》",
+      "new_title_zh": "《A大调吉他奏鸣曲，MS 84 第18号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "855758",
+      "title_en": "Fantasia à5 No.4",
+      "current_title_zh": "《幻想曲à5 No.4》",
+      "new_title_zh": "《幻想曲à5 第4号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "855773",
+      "title_en": "Fantasia à5 No.3",
+      "current_title_zh": "《幻想曲à5 No.3》",
+      "new_title_zh": "《幻想曲à5 第3号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "855999",
+      "title_en": "Guitar Sonata in D major, MS 84 No.22",
+      "current_title_zh": "《D大调吉他奏鸣曲，MS 84 No.22》",
+      "new_title_zh": "《D大调吉他奏鸣曲，MS 84 第22号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "856166",
+      "title_en": "Guitar Sonata in E major, MS 84 No.25",
+      "current_title_zh": "《E大调吉他奏鸣曲，MS 84 No.25》",
+      "new_title_zh": "《E大调吉他奏鸣曲，MS 84 第25号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "856337",
+      "title_en": "Guitar Sonata in G major, MS 84 No.29",
+      "current_title_zh": "《G大调吉他奏鸣曲，MS 84 No.29》",
+      "new_title_zh": "《G大调吉他奏鸣曲，MS 84 第29号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "856503",
+      "title_en": "Guitar Sonata in A major, MS 84 No.30",
+      "current_title_zh": "《A大调吉他奏鸣曲，MS 84 No.30》",
+      "new_title_zh": "《A大调吉他奏鸣曲，MS 84 第30号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "856654",
+      "title_en": "Guitar Sonata in G major, MS 84 No.28",
+      "current_title_zh": "《G大调吉他奏鸣曲，MS 84 No.28》",
+      "new_title_zh": "《G大调吉他奏鸣曲，MS 84 第28号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "857881",
+      "title_en": "Ricercar Primo Tono con tre Fughe",
+      "current_title_zh": "《搜索带有三首赋格曲的第一音》",
+      "new_title_zh": "《第一调式利切尔卡尔与三首赋格》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "858745",
+      "title_en": "Barcarole in E major, Op.20 No.1",
+      "current_title_zh": "《E大调船歌，Op.20 No.1》",
+      "new_title_zh": "《E大调船歌，Op.20 第1号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "862066",
+      "title_en": "Tambourin, Op.2 No.7",
+      "current_title_zh": "《铃鼓，作品 2 No.7》",
+      "new_title_zh": "《铃鼓，作品 2 第7号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "863059",
+      "title_en": "Allegro moderato in B-flat major, Op.2 No.2",
+      "current_title_zh": "《降 B 大调快板，作品 2 No.2》",
+      "new_title_zh": "《降 B 大调快板，作品 2 第2号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "863461",
+      "title_en": "Fantasia No.1",
+      "current_title_zh": "《幻想曲一号》",
+      "new_title_zh": "《第1号幻想曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "863469",
+      "title_en": "Fantasia No.2",
+      "current_title_zh": "《幻想2号》",
+      "new_title_zh": "《第2号幻想曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "863791",
+      "title_en": "Canzon Quarta",
+      "current_title_zh": "《第四首坎佐纳》",
+      "new_title_zh": "《第4坎佐纳》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "863972",
+      "title_en": "Ricercar Quarto con tre Soghetti",
+      "current_title_zh": "《搜索包含三个 Soghetti 的四开本》",
+      "new_title_zh": "《基于三个主题的第4号利切尔卡尔》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "866331",
+      "title_en": "O Venus bant",
+      "current_title_zh": "《维纳斯啊班特》",
+      "new_title_zh": "《维纳斯的束缚》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "866502",
+      "title_en": "Nocturno",
+      "current_title_zh": "《夜晚》",
+      "new_title_zh": "《夜曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "866753",
+      "title_en": "Polonesa brillante No.2",
+      "current_title_zh": "《明亮的波兰舞曲 No.2》",
+      "new_title_zh": "《明亮的波兰舞曲 第2号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "867596",
+      "title_en": "Ricercar Secondo Tono con quattro Fughe",
+      "current_title_zh": "《搜索带有四首赋格曲的第二声》",
+      "new_title_zh": "《第二调式利切尔卡尔与四首赋格》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "868450",
+      "title_en": "Método completo",
+      "current_title_zh": "《完整方法》",
+      "new_title_zh": "《完整教程》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "870033",
+      "title_en": "Nouvelle méthode raisonnée pour apprendre la guitarre ou lyre",
+      "current_title_zh": "《练习曲吉他或里拉琴的新合理方法》",
+      "new_title_zh": "《吉他或里拉琴循序教程》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "870130",
+      "title_en": "Canzon Quarta",
+      "current_title_zh": "《第四坎佐纳》",
+      "new_title_zh": "《第4坎佐纳》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "876350",
+      "title_en": "Keyboard Sonata in F minor, Op.5 No.6",
+      "current_title_zh": "《F小调键盘奏鸣曲，作品 5 No.6》",
+      "new_title_zh": "《F小调键盘奏鸣曲，作品 5 第6号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "879723",
+      "title_en": "Keyboard Sonata in B-flat major, Op.5 No.9",
+      "current_title_zh": "《降 B 大调键盘奏鸣曲，作品 5 No.9》",
+      "new_title_zh": "《降 B 大调键盘奏鸣曲，作品 5 第9号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "894136",
+      "title_en": "Recercare 3",
+      "current_title_zh": "《搜索 3》",
+      "new_title_zh": "《第3号利切尔卡尔》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "897655",
+      "title_en": "Recercare 7",
+      "current_title_zh": "《搜索 7》",
+      "new_title_zh": "《第7号利切尔卡尔》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "905625",
+      "title_en": "Fleurs du Nord, Op.3 No.1",
+      "current_title_zh": "《北国之花 Op.3 No.1》",
+      "new_title_zh": "《北国之花 Op.3 第1号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "908301",
+      "title_en": "Partita No.6",
+      "current_title_zh": "《第六场比赛》",
+      "new_title_zh": "《第6号组曲》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "909024",
+      "title_en": "Recercare 11",
+      "current_title_zh": "《搜索 11》",
+      "new_title_zh": "《第11号利切尔卡尔》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "909637",
+      "title_en": "Recercare 14",
+      "current_title_zh": "《搜索 14》",
+      "new_title_zh": "《第14号利切尔卡尔》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "911167",
+      "title_en": "Partita No.3",
+      "current_title_zh": "《第三场比赛》",
+      "new_title_zh": "《第3号组曲》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "913672",
+      "title_en": "Impromptu",
+      "current_title_zh": "《不料》",
+      "new_title_zh": "《即兴曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "922671",
+      "title_en": "Fantasia No.1",
+      "current_title_zh": "《幻想曲一号》",
+      "new_title_zh": "《第1号幻想曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "922870",
+      "title_en": "Fantasia No.2",
+      "current_title_zh": "《幻想2号》",
+      "new_title_zh": "《第2号幻想曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "926682",
+      "title_en": "Partita No.11",
+      "current_title_zh": "《第11场比赛》",
+      "new_title_zh": "《第11号组曲》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "928027",
+      "title_en": "Partita No.15",
+      "current_title_zh": "《第15场比赛》",
+      "new_title_zh": "《第15号组曲》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "929041",
+      "title_en": "Malagueña",
+      "current_title_zh": "《马拉盖尼亚》",
+      "new_title_zh": "《马拉加舞曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "932738",
+      "title_en": "Sonatine No.2",
+      "current_title_zh": "《第二号奏鸣曲》",
+      "new_title_zh": "《第2号小奏鸣曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "937780",
+      "title_en": "Códice Saldívar No.4",
+      "current_title_zh": "《萨尔迪瓦法典 No.4》",
+      "new_title_zh": "《萨尔迪瓦法典 第4号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "945425",
+      "title_en": "Bin traurig, Op.30 No.7",
+      "current_title_zh": "《很伤心，Op.30 No.7》",
+      "new_title_zh": "《很伤心，Op.30 第7号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "945956",
+      "title_en": "Federleicht, Op.27 No.2",
+      "current_title_zh": "《轻如羽毛，作品 27 No.2》",
+      "new_title_zh": "《轻如羽毛，作品 27 第2号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "947825",
+      "title_en": "Steter Tropfen, Op.23 No.6",
+      "current_title_zh": "《稳定下降，作品 23 No.6》",
+      "new_title_zh": "《稳定下降，作品 23 第6号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "958942",
+      "title_en": "Fantasia No.9",
+      "current_title_zh": "《幻想9号》",
+      "new_title_zh": "《第9号幻想曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "959219",
+      "title_en": "Fantasia No.10",
+      "current_title_zh": "《幻想10号》",
+      "new_title_zh": "《第10号幻想曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "999840",
+      "title_en": "6 Variations on 'Nel cor più non mi sento', Op.42",
+      "current_title_zh": "《6 变奏《我心中不再有感觉》，Op.42》",
+      "new_title_zh": "《6 变奏〈我心中不再有感觉〉，Op.42》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1006185",
+      "title_en": "Suite No.2, Mus.Hs.1078",
+      "current_title_zh": "《组曲 No.2，Mus.Hs.1078》",
+      "new_title_zh": "《组曲 第2号，Mus.Hs.1078》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1006328",
+      "title_en": "4 Pieces for Guitar",
+      "current_title_zh": "《吉他 4首小品》",
+      "new_title_zh": "《4首吉他小品》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1008410",
+      "title_en": "Variaciones sobre el Carnaval de Venecia de Paganini",
+      "current_title_zh": "《帕格尼尼《威尼斯狂欢节》变奏曲》",
+      "new_title_zh": "《帕格尼尼〈威尼斯狂欢节〉变奏曲》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1009366",
+      "title_en": "Motivi più favorita delle Opere Zelmira e Corradino da Rossini, Op.26",
+      "current_title_zh": "《罗西尼歌剧《泽尔米拉》和《科拉迪诺》最受欢迎的主题，作品 26》",
+      "new_title_zh": "《罗西尼歌剧〈泽尔米拉〉和〈科拉迪诺〉最受欢迎的主题，作品 26》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1011304",
+      "title_en": "Cavatina d'Ernani nell'opera Ernani",
+      "current_title_zh": "《歌剧《埃尔纳尼》中的卡瓦蒂娜·德尔纳尼》",
+      "new_title_zh": "《歌剧〈埃尔纳尼〉中的卡瓦蒂娜·德尔纳尼》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1011701",
+      "title_en": "Variations on 'Wenn mir dein Auge strahlet', Op.5",
+      "current_title_zh": "《变奏《当你的眼睛在我眼中闪耀》，Op.5》",
+      "new_title_zh": "《变奏〈当你的眼睛在我眼中闪耀〉，Op.5》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1017270",
+      "title_en": "Introduction, Variations, et Polonoise sur un Theme des Tiroliens, Op.13",
+      "current_title_zh": "《蒂罗尔主题引子、变奏与波洛奈兹舞曲，Op.13》",
+      "new_title_zh": "《蒂罗尔主题引子、变奏曲与波兰舞曲，作品13》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1021046",
+      "title_en": "4 Pieces for Guitar",
+      "current_title_zh": "《吉他 4首小品》",
+      "new_title_zh": "《4首吉他小品》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1021527",
+      "title_en": "Polonaise No.2, Op.14",
+      "current_title_zh": "《波兰舞曲 No.2，作品 14》",
+      "new_title_zh": "《波兰舞曲 第2号，作品 14》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1021705",
+      "title_en": "Milonga, Op.1",
+      "current_title_zh": "《胜利，欧普》",
+      "new_title_zh": "《米隆加，作品1》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1022948",
+      "title_en": "Fantaisie sur des Motifs de l'Opéra La Straniera de Bellini pour deux guitares, Op.24",
+      "current_title_zh": "《贝里尼为两把吉他所作的《La Straniera 歌剧院》主题幻想曲，Op.24》",
+      "new_title_zh": "《贝里尼为两把吉他所作的〈La Straniera 歌剧院〉主题幻想曲，Op.24》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1027231",
+      "title_en": "Preludio No.1 for Guitar",
+      "current_title_zh": "《吉他前奏曲 No.1》",
+      "new_title_zh": "《吉他前奏曲 第1号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1027234",
+      "title_en": "Preludio No.2 for Guitar",
+      "current_title_zh": "《吉他前奏曲 No.2》",
+      "new_title_zh": "《吉他前奏曲 第2号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1027237",
+      "title_en": "Preludio No.3 for Guitar",
+      "current_title_zh": "《吉他前奏曲 No.3》",
+      "new_title_zh": "《吉他前奏曲 第3号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1027440",
+      "title_en": "Preludio No.4 for Guitar",
+      "current_title_zh": "《吉他前奏曲 No.4》",
+      "new_title_zh": "《吉他前奏曲 第4号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1027696",
+      "title_en": "Nocturne No.2, Op.44",
+      "current_title_zh": "《夜曲 No.2，作品 44》",
+      "new_title_zh": "《夜曲 第2号，作品 44》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1029122",
+      "title_en": "Partita No.9",
+      "current_title_zh": "《第9场比赛》",
+      "new_title_zh": "《第9号组曲》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1031580",
+      "title_en": "Principes et Methode nouvelle pour pincer la Guitare",
+      "current_title_zh": "《吉他弹拨原理及新方法》",
+      "new_title_zh": "《吉他弹拨原理与新教程》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1033524",
+      "title_en": "Suite in D minor, Op.1 No.4",
+      "current_title_zh": "《D小调组曲，作品 1 No.4》",
+      "new_title_zh": "《D小调组曲，作品 1 第4号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1043642",
+      "title_en": "Variations for Flute and Guitar, Op.9 No.1",
+      "current_title_zh": "《长笛与吉他变奏曲，Op.9 No.1》",
+      "new_title_zh": "《长笛与吉他变奏曲，Op.9 第1号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1043975",
+      "title_en": "9 Variations on Mich fliehen alle Freuden, Op.13",
+      "current_title_zh": "《9 变奏曲《所有的欢乐都从我身边逃走》，Op.13》",
+      "new_title_zh": "《9 变奏曲〈所有的欢乐都从我身边逃走〉，Op.13》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1046213",
+      "title_en": "Allez regrets",
+      "current_title_zh": "《去后悔》",
+      "new_title_zh": "《离去吧，悔恨》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1049423",
+      "title_en": "8 Variations sur une theme de l'opera 'Camilla'",
+      "current_title_zh": "《歌剧《卡米拉》主题的 8 首变奏》",
+      "new_title_zh": "《歌剧〈卡米拉〉主题的 8 首变奏》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1051688",
+      "title_en": "Fantasie sur le Chant \"Les plus beaux yeuxes\", Op.17",
+      "current_title_zh": "《歌曲《最美的眼睛》的幻想，Op.17》",
+      "new_title_zh": "《歌曲〈最美的眼睛〉的幻想，Op.17》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1052811",
+      "title_en": "La Primavera Musicale 2, I Boccioli",
+      "current_title_zh": "《音乐剧《春天2》《花蕾》》",
+      "new_title_zh": "《音乐剧〈春天2〉〈花蕾〉》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1059081",
+      "title_en": "Fantasia 'I Montecchi ed I Capuleti'",
+      "current_title_zh": "《幻想曲《蒙泰基和凯普莱特一家》》",
+      "new_title_zh": "《歌剧〈凯普莱特与蒙泰古〉主题幻想曲》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1059403",
+      "title_en": "Variation brillante de l'opera 'L'Elixier d'Amore'",
+      "current_title_zh": "《歌剧《爱情灵丹妙药》的精彩变奏》",
+      "new_title_zh": "《歌剧〈爱情灵药〉主题华丽变奏曲》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1059662",
+      "title_en": "Polonaise",
+      "current_title_zh": "《波洛奈兹舞曲》",
+      "new_title_zh": "《波兰舞曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1061988",
+      "title_en": "Fantasier öfver Oprerna 'Somnambula', 'I Puritani', 'Rigoletto'",
+      "current_title_zh": "《关于歌剧《梦魇》、《清教徒》、《弄臣》的幻想》",
+      "new_title_zh": "《根据歌剧〈梦游女〉、〈清教徒〉与〈弄臣〉改编的幻想曲》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1065361",
+      "title_en": "Duo Facile pour Piano et Guitare, Op.37",
+      "current_title_zh": "《Easy Duo 钢琴和吉他，Op.37》",
+      "new_title_zh": "《钢琴与吉他简易二重奏，作品37》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1065991",
+      "title_en": "6 Valses",
+      "current_title_zh": "《六首圆舞曲》",
+      "new_title_zh": "《6首华尔兹》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1070835",
+      "title_en": "English Guitar Sonata, Op.12 No.1",
+      "current_title_zh": "《英国吉他奏鸣曲，Op.12 No.1》",
+      "new_title_zh": "《英国吉他奏鸣曲，Op.12 第1号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1075642",
+      "title_en": "Repertoire des Commençans No.5, Op.177",
+      "current_title_zh": "《商业剧目 No.5, Op.177》",
+      "new_title_zh": "《商业剧目 第5号， Op.177》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1086977",
+      "title_en": "Gavotte 'My Love'",
+      "current_title_zh": "《加沃特舞《我的爱》》",
+      "new_title_zh": "《加沃特舞〈我的爱〉》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1093698",
+      "title_en": "English Guitar Sonata, Op.12 No.2",
+      "current_title_zh": "《英国吉他奏鸣曲，Op.12 No.2》",
+      "new_title_zh": "《英国吉他奏鸣曲，Op.12 第2号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1103085",
+      "title_en": "Duo No.1 pour guitarre et violon",
+      "current_title_zh": "《吉他和小提琴二重奏 No.1》",
+      "new_title_zh": "《吉他和小提琴二重奏 第1号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1113587",
+      "title_en": "Variations sur la romance 'De ma Celine amante modeste', Op.8",
+      "current_title_zh": "《浪漫曲《De ma Celine 谦虚的情人》变奏曲，Op.8》",
+      "new_title_zh": "《浪漫曲〈De ma Celine 谦虚的情人〉变奏曲，Op.8》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1121216",
+      "title_en": "Russian Melodies for 2 Guitars No. 1",
+      "current_title_zh": "《俄罗斯旋律 2 吉他 No. 1》",
+      "new_title_zh": "《俄罗斯旋律 2 吉他 第1号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1121653",
+      "title_en": "Musse für sechssaitige Guitarre No.1",
+      "current_title_zh": "《六弦吉他必备No.1》",
+      "new_title_zh": "《六弦吉他必备第1号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1124261",
+      "title_en": "Fantasia on the Overture to Rossini's \"Semiramide\"",
+      "current_title_zh": "《罗西尼《塞米拉米德》序曲幻想曲》",
+      "new_title_zh": "《罗西尼〈塞米拉米德〉序曲幻想曲》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1124979",
+      "title_en": "Grand Waltz de la Solitudine for the Spanish Guitar",
+      "current_title_zh": "《西班牙吉他《孤寂大圆舞曲》》",
+      "new_title_zh": "《西班牙吉他〈孤寂大圆舞曲〉》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1125273",
+      "title_en": "Grande Fantaisie, Op.25",
+      "current_title_zh": "《伟大的幻想，作品 25》",
+      "new_title_zh": "《大型幻想曲，作品25》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1125275",
+      "title_en": "Fantasia No.1",
+      "current_title_zh": "《幻想一号》",
+      "new_title_zh": "《第1号幻想曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1125693",
+      "title_en": "Fantasia No.2",
+      "current_title_zh": "《幻想曲第2号》",
+      "new_title_zh": "《第2号幻想曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1140824",
+      "title_en": "Thème original Varié, Op.183",
+      "current_title_zh": "《原创主题《Varié》，Op.183》",
+      "new_title_zh": "《原创主题〈Varié〉，Op.183》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1146765",
+      "title_en": "Bagatelle",
+      "current_title_zh": "《琐事》",
+      "new_title_zh": "《小品》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1151580",
+      "title_en": "Duo No.3, Op.46",
+      "current_title_zh": "《二重奏 No.3，作品 46》",
+      "new_title_zh": "《二重奏 第3号，作品 46》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1151990",
+      "title_en": "Duo No.4, Op.52",
+      "current_title_zh": "《二重奏 No.4，作品 52》",
+      "new_title_zh": "《二重奏 第4号，作品 52》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1155043",
+      "title_en": "English Guitar Sonata, Op.12 No.4",
+      "current_title_zh": "《英国吉他奏鸣曲，Op.12 No.4》",
+      "new_title_zh": "《英国吉他奏鸣曲，Op.12 第4号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1162515",
+      "title_en": "Variations sur un thême de l'opera 'La Dame blanche', Op.1",
+      "current_title_zh": "《歌剧《白娘子》主题变奏，作品 1》",
+      "new_title_zh": "《歌剧〈白衣女士〉主题变奏曲，作品1》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1167516",
+      "title_en": "Duos for Piano and guitar No.3, Op.26",
+      "current_title_zh": "《钢琴和吉他二重奏 No.3，Op.26》",
+      "new_title_zh": "《钢琴和吉他二重奏 第3号，Op.26》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1169785",
+      "title_en": "Grand March from the Ballet of 'Alfred'",
+      "current_title_zh": "《阿尔弗雷德》芭蕾舞团《大进行曲》",
+      "new_title_zh": "《阿尔弗雷德〉芭蕾舞团〈大进行曲》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1173017",
+      "title_en": "Lyra No.2, Op.15",
+      "current_title_zh": "《天琴座 No.2，作品 15》",
+      "new_title_zh": "《天琴座 第2号，作品 15》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1174403",
+      "title_en": "6 Bagatellen, Op.11",
+      "current_title_zh": "《6 小事，作品 11》",
+      "new_title_zh": "《6首小品，作品11》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1176046",
+      "title_en": "Serenades tirées de l'opera Camilla",
+      "current_title_zh": "《歌剧《卡米拉》中的小夜曲》",
+      "new_title_zh": "《歌剧〈卡米拉〉中的小夜曲》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1178553",
+      "title_en": "Rondeau No.1, Op.12",
+      "current_title_zh": "《回旋曲 No.1，作品 12》",
+      "new_title_zh": "《回旋曲 第1号，作品 12》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1188999",
+      "title_en": "Duo for Guitar and Violin No.2, Op.35",
+      "current_title_zh": "《吉他和小提琴二重奏 No.2，Op.35》",
+      "new_title_zh": "《吉他和小提琴二重奏 第2号，Op.35》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1189290",
+      "title_en": "Trio No.1, Op.55",
+      "current_title_zh": "《三重奏 No.1，作品 55》",
+      "new_title_zh": "《三重奏 第1号，作品 55》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1189293",
+      "title_en": "Chasse No.2, Op.102",
+      "current_title_zh": "《Chasse No. 2，作品。 102》",
+      "new_title_zh": "《Chasse 第2号，作品。 102》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1240570",
+      "title_en": "Polonaise, Mazurka and Quadrille",
+      "current_title_zh": "《波洛奈兹舞曲、玛祖卡舞曲与方阵舞曲》",
+      "new_title_zh": "《波兰舞曲、玛祖卡舞曲与四对舞曲》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1242181",
+      "title_en": "Fantasia on 'Believe Me If All Those Endearing Young Charms', Op.58",
+      "current_title_zh": "《幻想曲《相信我，如果所有那些可爱的年轻魅力》，Op.58》",
+      "new_title_zh": "《幻想曲〈相信我，如果所有那些可爱的年轻魅力〉，Op.58》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1244920",
+      "title_en": "Hungarian Mazurka, Op.52 No.1",
+      "current_title_zh": "《匈牙利玛祖卡，作品 52 No.1》",
+      "new_title_zh": "《匈牙利玛祖卡，作品 52 第1号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1246308",
+      "title_en": "Polish Dance No.1, Op.2",
+      "current_title_zh": "《波兰舞曲 No.1, Op.2》",
+      "new_title_zh": "《波兰舞曲 第1号， Op.2》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1246365",
+      "title_en": "Album Leaf",
+      "current_title_zh": "《专辑叶》",
+      "new_title_zh": "《纪念册页》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1254122",
+      "title_en": "Barcarolle from the Opera 'Robert'",
+      "current_title_zh": "《歌剧《罗伯特》中的船歌》",
+      "new_title_zh": "《歌剧〈罗伯特〉中的船歌》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1256749",
+      "title_en": "Fantasia on Russian Song 'Goat'",
+      "current_title_zh": "《俄罗斯歌曲《山羊》幻想曲》",
+      "new_title_zh": "《俄罗斯歌曲〈山羊〉幻想曲》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1258100",
+      "title_en": "Fantasia on the Russian folk song 'In the midst of the open valley'",
+      "current_title_zh": "《俄罗斯民歌幻想曲《在开阔的山谷中》》",
+      "new_title_zh": "《俄罗斯民歌幻想曲〈在开阔的山谷中〉》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1260109",
+      "title_en": "Surely, he is my dear; from the Opera 'Cossack Poet'",
+      "current_title_zh": "《毫无疑问，他是我亲爱的；选自歌剧《哥萨克诗人》》",
+      "new_title_zh": "《毫无疑问，他是我亲爱的；选自歌剧〈哥萨克诗人〉》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1263966",
+      "title_en": "Sonata No.8 for 2 Guitars",
+      "current_title_zh": "《2 吉他奏鸣曲 No.8》",
+      "new_title_zh": "《2 吉他奏鸣曲 第8号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1268909",
+      "title_en": "2 Etudes",
+      "current_title_zh": "《两首练习曲》",
+      "new_title_zh": "《2首练习曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1270919",
+      "title_en": "Cavatina from the opera 'Lombardi'",
+      "current_title_zh": "《歌剧《隆巴尔迪》中的卡瓦蒂纳》",
+      "new_title_zh": "《歌剧〈隆巴尔迪〉中的卡瓦蒂纳》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1272762",
+      "title_en": "Variation on Haydn's Kaiserlied",
+      "current_title_zh": "《海顿《凯撒之歌》变奏曲》",
+      "new_title_zh": "《海顿〈皇帝颂歌〉变奏曲》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1273188",
+      "title_en": "Solemn March and Wedding Chorus from the Opera 'Tannhäuser'",
+      "current_title_zh": "《歌剧《唐豪瑟》中的庄严进行曲和婚礼合唱》",
+      "new_title_zh": "《歌剧〈唐豪瑟〉中的庄严进行曲和婚礼合唱》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1277124",
+      "title_en": "Fantasia on the Russian song 'Our Native'",
+      "current_title_zh": "《俄罗斯歌曲《我们的原住民》幻想曲》",
+      "new_title_zh": "《俄罗斯歌曲〈我们的原住民〉幻想曲》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1277295",
+      "title_en": "Fantasy on a Motif from Bellini's Opera 'Straniera'",
+      "current_title_zh": "《贝利尼歌剧《Straniera》主题幻想曲》",
+      "new_title_zh": "《贝利尼歌剧〈Straniera〉主题幻想曲》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1294972",
+      "title_en": "Theoretische und practische Guitarreschule, Op.1",
+      "current_title_zh": "《吉他学院的理论与实践，Op.1》",
+      "new_title_zh": "《吉他理论与实践教程，作品1》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1295374",
+      "title_en": "Never Cross No.3, Op.82",
+      "current_title_zh": "《永不跨越 No.3，作品 82》",
+      "new_title_zh": "《永不跨越 第3号，作品 82》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1295687",
+      "title_en": "3 Polonoises for Guitar, Op.19",
+      "current_title_zh": "《3 首波洛诺兹吉他曲，作品 19》",
+      "new_title_zh": "《3首吉他波兰舞曲，作品19》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1296320",
+      "title_en": "Never Cross No.3, Op.82b",
+      "current_title_zh": "《永不跨越 No.3，作品 82b》",
+      "new_title_zh": "《永不跨越 第3号，作品 82b》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1296997",
+      "title_en": "Psyche, Op.107 No.2",
+      "current_title_zh": "《普赛克，作品 107 No.2》",
+      "new_title_zh": "《普赛克，作品 107 第2号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1297814",
+      "title_en": "Variations on 'An Alexis' for Flute and Guitar",
+      "current_title_zh": "《长笛与吉他《安·亚历克西斯》变奏曲》",
+      "new_title_zh": "《长笛与吉他〈安·亚历克西斯〉变奏曲》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1298716",
+      "title_en": "Petit Scherzando, Op.218 No.2",
+      "current_title_zh": "《小谐谑曲，作品 218 No.2》",
+      "new_title_zh": "《小谐谑曲，作品 218 第2号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1299035",
+      "title_en": "Blütige Fantaisie No.8",
+      "current_title_zh": "《布鲁蒂奇幻想 No.8》",
+      "new_title_zh": "《布鲁蒂奇幻想 第8号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1303934",
+      "title_en": "Nouvelle Méthode de Guitarre",
+      "current_title_zh": "《新吉他方法》",
+      "new_title_zh": "《新吉他教程》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1306352",
+      "title_en": "31 Variations on Les Folies d'Espagne in D minor",
+      "current_title_zh": "《D小调《西班牙女神》31变奏曲》",
+      "new_title_zh": "《D小调〈西班牙狂舞曲〉主题31首变奏曲》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1306354",
+      "title_en": "29 Variations on Les Folies d'Espagne",
+      "current_title_zh": "《29 《西班牙的愚蠢》变奏曲》",
+      "new_title_zh": "《〈西班牙狂舞曲〉主题29首变奏曲》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1314608",
+      "title_en": "2 Etudes",
+      "current_title_zh": "《2 练习曲》",
+      "new_title_zh": "《2首练习曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1322859",
+      "title_en": "Citrus Color No.1, Op.83",
+      "current_title_zh": "《柑橘色 No.1，Op.83》",
+      "new_title_zh": "《柑橘色 第1号，Op.83》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1324246",
+      "title_en": "Méthode pour la Guitare, Op.21",
+      "current_title_zh": "《吉他方法，Op.21》",
+      "new_title_zh": "《吉他教程，作品21》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1327292",
+      "title_en": "Preludes Untitled and Unnumbered",
+      "current_title_zh": "《前奏曲《无题无编号》》",
+      "new_title_zh": "《前奏曲〈无题无编号〉》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1327670",
+      "title_en": "Variations on 'Ah perchè non posso odiarti', Op.3",
+      "current_title_zh": "《变奏《啊为什么我不能恨你》，Op.3》",
+      "new_title_zh": "《变奏〈啊为什么我不能恨你〉，Op.3》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1328615",
+      "title_en": "Variations on 'Nel cor piu non mi sento', Op.35",
+      "current_title_zh": "《变奏《我心中不再有感觉》，Op.35》",
+      "new_title_zh": "《变奏〈我心中不再有感觉〉，Op.35》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1335607",
+      "title_en": "Estilo popular Argentino No.1",
+      "current_title_zh": "《阿根廷流行风No.1》",
+      "new_title_zh": "《阿根廷流行风第1号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1346807",
+      "title_en": "Marcha dos pretos",
+      "current_title_zh": "《黑人的游行》",
+      "new_title_zh": "《黑人进行曲》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1349473",
+      "title_en": "Fantasía para guitarra sola No.2, Op.12",
+      "current_title_zh": "《为独奏吉他而作的幻想曲 No.2, Op.12》",
+      "new_title_zh": "《为独奏吉他而作的幻想曲 第2号， Op.12》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1355170",
+      "title_en": "Courante",
+      "current_title_zh": "《当前的》",
+      "new_title_zh": "《库朗特舞曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1356088",
+      "title_en": "Lieder ohne Worte No.1, Op.7",
+      "current_title_zh": "《无词歌 No.1, Op.7》",
+      "new_title_zh": "《无词歌 第1号， Op.7》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1356643",
+      "title_en": "Lieder ohne Worte No.5, Op.14",
+      "current_title_zh": "《无词歌 No.5, Op.14》",
+      "new_title_zh": "《无词歌 第5号， Op.14》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1356883",
+      "title_en": "Graceful Dance, Op.29 No.2",
+      "current_title_zh": "《优雅的舞蹈，Op.29 No.2》",
+      "new_title_zh": "《优雅的舞蹈，Op.29 第2号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1357321",
+      "title_en": "Citrus Color No.2, Op.84",
+      "current_title_zh": "《柑橘色 No.2，Op.84》",
+      "new_title_zh": "《柑橘色 第2号，Op.84》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1359210",
+      "title_en": "Gallichone piece No.1",
+      "current_title_zh": "《加利康作品 No.1》",
+      "new_title_zh": "《加利康作品 第1号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1359212",
+      "title_en": "Gallichone piece No.2",
+      "current_title_zh": "《加利康作品 No.2》",
+      "new_title_zh": "《加利康作品 第2号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1359214",
+      "title_en": "Gallichone piece No.3",
+      "current_title_zh": "《加利康作品 No.3》",
+      "new_title_zh": "《加利康作品 第3号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1361665",
+      "title_en": "Jota Aragonesa",
+      "current_title_zh": "《阿拉贡的一些东西》",
+      "new_title_zh": "《阿拉贡霍塔舞曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1362614",
+      "title_en": "Variaciones Argentinas No.1",
+      "current_title_zh": "《阿根廷变奏No.1》",
+      "new_title_zh": "《阿根廷变奏第1号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1366013",
+      "title_en": "Citrus Color No.3, Op.85",
+      "current_title_zh": "《柑橘色 No.3，Op.85》",
+      "new_title_zh": "《柑橘色 第3号，Op.85》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1372600",
+      "title_en": "Le Ore d'Apollo, Op.111",
+      "current_title_zh": "《阿波罗矿石，作品》",
+      "new_title_zh": "《阿波罗的时光，作品111》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1374043",
+      "title_en": "Variations on 'Tengo più di trent'un anni', Op.147b",
+      "current_title_zh": "《变奏《我持有超过三十一年》，Op.147b》",
+      "new_title_zh": "《变奏〈我持有超过三十一年〉，Op.147b》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1375111",
+      "title_en": "6 Variations on \"Nel cor più non mi sento\", Op.4",
+      "current_title_zh": "《6 变奏《我心中不再有感觉》，Op.4》",
+      "new_title_zh": "《6 变奏〈我心中不再有感觉〉，Op.4》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1380352",
+      "title_en": "Nouvelle Méthode, Op.41",
+      "current_title_zh": "《新方法，作品 41》",
+      "new_title_zh": "《新教程，作品41》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1380354",
+      "title_en": "Duo for Guitar and Flute No.4, Op.52",
+      "current_title_zh": "《吉他与长笛二重奏 No.4，作品 52》",
+      "new_title_zh": "《吉他与长笛二重奏 第4号，作品 52》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1381477",
+      "title_en": "Recercar 2",
+      "current_title_zh": "《搜索2》",
+      "new_title_zh": "《第2号利切尔卡尔》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1381849",
+      "title_en": "Recercar 5",
+      "current_title_zh": "《搜索 5》",
+      "new_title_zh": "《第5号利切尔卡尔》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1381854",
+      "title_en": "Recercar 6",
+      "current_title_zh": "《利切尔卡尔第6号》",
+      "new_title_zh": "《第6号利切尔卡尔》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1383942",
+      "title_en": "Cavatina nel dramma serio l'Erminia",
+      "current_title_zh": "《严肃戏剧《埃尔米尼亚》中的卡瓦蒂纳》",
+      "new_title_zh": "《严肃戏剧〈埃尔米尼亚〉中的卡瓦蒂纳》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1386187",
+      "title_en": "Petite Fantaisie for Violin and Guitar, Op.313",
+      "current_title_zh": "《为小提琴和吉他而作的《小幻想曲》，作品 313》",
+      "new_title_zh": "《为小提琴和吉他而作的〈小幻想曲〉，作品 313》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1387332",
+      "title_en": "Sammlung progressiver Variationen für die Guitarre No.1",
+      "current_title_zh": "《吉他渐进变奏合集 No.1》",
+      "new_title_zh": "《吉他渐进变奏合集 第1号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1391473",
+      "title_en": "Variazioni brillanti e finale sopra un tema nel balleto 'Amenie', Op.2",
+      "current_title_zh": "《芭蕾舞剧〈Amenie〉主题辉煌变奏与终曲，Op.2》",
+      "new_title_zh": "《根据芭蕾舞剧〈阿梅妮〉主题而作的华丽变奏曲与终曲，作品2》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1392167",
+      "title_en": "3 Bagatelles",
+      "current_title_zh": "《3 琐事》",
+      "new_title_zh": "《3首小品》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1392934",
+      "title_en": "Variations on the Opera 'Jean de Paris'",
+      "current_title_zh": "《歌剧《让·德·巴黎》变奏曲》",
+      "new_title_zh": "《歌剧〈让·德·巴黎〉变奏曲》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1398363",
+      "title_en": "Trio No.3, Op.57",
+      "current_title_zh": "《三重奏 No.3，作品 57》",
+      "new_title_zh": "《三重奏 第3号，作品 57》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1423424",
+      "title_en": "Duo for Piano and Guitar No.1, Op.22",
+      "current_title_zh": "《钢琴与吉他二重奏 No.1，Op.22》",
+      "new_title_zh": "《钢琴与吉他二重奏 第1号，Op.22》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1426392",
+      "title_en": "Variations pour la Guitarre sur un théme original No.1",
+      "current_title_zh": "《原创主题吉他变奏曲 No.1》",
+      "new_title_zh": "《原创主题吉他变奏曲 第1号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1426395",
+      "title_en": "Variations pour la Guitarre sur un théme original No.2",
+      "current_title_zh": "《原创主题吉他变奏曲 No.2》",
+      "new_title_zh": "《原创主题吉他变奏曲 第2号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1436557",
+      "title_en": "Valse-Tango 'El Jùbilo'",
+      "current_title_zh": "《华尔兹探戈《El Jùbilo》》",
+      "new_title_zh": "《华尔兹探戈〈El Jùbilo〉》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1437712",
+      "title_en": "Valse 'La Nostalgie'",
+      "current_title_zh": "《华尔兹《怀旧》》",
+      "new_title_zh": "《华尔兹〈怀旧〉》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1443703",
+      "title_en": "Variations on 'Lindor' for Guitar and Violin",
+      "current_title_zh": "《吉他和小提琴《Lindor》变奏曲》",
+      "new_title_zh": "《吉他和小提琴〈Lindor〉变奏曲》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1446448",
+      "title_en": "Original 'Sweet Dreams', Op.62",
+      "current_title_zh": "《原创《甜蜜的梦》，作品 62》",
+      "new_title_zh": "《原创〈甜蜜的梦〉，作品 62》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1446598",
+      "title_en": "Original 'Dream', Op.63",
+      "current_title_zh": "《原创《梦》，Op.63》",
+      "new_title_zh": "《原创〈梦〉，Op.63》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1449955",
+      "title_en": "Sonatine No.2",
+      "current_title_zh": "《第二号小奏鸣曲》",
+      "new_title_zh": "《第2号小奏鸣曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1453385",
+      "title_en": "Fantasia 'By the seashore'",
+      "current_title_zh": "《幻想曲《海边》》",
+      "new_title_zh": "《幻想曲〈海边〉》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1454081",
+      "title_en": "Etude No.3",
+      "current_title_zh": "《练习曲No.3》",
+      "new_title_zh": "《练习曲第3号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1455138",
+      "title_en": "Aria and War Song from the Opera \"La fille du régiment\"",
+      "current_title_zh": "《歌剧《军团姑娘》中的咏叹调和战歌》",
+      "new_title_zh": "《歌剧〈军团姑娘〉中的咏叹调和战歌》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1455333",
+      "title_en": "Duettino from the Opera 'Guelphs and Ghibellines'",
+      "current_title_zh": "《歌剧《圭尔夫派与吉伯林派》中的二重唱》",
+      "new_title_zh": "《歌剧〈圭尔夫派与吉伯林派〉中的二重唱》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1455336",
+      "title_en": "Grand Fantasia from the Opera 'Lucia di 'Lammermoor'",
+      "current_title_zh": "《歌剧《拉美莫尔的露西亚》中的大幻想曲》",
+      "new_title_zh": "《歌剧〈拉美莫尔的露西亚〉中的大幻想曲》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1458915",
+      "title_en": "Methode de Guitare ou Lyre",
+      "current_title_zh": "《吉他或七弦琴方法》",
+      "new_title_zh": "《吉他或里拉琴教程》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1459759",
+      "title_en": "Guitar Duo No.2, Op.37",
+      "current_title_zh": "《吉他二重奏 No.2，作品 37》",
+      "new_title_zh": "《吉他二重奏 第2号，作品 37》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1459764",
+      "title_en": "Duo for Guitar and Flute No.1, Op.41",
+      "current_title_zh": "《吉他与长笛二重奏 No.1，Op.41》",
+      "new_title_zh": "《吉他与长笛二重奏 第1号，Op.41》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1459988",
+      "title_en": "Duo for Guitar and Flute No.3, Op.42",
+      "current_title_zh": "《吉他与长笛二重奏 No.3，Op.42》",
+      "new_title_zh": "《吉他与长笛二重奏 第3号，Op.42》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1459990",
+      "title_en": "Duo for Guitar and Flute No.2, Op.43",
+      "current_title_zh": "《吉他与长笛二重奏 No.2，Op.43》",
+      "new_title_zh": "《吉他与长笛二重奏 第2号，Op.43》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1460480",
+      "title_en": "Guitar Duo No.6, Op.58",
+      "current_title_zh": "《吉他二重奏 No.6，作品 58》",
+      "new_title_zh": "《吉他二重奏 第6号，作品 58》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1460734",
+      "title_en": "Guitar Duo No.13, Op.99",
+      "current_title_zh": "《吉他二重奏 No.13，作品 99》",
+      "new_title_zh": "《吉他二重奏 第13号，作品 99》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1462249",
+      "title_en": "Guitar Sonatina",
+      "current_title_zh": "《吉他奏鸣曲》",
+      "new_title_zh": "《吉他小奏鸣曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1463004",
+      "title_en": "Prelude in E minor 'Memories', Op.119",
+      "current_title_zh": "《E小调前奏曲《回忆》，Op.119》",
+      "new_title_zh": "《E小调前奏曲〈回忆〉，Op.119》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1463506",
+      "title_en": "Collection of Music Arranged for Guitar No.9, Op.13",
+      "current_title_zh": "《为吉他改编的音乐集 No.9, Op.13》",
+      "new_title_zh": "《为吉他改编的音乐集 第9号， Op.13》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1463508",
+      "title_en": "Collection of Music Arranged for Guitar No.10, Op.14",
+      "current_title_zh": "《为吉他改编的音乐集 No.10，Op.14》",
+      "new_title_zh": "《为吉他改编的音乐集 第10号，Op.14》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1463590",
+      "title_en": "Prelude in D major 'After Silence', Op.128",
+      "current_title_zh": "《D大调前奏曲《沉默之后》，作品128》",
+      "new_title_zh": "《D大调前奏曲〈沉默之后〉，作品128》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1463665",
+      "title_en": "Prelude in D major 'After Silence', Op.129",
+      "current_title_zh": "《D大调前奏曲《沉默之后》，作品129》",
+      "new_title_zh": "《D大调前奏曲〈沉默之后〉，作品129》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1463835",
+      "title_en": "Collection of Music Arranged for Guitar No.11, Op.15",
+      "current_title_zh": "《为吉他改编的音乐集 No.11，Op.15》",
+      "new_title_zh": "《为吉他改编的音乐集 第11号，Op.15》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1463837",
+      "title_en": "Collection of Music Arranged for Guitar No.12, Op.16",
+      "current_title_zh": "《为吉他编曲的音乐集 No.12，Op.16》",
+      "new_title_zh": "《为吉他编曲的音乐集 第12号，Op.16》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1463870",
+      "title_en": "Prelude in F major 'Time', Op.132",
+      "current_title_zh": "《F大调前奏曲《时间》，作品132》",
+      "new_title_zh": "《F大调前奏曲〈时间〉，作品132》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1464322",
+      "title_en": "Study in A minor 'The Brook', Op.139",
+      "current_title_zh": "《A小调练习曲《小溪》，作品 139》",
+      "new_title_zh": "《A小调练习曲〈小溪〉，作品 139》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1464416",
+      "title_en": "Study in A minor 'Remembrance', Op.140",
+      "current_title_zh": "《A小调练习曲《纪念》，作品 140》",
+      "new_title_zh": "《A小调练习曲〈纪念〉，作品 140》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1465118",
+      "title_en": "Study in C major 'Calm', Op.147",
+      "current_title_zh": "《C大调练习曲《平静》，Op.147》",
+      "new_title_zh": "《C大调练习曲〈平静〉，Op.147》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1470449",
+      "title_en": "Short Little 'Song without Words'",
+      "current_title_zh": "《短小《无词歌》》",
+      "new_title_zh": "《短小〈无词歌〉》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1472261",
+      "title_en": "Grande polonaise et 2 rondeaux très brillans, Op.34",
+      "current_title_zh": "《大波洛奈兹舞曲与两首辉煌回旋曲，Op.34》",
+      "new_title_zh": "《大型波兰舞曲与2首华丽回旋曲，作品34》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1472273",
+      "title_en": "Overture 'Decacorde', Op.161",
+      "current_title_zh": "《序曲《十弦乐》，作品 161》",
+      "new_title_zh": "《序曲〈十弦乐〉，作品 161》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1472280",
+      "title_en": "Overture 'Octacorde', Op.162",
+      "current_title_zh": "《序曲《八音阶》，作品 162》",
+      "new_title_zh": "《“八弦”序曲，作品162》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1472552",
+      "title_en": "Notturno No.3, Op.39",
+      "current_title_zh": "《夜曲 No.3，作品 39》",
+      "new_title_zh": "《夜曲 第3号，作品 39》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1473640",
+      "title_en": "Nocturne No.3, Op.57",
+      "current_title_zh": "《夜曲 No.3，作品 57》",
+      "new_title_zh": "《夜曲 第3号，作品 57》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1479372",
+      "title_en": "Bolero",
+      "current_title_zh": "《波莱罗》",
+      "new_title_zh": "《波莱罗舞曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1483861",
+      "title_en": "Impromptu, Op.24 No.1",
+      "current_title_zh": "《即兴曲，Op.24 No.1》",
+      "new_title_zh": "《即兴曲，Op.24 第1号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1491907",
+      "title_en": "Seconde Méthode de Guitare, Op.26",
+      "current_title_zh": "《第二种吉他方法，Op.26》",
+      "new_title_zh": "《吉他教程第2册，作品26》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1497058",
+      "title_en": "Fantasia para dos Guitarras sobre motivos de 'La Traviata'",
+      "current_title_zh": "《以《茶花女》为主题的两把吉他幻想曲》",
+      "new_title_zh": "《以〈茶花女〉为主题的两把吉他幻想曲》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1497596",
+      "title_en": "Fantasia sobre motivos de la Opera 'Lucrezia Borgia' de Donizetti",
+      "current_title_zh": "《以多尼采蒂歌剧《卢克雷齐娅·波吉亚》为主题的幻想》",
+      "new_title_zh": "《以多尼采蒂歌剧〈卢克雷齐娅·波吉亚〉为主题的幻想》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1526241",
+      "title_en": "Prelude in A minor 'Night Thought', Op.232",
+      "current_title_zh": "《小调《夜思》前奏曲，Op.232》",
+      "new_title_zh": "《A小调前奏曲“夜思”，作品232》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1526524",
+      "title_en": "Original Song Without Words 'Song of the Sea', Op.235",
+      "current_title_zh": "《无词原创歌曲《海之歌》，Op.235》",
+      "new_title_zh": "《无词原创歌曲〈海之歌〉，Op.235》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1527005",
+      "title_en": "Original Song Without Words 'Song of the Wind', Op.236",
+      "current_title_zh": "《原创无词歌曲《风之歌》，Op.236》",
+      "new_title_zh": "《原创无词歌曲〈风之歌〉，Op.236》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1548531",
+      "title_en": "3 Serenate Per il Gallichone, Di Duce Clemente di Baviera",
+      "current_title_zh": "《巴伐利亚公爵克莱门特的《加利康小夜曲》3首》",
+      "new_title_zh": "《巴伐利亚公爵克莱门特的〈加利康小夜曲〉3首》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1548945",
+      "title_en": "Polonese",
+      "current_title_zh": "《抛光》",
+      "new_title_zh": "《波兰舞曲》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1560751",
+      "title_en": "Bolero",
+      "current_title_zh": "《波莱罗》",
+      "new_title_zh": "《波莱罗舞曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1568473",
+      "title_en": "Estudio No.3",
+      "current_title_zh": "《练习曲第3号》",
+      "new_title_zh": "《第3号练习曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1568475",
+      "title_en": "Estudio No.4",
+      "current_title_zh": "《练习曲四》",
+      "new_title_zh": "《第4号练习曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1568491",
+      "title_en": "Estudio No.6",
+      "current_title_zh": "《练习曲第6号》",
+      "new_title_zh": "《第6号练习曲》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1572635",
+      "title_en": "Tema e ulteriori varizioni su tema e variazioni in mi min di J.J. Quantz, Op.41",
+      "current_title_zh": "《J.J. 的《mi min》主题及其进一步变奏和变奏量子，作品 41》",
+      "new_title_zh": "《对J.J.匡茨E小调主题与变奏的进一步变奏，作品41》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1588221",
+      "title_en": "Guitar Piece No.1",
+      "current_title_zh": "《吉他第一首》",
+      "new_title_zh": "《吉他小品第1号》",
+      "reason": "与相同英文作品名的规范中文译名统一。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1589087",
+      "title_en": "Branle of Malte No.1, f.24v",
+      "current_title_zh": "《马耳他布兰勒 No.1, f.24v》",
+      "new_title_zh": "《马耳他布兰勒 第1号， f.24v》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1589976",
+      "title_en": "Branle of Malte No.4, f.27v",
+      "current_title_zh": "《马耳他布兰勒 No.4，f.27v》",
+      "new_title_zh": "《马耳他布兰勒 第4号，f.27v》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1589979",
+      "title_en": "Branle of Malte No.2, f.25v",
+      "current_title_zh": "《马耳他布兰勒 No.2，f.25v》",
+      "new_title_zh": "《马耳他布兰勒 第2号，f.25v》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1589982",
+      "title_en": "Branle of Malte No.3, f.26v",
+      "current_title_zh": "《马耳他布兰勒 No.3，f.26v》",
+      "new_title_zh": "《马耳他布兰勒 第3号，f.26v》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1611898",
+      "title_en": "Original Tapping 'The Calm', Op.268",
+      "current_title_zh": "《原创敲击曲《平静》，Op.268》",
+      "new_title_zh": "《原创敲击曲〈平静〉，Op.268》",
+      "reason": "外层作品名使用《》，标题内引用的作品改用〈〉。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1621701",
+      "title_en": "Il ritrarsi delle onde, Marginalia No.329",
+      "current_title_zh": "《退去的波浪，Marginalia No.329》",
+      "new_title_zh": "《退去的波浪，Marginalia 第329号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1623797",
+      "title_en": "Chorea Polonica",
+      "current_title_zh": "《波洛尼卡舞蹈病》",
+      "new_title_zh": "《波兰舞曲》",
+      "reason": "修正残留的高置信音乐术语、语义或书目信息错误。",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1634789",
+      "title_en": "Fantasia, Ness No.33",
+      "current_title_zh": "《幻想曲，尼斯 No.33》",
+      "new_title_zh": "《幻想曲，尼斯 第33号》",
+      "reason": "将 No. 编号统一为中文“第…号”格式。",
+      "basis": "format_consistency",
+      "source_refs": []
+    }
+  ]
+}

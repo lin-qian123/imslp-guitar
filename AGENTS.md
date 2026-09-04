@@ -28,6 +28,9 @@ instrumentation.
   immutable; category views must not create duplicate PDF entities.
 - Preserve IMSLP titles and musician attributions as source fields. Chinese
   names are reference translations and must never replace the originals.
+- Treat `metadata/translations/title_overrides_reviewed_zh.json` as the
+  canonical work-ID keyed Chinese-title review. It must take precedence over
+  title-keyed machine-translation caches during metadata rebuilds and renders.
 - Generated catalogs and verification output must distinguish category
   memberships, unique works, manifest records, and unique physical PDFs.
 - Do not claim the full library is complete until manifest/file equality,
@@ -40,5 +43,18 @@ instrumentation.
   scope, permissions, or destructive changes genuinely require them.
 - Use `python`, not the system `python3`, for project commands.
 - Keep `README.md`, `TODO.md`, and this file current as implementation proceeds.
-- Do not commit PDFs, caches, partial downloads, logs, or generated bulk
-  catalogs to Git.
+- Do not commit PDFs, caches, partial downloads, logs, or generated category
+  catalogs to Git. The reviewed translation source files and compiled
+  work-ID catalog under `metadata/translations/` are versioned review assets,
+  not generated category catalogs.
+- Keep the offline library and the public web export as separate products. The
+  offline root catalog may link to verified local PDFs; `public_site/` must
+  contain no PDFs, PDF URLs, local paths, download URLs, hashes, or private
+  filesystem metadata.
+- Build the public catalog only from the approved category configuration and
+  validated category catalogs. Deduplicate public results by IMSLP `work_id`,
+  preserve every category membership, and link each work directly to its HTTPS
+  IMSLP work page.
+- Regenerate `public_site/data/catalog.json` with
+  `scripts/export_public_site.py` and run `scripts/validate_public_site.py`
+  plus the test suite before publishing the public site.

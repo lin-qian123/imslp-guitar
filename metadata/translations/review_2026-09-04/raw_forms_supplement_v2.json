@@ -1,0 +1,2369 @@
+{
+  "schema_version": 1,
+  "reviewer": "title_review_forms_sweep",
+  "entries": [
+    {
+      "work_id": "2603",
+      "title_en": "Trübe Wolken, S.199",
+      "current_title_zh": "《阴云密布，第 199 页》",
+      "new_title_zh": "《灰云，S.199》",
+      "reason": "Uses the established Liszt work title and restores S.199 as a catalog number, not a page.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "9865",
+      "title_en": "Weihnachtsbaum, S.186",
+      "current_title_zh": "《圣诞树，第 186 页》",
+      "new_title_zh": "《圣诞树，S.186》",
+      "reason": "Restores S.186 as a catalog number, not a page.",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "16171",
+      "title_en": "Diferencias sobre 'La Dama Le Demanda'",
+      "current_title_zh": "《与“女士起诉他”的分歧》",
+      "new_title_zh": "《〈La Dama Le Demanda〉主题变奏曲》",
+      "reason": "Diferencias is the Spanish variation form, not disagreement.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "24260",
+      "title_en": "Toccate inedite per cembalo",
+      "current_title_zh": "《未发表的羽管键琴演奏》",
+      "new_title_zh": "《未刊羽管键琴托卡塔曲集》",
+      "reason": "Toccate is a plural collection of toccatas, not keyboard playing in general.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "27997",
+      "title_en": "Livre d'enfants, Op.98",
+      "current_title_zh": "《儿童读物，作品 98》",
+      "new_title_zh": "《儿童曲集，Op.98》",
+      "reason": "Livre denotes a collection of children's pieces here, not reading material.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "45083",
+      "title_en": "Fantasia secunda",
+      "current_title_zh": "《第二个幻想》",
+      "new_title_zh": "《第2号幻想曲》",
+      "reason": "Fantasia is the musical form fantasia, not an abstract fantasy.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "46833",
+      "title_en": "Fughetta, Op.113",
+      "current_title_zh": "《福盖塔，作品 113》",
+      "new_title_zh": "《小赋格曲，Op.113》",
+      "reason": "Fughetta is the standard musical term small fugue.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "52077",
+      "title_en": "3 Thêmes Variées, Op.146",
+      "current_title_zh": "《3 个不同的主题，作品 146》",
+      "new_title_zh": "《3首主题变奏曲，Op.146》",
+      "reason": "Thêmes variées means varied themes, not different unrelated themes.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "52119",
+      "title_en": "Sérénade, Op.30",
+      "current_title_zh": "《小夜曲，作品。 30》",
+      "new_title_zh": "《小夜曲，Op.30》",
+      "reason": "Removes the erroneous punctuation inserted into the opus designation.",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "62680",
+      "title_en": "Clavier-Übung III, Krebs-WV 801-806",
+      "current_title_zh": "《克拉维尔-乌邦 III，克雷布斯-WV 801-806》",
+      "new_title_zh": "《键盘练习曲集第三卷，Krebs-WV 801–806》",
+      "reason": "Restores the established genre title and preserves the catalog identifier.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "63368",
+      "title_en": "Fanfares et Simphonies",
+      "current_title_zh": "《号角曲和交响乐》",
+      "new_title_zh": "《号角曲与交响曲集》",
+      "reason": "Simphonies denotes symphonic pieces, not the abstract category 'symphonic music'.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "69512",
+      "title_en": "3 Sonatinas, Op.1",
+      "current_title_zh": "《3 奏鸣曲，作品 1》",
+      "new_title_zh": "《3首小奏鸣曲，Op.1》",
+      "reason": "Sonatina was mistranslated as sonata.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "70626",
+      "title_en": "Fantaisie des plus jolis airs de 'Robin des Bois', Op.19",
+      "current_title_zh": "《〈罗宾汉〉中最美妙曲调的幻想，Op.19》",
+      "new_title_zh": "《歌剧〈罗宾汉〉优美曲调幻想曲，Op.19》",
+      "reason": "Restores Fantaisie as the musical form and its source-opera relationship.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "70723",
+      "title_en": "Sérénade, Op.30",
+      "current_title_zh": "《小夜曲，作品。 30》",
+      "new_title_zh": "《小夜曲，Op.30》",
+      "reason": "Removes the erroneous punctuation inserted into the opus designation.",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "70853",
+      "title_en": "Mazurka, Op.33",
+      "current_title_zh": "《玛祖卡舞曲，作品。 33》",
+      "new_title_zh": "《玛祖卡舞曲，Op.33》",
+      "reason": "Removes the erroneous punctuation inserted into the opus designation.",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "70857",
+      "title_en": "La romanesca, Op.19b",
+      "current_title_zh": "《罗马式，Op.19b》",
+      "new_title_zh": "《罗曼内斯卡舞曲，Op.19b》",
+      "reason": "Romanesca is a historical dance/tune form, not the adjective Romanesque.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "71975",
+      "title_en": "Terzetto, MS 69",
+      "current_title_zh": "《泰泽托，MS 69》",
+      "new_title_zh": "《三重奏，MS 69》",
+      "reason": "Terzetto is the musical form trio, not a phonetic placeholder.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "71979",
+      "title_en": "Terzetto concertante, MS 114",
+      "current_title_zh": "《第三协奏曲，MS 114》",
+      "new_title_zh": "《协奏性三重奏，MS 114》",
+      "reason": "Terzetto concertante means concertante trio, not third concerto.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "74949",
+      "title_en": "Fantaisie sur les motifs du 'Serment', Op.45",
+      "current_title_zh": "《以“誓言”为主题的幻想，Op.45》",
+      "new_title_zh": "《歌剧〈誓言〉主题幻想曲，Op.45》",
+      "reason": "Restores Fantaisie as the musical form and its source-opera relationship.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "74955",
+      "title_en": "Fantaisie sur les motifs de 'Gustave', Op.49",
+      "current_title_zh": "《以“古斯塔夫”为主题的幻想作品，Op.49》",
+      "new_title_zh": "《歌剧〈古斯塔夫〉主题幻想曲，Op.49》",
+      "reason": "Restores Fantaisie as the musical form and removes the redundant generic word 'work'.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "75177",
+      "title_en": "Fantaisie sur les motifs de 'La Part du Diable', Op.73",
+      "current_title_zh": "《以“魔鬼的部分”为主题的幻想，Op.73》",
+      "new_title_zh": "《歌剧〈魔鬼的份额〉主题幻想曲，Op.73》",
+      "reason": "Restores Fantaisie as the musical form and its source-opera relationship.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "77285",
+      "title_en": "6 Airs variés d'une exécution brillante et facile, Op.18",
+      "current_title_zh": "《6首辉煌而简易的曲调变奏，Op.18》",
+      "new_title_zh": "《6首辉煌而简易的曲调变奏曲，Op.18》",
+      "reason": "Restores the complete Air varié genre name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "80364",
+      "title_en": "Marche triumphale, Op.26",
+      "current_title_zh": "《凯旋进行曲，作品。 26》",
+      "new_title_zh": "《凯旋进行曲，Op.26》",
+      "reason": "Removes the erroneous punctuation inserted into the opus designation.",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "85294",
+      "title_en": "Duettino Facile, Op.77",
+      "current_title_zh": "《简易二重唱，作品 77》",
+      "new_title_zh": "《简易小二重奏，Op.77》",
+      "reason": "Duettino is an instrumental small duet here, not a vocal duet.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "87252",
+      "title_en": "3 Sonatinas, Theme and Variations, Op.6",
+      "current_title_zh": "《3首奏鸣曲，主题与变奏曲，作品6》",
+      "new_title_zh": "《3首小奏鸣曲、主题与变奏曲，Op.6》",
+      "reason": "Sonatina was mistranslated as sonata.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "87944",
+      "title_en": "30 Fughettas",
+      "current_title_zh": "《30 福格塔》",
+      "new_title_zh": "《30首小赋格曲》",
+      "reason": "Fughetta is the standard musical term small fugue.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "91283",
+      "title_en": "Fantaisie",
+      "current_title_zh": "《幻想》",
+      "new_title_zh": "《幻想曲》",
+      "reason": "Fantaisie is the musical form fantasia, not an abstract fantasy.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "95000",
+      "title_en": "Rondino",
+      "current_title_zh": "《朗迪诺》",
+      "new_title_zh": "《小回旋曲》",
+      "reason": "Rondino is the standard musical term small rondo.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "95050",
+      "title_en": "Fantaisie élégiaque, Op.59",
+      "current_title_zh": "《挽歌幻想，作品 59》",
+      "new_title_zh": "《悲歌幻想曲，Op.59》",
+      "reason": "Restores both the elegiac qualifier and Fantaisie as a musical form.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "95278",
+      "title_en": "Sonatine",
+      "current_title_zh": "《奏鸣曲》",
+      "new_title_zh": "《小奏鸣曲》",
+      "reason": "Sonatine means small sonata, not sonata.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "95513",
+      "title_en": "Nocturne sur la dernière pensée de C.M. won Weber, Op.9",
+      "current_title_zh": "《关于 C.M. 最后一个想法的夜曲赢得韦伯作品 9》",
+      "new_title_zh": "《根据C. M. 冯·韦伯〈最后的思念〉创作的夜曲，Op.9》",
+      "reason": "Corrects corrupted syntax and preserves the source work relationship.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "95919",
+      "title_en": "22 Preludes",
+      "current_title_zh": "《22 前奏​​曲》",
+      "new_title_zh": "《22首前奏曲》",
+      "reason": "Removes corrupted invisible characters and restores a normal genre title.",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "97587",
+      "title_en": "Fantasie No.2, Op.4",
+      "current_title_zh": "《幻想 第2号，作品 4》",
+      "new_title_zh": "《第2号幻想曲，Op.4》",
+      "reason": "Restores Fantasie as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "97600",
+      "title_en": "Fantasie No.3, Op.10",
+      "current_title_zh": "《幻想 第3号，作品 10》",
+      "new_title_zh": "《第3号幻想曲，Op.10》",
+      "reason": "Restores Fantasie as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "120758",
+      "title_en": "Fantaisie dramatique, Op.14",
+      "current_title_zh": "《戏剧奇幻作品，Op.14》",
+      "new_title_zh": "《戏剧幻想曲，Op.14》",
+      "reason": "Fantaisie is the musical form fantasia; the current wording means fantasy fiction.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "120781",
+      "title_en": "Plainte Moresque, Op.85",
+      "current_title_zh": "《普兰特莫尔斯克，作品。 85》",
+      "new_title_zh": "《摩尔哀歌，Op.85》",
+      "reason": "Restores plainte as a lament and repairs the opus designation.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "133172",
+      "title_en": "La Romanesca",
+      "current_title_zh": "《罗马式》",
+      "new_title_zh": "《罗曼内斯卡舞曲》",
+      "reason": "Romanesca is a historical dance/tune form, not the adjective Romanesque.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "150049",
+      "title_en": "Princess Mazurka",
+      "current_title_zh": "《玛祖卡公主》",
+      "new_title_zh": "《公主玛祖卡舞曲》",
+      "reason": "Restores the title qualifier and mazurka in natural musical-title order.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "153088",
+      "title_en": "Toccata, Adagio and Fugue in C major, BWV 564",
+      "current_title_zh": "《C大调托卡塔、慢板和赋格，BWV》",
+      "new_title_zh": "《C大调托卡塔、慢板与赋格，BWV 564》",
+      "reason": "Restores the catalog number 564 omitted from the current title.",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "180828",
+      "title_en": "Fughetta in C minor, BWV 961",
+      "current_title_zh": "《C小调福盖塔，BWV 961》",
+      "new_title_zh": "《C小调小赋格曲，BWV 961》",
+      "reason": "Fughetta is the standard musical term small fugue.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "203256",
+      "title_en": "Edelweiss, Op.31",
+      "current_title_zh": "《雪绒花，作品。 31》",
+      "new_title_zh": "《雪绒花，Op.31》",
+      "reason": "Removes the erroneous punctuation inserted into the opus designation.",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "204304",
+      "title_en": "10 Characteristic Sonatinas",
+      "current_title_zh": "《10首特色奏鸣曲》",
+      "new_title_zh": "《10首性格小奏鸣曲》",
+      "reason": "Restores both sonatina and the standard musical sense of characteristic.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "223323",
+      "title_en": "Aurora Walzer, Op.34",
+      "current_title_zh": "《极光华尔兹，作品。 34》",
+      "new_title_zh": "《曙光圆舞曲，Op.34》",
+      "reason": "Restores Walzer as waltz and repairs the opus designation.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "237952",
+      "title_en": "Partite diversi di follia",
+      "current_title_zh": "《不同的疯狂比赛》",
+      "new_title_zh": "《福利亚主题变奏曲集》",
+      "reason": "Partite on the Folia denotes a variation set, not matches involving madness.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "264616",
+      "title_en": "Fantasia Chromatica",
+      "current_title_zh": "《彩色幻想》",
+      "new_title_zh": "《半音幻想曲》",
+      "reason": "Chromatica means chromatic in music, not colorful.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "299586",
+      "title_en": "6 Flute Sonatinas, Op.388",
+      "current_title_zh": "《6 长笛奏鸣曲，作品 388》",
+      "new_title_zh": "《6首长笛小奏鸣曲，Op.388》",
+      "reason": "Sonatina was mistranslated as sonata.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "358254",
+      "title_en": "Fantasia à 4, VdGS 3",
+      "current_title_zh": "《幻想 4，VdGS 3》",
+      "new_title_zh": "《四声部幻想曲，VdGS 3》",
+      "reason": "À 4 denotes four parts; it is not Fantasia No.4.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "364910",
+      "title_en": "Recercar terzo, F 9.03",
+      "current_title_zh": "《重新关闭 terzo，F 9.03》",
+      "new_title_zh": "《第3利切尔卡尔，F 9.03》",
+      "reason": "Recercar is ricercar and terzo is third; the current text is unrelated.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "374620",
+      "title_en": "Galliardo, FVB 87",
+      "current_title_zh": "《加利亚多，FVB 87》",
+      "new_title_zh": "《加利亚德舞曲，FVB 87》",
+      "reason": "Galliardo is the galliard dance form.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "378911",
+      "title_en": "Fantaisie et variations sur un air écossais, Op.40",
+      "current_title_zh": "《苏格兰曲调的幻想与变奏，Op.40》",
+      "new_title_zh": "《苏格兰曲调幻想曲与变奏曲，Op.40》",
+      "reason": "Restores both Fantaisie and variations as complete musical-form names.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "383412",
+      "title_en": "Allemanda, FVB 187",
+      "current_title_zh": "《德国，FVB 187》",
+      "new_title_zh": "《阿勒曼德舞曲，FVB 187》",
+      "reason": "Allemanda is the allemande dance, not the country Germany.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "400267",
+      "title_en": "Diferencias sobre 'Guárdame las vacas'",
+      "current_title_zh": "《与“救救我的奶牛”的差异》",
+      "new_title_zh": "《〈Guárdame las vacas〉主题变奏曲》",
+      "reason": "Diferencias is the Spanish variation form, not differences in ordinary language.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "418603",
+      "title_en": "Thême varié, Op.15c",
+      "current_title_zh": "《多样的主题，Op.15c》",
+      "new_title_zh": "《主题变奏曲，Op.15c》",
+      "reason": "Thême varié is the musical form theme and variations.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "418605",
+      "title_en": "Fantasie No.5, Op.16",
+      "current_title_zh": "《幻想 第5号，作品 16》",
+      "new_title_zh": "《第5号幻想曲，Op.16》",
+      "reason": "Restores Fantasie as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "425833",
+      "title_en": "Partite sopra La Romanesca",
+      "current_title_zh": "《基于〈罗马内斯卡〉的帕蒂塔》",
+      "new_title_zh": "《〈罗曼内斯卡舞曲〉主题变奏曲集》",
+      "reason": "Partite sopra denotes a variation set on the Romanesca ground.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "426933",
+      "title_en": "Canzoni francese intavolate per sonar d'organo",
+      "current_title_zh": "《为风琴声纳配乐的法语歌曲》",
+      "new_title_zh": "《供管风琴演奏的法国坎佐纳指法谱》",
+      "reason": "Canzoni and intavolate are musical genre/notation terms; sonar means to play here.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "433826",
+      "title_en": "Fantasia à 4, VdGS 1",
+      "current_title_zh": "《幻想 4，VdGS 1》",
+      "new_title_zh": "《四声部幻想曲，VdGS 1》",
+      "reason": "À 4 denotes four parts; it is not Fantasia No.4.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "438771",
+      "title_en": "Recercada tercera sobre tenores Italianos",
+      "current_title_zh": "《Recercada 意大利男高音第三名》",
+      "new_title_zh": "《基于意大利固定低音的第3雷塞尔卡达》",
+      "reason": "Recercada is an instrumental form and tenores are structural tenor/ground patterns, not singers.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "439379",
+      "title_en": "Premier livre de tablature de luth",
+      "current_title_zh": "《第一本琵琶琴谱》",
+      "new_title_zh": "《鲁特琴指法谱第一册》",
+      "reason": "Luth is lute and tablature is tablature, not pipa notation.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "440830",
+      "title_en": "Recercada quinta pars sobre tenores Italianos",
+      "current_title_zh": "《Recercada 意大利男高音第五标准》",
+      "new_title_zh": "《基于意大利固定低音的第5雷塞尔卡达》",
+      "reason": "Recercada is an instrumental form and tenores are structural tenor/ground patterns, not singers.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "442249",
+      "title_en": "Capriccio sopra l'aria 'Or chè noi rimena' in partite, F 4.07",
+      "current_title_zh": "《基于曲调〈Or chè noi rimena〉的分段随想曲，F 4.07》",
+      "new_title_zh": "《基于曲调〈Or chè noi rimena〉的变奏随想曲，F 4.07》",
+      "reason": "In partite indicates treatment as variations, not segmentation.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "448530",
+      "title_en": "Guitar Sonatina, Op.31",
+      "current_title_zh": "《吉他小奏鸣曲，作品。31》",
+      "new_title_zh": "《吉他小奏鸣曲，Op.31》",
+      "reason": "Removes the erroneous punctuation inserted into the opus designation.",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "449937",
+      "title_en": "Gagliarda XI sopra Vestiva i colli",
+      "current_title_zh": "《加利亚尔达十一世 (Gagliarda XI) 装饰山丘》",
+      "new_title_zh": "《基于〈Vestiva i colli〉的第11首加利亚德舞曲》",
+      "reason": "Restores the galliard form, ordinal, and source melody relationship.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "467959",
+      "title_en": "Fantasia à 4, VdGS 20",
+      "current_title_zh": "《幻想至 4、VdGS 20》",
+      "new_title_zh": "《四声部幻想曲，VdGS 20》",
+      "reason": "À 4 denotes four parts; the current text is a literal preposition mistranslation.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "474722",
+      "title_en": "L'aubade, Op.34",
+      "current_title_zh": "《奥巴德，作品。 34》",
+      "new_title_zh": "《晨歌，Op.34》",
+      "reason": "Restores aubade as the musical genre morning song and repairs the opus designation.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "475316",
+      "title_en": "Mazurka in G major",
+      "current_title_zh": "《玛祖卡和G大调》",
+      "new_title_zh": "《G大调玛祖卡舞曲》",
+      "reason": "Corrects the key relationship and title order.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "506479",
+      "title_en": "Fantasia terza sopra un soggietto, F 6.03",
+      "current_title_zh": "《关于某个主题的第三次幻想，F 6.03》",
+      "new_title_zh": "《基于一个主题的第3号幻想曲，F 6.03》",
+      "reason": "Restores the fantasia number and soggietto as a musical subject.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "506486",
+      "title_en": "Fantasia prima sopra un soggietto, F 6.01",
+      "current_title_zh": "《第一次幻想某个主题，F 6.01》",
+      "new_title_zh": "《基于一个主题的第1号幻想曲，F 6.01》",
+      "reason": "Restores the fantasia number and soggietto as a musical subject.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "506497",
+      "title_en": "Fantasia seconda sopra un soggietto, F 6.02",
+      "current_title_zh": "《关于某个主题的第二次幻想，F 6.02》",
+      "new_title_zh": "《基于一个主题的第2号幻想曲，F 6.02》",
+      "reason": "Restores the fantasia number and soggietto as a musical subject.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "506582",
+      "title_en": "Fantasia quarta sopra doi sogietti, F 6.04",
+      "current_title_zh": "《第四个关于两个主题的幻想，F 6.04》",
+      "new_title_zh": "《基于两个主题的第4号幻想曲，F 6.04》",
+      "reason": "Restores the fantasia number and sogietti as musical subjects.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "506663",
+      "title_en": "Fantasia undecima sopra quattro soggietti, F 6.11",
+      "current_title_zh": "《关于四个主题的第十一个幻想，F 6.11》",
+      "new_title_zh": "《基于四个主题的第11号幻想曲，F 6.11》",
+      "reason": "Restores the fantasia number and soggietti as musical subjects.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "506880",
+      "title_en": "Fantasia nona sopra tre soggietti, F 6.09",
+      "current_title_zh": "《第九个关于三个主题的幻想，F 6.09》",
+      "new_title_zh": "《基于三个主题的第9号幻想曲，F 6.09》",
+      "reason": "Restores the fantasia number and soggietti as musical subjects.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "506898",
+      "title_en": "Fantasia sesta sopra doi soggietti, F 6.06",
+      "current_title_zh": "《第六幻想以上两个科目，F 6.06》",
+      "new_title_zh": "《基于两个主题的第6号幻想曲，F 6.06》",
+      "reason": "Restores the fantasia number and corrects the mistranslated musical subjects.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "531570",
+      "title_en": "Fughetta in E minor",
+      "current_title_zh": "《E小调福盖塔》",
+      "new_title_zh": "《E小调小赋格曲》",
+      "reason": "Fughetta is the standard musical term small fugue.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "540180",
+      "title_en": "Couranta I, MT 20",
+      "current_title_zh": "《库兰塔一号，MT 20》",
+      "new_title_zh": "《第1首库朗特舞曲，MT 20》",
+      "reason": "Couranta is the courante dance form.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "550605",
+      "title_en": "Spanish Fantasy, Op.201",
+      "current_title_zh": "《西班牙幻想，作品 201》",
+      "new_title_zh": "《西班牙幻想曲，Op.201》",
+      "reason": "Restores Fantasy as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "553254",
+      "title_en": "Valtzer fantastico",
+      "current_title_zh": "《美妙的华尔兹》",
+      "new_title_zh": "《幻想圆舞曲》",
+      "reason": "Valtzer is waltz and fantastico is the conventional musical qualifier fantastical.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "568680",
+      "title_en": "Fantasia vigesimus tertius",
+      "current_title_zh": "《第二十三幻想》",
+      "new_title_zh": "《第23号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name and ordinal.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "643592",
+      "title_en": "Fantasia Española",
+      "current_title_zh": "《西班牙幻想》",
+      "new_title_zh": "《西班牙幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "656805",
+      "title_en": "Serenata Fantastica, Op.174",
+      "current_title_zh": "《梦幻般的小夜曲，作品 174》",
+      "new_title_zh": "《幻想小夜曲，Op.174》",
+      "reason": "Fantastica is the conventional musical qualifier fantastical, not conversational wording.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "656813",
+      "title_en": "Nelly gavotta, Op.171",
+      "current_title_zh": "《耐莉·加沃塔，作品 171》",
+      "new_title_zh": "《耐莉加沃特舞曲，Op.171》",
+      "reason": "Gavotta is the gavotte dance form.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "656867",
+      "title_en": "Gavotta e Minuetto a Bébé, Op.39",
+      "current_title_zh": "《加沃塔与婴儿小步舞曲，Op.39》",
+      "new_title_zh": "《加沃特舞曲与献给贝贝的小步舞曲，Op.39》",
+      "reason": "Restores gavotte as a dance and reads a Bébé as a dedication.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "680885",
+      "title_en": "Fantasía Tanguera No.6",
+      "current_title_zh": "《坦格拉幻想6号》",
+      "new_title_zh": "《第6号探戈幻想曲》",
+      "reason": "Restores the tango-fantasia genre and the identifying number.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "691572",
+      "title_en": "Vestiva i colli No.4",
+      "current_title_zh": "《他戴的是4号项圈》",
+      "new_title_zh": "《〈Vestiva i colli〉第4号》",
+      "reason": "The current machine translation mistakes the Italian work title for clothing and a collar.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "695612",
+      "title_en": "Vals in D major",
+      "current_title_zh": "《D大调瓦尔斯》",
+      "new_title_zh": "《D大调圆舞曲》",
+      "reason": "Vals is the waltz genre, not an untranslated phonetic form.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "719730",
+      "title_en": "En mi ventana un castillo No.2",
+      "current_title_zh": "《我的窗子里有一座2号城堡》",
+      "new_title_zh": "《〈我的窗前有一座城堡〉第2号》",
+      "reason": "Corrects the placement of the identifying number within the translated title.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "724463",
+      "title_en": "Mazurka nel ballo Uno spirito maligno",
+      "current_title_zh": "《玛祖卡舞中的邪恶灵魂》",
+      "new_title_zh": "《舞剧〈邪恶精灵〉中的玛祖卡舞曲》",
+      "reason": "Restores the mazurka's relationship to the named stage work.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "725610",
+      "title_en": "Fantaisie avec variations sur des airs de 'La gazza ladra', Op.197",
+      "current_title_zh": "《基于〈贼鹊〉咏叹调的幻想变奏曲，Op.197》",
+      "new_title_zh": "《歌剧〈贼鹊〉咏叹调幻想曲与变奏曲，Op.197》",
+      "reason": "Restores fantasia and variations as two linked musical forms.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "728936",
+      "title_en": "Soliloquio, Op.46",
+      "current_title_zh": "《独白，作品。 46》",
+      "new_title_zh": "《独白，Op.46》",
+      "reason": "Removes the erroneous punctuation inserted into the opus designation.",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "733830",
+      "title_en": "Fugue in C minor, P.152",
+      "current_title_zh": "《C小调赋格曲，第152页》",
+      "new_title_zh": "《C小调赋格曲，P.152》",
+      "reason": "P.152 is a catalog identifier, not a page number.",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "734113",
+      "title_en": "4 Leichte und angenehme Rondino, Op.140",
+      "current_title_zh": "《4 轻松愉快的朗迪诺，作品 140》",
+      "new_title_zh": "《4首轻松愉快的小回旋曲，Op.140》",
+      "reason": "Rondino is the standard musical term small rondo.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "734480",
+      "title_en": "Fugue in F minor, P.157",
+      "current_title_zh": "《F小调赋格曲，第157页》",
+      "new_title_zh": "《F小调赋格曲，P.157》",
+      "reason": "P.157 is a catalog identifier, not a page number.",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "756773",
+      "title_en": "2 Duetti, Op.158",
+      "current_title_zh": "《2 二重唱，作品 158》",
+      "new_title_zh": "《2首二重奏，Op.158》",
+      "reason": "Duetti denotes instrumental duos here, not vocal duets.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "767719",
+      "title_en": "Guitar Piece No.2",
+      "current_title_zh": "《吉他第二首》",
+      "new_title_zh": "《第2号吉他曲》",
+      "reason": "Restores piece as a musical work and places the number normally.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "775118",
+      "title_en": "Mazurka No.1",
+      "current_title_zh": "《玛祖卡第一号》",
+      "new_title_zh": "《第1号玛祖卡舞曲》",
+      "reason": "Restores mazurka as the complete genre name and places the number normally.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "781799",
+      "title_en": "Fantasia Originale, Op.140",
+      "current_title_zh": "《原创幻想，作品 140》",
+      "new_title_zh": "《原创幻想曲，Op.140》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "783915",
+      "title_en": "Fantasia in F major, Krebs-WV 419",
+      "current_title_zh": "《F大调幻想曲，克雷布斯-WV 419》",
+      "new_title_zh": "《F大调幻想曲，Krebs-WV 419》",
+      "reason": "Krebs-WV is a catalog identifier and must not be translated phonetically.",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "794201",
+      "title_en": "Fantasia per sonar un Lauto",
+      "current_title_zh": "《Lauto 声纳幻想》",
+      "new_title_zh": "《鲁特琴幻想曲》",
+      "reason": "Lauto is lute and sonar means to play; the current machine translation is unrelated.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "795916",
+      "title_en": "Une Fantaisie",
+      "current_title_zh": "《幻想》",
+      "new_title_zh": "《幻想曲》",
+      "reason": "Fantaisie is the musical form fantasia, not an abstract fantasy.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "800946",
+      "title_en": "Nuevo método de guitarra por cifra compaseada",
+      "current_title_zh": "《测量数字的新吉他教程》",
+      "new_title_zh": "《采用节拍数字谱的新吉他教程》",
+      "reason": "Cifra compaseada is metered numerical tablature, not a measured number.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "804880",
+      "title_en": "Fantaisie No.1",
+      "current_title_zh": "《幻想一号》",
+      "new_title_zh": "《第1号幻想曲》",
+      "reason": "Restores Fantaisie as the complete musical-form name and number.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "820047",
+      "title_en": "Escala y Preludio",
+      "current_title_zh": "《音阶和前奏》",
+      "new_title_zh": "《音阶与前奏曲》",
+      "reason": "Preludio is the musical form prelude, not the incomplete noun 'prelude'.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "822138",
+      "title_en": "Vals",
+      "current_title_zh": "《瓦尔斯》",
+      "new_title_zh": "《圆舞曲》",
+      "reason": "Vals is the waltz genre, not an untranslated phonetic form.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "823492",
+      "title_en": "Fascination Mazurka",
+      "current_title_zh": "《魅力玛祖卡舞》",
+      "new_title_zh": "《迷人玛祖卡舞曲》",
+      "reason": "Restores mazurka as the complete dance-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "823494",
+      "title_en": "The Belle of the Day Mazurka",
+      "current_title_zh": "《当天的美女玛祖卡》",
+      "new_title_zh": "《今日美人玛祖卡舞曲》",
+      "reason": "Restores the named qualifier and mazurka genre in natural title order.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "842994",
+      "title_en": "Fantaisie pour guitare, Op.5",
+      "current_title_zh": "《幻想吉他，作品 5》",
+      "new_title_zh": "《吉他幻想曲，Op.5》",
+      "reason": "Corrects the instrumentation relationship and restores the musical form.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "848759",
+      "title_en": "Dance Fantasy, Op.6",
+      "current_title_zh": "《舞蹈幻想，作品 6》",
+      "new_title_zh": "《舞蹈幻想曲，Op.6》",
+      "reason": "Restores Fantasy as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "856894",
+      "title_en": "Sinfonia della Lodovisca, MS 98",
+      "current_title_zh": "《洛多维斯卡交响乐团，MS 98》",
+      "new_title_zh": "《〈洛多伊斯卡〉序曲，MS 98》",
+      "reason": "The catalog identifies this as an arrangement of the opera overture, not an orchestra.",
+      "basis": "semantic_correction",
+      "source_refs": [
+        "https://imslp.org/wiki/Sinfonia_della_Lodovisca%2C_MS_98_(Paganini%2C_Niccol%C3%B2)"
+      ]
+    },
+    {
+      "work_id": "857857",
+      "title_en": "Gagliarda Prima",
+      "current_title_zh": "《加利亚尔达·普里玛》",
+      "new_title_zh": "《第1首加利亚德舞曲》",
+      "reason": "Gagliarda Prima means first galliard.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "859402",
+      "title_en": "Grande Fantaisie, Op.14",
+      "current_title_zh": "《伟大的幻想，作品 14》",
+      "new_title_zh": "《大幻想曲，Op.14》",
+      "reason": "Grande Fantaisie is the established form title grand fantasia, not conversational praise.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "863474",
+      "title_en": "Fantasia No.3",
+      "current_title_zh": "《幻想3号》",
+      "new_title_zh": "《第3号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "870852",
+      "title_en": "Romanesca undecima con cento parti",
+      "current_title_zh": "《第11首罗马涅斯卡及其100个变奏》",
+      "new_title_zh": "《第11首罗曼内斯卡舞曲及其100个变奏》",
+      "reason": "Uses the standard genre transliteration and preserves the variation count.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "879729",
+      "title_en": "Padouana et Gagliarda I",
+      "current_title_zh": "《帕杜阿纳和加利亚尔达一世》",
+      "new_title_zh": "《第1首帕多瓦舞曲与加利亚德舞曲》",
+      "reason": "Restores both historical dance forms and the ordinal.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "880380",
+      "title_en": "Padouana et Gagliarda IV",
+      "current_title_zh": "《帕多瓦和加利亚尔四世》",
+      "new_title_zh": "《第4首帕多瓦舞曲与加利亚德舞曲》",
+      "reason": "Restores both historical dance forms and the ordinal.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "884266",
+      "title_en": "Mitten wir im Leben sind, Krebs-WV 539",
+      "current_title_zh": "《中年，癌症-WV 539》",
+      "new_title_zh": "《我们在人生中途，Krebs-WV 539》",
+      "reason": "Corrects the chorale incipit and preserves the catalog identifier.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "886346",
+      "title_en": "Fughetta",
+      "current_title_zh": "《逃脱》",
+      "new_title_zh": "《小赋格曲》",
+      "reason": "The machine translation 'escape' confuses fugue with ordinary language.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "892886",
+      "title_en": "Alla Mazurka",
+      "current_title_zh": "《阿拉玛祖卡》",
+      "new_title_zh": "《玛祖卡风格》",
+      "reason": "Alla Mazurka means in mazurka style, not the phonetic phrase 'Ala Mazurka'.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "908187",
+      "title_en": "Tombeau sur la mort de M. Comte de Logy arrivée, WSW 20",
+      "current_title_zh": "《德洛吉伯爵先生逝世之墓抵达，WSW 20》",
+      "new_title_zh": "《悼洛吉伯爵墓碑曲，WSW 20》",
+      "reason": "Tombeau is a memorial musical genre; the current text is a literal machine mistranslation.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "914003",
+      "title_en": "Romanesca No.2",
+      "current_title_zh": "《罗马式2号》",
+      "new_title_zh": "《第2号罗曼内斯卡舞曲》",
+      "reason": "Romanesca is a historical dance/tune form, not the adjective Romanesque.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "914384",
+      "title_en": "Fantasia No.14",
+      "current_title_zh": "《幻想14号》",
+      "new_title_zh": "《第14号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "914504",
+      "title_en": "Romanesca No.1",
+      "current_title_zh": "《罗马式1号》",
+      "new_title_zh": "《第1号罗曼内斯卡舞曲》",
+      "reason": "Romanesca is a historical dance/tune form, not the adjective Romanesque.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "923038",
+      "title_en": "Fantasia No.3",
+      "current_title_zh": "《幻想3号》",
+      "new_title_zh": "《第3号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "929624",
+      "title_en": "25 Guitar Sonatines, Op.80",
+      "current_title_zh": "《25 首吉他奏鸣曲，作品 80》",
+      "new_title_zh": "《25首吉他小奏鸣曲，Op.80》",
+      "reason": "Sonatine was mistranslated as sonata.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "932158",
+      "title_en": "10 Airs variés",
+      "current_title_zh": "《10首不同的曲调》",
+      "new_title_zh": "《10首曲调变奏曲》",
+      "reason": "Airs variés are airs with variations, not merely different tunes.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "932736",
+      "title_en": "Rondos, petites airs variés, allemandes et marches",
+      "current_title_zh": "《回旋曲、变奏小曲调、阿勒曼德舞曲与进行曲》",
+      "new_title_zh": "《回旋曲、小型曲调变奏曲、阿勒曼德舞曲与进行曲》",
+      "reason": "Restores petites airs variés as small air-and-variation pieces.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "943319",
+      "title_en": "Vals Tropical",
+      "current_title_zh": "《瓦尔斯热带酒店》",
+      "new_title_zh": "《热带圆舞曲》",
+      "reason": "Vals means waltz; the current title spuriously adds a hotel.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "951029",
+      "title_en": "Fantasia No.46",
+      "current_title_zh": "《幻想46号》",
+      "new_title_zh": "《第46号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "951031",
+      "title_en": "Fantasia No.51",
+      "current_title_zh": "《幻想51号》",
+      "new_title_zh": "《第51号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "956979",
+      "title_en": "Fantasia No.5",
+      "current_title_zh": "《幻想5号》",
+      "new_title_zh": "《第5号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "956981",
+      "title_en": "Fantasia No.6",
+      "current_title_zh": "《幻想6号》",
+      "new_title_zh": "《第6号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "958599",
+      "title_en": "Fantasia No.8",
+      "current_title_zh": "《幻想8号》",
+      "new_title_zh": "《第8号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "959447",
+      "title_en": "Fantasia No.11",
+      "current_title_zh": "《幻想11号》",
+      "new_title_zh": "《第11号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "959714",
+      "title_en": "Fantasia No.13",
+      "current_title_zh": "《幻想13号》",
+      "new_title_zh": "《第13号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "960136",
+      "title_en": "Jiga Inglesa",
+      "current_title_zh": "《吉加·英格莱萨》",
+      "new_title_zh": "《英国吉格舞曲》",
+      "reason": "Jiga inglesa means English jig, not an untranslated phonetic string.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "962653",
+      "title_en": "Chacona",
+      "current_title_zh": "《查科纳》",
+      "new_title_zh": "《恰空舞曲》",
+      "reason": "Chacona is the chaconne dance form.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "963796",
+      "title_en": "Fantasia No.16",
+      "current_title_zh": "《幻想16号》",
+      "new_title_zh": "《第16号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "968360",
+      "title_en": "Fantasia No.27",
+      "current_title_zh": "《幻想27号》",
+      "new_title_zh": "《第27号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "968500",
+      "title_en": "Fantasia No.28",
+      "current_title_zh": "《幻想28号》",
+      "new_title_zh": "《第28号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "968504",
+      "title_en": "Fantasia No.30",
+      "current_title_zh": "《幻想30号》",
+      "new_title_zh": "《第30号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "969462",
+      "title_en": "Jacaras, Libro I, f.17",
+      "current_title_zh": "《雅卡拉斯，Libro I，f.17》",
+      "new_title_zh": "《雅卡拉舞曲，第一册，f.17》",
+      "reason": "Restores the dance genre and translates the volume designation.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "976139",
+      "title_en": "Fantasia No.32",
+      "current_title_zh": "《幻想32号》",
+      "new_title_zh": "《第32号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "976572",
+      "title_en": "Fantasia No.33",
+      "current_title_zh": "《幻想33号》",
+      "new_title_zh": "《第33号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "977063",
+      "title_en": "Fantasia No.36",
+      "current_title_zh": "《幻想36号》",
+      "new_title_zh": "《第36号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "978778",
+      "title_en": "Fantasia No.38",
+      "current_title_zh": "《幻想38号》",
+      "new_title_zh": "《第38号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "978838",
+      "title_en": "Fantasia No.39",
+      "current_title_zh": "《幻想39号》",
+      "new_title_zh": "《第39号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "979007",
+      "title_en": "Fantasia No.40",
+      "current_title_zh": "《幻想40号》",
+      "new_title_zh": "《第40号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "979009",
+      "title_en": "Fantasia No.41",
+      "current_title_zh": "《幻想41号》",
+      "new_title_zh": "《第41号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "981123",
+      "title_en": "Fantasia No.43",
+      "current_title_zh": "《幻想43号》",
+      "new_title_zh": "《第43号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "981357",
+      "title_en": "Fantasia No.44",
+      "current_title_zh": "《幻想44号》",
+      "new_title_zh": "《第44号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "981945",
+      "title_en": "Fantasia No.47",
+      "current_title_zh": "《幻想47号》",
+      "new_title_zh": "《第47号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "982142",
+      "title_en": "Fantasia No.49",
+      "current_title_zh": "《幻想49号》",
+      "new_title_zh": "《第49号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "983748",
+      "title_en": "Tempo di Mazurka, Op.138",
+      "current_title_zh": "《玛祖卡舞曲时间，作品 138》",
+      "new_title_zh": "《玛祖卡舞曲速度，Op.138》",
+      "reason": "Tempo di Mazurka means mazurka tempo, not mazurka time.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "993009",
+      "title_en": "Fantasia No.14",
+      "current_title_zh": "《幻想14号》",
+      "new_title_zh": "《第14号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "996962",
+      "title_en": "Fantasia No.17",
+      "current_title_zh": "《幻想17号》",
+      "new_title_zh": "《第17号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1001516",
+      "title_en": "Duetto concertato",
+      "current_title_zh": "《协奏二重唱》",
+      "new_title_zh": "《协奏二重奏》",
+      "reason": "Duetto denotes an instrumental duo here, not a vocal duet.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1004025",
+      "title_en": "Fantaisie et Variations dialoguées, Op.49",
+      "current_title_zh": "《幻想与对话变奏曲，作品 49》",
+      "new_title_zh": "《幻想曲与对话式变奏曲，Op.49》",
+      "reason": "Restores both forms and dialoguées as a musical texture qualifier.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1004627",
+      "title_en": "Fantasia No.19",
+      "current_title_zh": "《幻想19号》",
+      "new_title_zh": "《第19号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1011065",
+      "title_en": "Fantasia No.21",
+      "current_title_zh": "《幻想21号》",
+      "new_title_zh": "《第21号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1018915",
+      "title_en": "Fantasia No.22",
+      "current_title_zh": "《幻想22号》",
+      "new_title_zh": "《第22号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1027204",
+      "title_en": "Fantasia Lirica",
+      "current_title_zh": "《抒情幻想》",
+      "new_title_zh": "《抒情幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1041494",
+      "title_en": "Rondino, Op.20",
+      "current_title_zh": "《朗迪诺，作品 20》",
+      "new_title_zh": "《小回旋曲，Op.20》",
+      "reason": "Rondino is the standard musical term small rondo.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1042226",
+      "title_en": "24 Studies or Exercises principally in arpeggio for the Guitar, Op.30",
+      "current_title_zh": "《24 首吉他琶音练习或练习，Op.30》",
+      "new_title_zh": "《24首吉他练习曲或习题（主要为琶音），Op.30》",
+      "reason": "Distinguishes studies from exercises and restores the arpeggio qualifier.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1060950",
+      "title_en": "Vals",
+      "current_title_zh": "《瓦尔斯》",
+      "new_title_zh": "《圆舞曲》",
+      "reason": "Vals is the waltz genre, not an untranslated phonetic form.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1061522",
+      "title_en": "Fantaisie über ein Motiv aus der Opera 'Il Pirata'",
+      "current_title_zh": "《关于歌剧“Il Pirata”主题的幻想》",
+      "new_title_zh": "《歌剧〈海盗〉主题幻想曲》",
+      "reason": "Restores the standard opera title and Fantaisie as a musical form.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1064020",
+      "title_en": "3 Guitar Sonatinas, Op.7",
+      "current_title_zh": "《3 吉他奏鸣曲，作品 7》",
+      "new_title_zh": "《3首吉他小奏鸣曲，Op.7》",
+      "reason": "Sonatina was mistranslated as sonata.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1067532",
+      "title_en": "Fantasia No.24",
+      "current_title_zh": "《幻想24号》",
+      "new_title_zh": "《第24号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1071392",
+      "title_en": "Fantasia No.25",
+      "current_title_zh": "《幻想25号》",
+      "new_title_zh": "《第25号幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1074222",
+      "title_en": "6 Preludios pandémicos",
+      "current_title_zh": "《6 流行病前奏》",
+      "new_title_zh": "《6首疫情前奏曲》",
+      "reason": "Restores the complete genre term and the plural count.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1091472",
+      "title_en": "Terzetto, Op.106",
+      "current_title_zh": "《特泽托，作品 106》",
+      "new_title_zh": "《三重奏，Op.106》",
+      "reason": "Terzetto is the musical form trio, not a phonetic placeholder.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1120917",
+      "title_en": "Rondo par Ph. Em. Bach, Op.23",
+      "current_title_zh": "《Ph. Em 的回旋曲。巴赫，作品。 23》",
+      "new_title_zh": "《C. P. E. 巴赫回旋曲，Op.23》",
+      "reason": "Repairs the composer's abbreviation and opus punctuation.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1140824",
+      "title_en": "Thème original Varié, Op.183",
+      "current_title_zh": "《原创主题〈Varié〉，Op.183》",
+      "new_title_zh": "《原创主题变奏曲，Op.183》",
+      "reason": "Varié describes variation treatment and is not part of the theme's proper name.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1153679",
+      "title_en": "Mazurka, Op.36",
+      "current_title_zh": "《玛祖卡舞曲，作品。 36》",
+      "new_title_zh": "《玛祖卡舞曲，Op.36》",
+      "reason": "Removes the erroneous punctuation inserted into the opus designation.",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1154308",
+      "title_en": "Fantaisie irlandaise, Op.59",
+      "current_title_zh": "《爱尔兰幻想，作品 59》",
+      "new_title_zh": "《爱尔兰幻想曲，Op.59》",
+      "reason": "Restores Fantaisie as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1167514",
+      "title_en": "Nouvelle Méthode pour la Lyre ou Guitarre à 5 et 6 cordes, Op.18",
+      "current_title_zh": "《5 弦和 6 弦竖琴或吉他的新教程，Op.18》",
+      "new_title_zh": "《里拉琴或5弦、6弦吉他新教程，Op.18》",
+      "reason": "Lyre is the lyre, not the harp, and the string counts modify the guitar.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1171831",
+      "title_en": "Fantaisie pour la guitare",
+      "current_title_zh": "《吉他的幻想》",
+      "new_title_zh": "《吉他幻想曲》",
+      "reason": "Corrects the instrumentation relationship and restores the musical form.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1176340",
+      "title_en": "6 Pot-pourris avec airs variés",
+      "current_title_zh": "《6首曲调变奏集成曲》",
+      "new_title_zh": "《6首带曲调变奏的集成曲》",
+      "reason": "Restores the relationship between potpourris and varied airs.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1181122",
+      "title_en": "La retraite française et 3 airs variés, Op.9",
+      "current_title_zh": "《法国撤退和 3 首不同的曲调，Op.9》",
+      "new_title_zh": "《法国撤退号与3首曲调变奏曲，Op.9》",
+      "reason": "Airs variés are air-and-variation pieces, not different tunes.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1183786",
+      "title_en": "Partite diverse su 'Andremo con gioia alla casa del Signore'",
+      "current_title_zh": "《“我们要欢欢喜喜地去耶和华的殿”的不同比赛》",
+      "new_title_zh": "《基于〈我们要欢欢喜喜地去耶和华的殿〉的变奏曲集》",
+      "reason": "Partite diverse denotes a variation set, not different matches.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1185089",
+      "title_en": "Méthode complète de Guitare ou Lyre, Op.22",
+      "current_title_zh": "《吉他或竖琴的完整教程，Op.22》",
+      "new_title_zh": "《吉他或里拉琴完整教程，Op.22》",
+      "reason": "Lyre means lyre, not harp.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1186435",
+      "title_en": "12 Walses et un Thême Varié, Op.8",
+      "current_title_zh": "《12 华尔兹和多种主题，作品 8》",
+      "new_title_zh": "《12首圆舞曲与1首主题变奏曲，Op.8》",
+      "reason": "Restores both the waltz count and the varied-theme form.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1187398",
+      "title_en": "Air Varié pour Flûte et Guitare No.7, Op.9",
+      "current_title_zh": "《为长笛与吉他而作的曲调变奏曲第7号，作品9》",
+      "new_title_zh": "《第7号长笛与吉他曲调变奏曲，Op.9》",
+      "reason": "Places the identifying number in standard order for an Air varié.",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1187465",
+      "title_en": "Romanesca",
+      "current_title_zh": "《罗马式》",
+      "new_title_zh": "《罗曼内斯卡舞曲》",
+      "reason": "Romanesca is a historical dance/tune form, not the adjective Romanesque.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1187673",
+      "title_en": "Air Varié pour Flûte et Guitare No.8, Op.23",
+      "current_title_zh": "《长笛与吉他主题变奏曲第8号，作品23》",
+      "new_title_zh": "《第8号长笛与吉他主题变奏曲，Op.23》",
+      "reason": "Places the identifying number in standard order.",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1187783",
+      "title_en": "Air Varié pour Flûte et Guitare No.6, Op.41",
+      "current_title_zh": "《长笛与吉他主题变奏曲第6号，作品41》",
+      "new_title_zh": "《第6号长笛与吉他主题变奏曲，Op.41》",
+      "reason": "Places the identifying number in standard order.",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1189293",
+      "title_en": "Chasse No.2, Op.102",
+      "current_title_zh": "《Chasse 第2号，作品。 102》",
+      "new_title_zh": "《第2号狩猎曲，Op.102》",
+      "reason": "Restores Chasse as the musical hunting piece and repairs the opus designation.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1216308",
+      "title_en": "Fantaisie Espagnole",
+      "current_title_zh": "《西班牙幻想》",
+      "new_title_zh": "《西班牙幻想曲》",
+      "reason": "Restores Fantaisie as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1268118",
+      "title_en": "Mattie Mazurka",
+      "current_title_zh": "《马蒂·马祖卡》",
+      "new_title_zh": "《马蒂玛祖卡舞曲》",
+      "reason": "Restores mazurka as the dance genre.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1271335",
+      "title_en": "Fantasy on Themes from 'Guillaume Tell'",
+      "current_title_zh": "《〈纪尧姆·泰尔〉主题幻想》",
+      "new_title_zh": "《歌剧〈威廉·退尔〉主题幻想曲》",
+      "reason": "Restores the common Chinese opera title and Fantasy as a musical form.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1274332",
+      "title_en": "Cantabile Varié",
+      "current_title_zh": "《如歌综艺》",
+      "new_title_zh": "《如歌主题变奏曲》",
+      "reason": "Varié denotes variation treatment; 'variety show' is unrelated.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1279897",
+      "title_en": "Vals",
+      "current_title_zh": "《瓦尔斯》",
+      "new_title_zh": "《圆舞曲》",
+      "reason": "Vals is the waltz genre, not an untranslated phonetic form.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1299035",
+      "title_en": "Blütige Fantaisie No.8",
+      "current_title_zh": "《布鲁蒂奇幻想 第8号》",
+      "new_title_zh": "《第8号布鲁蒂奇幻想曲》",
+      "reason": "Restores Fantaisie as the complete musical-form name and number.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1299169",
+      "title_en": "Fantaisie über ein Volkslied",
+      "current_title_zh": "《关于一首民歌的幻想》",
+      "new_title_zh": "《民歌主题幻想曲》",
+      "reason": "Restores Fantaisie as the musical form and the source-theme relationship.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1299366",
+      "title_en": "Freie Fantaisie in D major",
+      "current_title_zh": "《D大调自由幻想》",
+      "new_title_zh": "《D大调自由幻想曲》",
+      "reason": "Restores Fantaisie as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1299617",
+      "title_en": "Freie Fantaisie pour la Guitarre seule",
+      "current_title_zh": "《吉他独奏自由幻想》",
+      "new_title_zh": "《吉他独奏自由幻想曲》",
+      "reason": "Restores Fantaisie as the complete musical-form name and instrumentation.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1304575",
+      "title_en": "Rondino for the Spanish Guitar",
+      "current_title_zh": "《为西班牙吉他而作的朗迪诺曲》",
+      "new_title_zh": "《西班牙吉他小回旋曲》",
+      "reason": "Rondino is the standard musical term small rondo.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1309523",
+      "title_en": "Prelude and Fantasy",
+      "current_title_zh": "《前奏与幻想》",
+      "new_title_zh": "《前奏曲与幻想曲》",
+      "reason": "Restores the full conventional names of both musical forms.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1317371",
+      "title_en": "Fantaisie for 2 Guitars, Op.54bis",
+      "current_title_zh": "《两把吉他的幻想，Op.54bis》",
+      "new_title_zh": "《双吉他幻想曲，Op.54bis》",
+      "reason": "Restores Fantaisie as the complete musical-form name and instrumentation.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1322425",
+      "title_en": "Thema varié",
+      "current_title_zh": "《主题多样》",
+      "new_title_zh": "《主题变奏曲》",
+      "reason": "Thema varié is the musical form theme and variations.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1323830",
+      "title_en": "Fantasia sobre motivos de Marina",
+      "current_title_zh": "《以海洋为主题的幻想》",
+      "new_title_zh": "《歌剧〈玛丽娜〉主题幻想曲》",
+      "reason": "Marina is the named opera, not the ordinary word sea.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1325080",
+      "title_en": "Grande méthode complète",
+      "current_title_zh": "《很棒的完整教程》",
+      "new_title_zh": "《大型综合教程》",
+      "reason": "Grande describes the scale/completeness of the method, not conversational praise.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1328617",
+      "title_en": "Pot-pourri, Op. 36",
+      "current_title_zh": "《集成曲，作品。36》",
+      "new_title_zh": "《集成曲，Op.36》",
+      "reason": "Removes the erroneous punctuation inserted into the opus designation.",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1329248",
+      "title_en": "Grande Fantaisie, Op.185",
+      "current_title_zh": "《伟大的幻想，作品 185》",
+      "new_title_zh": "《大幻想曲，Op.185》",
+      "reason": "Grande Fantaisie is the established form title grand fantasia.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1330294",
+      "title_en": "Vals original a 2 Guitarras",
+      "current_title_zh": "《Vals 原版 a 2 吉他》",
+      "new_title_zh": "《双吉他原创圆舞曲》",
+      "reason": "Translates vals and the two-guitar instrumentation left as mixed-language text.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1333398",
+      "title_en": "Scherzo Vals",
+      "current_title_zh": "《瓦尔斯谐谑曲》",
+      "new_title_zh": "《谐谑圆舞曲》",
+      "reason": "Restores Vals as waltz and places Scherzo as its qualifier.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1358731",
+      "title_en": "Vals",
+      "current_title_zh": "《瓦尔斯》",
+      "new_title_zh": "《圆舞曲》",
+      "reason": "Vals is the waltz genre, not an untranslated phonetic form.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1362195",
+      "title_en": "Hipótese da Valseabilidade",
+      "current_title_zh": "《可验证性假说》",
+      "new_title_zh": "《圆舞性假说》",
+      "reason": "Valseabilidade is a wordplay on waltzability, not verifiability.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1364402",
+      "title_en": "Terzetto, Op.160",
+      "current_title_zh": "《特泽托，作品 160》",
+      "new_title_zh": "《三重奏，Op.160》",
+      "reason": "Terzetto is the musical form trio, not a phonetic placeholder.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1368104",
+      "title_en": "Théme varié pour la Guitarre",
+      "current_title_zh": "《吉他的各种主题》",
+      "new_title_zh": "《吉他主题变奏曲》",
+      "reason": "Théme varié is the musical form theme and variations.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1369057",
+      "title_en": "Fantasia Finale",
+      "current_title_zh": "《最终幻想》",
+      "new_title_zh": "《终曲幻想曲》",
+      "reason": "Finale is the musical finale, avoiding the unrelated game-title reading.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1375219",
+      "title_en": "Variations for Guitar in A major, Op.posth.",
+      "current_title_zh": "《A大调吉他变奏曲，作品。帖子。》",
+      "new_title_zh": "《A大调吉他变奏曲，遗作》",
+      "reason": "Op.posth. means a posthumous work, not the machine-translated words 'post'.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1377682",
+      "title_en": "Saltarello cioè Gagliarda",
+      "current_title_zh": "《萨尔塔雷洛即加利亚达》",
+      "new_title_zh": "《萨尔塔雷洛舞曲，即加利亚德舞曲》",
+      "reason": "Restores both named historical dance forms.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1383359",
+      "title_en": "Fantaisie ou second Pot-pourri for Lyre or Guitar, Op.8",
+      "current_title_zh": "《为七弦琴或吉他而作的幻想或第二集成曲，作品 8》",
+      "new_title_zh": "《里拉琴或吉他幻想曲（第二集成曲），Op.8》",
+      "reason": "Corrects lyre, instrumentation, and Fantaisie as a musical form.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1385501",
+      "title_en": "Terzetto, Op.100",
+      "current_title_zh": "《特泽托，作品 100》",
+      "new_title_zh": "《三重奏，Op.100》",
+      "reason": "Terzetto is the musical form trio, not a phonetic placeholder.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1387895",
+      "title_en": "Ballo tedesco novo e gagliarda",
+      "current_title_zh": "《新颖而充满活力的德国舞蹈》",
+      "new_title_zh": "《新德国舞曲与加利亚德舞曲》",
+      "reason": "The machine translation loses the galliard genre entirely.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1404910",
+      "title_en": "Preludio melódico",
+      "current_title_zh": "《旋律前奏》",
+      "new_title_zh": "《旋律前奏曲》",
+      "reason": "Restores the complete genre term.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1406678",
+      "title_en": "Grande fantaisie des motifs de l'opera 'Freyschütz'",
+      "current_title_zh": "《歌剧“Freyschütz”主题的伟大幻想》",
+      "new_title_zh": "《歌剧〈魔弹射手〉主题大幻想曲》",
+      "reason": "Restores the common opera title and Fantaisie as a musical form.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1409191",
+      "title_en": "Thème varié et finale",
+      "current_title_zh": "《多样的最终主题》",
+      "new_title_zh": "《主题变奏曲与终曲》",
+      "reason": "Restores the varied-theme form and finale as separate components.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1416711",
+      "title_en": "Old Time Straight Jig",
+      "current_title_zh": "《旧时直夹具》",
+      "new_title_zh": "《老式直拍吉格舞曲》",
+      "reason": "Jig is a dance form; straight jig is a duple-time dance type, not a fixture.",
+      "basis": "semantic_correction",
+      "source_refs": [
+        "https://www.ibiblio.org/fiddlers/OLDNA_OLY.htm",
+        "https://imslp.org/wiki/Old_Time_Straight_Jig_(Anonymous)"
+      ]
+    },
+    {
+      "work_id": "1418213",
+      "title_en": "Fantasy on La fiancée d'Auber",
+      "current_title_zh": "《奥伯的新娘幻想》",
+      "new_title_zh": "《奥贝尔歌剧〈新娘〉主题幻想曲》",
+      "reason": "Restores the source-opera relationship and Fantasy as a musical form.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1424525",
+      "title_en": "6 Sonatines for Guitar and Violin",
+      "current_title_zh": "《6首吉他和小提琴奏鸣曲》",
+      "new_title_zh": "《6首吉他与小提琴小奏鸣曲》",
+      "reason": "Sonatine was mistranslated as sonata.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1424674",
+      "title_en": "Fantasia Nova",
+      "current_title_zh": "《新幻想》",
+      "new_title_zh": "《新幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1424854",
+      "title_en": "Praeludium 110",
+      "current_title_zh": "《前奏110》",
+      "new_title_zh": "《第110号前奏曲》",
+      "reason": "Restores the genre and places the identifying number in standard order.",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1431132",
+      "title_en": "Instruction élémentaire de la Lyre-Guitare",
+      "current_title_zh": "《七弦琴吉他的基本说明》",
+      "new_title_zh": "《里拉吉他基础教程》",
+      "reason": "Lyre-guitare is a lyre guitar, not a seven-string instrument.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1437648",
+      "title_en": "3 Sonatines, Op.59",
+      "current_title_zh": "《3首奏鸣曲，作品59》",
+      "new_title_zh": "《3首小奏鸣曲，Op.59》",
+      "reason": "Sonatine was mistranslated as sonata.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1440076",
+      "title_en": "Simphonie d'Haydn, Op.152",
+      "current_title_zh": "《海顿辛芬妮，作品 152》",
+      "new_title_zh": "《海顿交响曲，Op.152》",
+      "reason": "Simphonie is symphony, not an untranslated phonetic form.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1442173",
+      "title_en": "Fantaisie & Variations, Op.287",
+      "current_title_zh": "《幻想与变奏曲，作品 287》",
+      "new_title_zh": "《幻想曲与变奏曲，Op.287》",
+      "reason": "Restores both named musical forms as complete terms.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1442803",
+      "title_en": "Fantaisie et Variations for Guitar, Op.366",
+      "current_title_zh": "《吉他幻想与变奏曲，作品 366》",
+      "new_title_zh": "《吉他幻想曲与变奏曲，Op.366》",
+      "reason": "Restores both named musical forms and the instrumentation.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1445594",
+      "title_en": "3 Duetti for Violin and Guitar",
+      "current_title_zh": "《3 小提琴和吉他二重唱》",
+      "new_title_zh": "《3首小提琴与吉他二重奏》",
+      "reason": "The instrumentation makes these instrumental duos, not vocal duets.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1447204",
+      "title_en": "Tutor for French Guitar",
+      "current_title_zh": "《法国吉他导师》",
+      "new_title_zh": "《法国吉他教程》",
+      "reason": "Tutor denotes an instructional method book, not a person.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1449952",
+      "title_en": "Sonatine No.1",
+      "current_title_zh": "《第一号奏鸣曲》",
+      "new_title_zh": "《第1号小奏鸣曲》",
+      "reason": "Sonatine was mistranslated as sonata.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1452862",
+      "title_en": "2 Airs variés",
+      "current_title_zh": "《2 不同的曲调》",
+      "new_title_zh": "《2首曲调变奏曲》",
+      "reason": "Airs variés are airs with variations, not merely different tunes.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1455333",
+      "title_en": "Duettino from the Opera 'Guelphs and Ghibellines'",
+      "current_title_zh": "《歌剧〈圭尔夫派与吉伯林派〉中的二重唱》",
+      "new_title_zh": "《歌剧〈圭尔夫派与吉伯林派〉中的小二重奏》",
+      "reason": "The catalog item is an instrumental duettino arrangement, not a vocal duet.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1462381",
+      "title_en": "Study 1 after Liszt and Segovia, Op.114",
+      "current_title_zh": "《李斯特和塞戈维亚之后的第一练习，Op.114》",
+      "new_title_zh": "《仿李斯特与塞戈维亚的第1号练习曲，Op.114》",
+      "reason": "Study is a musical etude here and 'after' indicates stylistic imitation.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1469017",
+      "title_en": "Vals, WoO",
+      "current_title_zh": "《瓦尔斯，吴》",
+      "new_title_zh": "《圆舞曲，WoO》",
+      "reason": "Preserves the WoO catalog designation instead of mistranslating it as a surname.",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1472554",
+      "title_en": "Le Maître de Guitare extrait de la Grande Méthode, Op.40",
+      "current_title_zh": "《〈大型教程〉节选：吉他教师，作品40》",
+      "new_title_zh": "《〈大型教程〉节选：吉他大师，Op.40》",
+      "reason": "Maître is the title 'master' here, not a school teacher.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1473891",
+      "title_en": "Lamento Y Vento",
+      "current_title_zh": "《哀与风》",
+      "new_title_zh": "《哀歌与风》",
+      "reason": "Lamento is the musical form lament, not the incomplete adjective 'sad'.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1477900",
+      "title_en": "Terzetto",
+      "current_title_zh": "《三人组》",
+      "new_title_zh": "《三重奏》",
+      "reason": "Terzetto is a musical trio, not a generic group of three people.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1488066",
+      "title_en": "3 Sonatines faciles pour 2 Guitars, Op.1",
+      "current_title_zh": "《2 吉他的 3 首简易奏鸣曲，作品 1》",
+      "new_title_zh": "《3首简易双吉他小奏鸣曲，Op.1》",
+      "reason": "Restores sonatina and the two-guitar instrumentation.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1488341",
+      "title_en": "Première fantaisie et variations brillantes, Op.8",
+      "current_title_zh": "《第一部幻想与辉煌变奏，Op.8》",
+      "new_title_zh": "《第一幻想曲与辉煌变奏曲，Op.8》",
+      "reason": "Restores both named musical forms and the ordinal.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1497596",
+      "title_en": "Fantasia sobre motivos de la Opera 'Lucrezia Borgia' de Donizetti",
+      "current_title_zh": "《以多尼采蒂歌剧〈卢克雷齐娅·波吉亚〉为主题的幻想》",
+      "new_title_zh": "《多尼采蒂歌剧〈卢克雷齐娅·波吉亚〉主题幻想曲》",
+      "reason": "Restores Fantasia as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1497847",
+      "title_en": "Fantasia sobre motivos de la Opera 'Favorita' à dos Guitarras",
+      "current_title_zh": "《两把吉他以歌剧“Favorita”为主题的幻想》",
+      "new_title_zh": "《双吉他歌剧〈宠姬〉主题幻想曲》",
+      "reason": "Restores the common opera title, instrumentation, and musical form.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1498693",
+      "title_en": "Vals dedicado à Don José Brocá",
+      "current_title_zh": "《瓦尔斯献给唐·何塞·布罗卡》",
+      "new_title_zh": "《献给唐·何塞·布罗卡的圆舞曲》",
+      "reason": "Translates Vals and restores the dedication relationship.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1501879",
+      "title_en": "Gagliarda l'Angelo bella",
+      "current_title_zh": "《美丽的天使加利亚尔达》",
+      "new_title_zh": "《美丽天使加利亚德舞曲》",
+      "reason": "Restores galliard as the musical genre rather than a phonetic suffix.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1512477",
+      "title_en": "Gagliarda bella",
+      "current_title_zh": "《坚强美丽》",
+      "new_title_zh": "《美丽的加利亚德舞曲》",
+      "reason": "The machine translation loses the galliard genre entirely.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1517699",
+      "title_en": "Sinfonia",
+      "current_title_zh": "《交响乐团》",
+      "new_title_zh": "《交响曲》",
+      "reason": "Sinfonia is a symphonic piece, not an orchestra.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1523785",
+      "title_en": "Rondino",
+      "current_title_zh": "《朗迪诺》",
+      "new_title_zh": "《小回旋曲》",
+      "reason": "Rondino is the standard musical term small rondo.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1543112",
+      "title_en": "Variazioni sul Dido's Lament for Guitar",
+      "current_title_zh": "《迪多的吉他挽歌变奏曲》",
+      "new_title_zh": "《吉他曲〈狄多的哀歌〉主题变奏曲》",
+      "reason": "Restores the standard work name Dido's Lament and the variation relationship.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1543126",
+      "title_en": "Fantasia sul nome EsteBAn C. for Guitar",
+      "current_title_zh": "《南方幻想吉他名字 EsteBAn C.》",
+      "new_title_zh": "《以EsteBAn C.之名而作的吉他幻想曲》",
+      "reason": "Corrects the source-name relationship, instrumentation, and Fantasia as a musical form.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1561716",
+      "title_en": "6 Canzonen",
+      "current_title_zh": "《6 歌曲 n》",
+      "new_title_zh": "《6首坎佐纳》",
+      "reason": "Canzonen denotes canzonas; the current text is corrupted machine output.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1561747",
+      "title_en": "6 Canzonen",
+      "current_title_zh": "《6 歌曲 n》",
+      "new_title_zh": "《6首坎佐纳》",
+      "reason": "Canzonen denotes canzonas; the current text is corrupted machine output.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1567023",
+      "title_en": "Instructions for the Harp, Lute, Lyre, Spanish and English Guitar",
+      "current_title_zh": "《竖琴、鲁特琴、竖琴、西班牙语和英语吉他的说明》",
+      "new_title_zh": "《竖琴、鲁特琴、里拉琴、西班牙吉他与英式吉他教程》",
+      "reason": "Separates the listed instruments and corrects lyre and guitar types.",
+      "basis": "semantic_correction",
+      "source_refs": []
+    },
+    {
+      "work_id": "1596295",
+      "title_en": "Morceaux et airs variés suivis d'une Sonate",
+      "current_title_zh": "《奏鸣曲之后的各种作品和曲调》",
+      "new_title_zh": "《乐曲、曲调变奏曲与一首奏鸣曲》",
+      "reason": "Restores airs variés and the accompanying sonata as musical forms.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1598165",
+      "title_en": "5 Studies for Solo Guitar",
+      "current_title_zh": "《5 吉他独奏习作》",
+      "new_title_zh": "《5首吉他独奏练习曲》",
+      "reason": "Studies denotes musical etudes here, not generic attempts or drafts.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1602215",
+      "title_en": "Transcendental Fantasy, Op.2",
+      "current_title_zh": "《超验幻想，作品 2》",
+      "new_title_zh": "《超验幻想曲，Op.2》",
+      "reason": "Restores Fantasy as the complete musical-form name.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1602280",
+      "title_en": "Corpus Iners, Op.2504",
+      "current_title_zh": "《惰性身体，作品。 2504》",
+      "new_title_zh": "《惰性身体，Op.2504》",
+      "reason": "Removes the erroneous punctuation inserted into the opus designation.",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1605156",
+      "title_en": "Caesura vasta, Op.2262",
+      "current_title_zh": "《瓦萨·塞苏拉，作品。 2262》",
+      "new_title_zh": "《瓦萨·塞苏拉，Op.2262》",
+      "reason": "Removes the erroneous punctuation inserted into the opus designation.",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1605204",
+      "title_en": "Numeri dissoluti, Op.2307",
+      "current_title_zh": "《溶解的数字，作品。 2307》",
+      "new_title_zh": "《溶解的数字，Op.2307》",
+      "reason": "Removes the erroneous punctuation inserted into the opus designation.",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1605207",
+      "title_en": "Ignis sub lapide, Op.2308",
+      "current_title_zh": "《石头下的火，作品。 2308》",
+      "new_title_zh": "《石头下的火，Op.2308》",
+      "reason": "Removes the erroneous punctuation inserted into the opus designation.",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1606292",
+      "title_en": "Fulgur interior, Op.2565",
+      "current_title_zh": "《内在闪电，作品。 2565》",
+      "new_title_zh": "《内在闪电，Op.2565》",
+      "reason": "Removes the erroneous punctuation inserted into the opus designation.",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1608475",
+      "title_en": "Iudicium pertransitum, Op.2580",
+      "current_title_zh": "《判决通过，作品。 2580》",
+      "new_title_zh": "《判决通过，Op.2580》",
+      "reason": "Removes the erroneous punctuation inserted into the opus designation.",
+      "basis": "format_consistency",
+      "source_refs": []
+    },
+    {
+      "work_id": "1613110",
+      "title_en": "Courante in G minor, R 2.03",
+      "current_title_zh": "《G小调库兰特，R 2.03》",
+      "new_title_zh": "《G小调库朗特舞曲，R 2.03》",
+      "reason": "Courante is the standard dance-form term.",
+      "basis": "music_terminology",
+      "source_refs": []
+    },
+    {
+      "work_id": "1613964",
+      "title_en": "3 Sonatines pour Guitare, Op.10",
+      "current_title_zh": "《3 首吉他奏鸣曲，作品 10》",
+      "new_title_zh": "《3首吉他小奏鸣曲，Op.10》",
+      "reason": "Sonatine was mistranslated as sonata.",
+      "basis": "music_terminology",
+      "source_refs": []
+    }
+  ]
+}
