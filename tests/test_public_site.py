@@ -156,6 +156,8 @@ def test_public_frontend_uses_imslp_links_without_pdf_links() -> None:
     assert 'src="assets/archive-hero.webp"' in index
     hero = (ROOT / "public_site/assets/archive-hero.webp").read_bytes()
     assert hero.startswith(b"RIFF") and hero[8:12] == b"WEBP"
+    favicon = (ROOT / "public_site/assets/favicon.png").read_bytes()
+    assert favicon.startswith(b"\x89PNG\r\n\x1a\n")
 
 
 def test_public_validator_checks_counts_memberships_and_forbidden_fields(

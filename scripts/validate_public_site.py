@@ -213,6 +213,13 @@ def validate_public_site(root: Path) -> dict[str, int]:
         raise PublicSiteValidationError("public hero artwork is missing") from exc
     if not (hero_header.startswith(b"RIFF") and hero_header[8:12] == b"WEBP"):
         fail("public hero artwork is not a valid WebP asset")
+    favicon_path = root / "assets/favicon.png"
+    try:
+        favicon_header = favicon_path.read_bytes()[:8]
+    except OSError as exc:
+        raise PublicSiteValidationError("public favicon is missing") from exc
+    if favicon_header != b"\x89PNG\r\n\x1a\n":
+        fail("public favicon is not a valid PNG asset")
     report["site_bytes"] = sum(path.stat().st_size for path in files)
     return report
 
