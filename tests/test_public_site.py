@@ -169,6 +169,17 @@ def test_public_frontend_exposes_accessible_search_suggestions() -> None:
     assert 'src="assets/search.js"' in index
 
 
+def test_public_home_is_a_category_directory_with_objective_copy() -> None:
+    index = (ROOT / "public_site/index.html").read_text(encoding="utf-8")
+    assert 'id="category-directory"' in index
+    assert 'id="back-to-categories"' in index
+    assert 'id="results" class="results" aria-busy="true" hidden' in index
+    assert "乐谱分类库" in index
+    assert "下一首，" not in index
+    assert "剩下的交给手指" not in index
+    assert "data-query=" not in index
+
+
 def test_search_aliases_are_validated_against_canonical_identities(tmp_path: Path) -> None:
     make_library(tmp_path)
     payload = public_exporter()["build_public_catalog"](tmp_path)

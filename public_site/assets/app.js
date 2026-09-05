@@ -19,6 +19,10 @@ const elements = {
   familyShortcuts: document.querySelector("#family-shortcuts"),
   options: document.querySelector("#search-options"),
   hint: document.querySelector("#search-hint"),
+  directory: document.querySelector("#category-directory"),
+  back: document.querySelector("#back-to-categories"),
+  title: document.querySelector("#catalog-title"),
+  description: document.querySelector("#catalog-description"),
 };
 
 const state = {
@@ -32,6 +36,7 @@ const state = {
   composing: false,
   aliasesAvailable: true,
   inputTimer: null,
+  openFamilies: new Set(),
 };
 
 function makeElement(tag, className, text) {
@@ -67,7 +72,7 @@ function compactNumber(value) {
 }
 
 function populateFilters() {
-  addFamilyShortcut("all", "都看看");
+  addFamilyShortcut("all", "全部分类");
   for (const family of state.data.families) {
     addOption(elements.family, family.id, `${family.name_zh} / ${family.name_en}`);
     addFamilyShortcut(family.id, FAMILY_LABELS[family.id] || family.name_zh);
@@ -100,7 +105,7 @@ function readUrlState() {
   document.querySelector("#filter-drawer").open = [family, kind, category].some((value) => value !== "all");
 }
 
-function writeUrlState() {
+function writeUrlState(push = false) {
   const params = new URLSearchParams();
   const query = elements.search.value.trim();
   if (query) params.set("q", query);
@@ -108,7 +113,9 @@ function writeUrlState() {
   if (elements.kind.value !== "all") params.set("kind", elements.kind.value);
   if (elements.category.value !== "all") params.set("category", elements.category.value);
   const suffix = params.toString();
-  history.replaceState(null, "", `${window.location.pathname}${suffix ? `?${suffix}` : ""}${window.location.hash}`);
+  const url = `${window.location.pathname}${suffix ? `?${suffix}` : ""}${window.location.hash}`;
+  if (push && url !== `${window.location.pathname}${window.location.search}${window.location.hash}`) history.pushState(null, "", url);
+  else history.replaceState(null, "", url);
 }
 
 function currentFilters() {
@@ -156,20 +163,67 @@ function showSuggestions() {
   elements.search.setAttribute("aria-expanded", "true");
 }
 
+function openCategory(category, clearQuery = false) {
+  if (clearQuery) elements.search.value = "";
+  elements.family.value = "all";
+  elements.kind.value = "all";
+  elements.category.value = String(category.id);
+  document.querySelector("#filter-drawer").open = true;
+  state.visible = PAGE_SIZE;
+  update({push: true});
+  elements.title.scrollIntoView({behavior: scrollBehavior()});
+}
+
+function renderDirectory() {
+  const directory = state.engine.browse(currentFilters());
+  elements.directory.replaceChildren();
+  elements.status.textContent = `${compactNumber(directory.categories.length)} 个分类 · ${compactNumber(directory.workCount)} 部作品`;
+  for (const family of state.data.families) {
+    const categories = directory.categories.filter(category => category.family === family.id);
+    if (!categories.length) continue;
+    const group = makeElement("details", "category-group");
+    group.dataset.family = family.id;
+    group.open = state.openFamilies.has(family.id) || elements.family.value === family.id;
+    group.addEventListener("toggle", () => {
+      if (group.open) state.openFamilies.add(family.id);
+      else state.openFamilies.delete(family.id);
+    });
+    const summary = makeElement("summary", "");
+    const label = makeElement("span", "group-label", family.name_zh);
+    label.append(makeElement("small", "", family.name_en));
+    summary.append(label, makeElement("span", "group-count", `${categories.length} 个分类`));
+    group.append(summary);
+    const grid = makeElement("div", "category-grid");
+    for (const category of categories) {
+      const card = makeElement("a", "category-card");
+      card.href = `?category=${category.id}#catalog`;
+      card.dataset.category = String(category.id);
+      card.setAttribute("aria-label", `${category.name}｜${category.name_zh}，${compactNumber(category.work_count)} 部作品`);
+      const meta = makeElement("div", "category-card-meta");
+      meta.append(makeElement("span", "result-kind", category.kind === "original" ? "原作" : "改编"),
+        makeElement("span", "", `${compactNumber(category.work_count)} 部作品`));
+      const title = category.name_zh.replace(/[·.]?(?:原作|改编)$/, "");
+      card.append(meta, makeElement("h3", "", title), makeElement("p", "category-source-name", category.name),
+        makeElement("span", "category-enter", "查看作品 →"));
+      card.addEventListener("click", event => {
+        if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        openCategory(category, true);
+      });
+      grid.append(card);
+    }
+    group.append(grid);
+    elements.directory.append(group);
+  }
+  if (!directory.categories.length) elements.directory.append(makeElement("p", "empty", "当前筛选条件下没有分类。请调整筛选条件。"));
+}
+
 function categoryChip(category) {
   const button = makeElement("button", "category-chip", category.name_zh);
   button.type = "button";
   button.title = category.name;
   button.setAttribute("aria-label", `查看 ${category.name_zh}（${category.name}）`);
-  button.addEventListener("click", () => {
-    elements.family.value = "all";
-    elements.kind.value = "all";
-    elements.category.value = String(category.id);
-    document.querySelector("#filter-drawer").open = true;
-    state.visible = PAGE_SIZE;
-    update();
-    document.querySelector("#catalog-title").scrollIntoView({ behavior: scrollBehavior() });
-  });
+  button.addEventListener("click", () => openCategory(category));
   return button;
 }
 
@@ -198,7 +252,7 @@ function resultCard(match, index) {
   meta.append(categories);
   if (match.categories.length > 4) {
     const extra = makeElement("details", "category-extra");
-    extra.append(makeElement("summary", "", `还有 ${match.categories.length - 4} 种编制`));
+    extra.append(makeElement("summary", "", `其他 ${match.categories.length - 4} 个编制分类`));
     const list = makeElement("div", "category-list");
     match.categories.slice(4).forEach((category) => list.append(categoryChip(category)));
     extra.append(list);
@@ -206,9 +260,9 @@ function resultCard(match, index) {
   }
   article.append(meta);
 
-  const link = makeElement("a", "source-link", "去 IMSLP 看谱");
+  const link = makeElement("a", "source-link", "IMSLP 作品原页");
   link.href = item.imslp_url;
-  link.setAttribute("aria-label", `去 IMSLP 看 ${item.title_zh}（新窗口）`);
+  link.setAttribute("aria-label", `${item.title_zh}：IMSLP 作品原页（新窗口）`);
   link.target = "_blank";
   link.rel = "noopener noreferrer";
   article.append(link);
@@ -219,8 +273,8 @@ function renderResults() {
   elements.results.replaceChildren();
   if (!state.matches.length) {
     const empty = makeElement("div", "empty");
-    empty.append(makeElement("strong", "", "这一首，还没翻到。"));
-    empty.append(makeElement("span", "", "换个曲名或作曲家姓氏试试，也可以放宽编制。"));
+    empty.append(makeElement("strong", "", "未找到匹配作品"));
+    empty.append(makeElement("span", "", "请检查关键词，或调整编制筛选条件。"));
     if (Object.values(currentFilters()).some(value => value !== "all")) {
       const relax = makeElement("button", "relax-filters", "保留关键词，放宽编制");
       relax.type = "button";
@@ -241,19 +295,37 @@ function renderResults() {
   elements.loadMore.hidden = state.visible >= state.matches.length;
 }
 
-function update() {
+function update({push = false} = {}) {
   window.clearTimeout(state.inputTimer);
   closeSuggestions();
-  writeUrlState();
+  writeUrlState(push);
   updateFamilyShortcuts();
+  const browsing = GuitarSearch.catalogView(elements.search.value, currentFilters()) === "categories";
+  elements.directory.hidden = !browsing;
+  elements.results.hidden = browsing;
+  elements.back.hidden = browsing;
+  elements.title.textContent = browsing ? "乐谱分类库" : elements.category.value === "all" ? "作品检索" : state.categoryById.get(Number(elements.category.value)).name_zh;
+  elements.description.textContent = browsing ? "按演奏编制浏览，原作与改编分别列出。"
+    : elements.category.value === "all" ? "按相关性排列，支持中英文与常见异译名。" : state.categoryById.get(Number(elements.category.value)).name;
+  if (browsing) {
+    state.matches = [];
+    elements.results.replaceChildren();
+    elements.loadMore.hidden = true;
+    elements.hint.hidden = true;
+    renderDirectory();
+    elements.directory.setAttribute("aria-busy", "false");
+    elements.results.setAttribute("aria-busy", "false");
+    return;
+  }
   const response = state.engine.search(elements.search.value, currentFilters());
   state.matches = response.matches;
   const shown = Math.min(state.visible, state.matches.length);
-  elements.status.textContent = `${compactNumber(state.matches.length)} 部${response.mode === "fuzzy" ? "近似" : ""}作品${shown < state.matches.length ? ` · 先看 ${shown} 部` : ""}`;
+  elements.status.textContent = `${compactNumber(state.matches.length)} 部${response.mode === "fuzzy" ? "近似" : ""}作品${shown < state.matches.length ? ` · 已显示 ${shown} 部` : ""}`;
   elements.hint.hidden = response.mode !== "fuzzy" && state.aliasesAvailable;
-  elements.hint.textContent = response.mode === "fuzzy" ? "没找到完全一致的，先看看这些相近的曲目。"
+  elements.hint.textContent = response.mode === "fuzzy" ? "未找到精确结果，以下为近似匹配。"
     : state.aliasesAvailable ? "" : "别名表暂未载入，曲名搜索和拼写容错仍然可用。";
   renderResults();
+  elements.directory.setAttribute("aria-busy", "false");
   elements.results.setAttribute("aria-busy", "false");
 }
 
@@ -276,7 +348,7 @@ async function copySearchLink() {
   } catch (_error) {
     elements.share.textContent = "复制地址栏即可分享";
   }
-  window.setTimeout(() => { elements.share.textContent = "分享这页 ↗"; }, 1800);
+  window.setTimeout(() => { elements.share.textContent = "复制链接 ↗"; }, 1800);
 }
 
 function scrollBehavior() {
@@ -293,16 +365,13 @@ function bindEvents() {
     update();
     elements.status.scrollIntoView({ behavior: scrollBehavior(), block: "start" });
   });
-  document.querySelectorAll("[data-query]").forEach((button) => {
-    button.addEventListener("click", () => {
-      window.clearTimeout(timer);
-      elements.search.value = button.dataset.query;
-      elements.family.value = "all";
-      elements.kind.value = "all";
-      elements.category.value = "all";
-      state.visible = PAGE_SIZE;
-      update();
-    });
+  elements.back.addEventListener("click", () => {
+    elements.search.value = "";
+    elements.category.value = "all";
+    document.querySelector("#filter-drawer").open = false;
+    state.visible = PAGE_SIZE;
+    update({push:true});
+    elements.title.scrollIntoView({behavior:scrollBehavior()});
   });
   function scheduleSearch() {
     window.clearTimeout(timer);
@@ -392,9 +461,10 @@ async function start() {
     bindEvents();
     update();
   } catch (error) {
-    elements.status.textContent = "曲目暂时没载入，刷新试试。";
+    elements.status.textContent = "目录载入失败";
     elements.error.hidden = false;
-    elements.error.textContent = "曲目暂时没载入。请稍后刷新页面。";
+    elements.error.textContent = "无法载入目录数据，请稍后刷新页面。";
+    elements.directory.setAttribute("aria-busy", "false");
     elements.results.setAttribute("aria-busy", "false");
     console.error("Catalogue loading failed", error);
   }

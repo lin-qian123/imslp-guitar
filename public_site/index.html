@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="下一首，弹点什么？从吉他独奏到重奏，用中英文曲名、作曲家和编制找谱。">
+  <meta name="description" content="基于 IMSLP 的吉他乐谱分类与检索目录，涵盖独奏、重奏和室内乐，提供中英文曲名、作曲家与演奏编制检索。">
   <meta name="theme-color" content="#f7f5ef">
-  <meta property="og:title" content="下一首，弹点什么？ · IMSLP Guitar">
-  <meta property="og:description" content="一个人练琴，或约几位朋友。在这里找一份想弹的谱。">
+  <meta property="og:title" content="吉他乐谱分类与检索 · IMSLP Guitar">
+  <meta property="og:description" content="按 IMSLP 演奏编制分类，区分原作与改编，提供中英文检索和作品来源链接。">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://lin-qian123.github.io/imslp-guitar/assets/archive-hero.webp">
   <meta name="twitter:card" content="summary_large_image">
-  <title>IMSLP Guitar｜下一首，弹点什么？</title>
+  <title>IMSLP Guitar｜吉他乐谱分类与检索</title>
   <link rel="icon" type="image/png" href="assets/favicon.png">
   <link rel="apple-touch-icon" href="assets/favicon.png">
   <link rel="stylesheet" href="assets/site.css">
@@ -18,18 +18,18 @@
   <script src="assets/app.js" defer></script>
 </head>
 <body>
-  <a class="skip-link" href="#search">直接找谱</a>
+  <a class="skip-link" href="#search">跳至检索</a>
   <header class="masthead shell">
     <a class="brand" href="./" aria-label="IMSLP Guitar 首页"><img src="assets/favicon.png" alt="" width="40" height="40"><span>IMSLP <em>Guitar</em></span></a>
-    <nav aria-label="主导航"><a href="#catalog">找谱</a><a href="#about">关于</a><a href="https://github.com/lin-qian123/imslp-guitar" lang="en">GitHub ↗</a></nav>
+    <nav aria-label="主导航"><a href="#catalog">分类</a><a href="#about">说明</a><a href="https://github.com/lin-qian123/imslp-guitar" lang="en">GitHub ↗</a></nav>
   </header>
   <main>
     <section class="hero shell" aria-labelledby="hero-title">
       <div class="hero-copy">
-        <p class="eyebrow">吉他谱，独奏与重奏 <span aria-hidden="true">/</span> <span lang="en">THE COLLECTION</span></p>
-        <h1 id="hero-title">下一首，<br><em>弹点什么？</em></h1>
-        <p class="lede">一个人练琴，或约几位朋友。<br>在这里找一份想弹的谱。</p>
-        <div class="hero-bottom"><a class="browse-link" href="#catalog">翻翻乐谱 <span aria-hidden="true">↗</span></a><p class="collection-count"><strong id="stat-works">—</strong> 部作品<span> · </span><strong id="stat-categories">—</strong> 种编制分类</p></div>
+        <p class="eyebrow">古典吉他 · 重奏 · 室内乐 <span aria-hidden="true">/</span> <span lang="en">IMSLP GUITAR CATALOG</span></p>
+        <h1 id="hero-title">吉他乐谱<br><em>分类与检索</em></h1>
+        <p class="lede">基于 IMSLP 的吉他曲目目录。<br>按演奏编制分类，区分原作与改编，提供中英文检索。</p>
+        <div class="hero-bottom"><a class="browse-link" href="#catalog">浏览分类 <span aria-hidden="true">↗</span></a><p class="collection-count"><strong id="stat-works">—</strong> 部作品<span> · </span><strong id="stat-categories">—</strong> 个编制分类</p></div>
       </div>
       <figure class="hero-art">
         <div class="art-frame"><img src="assets/archive-hero.webp" alt="古典吉他与摊开的旧谱页" width="1672" height="941" fetchpriority="high"></div>
@@ -37,40 +37,41 @@
       </figure>
     </section>
     <section class="catalog shell" id="catalog" aria-labelledby="catalog-title">
-      <div class="catalog-heading"><h2 id="catalog-title">找一首喜欢的</h2><p>记得一部分，也可以试试。</p></div>
+      <div class="catalog-heading"><h2 id="catalog-title">乐谱分类库</h2><p id="catalog-description">按演奏编制浏览，原作与改编分别列出。</p></div>
       <div class="search-panel">
         <form id="search-form" class="search-box" role="search">
           <label class="sr-only" for="search">搜索曲名、作曲家或编制</label>
           <span class="search-symbol" aria-hidden="true">⌕</span>
-          <input id="search" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-options" autocomplete="off" spellcheck="false" placeholder="曲名、作曲家，记得多少写多少…" aria-describedby="status">
-          <kbd aria-hidden="true">/</kbd><button class="search-submit" type="submit">找谱 <span aria-hidden="true">→</span></button>
+          <input id="search" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-options" autocomplete="off" spellcheck="false" placeholder="搜索曲名、作曲家或编制" aria-describedby="status">
+          <kbd aria-hidden="true">/</kbd><button class="search-submit" type="submit">检索 <span aria-hidden="true">→</span></button>
         </form>
-        <ul id="search-options" class="search-options" role="listbox" aria-label="你可能在找" hidden></ul>
+        <ul id="search-options" class="search-options" role="listbox" aria-label="搜索建议" hidden></ul>
         <div class="search-bottom">
-          <div class="search-suggestions" aria-label="试试这些作曲家"><span>翻翻他们的谱</span><button type="button" data-query="Bach, Johann Sebastian">巴赫</button><button type="button" data-query="Sor, Fernando">索尔</button><button type="button" data-query="Tárrega, Francisco">泰雷加</button><button type="button" data-query="Tchaikovsky, Pyotr">柴可夫斯基</button></div>
+          <p class="search-help">支持中英文、常见异译名与拼写容错。</p>
           <details class="filter-drawer" id="filter-drawer">
-            <summary>细选编制 <span aria-hidden="true">+</span></summary>
+            <summary>筛选条件 <span aria-hidden="true">+</span></summary>
             <div class="filters">
-              <label>乐器搭配<select id="family-filter"><option value="all">全部搭配</option></select></label>
-              <label>原作 / 改编<select id="kind-filter"><option value="all">都看看</option><option value="original">原作</option><option value="arrangement">改编</option></select></label>
+              <label>乐器组别<select id="family-filter"><option value="all">全部组别</option></select></label>
+              <label>原作 / 改编<select id="kind-filter"><option value="all">全部类型</option><option value="original">原作</option><option value="arrangement">改编</option></select></label>
               <label>IMSLP 编制<select id="category-filter"><option value="all">全部编制</option></select></label>
             </div>
           </details>
         </div>
       </div>
-      <div class="browse-row"><span class="browse-label">和谁一起弹？</span><div id="family-shortcuts" class="family-shortcuts" aria-label="按乐器搭配浏览"></div></div>
-      <div class="results-toolbar"><p id="status" role="status">正在翻开乐谱…</p><div><button id="clear" type="button">重选</button><button id="share" type="button">分享这页 ↗</button></div></div>
+      <div class="browse-row"><span class="browse-label">乐器组别</span><div id="family-shortcuts" class="family-shortcuts" aria-label="按乐器组别浏览"></div></div>
+      <div class="results-toolbar"><p id="status" role="status">正在载入目录…</p><div><button id="back-to-categories" type="button" hidden>返回分类库</button><button id="clear" type="button">重置条件</button><button id="share" type="button">复制链接 ↗</button></div></div>
       <p id="search-hint" class="search-hint" hidden></p>
       <div id="error" class="error" role="alert" hidden></div>
-      <div id="results" class="results" aria-busy="true"></div>
-      <button id="load-more" class="load-more" type="button" hidden>再翻一些 <span aria-hidden="true">↓</span></button>
+      <div id="category-directory" class="category-directory" aria-label="乐谱分类目录" aria-busy="true"></div>
+      <div id="results" class="results" aria-busy="true" hidden></div>
+      <button id="load-more" class="load-more" type="button" hidden>加载更多作品 <span aria-hidden="true">↓</span></button>
     </section>
     <aside class="about shell" id="about" aria-labelledby="about-title">
-      <div><p class="eyebrow" lang="en">A NOTE IN THE MARGIN</p><h2 id="about-title">谱找好了，<br>剩下的交给手指。</h2></div>
-      <div class="about-copy"><p>这里收集吉他独奏、重奏与室内乐曲目。点开作品，就能去 IMSLP 看谱；下载和使用条件请看原页说明。</p><p>中文译名供找谱参考。发现译名不对，欢迎帮忙改一改。</p><a href="https://github.com/lin-qian123/imslp-guitar">看看这个小项目 <span aria-hidden="true">↗</span></a></div>
+      <div><p class="eyebrow" lang="en">ABOUT THE CATALOG</p><h2 id="about-title">项目范围与来源</h2></div>
+      <div class="about-copy"><p>本项目整理 IMSLP 中适用于吉他的独奏、重奏与室内乐曲目，保留原文标题及音乐家署名，并提供中文参考译名。</p><p>乐谱下载与使用条件以 IMSLP 原页说明为准。整理方法、数据说明与译名修订记录见项目文档。</p><a href="https://github.com/lin-qian123/imslp-guitar">项目文档与源码 <span aria-hidden="true">↗</span></a></div>
     </aside>
   </main>
-  <footer class="shell"><span>IMSLP Guitar <span class="footer-note">· 独立整理，非 IMSLP 官方网站</span></span><a href="#">回到开头 ↑</a></footer>
-  <noscript>打开 JavaScript，就可以搜索这里的曲目。</noscript>
+  <footer class="shell"><span>IMSLP Guitar <span class="footer-note">· 独立整理，非 IMSLP 官方网站</span></span><a href="#">返回顶部 ↑</a></footer>
+  <noscript>分类浏览与检索功能需要启用 JavaScript。</noscript>
 </body>
 </html>

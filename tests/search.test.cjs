@@ -112,6 +112,40 @@ test('recommendations respect filters rather than suggesting inaccessible matche
   assert.deepEqual(createIndex().suggest('塔雷加', {family:'woodwinds'}), []);
 });
 
+test('the landing view shows categories until a query or exact category is selected', () => {
+  const engine = require(enginePath);
+  assert.equal(typeof engine.catalogView, 'function');
+  assert.equal(engine.catalogView(''), 'categories');
+  assert.equal(engine.catalogView('  ', {family:'woodwinds', kind:'arrangement'}), 'categories');
+  assert.equal(engine.catalogView('塔瑞加'), 'works');
+  assert.equal(engine.catalogView('', {category:'0'}), 'works');
+});
+
+test('category browsing keeps source labels, separates types and counts unique works', () => {
+  const index = createIndex();
+  assert.equal(typeof index.browse, 'function');
+  const all = index.browse();
+  assert.deepEqual(all.categories.map(category => category.name), ['For guitar', 'For flute, guitar (arr)']);
+  assert.equal(all.workCount, 7);
+  const mixed = index.browse({family:'woodwinds',kind:'arrangement'});
+  assert.deepEqual(mixed.categories.map(category => category.id), [1]);
+  assert.equal(mixed.workCount, 3);
+  assert.deepEqual(index.browse({family:'woodwinds',kind:'original'}), {categories:[], workCount:0});
+});
+
+test('every approved category is reachable through the landing directory', () => {
+  const catalog = require('../public_site/data/catalog.json');
+  const index = require(enginePath).createIndex(catalog);
+  assert.equal(typeof index.browse, 'function');
+  const directory = index.browse();
+  assert.equal(directory.categories.length, catalog.summary.category_count);
+  assert.equal(directory.workCount, catalog.summary.unique_work_count);
+  assert.equal(new Set(directory.categories.map(category => category.id)).size, catalog.categories.length);
+  const pureOriginal = index.browse({family:'pure',kind:'original'}).categories;
+  assert.equal(pureOriginal[0].name, 'For guitar');
+  assert.ok(pureOriginal.findIndex(c => c.name === 'For 2 guitars') < pureOriginal.findIndex(c => c.name === 'For 12 guitars'));
+});
+
 test('versioned aliases resolve to real canonical identities and work IDs', () => {
   const aliasPath = path.join(__dirname, '../public_site/data/search-aliases.json');
   assert.ok(fs.existsSync(aliasPath), 'Curated alternate search names must be versioned');

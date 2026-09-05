@@ -94,6 +94,10 @@ const GuitarSearch = (() => {
       && (filters.category === undefined || filters.category === 'all' || String(category.id) === String(filters.category));
   }
 
+  function catalogView(input, filters = {}) {
+    return !normalize(input) && (filters.category === undefined || filters.category === 'all') ? 'categories' : 'works';
+  }
+
   function createIndex(data, aliases = {}) {
     const byCategory = new Map(data.categories.map(category => [category.id, category]));
     const vocabulary = new Map();
@@ -196,9 +200,18 @@ const GuitarSearch = (() => {
       }
       return suggestions;
     }
-    return {search, suggest};
+    function browse(filters = {}) {
+      const order = new Intl.Collator('en', {numeric:true, sensitivity:'base'});
+      const nameKey = category => category.name.replace(/^For guitar(?= |$)/, 'For 1 guitar');
+      const categories = data.categories.filter(category => passes(category, filters)).sort((a, b) =>
+        Number(a.kind === 'arrangement') - Number(b.kind === 'arrangement') || order.compare(nameKey(a), nameKey(b)));
+      const ids = new Set(categories.map(category => category.id));
+      const workCount = documents.filter(doc => doc.item.category_ids.some(id => ids.has(id))).length;
+      return {categories, workCount};
+    }
+    return {search, suggest, browse};
   }
-  return {normalize, createIndex};
+  return {normalize, createIndex, catalogView};
 })();
 
 if (typeof module !== 'undefined' && module.exports) module.exports = GuitarSearch;
