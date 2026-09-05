@@ -52,7 +52,7 @@ The public export does not alter the complete offline view. Its deployable data 
 - **Forgiving queries, strict sources**: accent- and punctuation-insensitive search, but only validated HTTPS IMSLP page links are exported.
 - **Safe publication**: DOM text nodes render catalog values, and validation rejects disk paths, score URLs, and identity drift.
 - **Auditable translations**: source titles are immutable identity fields; reviewed Chinese titles are keyed by `work_id`.
-- **Archive-inspired browsing**: bespoke guitar-and-folio artwork, ensemble shortcuts, and responsive catalog cards keep a large collection calm and legible.
+- **Made for browsing**: a paper-toned layout pairs guitar artwork with Chinese titles and their originals. Composer shortcuts, optional instrumentation filters, and compact cards work on phones as well as desktops.
 
 ## How the catalogue is built
 

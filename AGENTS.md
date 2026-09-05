@@ -58,3 +58,6 @@ instrumentation.
 - Regenerate `public_site/data/catalog.json` with
   `scripts/export_public_site.py` and run `scripts/validate_public_site.py`
   plus the test suite before publishing the public site.
+- Keep public-facing copy brief and natural. Put methodology in the README;
+  let the website focus on finding and browsing music. Preserve original
+  titles alongside Chinese display titles and keep every category reachable.

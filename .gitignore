@@ -5,6 +5,7 @@ __pycache__/
 *.py[cod]
 *.part
 *.tmp
+/output/playwright/
 /*.pdf
 
 /index.html

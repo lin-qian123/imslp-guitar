@@ -1,6 +1,10 @@
 "use strict";
 
-const PAGE_SIZE = 48;
+const PAGE_SIZE = 18;
+const FAMILY_LABELS = {
+  pure: "纯吉他", strings: "弦乐", woodwinds: "木管", brass: "铜管",
+  keyboard_reed: "键盘 / 自由簧", plucked: "拨弦乐器", percussion: "打击乐", mixed_chamber: "室内乐",
+};
 const elements = {
   search: document.querySelector("#search"),
   family: document.querySelector("#family-filter"),
@@ -84,11 +88,11 @@ function prepareWork(item) {
 }
 
 function populateFilters() {
-  addFamilyShortcut("all", "全部 / All");
+  addFamilyShortcut("all", "都看看");
   for (const family of state.data.families) {
     state.familyById.set(family.id, family);
     addOption(elements.family, family.id, `${family.name_zh} / ${family.name_en}`);
-    addFamilyShortcut(family.id, family.name_zh);
+    addFamilyShortcut(family.id, FAMILY_LABELS[family.id] || family.name_zh);
   }
   for (const category of state.data.categories) {
     state.categoryById.set(category.id, category);
@@ -112,9 +116,10 @@ function readUrlState() {
   const family = params.get("family") || "all";
   const kind = params.get("kind") || "all";
   const category = params.get("category") || "all";
-  if ([...elements.family.options].some((option) => option.value === family)) elements.family.value = family;
-  if ([...elements.kind.options].some((option) => option.value === kind)) elements.kind.value = kind;
-  if ([...elements.category.options].some((option) => option.value === category)) elements.category.value = category;
+  for (const [select, value] of [[elements.family, family], [elements.kind, kind], [elements.category, category]]) {
+    select.value = [...select.options].some((option) => option.value === value) ? value : "all";
+  }
+  document.querySelector("#filter-drawer").open = [family, kind, category].some((value) => value !== "all");
 }
 
 function writeUrlState() {
@@ -169,16 +174,18 @@ function findMatches() {
 }
 
 function categoryChip(category) {
-  const button = makeElement("button", "category-chip", `${category.name}｜${category.name_zh}`);
+  const button = makeElement("button", "category-chip", category.name_zh);
   button.type = "button";
-  button.title = "只看此分类 / Filter by this category";
+  button.title = category.name;
+  button.setAttribute("aria-label", `查看 ${category.name_zh}（${category.name}）`);
   button.addEventListener("click", () => {
     elements.family.value = "all";
     elements.kind.value = "all";
     elements.category.value = String(category.id);
+    document.querySelector("#filter-drawer").open = true;
     state.visible = PAGE_SIZE;
     update();
-    document.querySelector("#catalog-title").scrollIntoView({ behavior: "smooth" });
+    document.querySelector("#catalog-title").scrollIntoView({ behavior: scrollBehavior() });
   });
   return button;
 }
@@ -189,29 +196,36 @@ function resultCard(match, index) {
   article.style.animationDelay = `${Math.min(index, 10) * 24}ms`;
 
   const header = makeElement("div", "result-header");
-  header.append(makeElement("span", "result-number", `FOLIO ${String(index + 1).padStart(3, "0")}`));
-  header.append(makeElement("span", "result-id", `IMSLP · ${item.id}`));
+  header.append(makeElement("span", "result-number", String(index + 1).padStart(2, "0")));
+  const kinds = new Set(match.categories.map((category) => category.kind));
+  header.append(makeElement("span", "result-kind", kinds.size > 1 ? "原作 / 改编" : kinds.has("original") ? "原作" : "改编"));
   article.append(header);
 
   const title = makeElement("div", "result-title");
-  title.append(makeElement("h3", "", item.title_en));
-  title.append(makeElement("p", "result-title-zh", item.title_zh));
+  title.append(makeElement("h3", "", item.title_zh.replace(/^《|》$/g, "")));
+  title.append(makeElement("p", "result-title-en", item.title_en));
   article.append(title);
 
   const meta = makeElement("div", "result-meta");
-  const composer = makeElement("p", "result-composer", item.composer_en);
-  composer.append(makeElement("span", "", item.composer_zh));
+  const composer = makeElement("p", "result-composer", item.composer_zh);
+  composer.append(makeElement("span", "", item.composer_en));
   meta.append(composer);
   const categories = makeElement("div", "category-list");
   match.categories.slice(0, 4).forEach((category) => categories.append(categoryChip(category)));
-  if (match.categories.length > 4) {
-    categories.append(makeElement("span", "category-more", `+${match.categories.length - 4}`));
-  }
   meta.append(categories);
+  if (match.categories.length > 4) {
+    const extra = makeElement("details", "category-extra");
+    extra.append(makeElement("summary", "", `还有 ${match.categories.length - 4} 种编制`));
+    const list = makeElement("div", "category-list");
+    match.categories.slice(4).forEach((category) => list.append(categoryChip(category)));
+    extra.append(list);
+    meta.append(extra);
+  }
   article.append(meta);
 
-  const link = makeElement("a", "source-link", "打开 IMSLP 原页 / Open source");
+  const link = makeElement("a", "source-link", "去 IMSLP 看谱");
   link.href = item.imslp_url;
+  link.setAttribute("aria-label", `去 IMSLP 看 ${item.title_zh}（新窗口）`);
   link.target = "_blank";
   link.rel = "noopener noreferrer";
   article.append(link);
@@ -222,8 +236,8 @@ function renderResults() {
   elements.results.replaceChildren();
   if (!state.matches.length) {
     const empty = makeElement("div", "empty");
-    empty.append(makeElement("strong", "", "没有找到匹配作品 / No match found"));
-    empty.append(makeElement("span", "", "试试更短的曲名、作者姓氏或其他编制名称。"));
+    empty.append(makeElement("strong", "", "这一首，还没翻到。"));
+    empty.append(makeElement("span", "", "换个曲名或作曲家姓氏试试，也可以放宽编制。"));
     elements.results.append(empty);
     elements.loadMore.hidden = true;
     return;
@@ -239,8 +253,9 @@ function update() {
   updateFamilyShortcuts();
   state.matches = findMatches();
   const shown = Math.min(state.visible, state.matches.length);
-  elements.status.textContent = `找到 ${compactNumber(state.matches.length)} 部作品，显示 ${compactNumber(shown)} 部 / ${compactNumber(state.matches.length)} works, ${compactNumber(shown)} shown`;
+  elements.status.textContent = `${compactNumber(state.matches.length)} 部作品${shown < state.matches.length ? ` · 先看 ${shown} 部` : ""}`;
   renderResults();
+  elements.results.setAttribute("aria-busy", "false");
 }
 
 function clearSearch() {
@@ -248,6 +263,7 @@ function clearSearch() {
   elements.family.value = "all";
   elements.kind.value = "all";
   elements.category.value = "all";
+  document.querySelector("#filter-drawer").open = false;
   state.visible = PAGE_SIZE;
   update();
   elements.search.focus();
@@ -257,15 +273,36 @@ async function copySearchLink() {
   writeUrlState();
   try {
     await navigator.clipboard.writeText(window.location.href);
-    elements.share.textContent = "已复制 / Copied";
+    elements.share.textContent = "链接已复制 ✓";
   } catch (_error) {
-    elements.share.textContent = "请复制地址栏 / Copy address";
+    elements.share.textContent = "复制地址栏即可分享";
   }
-  window.setTimeout(() => { elements.share.textContent = "复制检索链接 / Copy link"; }, 1800);
+  window.setTimeout(() => { elements.share.textContent = "分享这页 ↗"; }, 1800);
+}
+
+function scrollBehavior() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth";
 }
 
 function bindEvents() {
   let timer;
+  document.querySelector("#search-form").addEventListener("submit", (event) => {
+    event.preventDefault();
+    window.clearTimeout(timer);
+    state.visible = PAGE_SIZE;
+    update();
+    elements.status.scrollIntoView({ behavior: scrollBehavior(), block: "start" });
+  });
+  document.querySelectorAll("[data-query]").forEach((button) => {
+    button.addEventListener("click", () => {
+      elements.search.value = button.dataset.query;
+      elements.family.value = "all";
+      elements.kind.value = "all";
+      elements.category.value = "all";
+      state.visible = PAGE_SIZE;
+      update();
+    });
+  });
   elements.search.addEventListener("input", () => {
     window.clearTimeout(timer);
     timer = window.setTimeout(() => { state.visible = PAGE_SIZE; update(); }, 80);
@@ -280,11 +317,17 @@ function bindEvents() {
     update();
   });
   document.addEventListener("keydown", (event) => {
-    if (event.key === "/" && document.activeElement !== elements.search) {
+    const editing = event.target.closest("input, textarea, select, [contenteditable]");
+    if (event.key === "/" && !editing && !event.ctrlKey && !event.metaKey && !event.altKey) {
       event.preventDefault();
       elements.search.focus();
     }
     if (event.key === "Escape" && document.activeElement === elements.search) clearSearch();
+  });
+  window.addEventListener("popstate", () => {
+    readUrlState();
+    state.visible = PAGE_SIZE;
+    update();
   });
 }
 
@@ -298,15 +341,15 @@ async function start() {
     state.preparedWorks = state.data.works.map(prepareWork);
     document.querySelector("#stat-works").textContent = compactNumber(state.data.summary.unique_work_count);
     document.querySelector("#stat-categories").textContent = compactNumber(state.data.summary.category_count);
-    document.querySelector("#stat-memberships").textContent = compactNumber(state.data.summary.category_record_count);
-    document.querySelector("#stat-method").textContent = compactNumber(state.data.summary.unique_work_count);
     readUrlState();
     bindEvents();
     update();
   } catch (error) {
-    elements.status.textContent = "目录装载失败 / Catalogue unavailable";
+    elements.status.textContent = "曲目暂时没载入，刷新试试。";
     elements.error.hidden = false;
-    elements.error.textContent = `无法装载检索数据：${error.message}`;
+    elements.error.textContent = "曲目暂时没载入。请稍后刷新页面。";
+    elements.results.setAttribute("aria-busy", "false");
+    console.error("Catalogue loading failed", error);
   }
 }
 
