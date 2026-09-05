@@ -174,6 +174,29 @@ def validate_payload(payload: object) -> dict[str, int]:
     }
 
 
+def validate_search_aliases(aliases: object, catalog: Mapping[str, object]) -> None:
+    if not isinstance(aliases, dict) or aliases.get("schema_version") != 1:
+        fail("search aliases must use schema_version 1")
+    check_forbidden(aliases, "search aliases")
+    works = catalog["works"]
+    known = {
+        "composers": {work["composer_en"] for work in works},
+        "works": {work["id"] for work in works},
+    }
+    for field, identities in known.items():
+        groups = aliases.get(field)
+        if not isinstance(groups, dict):
+            fail(f"search aliases {field} must be an object")
+        for identity, values in groups.items():
+            if identity not in identities:
+                label = "composer" if field == "composers" else "work"
+                fail(f"search aliases reference unknown {label}: {identity}")
+            if (not isinstance(values, list) or not values
+                or any(not isinstance(value, str) or not value.strip() for value in values)
+                or len(set(values)) != len(values)):
+                fail(f"invalid search aliases for {identity}")
+
+
 def validate_public_site(root: Path) -> dict[str, int]:
     root = root.resolve()
     files = [path for path in root.rglob("*") if path.is_file()]
@@ -188,11 +211,15 @@ def validate_public_site(root: Path) -> dict[str, int]:
     except (OSError, json.JSONDecodeError) as exc:
         raise PublicSiteValidationError(f"cannot read {catalog_path}") from exc
     report = validate_payload(payload)
-    asset_paths = (
-        root / "index.html",
-        root / "assets/app.js",
-        root / "assets/site.css",
-    )
+    try:
+        aliases = json.loads((root / "data/search-aliases.json").read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise PublicSiteValidationError("cannot read public search aliases") from exc
+    validate_search_aliases(aliases, payload)
+    for required in ("index.html", "assets/app.js", "assets/search.js", "assets/site.css"):
+        if not (root / required).is_file():
+            fail(f"missing public asset: {required}")
+    asset_paths = [path for path in files if path.suffix in {".html", ".js", ".css"}]
     for path in asset_paths:
         try:
             text = path.read_text(encoding="utf-8")
@@ -201,6 +228,8 @@ def validate_public_site(root: Path) -> dict[str, int]:
         for pattern in FORBIDDEN_TEXT:
             if pattern.search(text):
                 fail(f"public asset contains a forbidden value: {path}")
+        if path.suffix == ".js" and "innerHTML" in text:
+            fail(f"public script must not inject catalog data with innerHTML: {path}")
     script = (root / "assets/app.js").read_text(encoding="utf-8")
     if "innerHTML" in script:
         fail("public script must not inject catalog data with innerHTML")

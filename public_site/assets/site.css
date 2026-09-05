@@ -66,6 +66,16 @@ kbd { padding: 1px 7px; color: #858e7f; border: 1px solid var(--rule); border-ra
 .search-submit { border: 0; padding: 12px 20px; background: var(--ink); color: var(--white); border-radius: 3px; font-size: 13px; white-space: nowrap; }
 .search-submit span { margin-left: 13px; }
 .search-submit:hover { background: #36564d; }
+.search-options { position: absolute; z-index: 10; top: 78px; left: 21px; right: 21px; margin: 0; padding: 6px; list-style: none; background: var(--white); border: 1px solid #cbd2c4; border-radius: 4px; box-shadow: 0 16px 28px -16px #243d3750; max-height: min(400px, 50vh); overflow-y: auto; }
+.search-option { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 11px 14px; border-radius: 3px; cursor: pointer; }
+.search-option + .search-option { border-top: 1px solid #eeefe6; }
+.search-option:hover, .search-option[aria-selected="true"] { background: var(--tint); }
+.option-copy { min-width: 0; }
+.option-copy strong { display: block; font-weight: 500; font-size: 14px; overflow-wrap: anywhere; }
+.option-copy small { display: block; margin-top: 3px; color: var(--muted); font-size: 11px; overflow-wrap: anywhere; }
+.option-kind { flex-shrink: 0; color: var(--accent); font-size: 10px; }
+.search-hint { margin: 0 0 16px; color: var(--accent); font-size: 12px; }
+.relax-filters { display: block; margin: 20px auto 0; border: 1px solid var(--rule); border-radius: 3px; background: var(--white); color: var(--ink); padding: 9px 16px; }
 .search-bottom { display: flex; align-items: start; flex-wrap: wrap; justify-content: space-between; gap: 10px 28px; padding: 12px 0; border-top: 1px solid #e9eade; }
 .search-suggestions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 14px; min-height: 22px; }
 .search-suggestions > span { color: var(--muted); font-size: 11px; }
@@ -170,6 +180,8 @@ noscript { display: block; padding: 20px; text-align: center; background: var(--
   .search-box { min-height: 62px; gap: 8px; }
   .search-symbol { font-size: 28px; }
   .search-box input { font-size: 16px; }
+  .search-options { top: 66px; left: 12px; right: 12px; }
+  .search-option { padding: 10px; gap: 12px; }
   .search-submit { padding: 10px 13px; font-size: 12px; }
   .search-submit span, kbd { display: none; }
   .search-bottom { gap: 10px; }

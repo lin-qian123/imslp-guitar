@@ -143,8 +143,9 @@ def test_public_frontend_uses_imslp_links_without_pdf_links() -> None:
 
     assert "data/catalog.json" in script
     assert "item.imslp_url" in script
-    assert "category_ids" in script
-    assert "normalize(\"NFKD\")" in script
+    search = (ROOT / "public_site/assets/search.js").read_text(encoding="utf-8")
+    assert "category_ids" in search
+    assert "normalize(\"NFKD\")" in search
     assert "URLSearchParams" in script
     assert "family-shortcut" in script
     assert 'aria-pressed' in script
@@ -158,6 +159,39 @@ def test_public_frontend_uses_imslp_links_without_pdf_links() -> None:
     assert hero.startswith(b"RIFF") and hero[8:12] == b"WEBP"
     favicon = (ROOT / "public_site/assets/favicon.png").read_bytes()
     assert favicon.startswith(b"\x89PNG\r\n\x1a\n")
+
+
+def test_public_frontend_exposes_accessible_search_suggestions() -> None:
+    index = (ROOT / "public_site/index.html").read_text(encoding="utf-8")
+    assert 'role="combobox"' in index
+    assert 'aria-controls="search-options"' in index
+    assert 'role="listbox"' in index
+    assert 'src="assets/search.js"' in index
+
+
+def test_search_aliases_are_validated_against_canonical_identities(tmp_path: Path) -> None:
+    make_library(tmp_path)
+    payload = public_exporter()["build_public_catalog"](tmp_path)
+    validator = public_validator()
+    assert "validate_search_aliases" in validator
+    aliases = {"schema_version": 1, "composers": {"Bartók, Béla": ["巴托克"]}, "works": {"42": ["罗马尼亚舞曲"]}}
+    validator["validate_search_aliases"](aliases, payload)
+    aliases["works"]["999"] = ["错误的作品编号"]
+    with pytest.raises(validator["PublicSiteValidationError"], match="unknown work"):
+        validator["validate_search_aliases"](aliases, payload)
+
+
+def test_search_aliases_reject_private_values_and_unknown_composers(tmp_path: Path) -> None:
+    make_library(tmp_path)
+    payload = public_exporter()["build_public_catalog"](tmp_path)
+    validator = public_validator()
+    assert "validate_search_aliases" in validator
+    aliases = {"schema_version": 1, "composers": {"Typo, Name": ["某作者"]}, "works": {}}
+    with pytest.raises(validator["PublicSiteValidationError"], match="unknown composer"):
+        validator["validate_search_aliases"](aliases, payload)
+    aliases["composers"] = {"Bartók, Béla": ["file:///private/score.pdf"]}
+    with pytest.raises(validator["PublicSiteValidationError"], match="forbidden"):
+        validator["validate_search_aliases"](aliases, payload)
 
 
 def test_public_validator_checks_counts_memberships_and_forbidden_fields(

@@ -14,6 +14,7 @@
   <link rel="icon" type="image/png" href="assets/favicon.png">
   <link rel="apple-touch-icon" href="assets/favicon.png">
   <link rel="stylesheet" href="assets/site.css">
+  <script src="assets/search.js" defer></script>
   <script src="assets/app.js" defer></script>
 </head>
 <body>
@@ -36,14 +37,15 @@
       </figure>
     </section>
     <section class="catalog shell" id="catalog" aria-labelledby="catalog-title">
-      <div class="catalog-heading"><h2 id="catalog-title">找一首喜欢的</h2><p>曲名、作曲家，中英文都行。</p></div>
+      <div class="catalog-heading"><h2 id="catalog-title">找一首喜欢的</h2><p>记得一部分，也可以试试。</p></div>
       <div class="search-panel">
         <form id="search-form" class="search-box" role="search">
           <label class="sr-only" for="search">搜索曲名、作曲家或编制</label>
           <span class="search-symbol" aria-hidden="true">⌕</span>
-          <input id="search" type="search" autocomplete="off" spellcheck="false" placeholder="试试：巴赫、月光、flute guitar…" aria-describedby="status">
+          <input id="search" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-options" autocomplete="off" spellcheck="false" placeholder="曲名、作曲家，记得多少写多少…" aria-describedby="status">
           <kbd aria-hidden="true">/</kbd><button class="search-submit" type="submit">找谱 <span aria-hidden="true">→</span></button>
         </form>
+        <ul id="search-options" class="search-options" role="listbox" aria-label="你可能在找" hidden></ul>
         <div class="search-bottom">
           <div class="search-suggestions" aria-label="试试这些作曲家"><span>翻翻他们的谱</span><button type="button" data-query="Bach, Johann Sebastian">巴赫</button><button type="button" data-query="Sor, Fernando">索尔</button><button type="button" data-query="Tárrega, Francisco">泰雷加</button><button type="button" data-query="Tchaikovsky, Pyotr">柴可夫斯基</button></div>
           <details class="filter-drawer" id="filter-drawer">
@@ -58,6 +60,7 @@
       </div>
       <div class="browse-row"><span class="browse-label">和谁一起弹？</span><div id="family-shortcuts" class="family-shortcuts" aria-label="按乐器搭配浏览"></div></div>
       <div class="results-toolbar"><p id="status" role="status">正在翻开乐谱…</p><div><button id="clear" type="button">重选</button><button id="share" type="button">分享这页 ↗</button></div></div>
+      <p id="search-hint" class="search-hint" hidden></p>
       <div id="error" class="error" role="alert" hidden></div>
       <div id="results" class="results" aria-busy="true"></div>
       <button id="load-more" class="load-more" type="button" hidden>再翻一些 <span aria-hidden="true">↓</span></button>

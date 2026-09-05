@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "description": "Search-only alternate names. These never replace canonical source titles or reviewed Chinese display names. Composer aliases use full canonical identities; work aliases use IMSLP work IDs.",
+  "composers": {
+    "Bach, Johann Sebastian": ["巴哈", "J. S. Bach"],
+    "Beethoven, Ludwig van": ["贝多芬", "贝多分"],
+    "Mozart, Wolfgang Amadeus": ["莫札特"],
+    "Tárrega, Francisco": ["塔雷加", "塔瑞加", "泰瑞加", "泰雷加"],
+    "Sor, Fernando": ["梭尔", "索耳", "费尔南多·梭尔"],
+    "Tchaikovsky, Pyotr": ["柴科夫斯基", "柴可夫斯奇", "Tschaikowsky", "Tschaikovsky", "Tchaikowsky", "Tchaikovski", "Chaikovsky"],
+    "Chopin, Frédéric": ["萧邦"],
+    "Debussy, Claude": ["德布西"],
+    "Rachmaninoff, Sergei": ["拉赫曼尼诺夫", "拉赫玛尼诺夫", "Rachmaninov", "Rakhmaninov"],
+    "Giuliani, Mauro": ["朱利亚尼", "朱里亚尼", "朱利安尼"],
+    "Carulli, Ferdinando": ["卡鲁利", "卡卢利"],
+    "Carcassi, Matteo": ["卡尔卡西", "卡卡西"],
+    "Albéniz, Isaac": ["阿尔贝尼斯", "阿尔贝尼兹"],
+    "Granados, Enrique": ["格拉纳多斯", "格拉那多斯"],
+    "Barrios Mangoré, Agustín": ["巴里奥斯", "巴利奥斯", "巴里欧斯", "Agustin Barrios", "Barrios Mangore"],
+    "Villa-Lobos, Heitor": ["维拉罗伯斯", "维拉洛博斯", "维拉·罗伯斯", "维拉·洛博斯"],
+    "Dvořák, Antonín": ["德沃夏克", "德伏札克", "德弗札克"],
+    "Grieg, Edvard": ["格里格", "葛利格"],
+    "Schubert, Franz": ["舒伯特", "舒伯尔特"],
+    "Schumann, Robert": ["舒曼", "舒满"],
+    "Brahms, Johannes": ["勃拉姆斯", "布拉姆斯"],
+    "Handel, George Frideric": ["亨德尔", "韩德尔", "汉德尔", "Haendel", "Händel"],
+    "Satie, Erik": ["萨蒂", "萨替"],
+    "Fauré, Gabriel": ["福雷", "佛瑞", "弗雷"],
+    "Paganini, Niccolò": ["帕格尼尼", "帕格尼妮"],
+    "Mertz, Johann Kaspar": ["梅尔茨", "默茨"],
+    "Aguado, Dionisio": ["阿瓜多", "阿古阿多"],
+    "Regondi, Giulio": ["雷贡迪", "雷冈迪"],
+    "Dowland, John": ["道兰", "多兰", "陶兰"],
+    "Weiss, Sylvius Leopold": ["魏斯", "韦斯"],
+    "Ponce, Manuel": ["庞塞", "彭塞"],
+    "Mendelssohn, Felix": ["门德尔松", "孟德尔松", "孟德尔颂"],
+    "Scarlatti, Domenico": ["斯卡拉蒂", "史卡拉第"]
+  },
+  "works": {
+    "1458": ["月光奏鸣曲", "Moonlight Sonata", "Mondscheinsonate"],
+    "2397": ["贝加马斯克组曲", "贝加摩组曲", "月光", "Clair de lune"],
+    "33377": ["阿尔汉布拉宫的回忆", "阿尔罕布拉宫回忆", "阿尔罕布拉宫的追忆", "阿尔罕布拉宫的怀念", "Memories of the Alhambra"],
+    "54762": ["阿拉伯随想曲", "阿拉伯幻想曲", "阿拉伯绮想曲", "Arabic Caprice", "Arabian Caprice"],
+    "340750": ["泪滴", "眼泪", "Teardrop", "Tears"],
+    "4215": ["裸体歌舞", "吉姆诺佩迪"],
+    "2716": ["四季套曲", "四季组曲"]
+  },
+  "notes": {
+    "2397": "Clair de lune / 月光 is movement No.3 within Suite bergamasque, not a replacement title for the full suite. IMSLP lists its guitar arrangement on this same work page.",
+    "scope": "This is a small, extensible recall aid, not a complete dictionary of every translation. Fuzzy matches remain suggestions, not assertions of identity."
+  }
+}

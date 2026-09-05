@@ -61,3 +61,9 @@ instrumentation.
 - Keep public-facing copy brief and natural. Put methodology in the README;
   let the website focus on finding and browsing music. Preserve original
   titles alongside Chinese display titles and keep every category reachable.
+- Keep search-only aliases in `public_site/data/search-aliases.json`, keyed by
+  canonical full composer names or work IDs. Never rewrite catalog identities
+  from a fuzzy match. Preserve all query terms and same-membership filters;
+  use labeled fuzzy recovery only when exact/alias matching returns no works.
+- Run `node --test tests/search.test.cjs` (Node.js 22+) alongside the Python
+  suite when changing or publishing public search behavior.

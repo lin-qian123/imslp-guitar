@@ -17,26 +17,22 @@ const elements = {
   loadMore: document.querySelector("#load-more"),
   error: document.querySelector("#error"),
   familyShortcuts: document.querySelector("#family-shortcuts"),
+  options: document.querySelector("#search-options"),
+  hint: document.querySelector("#search-hint"),
 };
 
 const state = {
   data: null,
   categoryById: new Map(),
-  familyById: new Map(),
-  preparedWorks: [],
+  engine: null,
   matches: [],
   visible: PAGE_SIZE,
+  suggestions: [],
+  activeSuggestion: -1,
+  composing: false,
+  aliasesAvailable: true,
+  inputTimer: null,
 };
-
-function normalize(value) {
-  return String(value || "")
-    .normalize("NFKD")
-    .replace(/\p{Diacritic}/gu, "")
-    .toLocaleLowerCase()
-    .replace(/[’'“”‘’《》〈〉()[\]{},，.·:;!?/\\|–—_-]+/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
 
 function makeElement(tag, className, text) {
   const node = document.createElement(tag);
@@ -70,27 +66,9 @@ function compactNumber(value) {
   return new Intl.NumberFormat("zh-CN").format(value);
 }
 
-function selectedCategoryIds(work) {
-  return work.category_ids.map((id) => state.categoryById.get(id));
-}
-
-function prepareWork(item) {
-  const categories = selectedCategoryIds(item);
-  const searchable = [
-    item.id,
-    item.title_en,
-    item.title_zh,
-    item.composer_en,
-    item.composer_zh,
-    ...categories.flatMap((category) => [category.name, category.name_zh]),
-  ];
-  return { item, categories, fields: searchable.map(normalize), blob: normalize(searchable.join(" ")) };
-}
-
 function populateFilters() {
   addFamilyShortcut("all", "都看看");
   for (const family of state.data.families) {
-    state.familyById.set(family.id, family);
     addOption(elements.family, family.id, `${family.name_zh} / ${family.name_en}`);
     addFamilyShortcut(family.id, FAMILY_LABELS[family.id] || family.name_zh);
   }
@@ -133,44 +111,49 @@ function writeUrlState() {
   history.replaceState(null, "", `${window.location.pathname}${suffix ? `?${suffix}` : ""}${window.location.hash}`);
 }
 
-function scoreMatch(prepared, query, terms) {
-  if (terms.some((term) => !prepared.blob.includes(term))) return null;
-  if (!query) return 4;
-  const primary = prepared.fields.slice(1, 5);
-  if (primary.some((field) => field === query)) return 0;
-  if (primary.some((field) => field.startsWith(query))) return 1;
-  if (primary.some((field) => terms.every((term) => field.includes(term)))) return 2;
-  return 3;
+function currentFilters() {
+  return {family: elements.family.value, kind: elements.kind.value, category: elements.category.value};
 }
 
-function categoryPasses(category) {
-  return (
-    (elements.family.value === "all" || category.family === elements.family.value) &&
-    (elements.kind.value === "all" || category.kind === elements.kind.value) &&
-    (elements.category.value === "all" || String(category.id) === elements.category.value)
-  );
+function closeSuggestions() {
+  elements.options.hidden = true;
+  elements.search.setAttribute("aria-expanded", "false");
+  elements.search.removeAttribute("aria-activedescendant");
+  state.activeSuggestion = -1;
 }
 
-function filteredCategories(prepared) {
-  return prepared.categories.filter(categoryPasses);
+function chooseSuggestion(index) {
+  const suggestion = state.suggestions[index];
+  if (!suggestion) return;
+  elements.search.value = suggestion.query;
+  state.visible = PAGE_SIZE;
+  update();
+  elements.search.focus();
+  closeSuggestions();
+  elements.status.scrollIntoView({behavior: scrollBehavior(), block: "start"});
 }
 
-function findMatches() {
-  const query = normalize(elements.search.value);
-  const terms = query.split(" ").filter(Boolean);
-  const matches = [];
-  for (const prepared of state.preparedWorks) {
-    const categories = filteredCategories(prepared);
-    if (!categories.length) continue;
-    const score = scoreMatch(prepared, query, terms);
-    if (score !== null) matches.push({ prepared, categories, score });
-  }
-  matches.sort((left, right) =>
-    left.score - right.score ||
-    left.prepared.item.composer_en.localeCompare(right.prepared.item.composer_en) ||
-    left.prepared.item.title_en.localeCompare(right.prepared.item.title_en)
-  );
-  return matches;
+function showSuggestions() {
+  if (!state.engine || state.composing || document.activeElement !== elements.search) return;
+  state.suggestions = state.engine.suggest(elements.search.value, currentFilters());
+  elements.options.replaceChildren();
+  closeSuggestions();
+  if (!state.suggestions.length) return;
+  state.suggestions.forEach((suggestion, index) => {
+    const option = makeElement("li", "search-option");
+    option.id = `search-option-${index}`;
+    option.setAttribute("role", "option");
+    option.setAttribute("aria-selected", "false");
+    const text = makeElement("span", "option-copy");
+    text.append(makeElement("strong", "", suggestion.label), makeElement("small", "", suggestion.detail));
+    option.append(text, makeElement("span", "option-kind", suggestion.kind === "composer" ? "作曲家" : "曲目"));
+    // Keep focus on the combobox so both pointer and keyboard selection work.
+    option.addEventListener("pointerdown", event => event.preventDefault());
+    option.addEventListener("click", () => chooseSuggestion(index));
+    elements.options.append(option);
+  });
+  elements.options.hidden = false;
+  elements.search.setAttribute("aria-expanded", "true");
 }
 
 function categoryChip(category) {
@@ -191,7 +174,7 @@ function categoryChip(category) {
 }
 
 function resultCard(match, index) {
-  const item = match.prepared.item;
+  const item = match.item;
   const article = makeElement("article", "result");
   article.style.animationDelay = `${Math.min(index, 10) * 24}ms`;
 
@@ -238,6 +221,16 @@ function renderResults() {
     const empty = makeElement("div", "empty");
     empty.append(makeElement("strong", "", "这一首，还没翻到。"));
     empty.append(makeElement("span", "", "换个曲名或作曲家姓氏试试，也可以放宽编制。"));
+    if (Object.values(currentFilters()).some(value => value !== "all")) {
+      const relax = makeElement("button", "relax-filters", "保留关键词，放宽编制");
+      relax.type = "button";
+      relax.addEventListener("click", () => {
+        elements.family.value = elements.kind.value = elements.category.value = "all";
+        state.visible = PAGE_SIZE;
+        update();
+      });
+      empty.append(relax);
+    }
     elements.results.append(empty);
     elements.loadMore.hidden = true;
     return;
@@ -249,11 +242,17 @@ function renderResults() {
 }
 
 function update() {
+  window.clearTimeout(state.inputTimer);
+  closeSuggestions();
   writeUrlState();
   updateFamilyShortcuts();
-  state.matches = findMatches();
+  const response = state.engine.search(elements.search.value, currentFilters());
+  state.matches = response.matches;
   const shown = Math.min(state.visible, state.matches.length);
-  elements.status.textContent = `${compactNumber(state.matches.length)} 部作品${shown < state.matches.length ? ` · 先看 ${shown} 部` : ""}`;
+  elements.status.textContent = `${compactNumber(state.matches.length)} 部${response.mode === "fuzzy" ? "近似" : ""}作品${shown < state.matches.length ? ` · 先看 ${shown} 部` : ""}`;
+  elements.hint.hidden = response.mode !== "fuzzy" && state.aliasesAvailable;
+  elements.hint.textContent = response.mode === "fuzzy" ? "没找到完全一致的，先看看这些相近的曲目。"
+    : state.aliasesAvailable ? "" : "别名表暂未载入，曲名搜索和拼写容错仍然可用。";
   renderResults();
   elements.results.setAttribute("aria-busy", "false");
 }
@@ -288,6 +287,7 @@ function bindEvents() {
   let timer;
   document.querySelector("#search-form").addEventListener("submit", (event) => {
     event.preventDefault();
+    if (state.composing) return;
     window.clearTimeout(timer);
     state.visible = PAGE_SIZE;
     update();
@@ -295,6 +295,7 @@ function bindEvents() {
   });
   document.querySelectorAll("[data-query]").forEach((button) => {
     button.addEventListener("click", () => {
+      window.clearTimeout(timer);
       elements.search.value = button.dataset.query;
       elements.family.value = "all";
       elements.kind.value = "all";
@@ -303,26 +304,67 @@ function bindEvents() {
       update();
     });
   });
-  elements.search.addEventListener("input", () => {
+  function scheduleSearch() {
     window.clearTimeout(timer);
-    timer = window.setTimeout(() => { state.visible = PAGE_SIZE; update(); }, 80);
+    closeSuggestions();
+    if (state.composing) return;
+    timer = state.inputTimer = window.setTimeout(() => { state.visible = PAGE_SIZE; update(); showSuggestions(); }, 130);
+  }
+  elements.search.addEventListener("input", scheduleSearch);
+  elements.search.addEventListener("compositionstart", () => {
+    state.composing = true;
+    window.clearTimeout(timer);
+    closeSuggestions();
+  });
+  elements.search.addEventListener("compositionend", () => { state.composing = false; scheduleSearch(); });
+  elements.search.addEventListener("focus", showSuggestions);
+  elements.search.addEventListener("blur", closeSuggestions);
+  elements.search.addEventListener("keydown", event => {
+    if (event.isComposing || state.composing) return;
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      if (elements.options.hidden) showSuggestions();
+      if (elements.options.hidden) return;
+      event.preventDefault();
+      window.clearTimeout(timer);
+      const count = state.suggestions.length;
+      state.activeSuggestion = state.activeSuggestion < 0
+        ? (event.key === "ArrowDown" ? 0 : count - 1)
+        : (state.activeSuggestion + (event.key === "ArrowDown" ? 1 : count - 1)) % count;
+      [...elements.options.children].forEach((option, index) => option.setAttribute("aria-selected", String(index === state.activeSuggestion)));
+      const active = elements.options.children[state.activeSuggestion];
+      elements.search.setAttribute("aria-activedescendant", active.id);
+      active.scrollIntoView({block: "nearest"});
+    } else if (event.key === "Enter" && !elements.options.hidden && state.activeSuggestion >= 0) {
+      event.preventDefault();
+      window.clearTimeout(timer);
+      chooseSuggestion(state.activeSuggestion);
+    } else if (event.key === "Escape" && !elements.options.hidden) {
+      event.preventDefault();
+      event.stopPropagation();
+      window.clearTimeout(timer);
+      closeSuggestions();
+    }
   });
   [elements.family, elements.kind, elements.category].forEach((select) => {
     select.addEventListener("change", () => { state.visible = PAGE_SIZE; update(); });
   });
-  elements.clear.addEventListener("click", clearSearch);
+  elements.clear.addEventListener("click", () => { window.clearTimeout(timer); clearSearch(); });
   elements.share.addEventListener("click", copySearchLink);
   elements.loadMore.addEventListener("click", () => {
     state.visible += PAGE_SIZE;
     update();
   });
   document.addEventListener("keydown", (event) => {
+    if (event.isComposing || state.composing) return;
     const editing = event.target.closest("input, textarea, select, [contenteditable]");
     if (event.key === "/" && !editing && !event.ctrlKey && !event.metaKey && !event.altKey) {
       event.preventDefault();
       elements.search.focus();
     }
-    if (event.key === "Escape" && document.activeElement === elements.search) clearSearch();
+    if (event.key === "Escape" && document.activeElement === elements.search) {
+      window.clearTimeout(timer);
+      clearSearch();
+    }
   });
   window.addEventListener("popstate", () => {
     readUrlState();
@@ -333,12 +375,17 @@ function bindEvents() {
 
 async function start() {
   try {
-    const response = await fetch("data/catalog.json", { cache: "no-cache" });
+    const [response, aliases] = await Promise.all([
+      fetch("data/catalog.json", { cache: "no-cache" }),
+      fetch("data/search-aliases.json", { cache: "no-cache", signal: AbortSignal.timeout(5000) })
+        .then(result => result.ok ? result.json() : null).catch(() => null),
+    ]);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     state.data = await response.json();
     if (state.data.schema_version !== 1) throw new Error("unsupported catalog schema");
     populateFilters();
-    state.preparedWorks = state.data.works.map(prepareWork);
+    state.aliasesAvailable = aliases !== null;
+    state.engine = GuitarSearch.createIndex(state.data, aliases || {});
     document.querySelector("#stat-works").textContent = compactNumber(state.data.summary.unique_work_count);
     document.querySelector("#stat-categories").textContent = compactNumber(state.data.summary.category_count);
     readUrlState();

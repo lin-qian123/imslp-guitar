@@ -95,7 +95,14 @@ work_id + 英文曲名 + 中文曲名 + 英文音乐家名 + 中文音乐家名
         + 所有英文分类名 + 所有中文分类名
 ```
 
-查询采用“所有关键词都要出现”的匹配方式，同时做 Unicode `NFKD` 规范化、英文变音符号折叠、大小写折叠和常见标点归一。精确匹配、字段前缀匹配和字段内完整关键词匹配依次优先；结果可继续按乐器家族、原作/改编和精确分类筛选。检索状态写入 URL，因此可以直接分享筛选后的页面。
+查询忽略大小写、重音符号、常见标点和部分繁简字差异，也能识别 `Op.9` / `op9` 这类写法。多个关键词可以调换顺序，但不会悄悄丢掉其中某一个；编号按完整数字匹配。
+
+- **异译名**：搜索“塔瑞加”“萧邦”“德布西”或 `Tschaikowsky`，可以找到目录中的对应音乐家。别名表目前覆盖 33 位作曲家和 7 个作品条目，保存在 [`search-aliases.json`](public_site/data/search-aliases.json)，可以继续补充。
+- **拼写容错**：没有精确或别名结果时，尝试少量漏字、错字和相邻字母颠倒。例如 `Tchaikovky` 仍能找到柴可夫斯基。近似结果会明确标注；数字、很短的词和相差过大的输入不会随意纠正。
+- **边写边找**：输入时推荐最多 6 个作曲家或曲目，可点击、触控，或用上下键和 Enter 选择；Esc 先收起建议，再按一次清空。
+- **筛选仍然有效**：模糊结果与建议都遵守当前编制条件。没有结果时可保留关键词、放宽编制。检索状态写入 URL，分享后可以恢复。
+
+检索全部在浏览器中运行，不将关键词发送给外部搜索或 AI 服务。异译名仅帮助检索，不覆盖原名或审校译名；模糊匹配也不代表作品身份相同。别名表不是完整翻译词典，组曲内的乐章只对已明确收录的别名提供入口，例如 [《贝加莫组曲》内的《月光》](https://imslp.org/wiki/Suite_bergamasque,_CD_82_(Debussy,_Claude))。
 
 ## 快速开始
 
@@ -118,6 +125,7 @@ python -m venv .venv
 source .venv/bin/activate
 python -m pip install -e '.[test]'
 python -m pytest -q
+node --test tests/search.test.cjs  # Node.js 22+，无需 npm 依赖
 python scripts/validate_public_site.py public_site
 ```
 
@@ -155,8 +163,9 @@ imslp-guitar/
 ├── config/                         # 已批准的纯吉他与室内乐分类
 ├── metadata/translations/          # 曲名与音乐家中文名审校资产
 ├── public_site/                    # 可直接部署的无乐谱文件网站
-│   ├── assets/
+│   ├── assets/                    # 页面样式、交互与独立检索引擎 search.js
 │   ├── data/catalog.json           # 3.1 MiB，按作品去重
+│   ├── data/search-aliases.json    # 仅供检索使用的人名与曲名别名
 │   └── index.html
 ├── scripts/
 │   ├── export_public_site.py       # 完整资料 → 公共目录

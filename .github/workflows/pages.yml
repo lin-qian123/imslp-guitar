@@ -29,6 +29,12 @@ jobs:
         run: python -m pip install -e '.[test]'
       - name: Run test suite
         run: python -m pytest -q
+      - name: Set up Node.js for search tests
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test browser search engine
+        run: node --test tests/search.test.cjs
       - name: Validate public catalog boundary
         run: python scripts/validate_public_site.py public_site
 

@@ -95,7 +95,14 @@ work_id + English title + Chinese title + English composer + Chinese composer
         + every English category name + every Chinese category name
 ```
 
-All query terms must occur, in any order. Unicode `NFKD`, diacritic folding, case folding, and punctuation normalization make input forgiving. Exact field matches, prefixes, and field-contained term matches are ranked first. Family, original/arrangement, and exact-category filters can be combined. Query state is written to the URL, so a search can be shared directly.
+Queries ignore case, accents, punctuation, and selected traditional/simplified Chinese character differences. Opus spacing such as `Op.9` / `op9` is normalized; numbers match whole tokens. All query terms remain required, in any order.
+
+- **Alternate names:** a versioned [search-only alias file](public_site/data/search-aliases.json) currently covers 33 composers and 7 work entries. Try `Tschaikowsky`, 塔瑞加, 萧邦, or 德布西.
+- **Typo recovery:** only when exact/alias matching finds nothing, the engine tries a small number of missing, mistyped, or transposed letters. `Tchaikovky` still finds Tchaikovsky. Approximate results are labeled; numbers and very short words are not loosely corrected.
+- **Typeahead:** up to six composer/work suggestions support pointer, touch, arrow keys, and Enter. Escape dismisses suggestions before clearing the query.
+- **Filters and sharing:** suggestions and fuzzy results obey the same instrumentation filters. An empty filtered search offers to broaden instrumentation without discarding the query. URLs preserve the search state.
+
+All matching runs in the browser; queries are not sent to an external search or AI service. Aliases never replace source names or reviewed translations, and fuzzy matches do not establish identity. The alias list is intentionally small, not a complete translation dictionary. Movement aliases link to their containing work only where explicitly recorded, such as *Clair de lune* within [*Suite bergamasque*](https://imslp.org/wiki/Suite_bergamasque,_CD_82_(Debussy,_Claude)).
 
 ## Quick start
 
@@ -118,6 +125,7 @@ python -m venv .venv
 source .venv/bin/activate
 python -m pip install -e '.[test]'
 python -m pytest -q
+node --test tests/search.test.cjs  # Node.js 22+, no npm dependencies
 python scripts/validate_public_site.py public_site
 ```
 
